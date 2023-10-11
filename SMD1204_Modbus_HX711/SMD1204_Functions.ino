@@ -134,6 +134,8 @@ void parametersSettings()
   Serial.println(num_pos);
 
   populatePosArray();
+  pos_sorted = (float*)malloc(num_pos);
+  sortArray();
 
   Serial.println("\nSi desidera mediare i piccoli spostamenti? S/N");
   awaitKeyPressed();
@@ -218,14 +220,17 @@ void measureRoutine()
   // measuring
   // intially we'll develop a routine that will move-stop-measure-move-stop-measure and so on
   getStatus();
+  // TODO: implementare la media delle misure cazzzzooo
+  
   // engine in position
   if (bitRead(sts, 10))
   {
-    sendPosTarget(mm2int(target));
-    Serial.print("POSTARG: ");
-    Serial.println(mm2int(target));
-    sendCommand(go());
+    // sendPosTarget(mm2int(target));
+    // Serial.print("POSTARG: ");
+    // Serial.println(mm2int(target));
+    // sendCommand(go());
   }
+  PHASE = END_PROGRAM;
 }
 
 void getStatus()
@@ -374,4 +379,24 @@ void populatePosArray()
     Serial.print(" ");
   }
   Serial.print("\n");
+}
+
+void sortArray(){
+  int init = num_pos / 2;
+  int idx = 0;
+  // sort array
+  for (int j = 0; j < num_pos; j++)
+  {
+    if (j > 0 && j % 2 == 0)
+    {
+      idx = j / 2;
+    }
+    else if (j % 2 > 0)
+    {
+      idx = -(j + 1) / 2;
+    }
+
+    pos_sorted[j] = meas_pos[init + idx];
+  }
+
 }

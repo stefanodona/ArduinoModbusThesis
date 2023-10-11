@@ -28,6 +28,7 @@ const int8_t SETUP_DRIVE = 0;
 const int8_t PARAMETERS = 1;
 const int8_t HOMING = 2;
 const int8_t MEASUREMENT = 3;
+const int8_t END_PROGRAM = 4;
 
 const int32_t vel = 1;       // rps
 const uint32_t acc_ramp = 0; // no acceleration ramp
@@ -44,7 +45,8 @@ int32_t init_pos = 0;
 float min_pos = 0;
 float max_pos = 0;
 int num_pos = 0;
-float * meas_pos;
+float *meas_pos;
+float *pos_sorted;
 
 // FLAGS
 bool mean_active = false;
@@ -137,6 +139,12 @@ void loop()
     case MEASUREMENT:
       // Serial.println("MEASUREMENT");
       measureRoutine();
+      break;
+    case END_PROGRAM:
+      // Serial.println("MEASUREMENT");
+      Serial.println("\n\nProgramma completato!");
+      delay(1000);
+      exit(0);
       break;
     default:
       Serial.println("\n...Invalid Program Phase...");
