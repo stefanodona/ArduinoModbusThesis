@@ -1,0 +1,7 @@
+{
+    "configuration": "mode=on",
+    "board": "arduino:megaavr:uno2018",
+    "port": "COM9",
+    "programmer": "medbg",
+    "sketch": "SMD1204_Modbus_HX711\\SMD1204_Modbus_HX711.ino"
+}

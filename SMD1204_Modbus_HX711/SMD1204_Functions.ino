@@ -144,9 +144,11 @@ void parametersSettings()
   {
   case 'n':
     mean_active = false;
+    Serial.println("Mediazione disattivata");
     break;
   default:
     mean_active = true;
+    Serial.println("Mediazione attivata");
     break;
   }
   Serial.println("---------------------------");
@@ -216,8 +218,6 @@ void measureRoutine()
   // measuring
   // intially we'll develop a routine that will move-stop-measure-move-stop-measure and so on
   getStatus();
-
-  target = 20; // [mm]
   // engine in position
   if (bitRead(sts, 10))
   {

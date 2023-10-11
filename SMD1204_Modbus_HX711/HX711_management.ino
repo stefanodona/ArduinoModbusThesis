@@ -5,15 +5,16 @@ void selectLoadcell()
   {
     Serial.print("\nInserire fondoscala della cella di carico [kg]...");
     // flush the serial buffer
-    while (Serial.available() > 0)
-    {
-      Serial.read();
-    }
-    // await for value to be inserted
-    while (Serial.available() == 0)
-    {
-      ;
-    }
+    // while (Serial.available() > 0)
+    // {
+    //   Serial.read();
+    // }
+    // // await for value to be inserted
+    // while (Serial.available() == 0)
+    // {
+    //   ;
+    // }
+    awaitKeyPressed();
     int in = Serial.parseInt();
     if (in == 1 || in == 3 || in == 10 || in == 50)
     {
@@ -26,7 +27,8 @@ void selectLoadcell()
       delay(3000);
     }
   }
-  Serial.print("\nFondoscala: ");
+  // Serial.print("\nFondoscala: ");
+  // Serial.print(FULLSCALE);
   Serial.println(FULLSCALE);
 }
 
