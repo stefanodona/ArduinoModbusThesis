@@ -24,16 +24,16 @@
 //-------------------------------------------------
 
 // USEFUL CONSTANT
-const int8_t SETUP_DRIVE = 0;   // program phases
+const int8_t SETUP_DRIVE = 0; // program phases
 const int8_t PARAMETERS = 1;
 const int8_t HOMING = 2;
 const int8_t MEASUREMENT = 3;
 const int8_t END_PROGRAM = 4;
 
-const int32_t vel = 10;       // rps
+const int32_t vel = 10;      // rps
 const uint32_t acc_ramp = 0; // no acceleration ramp
 
-const float home_err = 0.005; // 0.5% error band to retrieve the no-force initial position
+const float home_err = 0.05; // 5% error band to retrieve the no-force initial position
 
 // VARIABLES
 uint16_t sts = 0;           // status of the driver
@@ -41,14 +41,18 @@ int8_t PHASE = SETUP_DRIVE; // which phase of the program we're in (HOMING, MEAS
 int8_t FULLSCALE = 1;       // the fullscale of the loadcell
 float target = 0;           // target position [mm]
 float tare_force = 0;       // tare measured before taking any measurement
-int32_t init_pos = 0;       // value of the initial position 
+int32_t init_pos = 0;       // value of the initial position
 float min_pos = 0;          // minimal position in spacial axis
 float max_pos = 0;          // maximal position in spacial axis
 int num_pos = 0;            // # of spacial points
 float *meas_pos;            // array with displacement axis (spacial mesh)
-float *pos_sorted;          // array with meas_pos entries sorted by ascending absolute value 
+float *pos_sorted;          // array with meas_pos entries sorted by ascending absolute value
 float *meas_force;          // array where measured forces are stored in
 uint8_t pos_idx = 0;        // index to navigate the pos_sorted array
+float sum_p = 0;
+float sum_m = 0;
+float avg_thr = 7;          // mm below which is done an average measure
+uint8_t cnt = 4;            // 
 
 // FLAGS
 bool mean_active = false;
@@ -100,7 +104,6 @@ void setup()
     delay(1000);
   }
   Serial.println(Ethernet.localIP());
-
 }
 
 void loop()

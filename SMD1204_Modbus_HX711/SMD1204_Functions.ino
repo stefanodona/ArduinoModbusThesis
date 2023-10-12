@@ -120,6 +120,8 @@ void parametersSettings()
   Serial.print("\nInserire massimo spostamento negativo [mm]... ");
   awaitKeyPressed();
   min_pos = Serial.parseFloat();
+  if (min_pos > 0)
+    min_pos *= (-1);
   Serial.println(min_pos);
 
   Serial.print("Inserire massimo spostamento positivo [mm]... ");
@@ -142,7 +144,7 @@ void parametersSettings()
 
   meas_force = (float *)malloc(num_pos * sizeof(float *));
 
-  Serial.println("\nSi desidera mediare i piccoli spostamenti? (S)/N");
+  Serial.println("\nSi desidera mediare i piccoli spostamenti? [S]/N");
   awaitKeyPressed();
   int ans = Serial.read();
   if (isUpperCase(ans))
@@ -197,9 +199,9 @@ void homingRoutine()
   // assuming loadcell reads x<0 when extended and x>0 when compressed
   int32_t pos;
   if (err > 0)
-    pos = -128;
+    pos = -32;
   else
-    pos = 128;
+    pos = 32;
   split32to16(pos);
   if (!(modbusTCPClient.holdingRegisterWrite(Rpostarg, splitted[0]) && modbusTCPClient.holdingRegisterWrite(Rpostarg + 1, splitted[1])))
   {
@@ -212,8 +214,8 @@ void homingRoutine()
     delay(100);
     clamped = getForce();
     err = fabs(clamped - tare);
-    // Serial.println(err, 6);
   }
+
   tare_force = clamped;
   init_pos = getPosact();
   Serial.print("Init pos: ");
@@ -227,44 +229,87 @@ void measureRoutine()
   // measuring
   // intially we'll develop a   routine that will move-stop-measure-move-stop-measure and so on
   // TODO: implementare la media delle misure cazzzzooo
-  sendPosTarget(init_pos + mm2int(pos_sorted[pos_idx]));
-  sendCommand(go());
   getStatus();
-  // printStatus();
-  // Serial.println(sts, BIN);
 
   // engine in position
-  if (bitRead(sts, 3) && !bitRead(sts, 10))
+  Serial.println("Mi scappa la cacca...");
+  Serial.println(sts, BIN);
+  while (!(bitRead(sts, 10)))
   {
-    // Serial.println(sts, BIN);
     Serial.println("CULO");
+    getStatus();
+  }
+  // if (bitRead(sts, 3) && !bitRead(sts, 10))
+  // {
+  // }
+  // else
+  // {
+  Serial.print("FERMO - ");
+  // take the measure
+  if (mean_active)
+  {
+    if (pos_idx % 2 == 0 && pos_sorted[pos_idx] < avg_thr)
+    {
+      for (int k = 0; k < cnt; k++)
+      {
+        // positive movement
+        sendPosTarget(init_pos + mm2int(pos_sorted[pos_idx]));
+        sendCommand(go());
+        getStatus();
+        Serial.println(sts, BIN);
+        while (bitRead(sts, 3))
+          getStatus();
+        delay(1000);
+        sum_p += getForce();
+        Serial.print("SUM_P ");
+        Serial.println(sum_p);
+        Serial.println(getPosact());
+
+        // negative movement
+        sendPosTarget(init_pos + mm2int(pos_sorted[pos_idx + 1]));
+        sendCommand(go());
+        getStatus();
+        while (bitRead(sts, 3))
+          getStatus();
+        delay(1000);
+        sum_m += getForce();
+        Serial.print("SUM_M ");
+        Serial.println(sum_m);
+        Serial.println(getPosact());
+      }
+      meas_force[pos_idx] = sum_p / cnt;
+      meas_force[pos_idx + 1] = sum_m / cnt;
+      printForce(pos_idx, init_pos + mm2int(pos_sorted[pos_idx]), pos_sorted[pos_idx], meas_force[pos_idx]);
+      printForce(pos_idx + 1, init_pos + mm2int(pos_sorted[pos_idx + 1]), pos_sorted[pos_idx + 1], meas_force[pos_idx + 1]);
+      pos_idx = pos_idx + 2;
+      sum_p = 0;
+      sum_m = 0;
+    }
+    else
+    {
+      sendPosTarget(init_pos + mm2int(pos_sorted[pos_idx]));
+      sendCommand(go());
+      getStatus();
+      while (bitRead(sts, 3))
+        getStatus();
+      meas_force[pos_idx] = getForce();
+      printForce(pos_idx, getPosact(), pos_sorted[pos_idx], meas_force[pos_idx]);
+      pos_idx++;
+    }
+    // goto gigio;
   }
   else
   {
-    Serial.print("FERMO ");
-    // printStatus();
-    // wait 500 ms
-    // delay(500);
-
-    // take the measure
+    // gigio:
+    sendPosTarget(init_pos + mm2int(pos_sorted[pos_idx]));
+    sendCommand(go());
+    getStatus();
+    while (bitRead(sts, 3))
+      getStatus();
     meas_force[pos_idx] = getForce();
-    Serial.print("IDX: ");
-    Serial.print(pos_idx);
-    Serial.print(" Force at ");
-    Serial.print(getPosact());
-    Serial.print(" pos ");
-    Serial.print(pos_sorted[pos_idx]);
-    Serial.print(" is ");
-    Serial.print(meas_force[pos_idx]);
-    Serial.println(" N");
-
-    //   /* if (mean_active)
-    //   {
-    //     // routine della media
-    //   } */
     pos_idx++;
-    //   // }
   }
+  // }
   if (pos_idx == num_pos)
   {
     PHASE = END_PROGRAM;
@@ -444,4 +489,17 @@ void sortArray()
     Serial.print(" ");
   }
   Serial.print("\n");
+}
+
+void printForce(uint8_t i, int32_t pos, float pos_mm, float force)
+{
+  Serial.print("IDX: ");
+  Serial.print(i);
+  Serial.print(" Force at ");
+  Serial.print(pos);
+  Serial.print(" pos ");
+  Serial.print(pos_mm);
+  Serial.print(" is ");
+  Serial.print(force);
+  Serial.println(" N");
 }

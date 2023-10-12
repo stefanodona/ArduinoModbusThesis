@@ -26,16 +26,16 @@
 //-------------------------------------------------
 
 // USEFUL CONSTANT
-const int8_t SETUP_DRIVE = 0;   // program phases
+const int8_t SETUP_DRIVE = 0; // program phases
 const int8_t PARAMETERS = 1;
 const int8_t HOMING = 2;
 const int8_t MEASUREMENT = 3;
 const int8_t END_PROGRAM = 4;
 
-const int32_t vel = 10;       // rps
+const int32_t vel = 10;      // rps
 const uint32_t acc_ramp = 0; // no acceleration ramp
 
-const float home_err = 0.005; // 0.5% error band to retrieve the no-force initial position
+const float home_err = 0.05; // 5% error band to retrieve the no-force initial position
 
 // VARIABLES
 uint16_t sts = 0;           // status of the driver
@@ -43,14 +43,18 @@ int8_t PHASE = SETUP_DRIVE; // which phase of the program we're in (HOMING, MEAS
 int8_t FULLSCALE = 1;       // the fullscale of the loadcell
 float target = 0;           // target position [mm]
 float tare_force = 0;       // tare measured before taking any measurement
-int32_t init_pos = 0;       // value of the initial position 
+int32_t init_pos = 0;       // value of the initial position
 float min_pos = 0;          // minimal position in spacial axis
 float max_pos = 0;          // maximal position in spacial axis
 int num_pos = 0;            // # of spacial points
 float *meas_pos;            // array with displacement axis (spacial mesh)
-float *pos_sorted;          // array with meas_pos entries sorted by ascending absolute value 
+float *pos_sorted;          // array with meas_pos entries sorted by ascending absolute value
 float *meas_force;          // array where measured forces are stored in
 uint8_t pos_idx = 0;        // index to navigate the pos_sorted array
+float sum_p = 0;
+float sum_m = 0;
+float avg_thr = 7;          // mm below which is done an average measure
+uint8_t cnt = 4;            // 
 
 // FLAGS
 bool mean_active = false;
@@ -68,9 +72,9 @@ EthernetClient ethClient;
 ModbusTCPClient modbusTCPClient(ethClient);
 
 // SETUP
-#line 69 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Modbus_HX711.ino"
+#line 73 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Modbus_HX711.ino"
 void setup();
-#line 106 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Modbus_HX711.ino"
+#line 109 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Modbus_HX711.ino"
 void loop();
 #line 1 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\HX711_management.ino"
 void selectLoadcell();
@@ -104,33 +108,35 @@ void sendCommand(uint16_t cmd);
 void driverSetup();
 #line 114 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
 void parametersSettings();
-#line 166 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
+#line 168 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
 void homingRoutine();
-#line 225 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
+#line 227 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
 void measureRoutine();
-#line 274 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
+#line 319 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
 void getStatus();
-#line 279 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
+#line 324 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
 void printStatus();
-#line 321 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
+#line 366 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
 void printAlarms();
-#line 362 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
+#line 407 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
 void splitU32to16(uint32_t toSplit);
-#line 368 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
+#line 413 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
 void split32to16(int32_t toSplit);
-#line 374 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
+#line 419 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
 void awaitKeyPressed();
-#line 386 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
+#line 431 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
 void sendPosTarget(int32_t pos);
-#line 395 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
+#line 440 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
 int32_t mm2int(float pos_mm);
-#line 400 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
+#line 445 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
 int32_t getPosact();
-#line 409 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
+#line 454 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
 void populatePosArray();
-#line 422 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
+#line 467 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
 void sortArray();
-#line 69 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Modbus_HX711.ino"
+#line 494 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
+void printForce(uint8_t i, int32_t pos, float pos_mm, float force);
+#line 73 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Modbus_HX711.ino"
 void setup()
 {
   // Setting up Serial Port Communication
@@ -165,7 +171,6 @@ void setup()
     delay(1000);
   }
   Serial.println(Ethernet.localIP());
-
 }
 
 void loop()
@@ -448,6 +453,8 @@ void parametersSettings()
   Serial.print("\nInserire massimo spostamento negativo [mm]... ");
   awaitKeyPressed();
   min_pos = Serial.parseFloat();
+  if (min_pos > 0)
+    min_pos *= (-1);
   Serial.println(min_pos);
 
   Serial.print("Inserire massimo spostamento positivo [mm]... ");
@@ -470,7 +477,7 @@ void parametersSettings()
 
   meas_force = (float *)malloc(num_pos * sizeof(float *));
 
-  Serial.println("\nSi desidera mediare i piccoli spostamenti? (S)/N");
+  Serial.println("\nSi desidera mediare i piccoli spostamenti? [S]/N");
   awaitKeyPressed();
   int ans = Serial.read();
   if (isUpperCase(ans))
@@ -525,9 +532,9 @@ void homingRoutine()
   // assuming loadcell reads x<0 when extended and x>0 when compressed
   int32_t pos;
   if (err > 0)
-    pos = -128;
+    pos = -32;
   else
-    pos = 128;
+    pos = 32;
   split32to16(pos);
   if (!(modbusTCPClient.holdingRegisterWrite(Rpostarg, splitted[0]) && modbusTCPClient.holdingRegisterWrite(Rpostarg + 1, splitted[1])))
   {
@@ -540,8 +547,8 @@ void homingRoutine()
     delay(100);
     clamped = getForce();
     err = fabs(clamped - tare);
-    // Serial.println(err, 6);
   }
+
   tare_force = clamped;
   init_pos = getPosact();
   Serial.print("Init pos: ");
@@ -555,44 +562,87 @@ void measureRoutine()
   // measuring
   // intially we'll develop a   routine that will move-stop-measure-move-stop-measure and so on
   // TODO: implementare la media delle misure cazzzzooo
-  sendPosTarget(init_pos + mm2int(pos_sorted[pos_idx]));
-  sendCommand(go());
   getStatus();
-  // printStatus();
-  // Serial.println(sts, BIN);
 
   // engine in position
-  if (bitRead(sts, 3) && !bitRead(sts, 10))
+  Serial.println("Mi scappa la cacca...");
+  Serial.println(sts, BIN);
+  while (!(bitRead(sts, 10)))
   {
-    // Serial.println(sts, BIN);
     Serial.println("CULO");
+    getStatus();
+  }
+  // if (bitRead(sts, 3) && !bitRead(sts, 10))
+  // {
+  // }
+  // else
+  // {
+  Serial.print("FERMO - ");
+  // take the measure
+  if (mean_active)
+  {
+    if (pos_idx % 2 == 0 && pos_sorted[pos_idx] < avg_thr)
+    {
+      for (int k = 0; k < cnt; k++)
+      {
+        // positive movement
+        sendPosTarget(init_pos + mm2int(pos_sorted[pos_idx]));
+        sendCommand(go());
+        getStatus();
+        Serial.println(sts, BIN);
+        while (bitRead(sts, 3))
+          getStatus();
+        delay(1000);
+        sum_p += getForce();
+        Serial.print("SUM_P ");
+        Serial.println(sum_p);
+        Serial.println(getPosact());
+
+        // negative movement
+        sendPosTarget(init_pos + mm2int(pos_sorted[pos_idx + 1]));
+        sendCommand(go());
+        getStatus();
+        while (bitRead(sts, 3))
+          getStatus();
+        delay(1000);
+        sum_m += getForce();
+        Serial.print("SUM_M ");
+        Serial.println(sum_m);
+        Serial.println(getPosact());
+      }
+      meas_force[pos_idx] = sum_p / cnt;
+      meas_force[pos_idx + 1] = sum_m / cnt;
+      printForce(pos_idx, init_pos + mm2int(pos_sorted[pos_idx]), pos_sorted[pos_idx], meas_force[pos_idx]);
+      printForce(pos_idx + 1, init_pos + mm2int(pos_sorted[pos_idx + 1]), pos_sorted[pos_idx + 1], meas_force[pos_idx + 1]);
+      pos_idx = pos_idx + 2;
+      sum_p = 0;
+      sum_m = 0;
+    }
+    else
+    {
+      sendPosTarget(init_pos + mm2int(pos_sorted[pos_idx]));
+      sendCommand(go());
+      getStatus();
+      while (bitRead(sts, 3))
+        getStatus();
+      meas_force[pos_idx] = getForce();
+      printForce(pos_idx, getPosact(), pos_sorted[pos_idx], meas_force[pos_idx]);
+      pos_idx++;
+    }
+    // goto gigio;
   }
   else
   {
-    Serial.print("FERMO ");
-    // printStatus();
-    // wait 500 ms
-    // delay(500);
-
-    // take the measure
+    // gigio:
+    getStatus();
+    sendPosTarget(init_pos + mm2int(pos_sorted[pos_idx]));
+    sendCommand(go());
+    while (bitRead(sts, 3))
+      getStatus();
     meas_force[pos_idx] = getForce();
-    Serial.print("IDX: ");
-    Serial.print(pos_idx);
-    Serial.print(" Force at ");
-    Serial.print(getPosact());
-    Serial.print(" pos ");
-    Serial.print(pos_sorted[pos_idx]);
-    Serial.print(" is ");
-    Serial.print(meas_force[pos_idx]);
-    Serial.println(" N");
-
-    //   /* if (mean_active)
-    //   {
-    //     // routine della media
-    //   } */
     pos_idx++;
-    //   // }
   }
+  // }
   if (pos_idx == num_pos)
   {
     PHASE = END_PROGRAM;
@@ -773,3 +823,17 @@ void sortArray()
   }
   Serial.print("\n");
 }
+
+void printForce(uint8_t i, int32_t pos, float pos_mm, float force)
+{
+  Serial.print("IDX: ");
+  Serial.print(i);
+  Serial.print(" Force at ");
+  Serial.print(pos);
+  Serial.print(" pos ");
+  Serial.print(pos_mm);
+  Serial.print(" is ");
+  Serial.print(force);
+  Serial.println(" N");
+}
+
