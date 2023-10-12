@@ -85,7 +85,7 @@ void driverSetup()
     // Home Method
     // TODO: change homing method to -9
     // modbusTCPClient.holdingRegisterWrite(Rhmode, (int16_t)(-9)); // in battuta indietro
-    modbusTCPClient.holdingRegisterWrite(Rhmode, int16_t(0)); // in battuta indietro
+    modbusTCPClient.holdingRegisterWrite(Rhmode, int16_t(0)); // azzeramento sul posto
 
     // velocity setting - rps*100
     split32to16(vel * 100);
@@ -107,6 +107,7 @@ void driverSetup()
       Serial.println("\nFailed to disable deceleration ramp");
     }
     PHASE = PARAMETERS;
+    // PHASE = HOMING;
   }
 }
 
@@ -133,11 +134,15 @@ void parametersSettings()
     num_pos++;
   Serial.println(num_pos);
 
+  // populate array of spacial mesh
   populatePosArray();
-  pos_sorted = (float*)malloc(num_pos);
+  // delay(5000);
+  // allocate in memory array of sorted positions and force
   sortArray();
 
-  Serial.println("\nSi desidera mediare i piccoli spostamenti? S/N");
+  meas_force = (float *)malloc(num_pos * sizeof(float *));
+
+  Serial.println("\nSi desidera mediare i piccoli spostamenti? (S)/N");
   awaitKeyPressed();
   int ans = Serial.read();
   if (isUpperCase(ans))
@@ -211,6 +216,8 @@ void homingRoutine()
   }
   tare_force = clamped;
   init_pos = getPosact();
+  Serial.print("Init pos: ");
+  Serial.println(init_pos);
   PHASE = MEASUREMENT;
 }
 
@@ -218,19 +225,50 @@ void homingRoutine()
 void measureRoutine()
 {
   // measuring
-  // intially we'll develop a routine that will move-stop-measure-move-stop-measure and so on
-  getStatus();
+  // intially we'll develop a   routine that will move-stop-measure-move-stop-measure and so on
   // TODO: implementare la media delle misure cazzzzooo
-  
+  sendPosTarget(init_pos + mm2int(pos_sorted[pos_idx]));
+  sendCommand(go());
+  getStatus();
+  // printStatus();
+  // Serial.println(sts, BIN);
+
   // engine in position
-  if (bitRead(sts, 10))
+  if (bitRead(sts, 3) && !bitRead(sts, 10))
   {
-    // sendPosTarget(mm2int(target));
-    // Serial.print("POSTARG: ");
-    // Serial.println(mm2int(target));
-    // sendCommand(go());
+    // Serial.println(sts, BIN);
+    Serial.println("CULO");
   }
-  PHASE = END_PROGRAM;
+  else
+  {
+    Serial.print("FERMO ");
+    // printStatus();
+    // wait 500 ms
+    // delay(500);
+
+    // take the measure
+    meas_force[pos_idx] = getForce();
+    Serial.print("IDX: ");
+    Serial.print(pos_idx);
+    Serial.print(" Force at ");
+    Serial.print(getPosact());
+    Serial.print(" pos ");
+    Serial.print(pos_sorted[pos_idx]);
+    Serial.print(" is ");
+    Serial.print(meas_force[pos_idx]);
+    Serial.println(" N");
+
+    //   /* if (mean_active)
+    //   {
+    //     // routine della media
+    //   } */
+    pos_idx++;
+    //   // }
+  }
+  if (pos_idx == num_pos)
+  {
+    PHASE = END_PROGRAM;
+  }
 }
 
 void getStatus()
@@ -243,38 +281,38 @@ void printStatus()
   if (modbusTCPClient.holdingRegisterRead(Rstsflg) != -1)
   {
     Serial.println("\n\t Status: ");
-    uint16_t sts = modbusTCPClient.holdingRegisterRead(Rstsflg);
-    if (bitRead(sts, 0))
+    uint16_t this_sts = modbusTCPClient.holdingRegisterRead(Rstsflg);
+    if (bitRead(this_sts, 0))
       Serial.println("Azionamento abilitato");
-    if (bitRead(sts, 1))
+    if (bitRead(this_sts, 1))
       Serial.println("Azionamento in allarme");
-    if (bitRead(sts, 2))
+    if (bitRead(this_sts, 2))
       Serial.println("Quota motore sincronizzata");
-    if (bitRead(sts, 3))
+    if (bitRead(this_sts, 3))
       Serial.println("Motore in movimento teorico");
-    if (bitRead(sts, 4))
+    if (bitRead(this_sts, 4))
       Serial.println("Motore in accelerazione");
-    if (bitRead(sts, 5))
-      Serial.println("Motore a velocita’ costante");
-    if (bitRead(sts, 6))
+    if (bitRead(this_sts, 5))
+      Serial.println("Motore a velocita' costante");
+    if (bitRead(this_sts, 6))
       Serial.println("Motore in decelerazione");
-    if (bitRead(sts, 7))
+    if (bitRead(this_sts, 7))
       Serial.println("Segnalazioni da registro Rstscllp");
-    if (bitRead(sts, 8))
+    if (bitRead(this_sts, 8))
       Serial.println("Home terminato con errore");
-    if (bitRead(sts, 9))
+    if (bitRead(this_sts, 9))
       Serial.println("Stato corrente: 1=CurON");
-    if (bitRead(sts, 10))
+    if (bitRead(this_sts, 10))
       Serial.println("Motore in posizione");
-    if (bitRead(sts, 11))
+    if (bitRead(this_sts, 11))
       Serial.println("Errore di inseguimento");
-    if (bitRead(sts, 12))
+    if (bitRead(this_sts, 12))
       Serial.println("Motore mosso durante lo stato disable");
-    if (bitRead(sts, 13))
+    if (bitRead(this_sts, 13))
       Serial.println("Verso rotazione antioraria");
-    if (bitRead(sts, 14))
+    if (bitRead(this_sts, 14))
       Serial.println("Quota attuale fuori dai limiti software");
-    if (bitRead(sts, 15))
+    if (bitRead(this_sts, 15))
       Serial.println("Home in corso");
     Serial.println("");
   }
@@ -371,7 +409,7 @@ int32_t getPosact()
 void populatePosArray()
 {
   float mesh_size = (max_pos - min_pos) / (num_pos - 1);
-  meas_pos = (float *)malloc(num_pos);
+  meas_pos = (float *)malloc(num_pos * sizeof(float));
   for (int i = 0; i < num_pos; i++)
   {
     meas_pos[i] = min_pos + mesh_size * i;
@@ -381,7 +419,10 @@ void populatePosArray()
   Serial.print("\n");
 }
 
-void sortArray(){
+void sortArray()
+{
+
+  pos_sorted = (float *)malloc(num_pos * sizeof(float));
   int init = num_pos / 2;
   int idx = 0;
   // sort array
@@ -396,7 +437,11 @@ void sortArray(){
       idx = -(j + 1) / 2;
     }
 
-    pos_sorted[j] = meas_pos[init + idx];
-  }
+    idx = init + idx;
 
+    pos_sorted[j] = meas_pos[idx];
+    Serial.print(pos_sorted[j]);
+    Serial.print(" ");
+  }
+  Serial.print("\n");
 }

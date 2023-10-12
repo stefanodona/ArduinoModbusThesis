@@ -1,4 +1,4 @@
-c:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput\libraries\ArduinoModbus\ModbusServer.cpp.o: \
+C:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput\libraries\ArduinoModbus\ModbusServer.cpp.o: \
  C:\Users\stefa\Documents\Arduino\libraries\ArduinoModbus\src\ModbusServer.cpp \
  C:\Users\stefa\Documents\Arduino\libraries\ArduinoModbus\src\ModbusServer.h \
  C:\Users\stefa\AppData\Local\Arduino15\packages\arduino\hardware\megaavr\1.8.8\cores\arduino/Arduino.h \

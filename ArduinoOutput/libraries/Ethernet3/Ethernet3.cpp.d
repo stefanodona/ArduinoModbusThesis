@@ -1,4 +1,4 @@
-c:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput\libraries\Ethernet3\Ethernet3.cpp.o: \
+C:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput\libraries\Ethernet3\Ethernet3.cpp.o: \
  C:\Users\stefa\Documents\Arduino\libraries\Ethernet3\src\Ethernet3.cpp \
  C:\Users\stefa\Documents\Arduino\libraries\Ethernet3\src\Ethernet3.h \
  C:\Users\stefa\Documents\Arduino\libraries\Ethernet3\src\utility/w5500.h \

@@ -1,4 +1,4 @@
-c:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput\libraries\ArduinoModbus\libmodbus\modbus-rtu.cpp.o: \
+C:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput\libraries\ArduinoModbus\libmodbus\modbus-rtu.cpp.o: \
  C:\Users\stefa\Documents\Arduino\libraries\ArduinoModbus\src\libmodbus\modbus-rtu.cpp \
  C:\Users\stefa\Documents\Arduino\libraries\ArduinoRS485\src/ArduinoRS485.h \
  C:\Users\stefa\Documents\Arduino\libraries\ArduinoRS485\src/RS485.h \

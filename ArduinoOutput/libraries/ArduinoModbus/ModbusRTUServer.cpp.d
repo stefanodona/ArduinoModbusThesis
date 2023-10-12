@@ -1,4 +1,4 @@
-c:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput\libraries\ArduinoModbus\ModbusRTUServer.cpp.o: \
+C:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput\libraries\ArduinoModbus\ModbusRTUServer.cpp.o: \
  C:\Users\stefa\Documents\Arduino\libraries\ArduinoModbus\src\ModbusRTUServer.cpp \
  C:\Users\stefa\Documents\Arduino\libraries\ArduinoModbus\src\libmodbus/modbus.h \
  C:\Users\stefa\Documents\Arduino\libraries\ArduinoModbus\src\libmodbus/modbus-version.h \

@@ -1,4 +1,4 @@
-c:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput\libraries\HX711\HX711.cpp.o: \
+C:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput\libraries\HX711\HX711.cpp.o: \
  C:\Users\stefa\Documents\Arduino\libraries\HX711\HX711.cpp \
  C:\Users\stefa\Documents\Arduino\libraries\HX711\HX711.h \
  C:\Users\stefa\AppData\Local\Arduino15\packages\arduino\hardware\megaavr\1.8.8\cores\arduino/Arduino.h \

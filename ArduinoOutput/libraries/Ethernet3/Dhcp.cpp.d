@@ -1,4 +1,4 @@
-c:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput\libraries\Ethernet3\Dhcp.cpp.o: \
+C:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput\libraries\Ethernet3\Dhcp.cpp.o: \
  C:\Users\stefa\Documents\Arduino\libraries\Ethernet3\src\Dhcp.cpp \
  C:\Users\stefa\Documents\Arduino\libraries\Ethernet3\src\utility/w5500.h \
  C:\Users\stefa\AppData\Local\Arduino15\packages\arduino\hardware\megaavr\1.8.8\cores\arduino/Arduino.h \

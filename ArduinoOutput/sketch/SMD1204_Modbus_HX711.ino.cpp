@@ -10,14 +10,14 @@
 
 // USEFUL REGISTERS
 #define Rposact 0   // actual position
-#define Rpostarg 8  // target positio
+#define Rpostarg 8  // target position
 #define Rcmdwr 59   // command register
-#define Rvel 63     // velocità di traslazione
-#define Racc 67     // rampa di accelerazione
-#define Rdec 70     // rampa di accelerazione
-#define Rhmode 82   // home register
-#define Rstsflg 199 // status flagz
-#define Ralarm 227  // alarm
+#define Rvel 63     // traslation speed
+#define Racc 67     // acceleration ramp
+#define Rdec 70     // deceleration ramp
+#define Rhmode 82   // home mode selection
+#define Rstsflg 199 // status flags
+#define Ralarm 227  // alarms flags
 
 // HX711 pins
 #define DT_PIN A0
@@ -26,16 +26,16 @@
 //-------------------------------------------------
 
 // USEFUL CONSTANT
-const int8_t SETUP_DRIVE = 0;
+const int8_t SETUP_DRIVE = 0;   // program phases
 const int8_t PARAMETERS = 1;
 const int8_t HOMING = 2;
 const int8_t MEASUREMENT = 3;
 const int8_t END_PROGRAM = 4;
 
-const int32_t vel = 1;       // rps
+const int32_t vel = 10;       // rps
 const uint32_t acc_ramp = 0; // no acceleration ramp
 
-const float home_err = 0.005; // 0.5%
+const float home_err = 0.005; // 0.5% error band to retrieve the no-force initial position
 
 // VARIABLES
 uint16_t sts = 0;           // status of the driver
@@ -43,12 +43,14 @@ int8_t PHASE = SETUP_DRIVE; // which phase of the program we're in (HOMING, MEAS
 int8_t FULLSCALE = 1;       // the fullscale of the loadcell
 float target = 0;           // target position [mm]
 float tare_force = 0;       // tare measured before taking any measurement
-int32_t init_pos = 0;
-float min_pos = 0;
-float max_pos = 0;
-int num_pos = 0;
-float *meas_pos;
-float *pos_sorted;
+int32_t init_pos = 0;       // value of the initial position 
+float min_pos = 0;          // minimal position in spacial axis
+float max_pos = 0;          // maximal position in spacial axis
+int num_pos = 0;            // # of spacial points
+float *meas_pos;            // array with displacement axis (spacial mesh)
+float *pos_sorted;          // array with meas_pos entries sorted by ascending absolute value 
+float *meas_force;          // array where measured forces are stored in
+uint8_t pos_idx = 0;        // index to navigate the pos_sorted array
 
 // FLAGS
 bool mean_active = false;
@@ -66,9 +68,9 @@ EthernetClient ethClient;
 ModbusTCPClient modbusTCPClient(ethClient);
 
 // SETUP
-#line 67 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Modbus_HX711.ino"
+#line 69 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Modbus_HX711.ino"
 void setup();
-#line 103 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Modbus_HX711.ino"
+#line 106 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Modbus_HX711.ino"
 void loop();
 #line 1 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\HX711_management.ino"
 void selectLoadcell();
@@ -100,35 +102,35 @@ uint16_t home();
 void sendCommand(uint16_t cmd);
 #line 65 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
 void driverSetup();
-#line 113 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
+#line 114 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
 void parametersSettings();
-#line 161 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
+#line 166 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
 void homingRoutine();
-#line 218 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
+#line 225 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
 void measureRoutine();
-#line 236 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
+#line 274 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
 void getStatus();
-#line 241 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
+#line 279 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
 void printStatus();
-#line 283 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
+#line 321 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
 void printAlarms();
-#line 324 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
-void splitU32to16(uint32_t toSplit);
-#line 330 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
-void split32to16(int32_t toSplit);
-#line 336 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
-void awaitKeyPressed();
-#line 348 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
-void sendPosTarget(int32_t pos);
-#line 357 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
-int32_t mm2int(float pos_mm);
 #line 362 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
+void splitU32to16(uint32_t toSplit);
+#line 368 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
+void split32to16(int32_t toSplit);
+#line 374 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
+void awaitKeyPressed();
+#line 386 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
+void sendPosTarget(int32_t pos);
+#line 395 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
+int32_t mm2int(float pos_mm);
+#line 400 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
 int32_t getPosact();
-#line 371 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
+#line 409 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
 void populatePosArray();
-#line 384 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
+#line 422 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
 void sortArray();
-#line 67 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Modbus_HX711.ino"
+#line 69 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Modbus_HX711.ino"
 void setup()
 {
   // Setting up Serial Port Communication
@@ -163,6 +165,7 @@ void setup()
     delay(1000);
   }
   Serial.println(Ethernet.localIP());
+
 }
 
 void loop()
@@ -410,7 +413,7 @@ void driverSetup()
     // Home Method
     // TODO: change homing method to -9
     // modbusTCPClient.holdingRegisterWrite(Rhmode, (int16_t)(-9)); // in battuta indietro
-    modbusTCPClient.holdingRegisterWrite(Rhmode, int16_t(0)); // in battuta indietro
+    modbusTCPClient.holdingRegisterWrite(Rhmode, int16_t(0)); // azzeramento sul posto
 
     // velocity setting - rps*100
     split32to16(vel * 100);
@@ -432,6 +435,7 @@ void driverSetup()
       Serial.println("\nFailed to disable deceleration ramp");
     }
     PHASE = PARAMETERS;
+    // PHASE = HOMING;
   }
 }
 
@@ -458,11 +462,15 @@ void parametersSettings()
     num_pos++;
   Serial.println(num_pos);
 
+  // populate array of spacial mesh
   populatePosArray();
-  pos_sorted = (float*)malloc(num_pos);
+  // delay(5000);
+  // allocate in memory array of sorted positions and force
   sortArray();
 
-  Serial.println("\nSi desidera mediare i piccoli spostamenti? S/N");
+  meas_force = (float *)malloc(num_pos * sizeof(float *));
+
+  Serial.println("\nSi desidera mediare i piccoli spostamenti? (S)/N");
   awaitKeyPressed();
   int ans = Serial.read();
   if (isUpperCase(ans))
@@ -536,6 +544,8 @@ void homingRoutine()
   }
   tare_force = clamped;
   init_pos = getPosact();
+  Serial.print("Init pos: ");
+  Serial.println(init_pos);
   PHASE = MEASUREMENT;
 }
 
@@ -543,19 +553,50 @@ void homingRoutine()
 void measureRoutine()
 {
   // measuring
-  // intially we'll develop a routine that will move-stop-measure-move-stop-measure and so on
-  getStatus();
+  // intially we'll develop a   routine that will move-stop-measure-move-stop-measure and so on
   // TODO: implementare la media delle misure cazzzzooo
-  
+  sendPosTarget(init_pos + mm2int(pos_sorted[pos_idx]));
+  sendCommand(go());
+  getStatus();
+  // printStatus();
+  // Serial.println(sts, BIN);
+
   // engine in position
-  if (bitRead(sts, 10))
+  if (bitRead(sts, 3) && !bitRead(sts, 10))
   {
-    // sendPosTarget(mm2int(target));
-    // Serial.print("POSTARG: ");
-    // Serial.println(mm2int(target));
-    // sendCommand(go());
+    // Serial.println(sts, BIN);
+    Serial.println("CULO");
   }
-  PHASE = END_PROGRAM;
+  else
+  {
+    Serial.print("FERMO ");
+    // printStatus();
+    // wait 500 ms
+    // delay(500);
+
+    // take the measure
+    meas_force[pos_idx] = getForce();
+    Serial.print("IDX: ");
+    Serial.print(pos_idx);
+    Serial.print(" Force at ");
+    Serial.print(getPosact());
+    Serial.print(" pos ");
+    Serial.print(pos_sorted[pos_idx]);
+    Serial.print(" is ");
+    Serial.print(meas_force[pos_idx]);
+    Serial.println(" N");
+
+    //   /* if (mean_active)
+    //   {
+    //     // routine della media
+    //   } */
+    pos_idx++;
+    //   // }
+  }
+  if (pos_idx == num_pos)
+  {
+    PHASE = END_PROGRAM;
+  }
 }
 
 void getStatus()
@@ -568,38 +609,38 @@ void printStatus()
   if (modbusTCPClient.holdingRegisterRead(Rstsflg) != -1)
   {
     Serial.println("\n\t Status: ");
-    uint16_t sts = modbusTCPClient.holdingRegisterRead(Rstsflg);
-    if (bitRead(sts, 0))
+    uint16_t this_sts = modbusTCPClient.holdingRegisterRead(Rstsflg);
+    if (bitRead(this_sts, 0))
       Serial.println("Azionamento abilitato");
-    if (bitRead(sts, 1))
+    if (bitRead(this_sts, 1))
       Serial.println("Azionamento in allarme");
-    if (bitRead(sts, 2))
+    if (bitRead(this_sts, 2))
       Serial.println("Quota motore sincronizzata");
-    if (bitRead(sts, 3))
+    if (bitRead(this_sts, 3))
       Serial.println("Motore in movimento teorico");
-    if (bitRead(sts, 4))
+    if (bitRead(this_sts, 4))
       Serial.println("Motore in accelerazione");
-    if (bitRead(sts, 5))
-      Serial.println("Motore a velocita’ costante");
-    if (bitRead(sts, 6))
+    if (bitRead(this_sts, 5))
+      Serial.println("Motore a velocita' costante");
+    if (bitRead(this_sts, 6))
       Serial.println("Motore in decelerazione");
-    if (bitRead(sts, 7))
+    if (bitRead(this_sts, 7))
       Serial.println("Segnalazioni da registro Rstscllp");
-    if (bitRead(sts, 8))
+    if (bitRead(this_sts, 8))
       Serial.println("Home terminato con errore");
-    if (bitRead(sts, 9))
+    if (bitRead(this_sts, 9))
       Serial.println("Stato corrente: 1=CurON");
-    if (bitRead(sts, 10))
+    if (bitRead(this_sts, 10))
       Serial.println("Motore in posizione");
-    if (bitRead(sts, 11))
+    if (bitRead(this_sts, 11))
       Serial.println("Errore di inseguimento");
-    if (bitRead(sts, 12))
+    if (bitRead(this_sts, 12))
       Serial.println("Motore mosso durante lo stato disable");
-    if (bitRead(sts, 13))
+    if (bitRead(this_sts, 13))
       Serial.println("Verso rotazione antioraria");
-    if (bitRead(sts, 14))
+    if (bitRead(this_sts, 14))
       Serial.println("Quota attuale fuori dai limiti software");
-    if (bitRead(sts, 15))
+    if (bitRead(this_sts, 15))
       Serial.println("Home in corso");
     Serial.println("");
   }
@@ -696,7 +737,7 @@ int32_t getPosact()
 void populatePosArray()
 {
   float mesh_size = (max_pos - min_pos) / (num_pos - 1);
-  meas_pos = (float *)malloc(num_pos);
+  meas_pos = (float *)malloc(num_pos * sizeof(float));
   for (int i = 0; i < num_pos; i++)
   {
     meas_pos[i] = min_pos + mesh_size * i;
@@ -706,7 +747,10 @@ void populatePosArray()
   Serial.print("\n");
 }
 
-void sortArray(){
+void sortArray()
+{
+
+  pos_sorted = (float *)malloc(num_pos * sizeof(float));
   int init = num_pos / 2;
   int idx = 0;
   // sort array
@@ -721,7 +765,11 @@ void sortArray(){
       idx = -(j + 1) / 2;
     }
 
-    pos_sorted[j] = meas_pos[init + idx];
-  }
+    idx = init + idx;
 
+    pos_sorted[j] = meas_pos[idx];
+    Serial.print(pos_sorted[j]);
+    Serial.print(" ");
+  }
+  Serial.print("\n");
 }

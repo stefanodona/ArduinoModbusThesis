@@ -1,4 +1,4 @@
-c:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput\libraries\ArduinoRS485\RS485.cpp.o: \
+C:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput\libraries\ArduinoRS485\RS485.cpp.o: \
  C:\Users\stefa\Documents\Arduino\libraries\ArduinoRS485\src\RS485.cpp \
  C:\Users\stefa\Documents\Arduino\libraries\ArduinoRS485\src\RS485.h \
  C:\Users\stefa\AppData\Local\Arduino15\packages\arduino\hardware\megaavr\1.8.8\cores\arduino/Arduino.h \

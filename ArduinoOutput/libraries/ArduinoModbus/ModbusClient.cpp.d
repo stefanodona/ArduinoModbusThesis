@@ -1,4 +1,4 @@
-c:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput\libraries\ArduinoModbus\ModbusClient.cpp.o: \
+C:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput\libraries\ArduinoModbus\ModbusClient.cpp.o: \
  C:\Users\stefa\Documents\Arduino\libraries\ArduinoModbus\src\ModbusClient.cpp \
  C:\Users\stefa\Documents\Arduino\libraries\ArduinoModbus\src\ModbusClient.h \
  C:\Users\stefa\Documents\Arduino\libraries\ArduinoModbus\src\libmodbus/modbus.h \
