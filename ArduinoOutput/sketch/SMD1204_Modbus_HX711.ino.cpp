@@ -53,7 +53,7 @@ float *meas_force;          // array where measured forces are stored in
 uint8_t pos_idx = 0;        // index to navigate the pos_sorted array
 float sum_p = 0;
 float sum_m = 0;
-float avg_thr = 7;          // mm below which is done an average measure
+float avg_thr = 5;          // mm below which is done an average measure
 uint8_t cnt = 4;            // 
 
 // FLAGS
@@ -112,30 +112,32 @@ void parametersSettings();
 void homingRoutine();
 #line 227 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
 void measureRoutine();
-#line 319 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
+#line 326 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
 void getStatus();
-#line 324 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
+#line 331 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
 void printStatus();
-#line 366 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
+#line 373 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
 void printAlarms();
-#line 407 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
+#line 414 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
 void splitU32to16(uint32_t toSplit);
-#line 413 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
+#line 420 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
 void split32to16(int32_t toSplit);
-#line 419 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
+#line 426 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
 void awaitKeyPressed();
-#line 431 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
+#line 438 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
 void sendPosTarget(int32_t pos);
-#line 440 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
+#line 447 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
 int32_t mm2int(float pos_mm);
-#line 445 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
+#line 452 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
 int32_t getPosact();
-#line 454 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
+#line 461 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
 void populatePosArray();
-#line 467 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
+#line 474 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
 void sortArray();
-#line 494 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
+#line 501 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
 void printForce(uint8_t i, int32_t pos, float pos_mm, float force);
+#line 515 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Functions.ino"
+void setCount(float val);
 #line 73 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Modbus_HX711.ino"
 void setup()
 {
@@ -235,7 +237,7 @@ void selectLoadcell()
   bool valid = false;
   while (!valid)
   {
-    Serial.print("\nInserire fondoscala della cella di carico [kg]...");
+    Serial.println("Inserire fondoscala della cella di carico [kg]...");
     // flush the serial buffer
     // while (Serial.available() > 0)
     // {
@@ -450,19 +452,19 @@ void parametersSettings()
   Serial.println("----SETTAGGIO PARAMETRI----");
   Serial.println("---------------------------");
 
-  Serial.print("\nInserire massimo spostamento negativo [mm]... ");
+  Serial.println("\nInserire massimo spostamento negativo [mm]... ");
   awaitKeyPressed();
   min_pos = Serial.parseFloat();
   if (min_pos > 0)
     min_pos *= (-1);
   Serial.println(min_pos);
 
-  Serial.print("Inserire massimo spostamento positivo [mm]... ");
+  Serial.println("Inserire massimo spostamento positivo [mm]... ");
   awaitKeyPressed();
   max_pos = Serial.parseFloat();
   Serial.println(max_pos);
 
-  Serial.print("Inserire numero di punti PARI desiderati... ");
+  Serial.println("Inserire numero di punti PARI desiderati... ");
   awaitKeyPressed();
   num_pos = Serial.parseInt();
   if (num_pos % 2 == 1)
@@ -562,41 +564,47 @@ void measureRoutine()
   // measuring
   // intially we'll develop a   routine that will move-stop-measure-move-stop-measure and so on
   // TODO: implementare la media delle misure cazzzzooo
-  getStatus();
 
   // engine in position
-  Serial.println("Mi scappa la cacca...");
-  Serial.println(sts, BIN);
-  while (!(bitRead(sts, 10)))
-  {
-    Serial.println("CULO");
-    getStatus();
-  }
+  // Serial.println("Mi scappa la cacca...");
+  // Serial.println(sts, BIN);
+
+  //--------------------------  
+  // getStatus();
+  // while (!(bitRead(sts, 10)))
+  // {
+  //   Serial.println("CULO");
+  //   getStatus();
+  // }
+  //--------------------------
   // if (bitRead(sts, 3) && !bitRead(sts, 10))
   // {
   // }
   // else
   // {
-  Serial.print("FERMO - ");
+  // Serial.print("FERMO - ");
   // take the measure
   if (mean_active)
   {
-    if (pos_idx % 2 == 0 && pos_sorted[pos_idx] < avg_thr)
+    if (pos_idx % 2 == 0 && pos_sorted[pos_idx] <= avg_thr)
     {
+      setCount(pos_sorted[pos_idx]);
+      Serial.print("CNT: ");
+      Serial.println(cnt);
       for (int k = 0; k < cnt; k++)
       {
         // positive movement
         sendPosTarget(init_pos + mm2int(pos_sorted[pos_idx]));
         sendCommand(go());
         getStatus();
-        Serial.println(sts, BIN);
         while (bitRead(sts, 3))
           getStatus();
-        delay(1000);
         sum_p += getForce();
-        Serial.print("SUM_P ");
-        Serial.println(sum_p);
-        Serial.println(getPosact());
+        // Serial.print("SUM_P ");
+        // Serial.println(sum_p);
+        // Serial.println(getPosact());
+
+        delay(1000);
 
         // negative movement
         sendPosTarget(init_pos + mm2int(pos_sorted[pos_idx + 1]));
@@ -604,11 +612,11 @@ void measureRoutine()
         getStatus();
         while (bitRead(sts, 3))
           getStatus();
-        delay(1000);
         sum_m += getForce();
-        Serial.print("SUM_M ");
-        Serial.println(sum_m);
-        Serial.println(getPosact());
+        // Serial.print("SUM_M ");
+        // Serial.println(sum_m);
+        // Serial.println(getPosact());
+        delay(1000);
       }
       meas_force[pos_idx] = sum_p / cnt;
       meas_force[pos_idx + 1] = sum_m / cnt;
@@ -634,12 +642,13 @@ void measureRoutine()
   else
   {
     // gigio:
-    getStatus();
     sendPosTarget(init_pos + mm2int(pos_sorted[pos_idx]));
     sendCommand(go());
+    getStatus();
     while (bitRead(sts, 3))
       getStatus();
     meas_force[pos_idx] = getForce();
+    printForce(pos_idx, getPosact(), pos_sorted[pos_idx], meas_force[pos_idx]);
     pos_idx++;
   }
   // }
@@ -832,8 +841,21 @@ void printForce(uint8_t i, int32_t pos, float pos_mm, float force)
   Serial.print(pos);
   Serial.print(" pos ");
   Serial.print(pos_mm);
-  Serial.print(" is ");
+  Serial.print(" mm is ");
   Serial.print(force);
   Serial.println(" N");
 }
 
+// TODO: cnt threshold function
+void setCount(float val)
+{
+  float th1 = 1; // mm
+  float th2 = 3; // mm
+  // float th3 = avg_thr; // mm
+  if (fabs(val) <= avg_thr)
+    cnt = 2;
+  if (fabs(val) <= th2)
+    cnt = 4;
+  if (fabs(val) <= th1)
+    cnt = 6;
+}

@@ -51,7 +51,7 @@ float *meas_force;          // array where measured forces are stored in
 uint8_t pos_idx = 0;        // index to navigate the pos_sorted array
 float sum_p = 0;
 float sum_m = 0;
-float avg_thr = 7;          // mm below which is done an average measure
+float avg_thr = 5;          // mm below which is done an average measure
 uint8_t cnt = 4;            // 
 
 // FLAGS

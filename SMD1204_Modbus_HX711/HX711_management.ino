@@ -3,7 +3,7 @@ void selectLoadcell()
   bool valid = false;
   while (!valid)
   {
-    Serial.print("\nInserire fondoscala della cella di carico [kg]...");
+    Serial.println("Inserire fondoscala della cella di carico [kg]...");
     // flush the serial buffer
     // while (Serial.available() > 0)
     // {
