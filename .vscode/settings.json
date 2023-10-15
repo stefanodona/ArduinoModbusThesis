@@ -1,4 +1,8 @@
 {
     "C_Cpp.errorSquiggles": "disabled",
-    "vscode-serial-monitor.lineEnding": "\n"
+    "vscode-serial-monitor.lineEnding": "\n",
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter"
+    },
+    "python.formatting.provider": "none"
 }

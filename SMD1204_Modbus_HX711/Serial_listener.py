@@ -40,7 +40,7 @@ with serial.Serial('COM9', 9600) as ser:
             ser.write("15\n".encode())
         if(compare_strings(data, "punti")):
             print("matched")
-            ser.write("4\n".encode())
+            ser.write("20\n".encode())
         if(compare_strings(data, "piccoli")):
             print("matched")
             ser.write("\n".encode())

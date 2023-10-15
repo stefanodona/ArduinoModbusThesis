@@ -87,6 +87,7 @@ void setup()
 
   // Init IP communication
   Serial.println("\n\nInitializing...");
+  // Ethernet.begin(mac, server);
   Ethernet.begin(mac, server);
   // start the Ethernet connection and the server:
   delay(1000);

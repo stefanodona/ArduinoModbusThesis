@@ -1,0 +1,5 @@
+loadcell 3 kg
+min_pos -10.0 mm
+max_pos 50.0 mm
+num_pos 12 
+media True 

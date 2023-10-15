@@ -74,7 +74,7 @@ ModbusTCPClient modbusTCPClient(ethClient);
 // SETUP
 #line 73 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Modbus_HX711.ino"
 void setup();
-#line 109 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Modbus_HX711.ino"
+#line 110 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\SMD1204_Modbus_HX711.ino"
 void loop();
 #line 1 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711\\HX711_management.ino"
 void selectLoadcell();
@@ -156,6 +156,7 @@ void setup()
 
   // Init IP communication
   Serial.println("\n\nInitializing...");
+  // Ethernet.begin(mac, server);
   Ethernet.begin(mac, server);
   // start the Ethernet connection and the server:
   delay(1000);
