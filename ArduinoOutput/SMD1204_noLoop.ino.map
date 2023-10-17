@@ -1,9 +1,9 @@
 Archive member included to satisfy reference by file (symbol)
 
 C:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput/..\..\..\..\AppData\Local\Temp\arduino\cores\arduino_megaavr_uno2018_mode_on_562feb5d840ade9a4d13e2c6e32a1829\core.a(UART.cpp.o)
-                              C:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput\sketch\SMD1204_Modbus_HX711.ino.cpp.o (symbol from plugin) (_ZN9UartClass9availableEv)
+                              C:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput\sketch\SMD1204_noLoop.ino.cpp.o (symbol from plugin) (_ZN9UartClass9availableEv)
 C:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput/..\..\..\..\AppData\Local\Temp\arduino\cores\arduino_megaavr_uno2018_mode_on_562feb5d840ade9a4d13e2c6e32a1829\core.a(UART0.cpp.o)
-                              C:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput\sketch\SMD1204_Modbus_HX711.ino.cpp.o (symbol from plugin) (Serial)
+                              C:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput\sketch\SMD1204_noLoop.ino.cpp.o (symbol from plugin) (Serial)
 C:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput/..\..\..\..\AppData\Local\Temp\arduino\cores\arduino_megaavr_uno2018_mode_on_562feb5d840ade9a4d13e2c6e32a1829\core.a(UART1.cpp.o)
                               C:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput\libraries\ArduinoRS485\RS485.cpp.o (symbol from plugin) (Serial1)
 C:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput/..\..\..\..\AppData\Local\Temp\arduino\cores\arduino_megaavr_uno2018_mode_on_562feb5d840ade9a4d13e2c6e32a1829\core.a(WMath.cpp.o)
@@ -11,13 +11,13 @@ C:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput/..\..\..\..\A
 C:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput/..\..\..\..\AppData\Local\Temp\arduino\cores\arduino_megaavr_uno2018_mode_on_562feb5d840ade9a4d13e2c6e32a1829\core.a(abi.cpp.o)
                               C:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput\libraries\Ethernet3\EthernetServer.cpp.o (symbol from plugin) (__cxa_pure_virtual)
 C:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput/..\..\..\..\AppData\Local\Temp\arduino\cores\arduino_megaavr_uno2018_mode_on_562feb5d840ade9a4d13e2c6e32a1829\core.a(IPAddress.cpp.o)
-                              C:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput\sketch\SMD1204_Modbus_HX711.ino.cpp.o (symbol from plugin) (_ZTVN7arduino9IPAddressE)
+                              C:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput\sketch\SMD1204_noLoop.ino.cpp.o (symbol from plugin) (_ZTVN7arduino9IPAddressE)
 C:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput/..\..\..\..\AppData\Local\Temp\arduino\cores\arduino_megaavr_uno2018_mode_on_562feb5d840ade9a4d13e2c6e32a1829\core.a(Print.cpp.o)
                               C:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput\libraries\Ethernet3\EthernetServer.cpp.o (symbol from plugin) (_ZN7arduino5Print5writeEPKhj)
 C:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput/..\..\..\..\AppData\Local\Temp\arduino\cores\arduino_megaavr_uno2018_mode_on_562feb5d840ade9a4d13e2c6e32a1829\core.a(Stream.cpp.o)
-                              C:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput\sketch\SMD1204_Modbus_HX711.ino.cpp.o (symbol from plugin) (_ZN7arduino6Stream8parseIntENS_13LookaheadModeEc)
+                              C:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput\sketch\SMD1204_noLoop.ino.cpp.o (symbol from plugin) (_ZN7arduino6Stream8parseIntENS_13LookaheadModeEc)
 C:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput/..\..\..\..\AppData\Local\Temp\arduino\cores\arduino_megaavr_uno2018_mode_on_562feb5d840ade9a4d13e2c6e32a1829\core.a(String.cpp.o)
-                              Stream.cpp.o (symbol from plugin) (_ZN7arduino6StringC1EPKc)
+                              C:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput\sketch\SMD1204_noLoop.ino.cpp.o (symbol from plugin) (_ZN7arduino6StringD2Ev)
 C:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput/..\..\..\..\AppData\Local\Temp\arduino\cores\arduino_megaavr_uno2018_mode_on_562feb5d840ade9a4d13e2c6e32a1829\core.a(hooks.c.o)
                               C:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput\libraries\HX711\HX711.cpp.o (symbol from plugin) (yield)
 C:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput/..\..\..\..\AppData\Local\Temp\arduino\cores\arduino_megaavr_uno2018_mode_on_562feb5d840ade9a4d13e2c6e32a1829\core.a(main.cpp.o)
@@ -35,7 +35,7 @@ c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atme
 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(errno.o)
                               C:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput\libraries\ArduinoModbus\ModbusClient.cpp.o (symbol from plugin) (errno)
 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(dtostrf.o)
-                              String.cpp.o (symbol from plugin) (dtostrf)
+                              C:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput\sketch\SMD1204_noLoop.ino.cpp.o (symbol from plugin) (dtostrf)
 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(random.o)
                               WMath.cpp.o (symbol from plugin) (random)
 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(atof.o)
@@ -125,49 +125,43 @@ c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atme
 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_umulhisi3.o)
                               c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_muluhisi3.o) (__umulhisi3)
 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libm.a(addsf3.o)
-                              C:\Users\stefa\AppData\Local\Temp\ccjP9dit.ltrans0.ltrans.o (__subsf3)
+                              C:\Users\stefa\AppData\Local\Temp\ccyplheI.ltrans0.ltrans.o (__subsf3)
 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libm.a(addsf3x.o)
                               c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libm.a(addsf3.o) (__addsf3x)
 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libm.a(divsf3.o)
-                              C:\Users\stefa\AppData\Local\Temp\ccjP9dit.ltrans0.ltrans.o (__divsf3)
+                              C:\Users\stefa\AppData\Local\Temp\ccyplheI.ltrans0.ltrans.o (__divsf3)
 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libm.a(divsf3x.o)
                               c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libm.a(divsf3.o) (__divsf3x)
 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libm.a(fixsfsi.o)
-                              C:\Users\stefa\AppData\Local\Temp\ccjP9dit.ltrans0.ltrans.o (__fixsfsi)
+                              C:\Users\stefa\AppData\Local\Temp\ccyplheI.ltrans0.ltrans.o (__fixsfsi)
 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libm.a(fixunssfsi.o)
-                              C:\Users\stefa\AppData\Local\Temp\ccjP9dit.ltrans0.ltrans.o (__fixunssfsi)
+                              c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libm.a(fixsfsi.o) (__fixunssfsi)
 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libm.a(gesf2.o)
-                              C:\Users\stefa\AppData\Local\Temp\ccjP9dit.ltrans0.ltrans.o (__gtsf2)
-c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libm.a(unordsf2.o)
-                              C:\Users\stefa\AppData\Local\Temp\ccjP9dit.ltrans0.ltrans.o (__unordsf2)
+                              C:\Users\stefa\AppData\Local\Temp\ccyplheI.ltrans0.ltrans.o (__gtsf2)
 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_udivmodhi4.o)
-                              C:\Users\stefa\AppData\Local\Temp\ccjP9dit.ltrans0.ltrans.o (__udivmodhi4)
-c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_divmodhi4.o)
-                              C:\Users\stefa\AppData\Local\Temp\ccjP9dit.ltrans0.ltrans.o (__divmodhi4)
+                              C:\Users\stefa\AppData\Local\Temp\ccyplheI.ltrans0.ltrans.o (__udivmodhi4)
 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_tablejump2.o)
-                              C:\Users\stefa\AppData\Local\Temp\ccjP9dit.ltrans0.ltrans.o (__tablejump2__)
+                              C:\Users\stefa\AppData\Local\Temp\ccyplheI.ltrans0.ltrans.o (__tablejump2__)
 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_ctors.o)
-                              C:\Users\stefa\AppData\Local\Temp\ccjP9dit.ltrans0.ltrans.o (__do_global_ctors)
+                              C:\Users\stefa\AppData\Local\Temp\ccyplheI.ltrans0.ltrans.o (__do_global_ctors)
 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_dtors.o)
-                              C:\Users\stefa\AppData\Local\Temp\ccjP9dit.ltrans0.ltrans.o (__do_global_dtors)
+                              C:\Users\stefa\AppData\Local\Temp\ccyplheI.ltrans0.ltrans.o (__do_global_dtors)
 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_ashrdi3.o)
-                              C:\Users\stefa\AppData\Local\Temp\ccjP9dit.ltrans0.ltrans.o (__lshrdi3)
+                              C:\Users\stefa\AppData\Local\Temp\ccyplheI.ltrans0.ltrans.o (__lshrdi3)
 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_cmpdi2_s8.o)
-                              C:\Users\stefa\AppData\Local\Temp\ccjP9dit.ltrans0.ltrans.o (__cmpdi2_s8)
+                              C:\Users\stefa\AppData\Local\Temp\ccyplheI.ltrans0.ltrans.o (__cmpdi2_s8)
 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(malloc.o)
-                              C:\Users\stefa\AppData\Local\Temp\ccjP9dit.ltrans0.ltrans.o (malloc)
+                              C:\Users\stefa\AppData\Local\Temp\ccyplheI.ltrans0.ltrans.o (malloc)
+c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(realloc.o)
+                              C:\Users\stefa\AppData\Local\Temp\ccyplheI.ltrans0.ltrans.o (realloc)
 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(abort.o)
-                              C:\Users\stefa\AppData\Local\Temp\ccjP9dit.ltrans0.ltrans.o (abort)
-c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(isalpha.o)
-                              C:\Users\stefa\AppData\Local\Temp\ccjP9dit.ltrans0.ltrans.o (isupper)
-c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(tolower.o)
-                              C:\Users\stefa\AppData\Local\Temp\ccjP9dit.ltrans0.ltrans.o (tolower)
+                              C:\Users\stefa\AppData\Local\Temp\ccyplheI.ltrans0.ltrans.o (abort)
 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(memcmp.o)
-                              C:\Users\stefa\AppData\Local\Temp\ccjP9dit.ltrans0.ltrans.o (memcmp)
+                              C:\Users\stefa\AppData\Local\Temp\ccyplheI.ltrans0.ltrans.o (memcmp)
 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(memcpy.o)
-                              C:\Users\stefa\AppData\Local\Temp\ccjP9dit.ltrans0.ltrans.o (memcpy)
+                              C:\Users\stefa\AppData\Local\Temp\ccyplheI.ltrans0.ltrans.o (memcpy)
 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(vfprintf_std.o)
-                              C:\Users\stefa\AppData\Local\Temp\ccjP9dit.ltrans0.ltrans.o (vfprintf)
+                              C:\Users\stefa\AppData\Local\Temp\ccyplheI.ltrans0.ltrans.o (vfprintf)
 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(strnlen_P.o)
                               c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(vfprintf_std.o) (strnlen_P)
 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(strnlen.o)
@@ -195,12 +189,14 @@ Discarded input sections
 
  .data          0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3/crtatmega4809.o
  .bss           0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3/crtatmega4809.o
- .text          0x00000000        0x0 C:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput\sketch\SMD1204_Modbus_HX711.ino.cpp.o (symbol from plugin)
+ .text          0x00000000        0x0 C:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput\sketch\SMD1204_noLoop.ino.cpp.o (symbol from plugin)
+ .gnu.linkonce.t._ZN7arduino5Print5writeEPKc
+                0x00000000        0x0 C:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput\sketch\SMD1204_noLoop.ino.cpp.o (symbol from plugin)
  .gnu.linkonce.t._ZN9UartClass5beginEm
-                0x00000000        0x0 C:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput\sketch\SMD1204_Modbus_HX711.ino.cpp.o (symbol from plugin)
+                0x00000000        0x0 C:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput\sketch\SMD1204_noLoop.ino.cpp.o (symbol from plugin)
  .gnu.linkonce.t._ZN7arduino9IPAddressC5ERKS0_
-                0x00000000        0x0 C:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput\sketch\SMD1204_Modbus_HX711.ino.cpp.o (symbol from plugin)
- .avr.prop      0x00000000       0x28 C:\Users\stefa\AppData\Local\Temp\ccjP9dit.ltrans0.ltrans.o
+                0x00000000        0x0 C:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput\sketch\SMD1204_noLoop.ino.cpp.o (symbol from plugin)
+ .avr.prop      0x00000000       0x28 C:\Users\stefa\AppData\Local\Temp\ccyplheI.ltrans0.ltrans.o
  .text          0x00000000        0x0 C:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput\libraries\SPI\SPI.cpp.o (symbol from plugin)
  .gnu.linkonce.t._ZN15SPIClassMegaAVR15attachInterruptEv
                 0x00000000        0x0 C:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput\libraries\SPI\SPI.cpp.o (symbol from plugin)
@@ -536,9 +532,6 @@ Discarded input sections
  .text          0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(dtostrf.o)
  .data          0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(dtostrf.o)
  .bss           0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(dtostrf.o)
- .text.avr-libc
-                0x00000000       0x3c c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(dtostrf.o)
- .comment       0x00000000       0x12 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(dtostrf.o)
  .text          0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(random.o)
  .data          0x00000000        0x4 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(random.o)
  .bss           0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(random.o)
@@ -616,9 +609,6 @@ Discarded input sections
  .text          0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(dtoa_prf.o)
  .data          0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(dtoa_prf.o)
  .bss           0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(dtoa_prf.o)
- .text.avr-libc
-                0x00000000      0x2be c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(dtoa_prf.o)
- .comment       0x00000000       0x12 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(dtoa_prf.o)
  .text          0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(strtod.o)
  .data          0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(strtod.o)
  .bss           0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(strtod.o)
@@ -629,9 +619,6 @@ Discarded input sections
  .text          0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(ftoa_engine.o)
  .data          0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(ftoa_engine.o)
  .bss           0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(ftoa_engine.o)
- .text.avr-libc
-                0x00000000      0x1b0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(ftoa_engine.o)
- .progmem.data  0x00000000       0xfa c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(ftoa_engine.o)
  .text          0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(isspace.o)
  .data          0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(isspace.o)
  .bss           0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(isspace.o)
@@ -665,6 +652,8 @@ Discarded input sections
  .text          0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(cty_isfalse.o)
  .data          0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(cty_isfalse.o)
  .bss           0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(cty_isfalse.o)
+ .text.avr-libc
+                0x00000000        0x6 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(cty_isfalse.o)
  .text          0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(fp_inf.o)
  .data          0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(fp_inf.o)
  .bss           0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(fp_inf.o)
@@ -851,9 +840,6 @@ Discarded input sections
  .text          0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libm.a(gesf2.o)
  .data          0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libm.a(gesf2.o)
  .bss           0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libm.a(gesf2.o)
- .text          0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libm.a(unordsf2.o)
- .data          0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libm.a(unordsf2.o)
- .bss           0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libm.a(unordsf2.o)
  .text          0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_udivmodhi4.o)
  .data          0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_udivmodhi4.o)
  .bss           0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_udivmodhi4.o)
@@ -868,20 +854,6 @@ Discarded input sections
                 0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_udivmodhi4.o)
  .text.libgcc.fixed
                 0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_udivmodhi4.o)
- .text          0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_divmodhi4.o)
- .data          0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_divmodhi4.o)
- .bss           0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_divmodhi4.o)
- .text.libgcc.mul
-                0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_divmodhi4.o)
- .text.libgcc   0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_divmodhi4.o)
- .text.libgcc.prologue
-                0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_divmodhi4.o)
- .text.libgcc.builtins
-                0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_divmodhi4.o)
- .text.libgcc.fmul
-                0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_divmodhi4.o)
- .text.libgcc.fixed
-                0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_divmodhi4.o)
  .text          0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_tablejump2.o)
  .data          0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_tablejump2.o)
  .bss           0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_tablejump2.o)
@@ -960,15 +932,12 @@ Discarded input sections
                 0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_cmpdi2_s8.o)
  .text          0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(malloc.o)
  .bss           0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(malloc.o)
+ .text          0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(realloc.o)
+ .data          0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(realloc.o)
+ .bss           0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(realloc.o)
  .text          0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(abort.o)
  .data          0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(abort.o)
  .bss           0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(abort.o)
- .text          0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(isalpha.o)
- .data          0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(isalpha.o)
- .bss           0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(isalpha.o)
- .text          0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(tolower.o)
- .data          0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(tolower.o)
- .bss           0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(tolower.o)
  .text          0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(memcmp.o)
  .data          0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(memcmp.o)
  .bss           0x00000000        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(memcmp.o)
@@ -1009,8 +978,8 @@ Address of section .data set to 0x802800
                 0x00004000                __RODATA_PM_OFFSET__ = 0x4000
 LOAD c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3/crtatmega4809.o
 Address of section .text set to 0x200
-LOAD C:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput\sketch\SMD1204_Modbus_HX711.ino.cpp.o
-LOAD C:\Users\stefa\AppData\Local\Temp\ccjP9dit.ltrans0.ltrans.o
+LOAD C:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput\sketch\SMD1204_noLoop.ino.cpp.o
+LOAD C:\Users\stefa\AppData\Local\Temp\ccyplheI.ltrans0.ltrans.o
 LOAD C:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput\libraries\SPI\SPI.cpp.o
 LOAD C:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput\libraries\Ethernet3\Dhcp.cpp.o
 LOAD C:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput\libraries\Ethernet3\Dns.cpp.o
@@ -1140,7 +1109,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000200     0x7366
+.text           0x00000200     0x781c
  *(.vectors)
  .vectors       0x00000200       0xa0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3/crtatmega4809.o
                 0x00000200                __vector_default
@@ -1155,264 +1124,258 @@ END GROUP
                 0x000002a0                __trampolines_end = .
  *libprintf_flt.a:*(.progmem.data)
  *libc.a:*(.progmem.data)
+ .progmem.data  0x000002a0       0xfa c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(ftoa_engine.o)
  *(.progmem*)
-                0x000002a0                . = ALIGN (0x2)
+                0x0000039a                . = ALIGN (0x2)
  *(.jumptables)
  *(.jumptables*)
  *(.lowtext)
  *(.lowtext*)
-                0x000002a0                __ctors_start = .
+                0x0000039a                __ctors_start = .
  *(.ctors)
- .ctors         0x000002a0        0x2 C:\Users\stefa\AppData\Local\Temp\ccjP9dit.ltrans0.ltrans.o
-                0x000002a2                __ctors_end = .
-                0x000002a2                __dtors_start = .
+ .ctors         0x0000039a        0x2 C:\Users\stefa\AppData\Local\Temp\ccyplheI.ltrans0.ltrans.o
+                0x0000039c                __ctors_end = .
+                0x0000039c                __dtors_start = .
  *(.dtors)
- .dtors         0x000002a2        0x2 C:\Users\stefa\AppData\Local\Temp\ccjP9dit.ltrans0.ltrans.o
-                0x000002a4                __dtors_end = .
+ .dtors         0x0000039c        0x2 C:\Users\stefa\AppData\Local\Temp\ccyplheI.ltrans0.ltrans.o
+                0x0000039e                __dtors_end = .
  SORT(*)(.ctors)
  SORT(*)(.dtors)
  *(.init0)
- .init0         0x000002a4        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3/crtatmega4809.o
-                0x000002a4                __init
+ .init0         0x0000039e        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3/crtatmega4809.o
+                0x0000039e                __init
  *(.init0)
  *(.init1)
  *(.init1)
  *(.init2)
- .init2         0x000002a4        0xc c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3/crtatmega4809.o
+ .init2         0x0000039e        0xc c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3/crtatmega4809.o
  *(.init2)
  *(.init3)
  *(.init3)
  *(.init4)
- .init4         0x000002b0       0x16 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_copy_data.o)
-                0x000002b0                __do_copy_data
- .init4         0x000002c6       0x10 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_clear_bss.o)
-                0x000002c6                __do_clear_bss
+ .init4         0x000003aa       0x16 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_copy_data.o)
+                0x000003aa                __do_copy_data
+ .init4         0x000003c0       0x10 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_clear_bss.o)
+                0x000003c0                __do_clear_bss
  *(.init4)
  *(.init5)
  *(.init5)
  *(.init6)
- .init6         0x000002d6       0x16 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_ctors.o)
-                0x000002d6                __do_global_ctors
+ .init6         0x000003d0       0x16 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_ctors.o)
+                0x000003d0                __do_global_ctors
  *(.init6)
  *(.init7)
  *(.init7)
  *(.init8)
  *(.init8)
  *(.init9)
- .init9         0x000002ec        0x8 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3/crtatmega4809.o
+ .init9         0x000003e6        0x8 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3/crtatmega4809.o
  *(.init9)
  *(.text)
- .text          0x000002f4        0x4 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3/crtatmega4809.o
-                0x000002f4                __vector_22
-                0x000002f4                __vector_28
-                0x000002f4                __vector_1
-                0x000002f4                __vector_32
-                0x000002f4                __vector_34
-                0x000002f4                __vector_24
-                0x000002f4                __vector_12
-                0x000002f4                __bad_interrupt
-                0x000002f4                __vector_6
-                0x000002f4                __vector_31
-                0x000002f4                __vector_35
-                0x000002f4                __vector_39
-                0x000002f4                __vector_3
-                0x000002f4                __vector_23
-                0x000002f4                __vector_30
-                0x000002f4                __vector_25
-                0x000002f4                __vector_11
-                0x000002f4                __vector_13
-                0x000002f4                __vector_17
-                0x000002f4                __vector_19
-                0x000002f4                __vector_7
-                0x000002f4                __vector_5
-                0x000002f4                __vector_33
-                0x000002f4                __vector_4
-                0x000002f4                __vector_9
-                0x000002f4                __vector_2
-                0x000002f4                __vector_21
-                0x000002f4                __vector_15
-                0x000002f4                __vector_29
-                0x000002f4                __vector_8
-                0x000002f4                __vector_14
-                0x000002f4                __vector_10
-                0x000002f4                __vector_16
-                0x000002f4                __vector_18
-                0x000002f4                __vector_20
- .text          0x000002f8     0x5262 C:\Users\stefa\AppData\Local\Temp\ccjP9dit.ltrans0.ltrans.o
-                0x00005362                __vector_36
-                0x0000542a                __vector_27
-                0x00005476                __vector_26
-                0x000054c2                __vector_38
-                0x0000550e                __vector_37
-                0x0000555a                . = ALIGN (0x2)
+ .text          0x000003ee        0x4 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3/crtatmega4809.o
+                0x000003ee                __vector_22
+                0x000003ee                __vector_28
+                0x000003ee                __vector_1
+                0x000003ee                __vector_32
+                0x000003ee                __vector_34
+                0x000003ee                __vector_24
+                0x000003ee                __vector_12
+                0x000003ee                __bad_interrupt
+                0x000003ee                __vector_6
+                0x000003ee                __vector_31
+                0x000003ee                __vector_35
+                0x000003ee                __vector_39
+                0x000003ee                __vector_3
+                0x000003ee                __vector_23
+                0x000003ee                __vector_30
+                0x000003ee                __vector_25
+                0x000003ee                __vector_11
+                0x000003ee                __vector_13
+                0x000003ee                __vector_17
+                0x000003ee                __vector_19
+                0x000003ee                __vector_7
+                0x000003ee                __vector_5
+                0x000003ee                __vector_33
+                0x000003ee                __vector_4
+                0x000003ee                __vector_9
+                0x000003ee                __vector_2
+                0x000003ee                __vector_21
+                0x000003ee                __vector_15
+                0x000003ee                __vector_29
+                0x000003ee                __vector_8
+                0x000003ee                __vector_14
+                0x000003ee                __vector_10
+                0x000003ee                __vector_16
+                0x000003ee                __vector_18
+                0x000003ee                __vector_20
+ .text          0x000003f2     0x5296 C:\Users\stefa\AppData\Local\Temp\ccyplheI.ltrans0.ltrans.o
+                0x00005490                __vector_36
+                0x00005558                __vector_27
+                0x000055a4                __vector_26
+                0x000055f0                __vector_38
+                0x0000563c                __vector_37
+                0x00005688                . = ALIGN (0x2)
  *(.text.*)
- .text.exit     0x0000555a       0x18 C:\Users\stefa\AppData\Local\Temp\ccjP9dit.ltrans0.ltrans.o
- .text.startup  0x00005572     0x11d6 C:\Users\stefa\AppData\Local\Temp\ccjP9dit.ltrans0.ltrans.o
-                0x000058c2                main
- .text.avr-libc.fplib
-                0x00006748        0xa c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(cmpsf2.o)
-                0x00006748                __nesf2
-                0x00006748                __eqsf2
-                0x00006748                __cmpsf2
-                0x00006748                __ltsf2
-                0x00006748                __lesf2
- .text.avr-libc.fplib
-                0x00006752       0x7a c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(floatsisf.o)
-                0x00006752                __floatunsisf
-                0x00006756                __floatsisf
- .text.avr-libc.fplib
-                0x000067cc       0x48 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(fp_cmp.o)
-                0x000067cc                __fp_cmp
- .text.avr-libc.fplib
-                0x00006814        0x8 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(mulsf3.o)
-                0x00006814                __mulsf3
- .text.avr-libc.fplib
-                0x0000681c       0xd2 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(mulsf3x.o)
-                0x0000683a                __mulsf3x
-                0x00006840                __mulsf3_pse
+ .text.exit     0x00005688       0x18 C:\Users\stefa\AppData\Local\Temp\ccyplheI.ltrans0.ltrans.o
+ .text.startup  0x000056a0      0xf98 C:\Users\stefa\AppData\Local\Temp\ccyplheI.ltrans0.ltrans.o
+                0x000059f0                main
  .text.avr-libc
-                0x000068ee        0x6 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(cty_isfalse.o)
-                0x000068ee                __ctype_isfalse
-                0x000068f2                __ctype_istrue
+                0x00006638       0x3c c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(dtostrf.o)
+                0x00006638                dtostrf
+ .text.avr-libc
+                0x00006674      0x2be c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(dtoa_prf.o)
+                0x00006674                dtoa_prf
+ .text.avr-libc
+                0x00006932      0x1b0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(ftoa_engine.o)
+                0x00006932                __ftoa_engine
  .text.avr-libc.fplib
-                0x000068f4        0xc c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(fp_inf.o)
-                0x000068f4                __fp_inf
+                0x00006ae2        0xa c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(cmpsf2.o)
+                0x00006ae2                __nesf2
+                0x00006ae2                __eqsf2
+                0x00006ae2                __cmpsf2
+                0x00006ae2                __ltsf2
+                0x00006ae2                __lesf2
  .text.avr-libc.fplib
-                0x00006900        0x6 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(fp_nan.o)
-                0x00006900                __fp_nan
+                0x00006aec       0x7a c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(floatsisf.o)
+                0x00006aec                __floatunsisf
+                0x00006af0                __floatsisf
  .text.avr-libc.fplib
-                0x00006906        0xe c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(fp_pscA.o)
-                0x00006906                __fp_pscA
+                0x00006b66       0x48 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(fp_cmp.o)
+                0x00006b66                __fp_cmp
  .text.avr-libc.fplib
-                0x00006914        0xe c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(fp_pscB.o)
-                0x00006914                __fp_pscB
+                0x00006bae        0x8 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(mulsf3.o)
+                0x00006bae                __mulsf3
  .text.avr-libc.fplib
-                0x00006922       0x22 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(fp_round.o)
-                0x00006922                __fp_round
+                0x00006bb6       0xd2 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(mulsf3x.o)
+                0x00006bd4                __mulsf3x
+                0x00006bda                __mulsf3_pse
  .text.avr-libc.fplib
-                0x00006944       0x44 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(fp_split3.o)
-                0x00006944                __fp_split3
-                0x00006954                __fp_splitA
+                0x00006c88        0xc c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(fp_inf.o)
+                0x00006c88                __fp_inf
  .text.avr-libc.fplib
-                0x00006988        0xe c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(fp_zero.o)
-                0x00006988                __fp_zero
-                0x0000698a                __fp_szero
+                0x00006c94        0x6 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(fp_nan.o)
+                0x00006c94                __fp_nan
+ .text.avr-libc.fplib
+                0x00006c9a        0xe c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(fp_pscA.o)
+                0x00006c9a                __fp_pscA
+ .text.avr-libc.fplib
+                0x00006ca8        0xe c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(fp_pscB.o)
+                0x00006ca8                __fp_pscB
+ .text.avr-libc.fplib
+                0x00006cb6       0x22 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(fp_round.o)
+                0x00006cb6                __fp_round
+ .text.avr-libc.fplib
+                0x00006cd8       0x44 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(fp_split3.o)
+                0x00006cd8                __fp_split3
+                0x00006ce8                __fp_splitA
+ .text.avr-libc.fplib
+                0x00006d1c        0xe c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(fp_zero.o)
+                0x00006d1c                __fp_zero
+                0x00006d1e                __fp_szero
  .text.libgcc.div
-                0x00006996       0x2e c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_divmodsi4.o)
-                0x00006996                __divmodsi4
+                0x00006d2a       0x2e c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_divmodsi4.o)
+                0x00006d2a                __divmodsi4
  .text.libgcc.div
-                0x000069c4       0x10 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_negsi2.o)
-                0x000069c4                __negsi2
+                0x00006d58       0x10 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_negsi2.o)
+                0x00006d58                __negsi2
  .text.libgcc.mul
-                0x000069d4       0x16 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_muluhisi3.o)
-                0x000069d4                __muluhisi3
+                0x00006d68       0x16 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_muluhisi3.o)
+                0x00006d68                __muluhisi3
  .text.libgcc.mul
-                0x000069ea       0x10 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_mulshisi3.o)
-                0x000069ea                __mulshisi3
-                0x000069f0                __mulohisi3
+                0x00006d7e       0x10 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_mulshisi3.o)
+                0x00006d7e                __mulshisi3
+                0x00006d84                __mulohisi3
  .text.libgcc.prologue
-                0x000069fa       0x32 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_prologue.o)
-                0x000069fa                __prologue_saves__
+                0x00006d8e       0x32 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_prologue.o)
+                0x00006d8e                __prologue_saves__
  .text.libgcc.prologue
-                0x00006a2c       0x30 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_epilogue.o)
-                0x00006a2c                __epilogue_restores__
+                0x00006dc0       0x30 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_epilogue.o)
+                0x00006dc0                __epilogue_restores__
  .text.libgcc.div
-                0x00006a5c       0x44 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_udivmodsi4.o)
-                0x00006a5c                __udivmodsi4
+                0x00006df0       0x44 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_udivmodsi4.o)
+                0x00006df0                __udivmodsi4
  .text.libgcc.mul
-                0x00006aa0       0x1e c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_umulhisi3.o)
-                0x00006aa0                __umulhisi3
+                0x00006e34       0x1e c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_umulhisi3.o)
+                0x00006e34                __umulhisi3
  .text.avr-libc.fplib
-                0x00006abe        0xe c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libm.a(addsf3.o)
-                0x00006abe                __subsf3
-                0x00006ac0                __addsf3
+                0x00006e52        0xe c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libm.a(addsf3.o)
+                0x00006e52                __subsf3
+                0x00006e54                __addsf3
  .text.avr-libc.fplib
-                0x00006acc       0xcc c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libm.a(addsf3x.o)
-                0x00006aee                __addsf3x
+                0x00006e60       0xcc c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libm.a(addsf3x.o)
+                0x00006e82                __addsf3x
  .text.avr-libc.fplib
-                0x00006b98        0x8 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libm.a(divsf3.o)
-                0x00006b98                __divsf3
+                0x00006f2c        0x8 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libm.a(divsf3.o)
+                0x00006f2c                __divsf3
  .text.avr-libc.fplib
-                0x00006ba0       0xdc c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libm.a(divsf3x.o)
-                0x00006bc0                __divsf3x
-                0x00006bc6                __divsf3_pse
+                0x00006f34       0xdc c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libm.a(divsf3x.o)
+                0x00006f54                __divsf3x
+                0x00006f5a                __divsf3_pse
  .text.avr-libc.fplib
-                0x00006c7c        0xe c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libm.a(fixsfsi.o)
-                0x00006c7c                __fixsfsi
+                0x00007010        0xe c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libm.a(fixsfsi.o)
+                0x00007010                __fixsfsi
  .text.avr-libc.fplib
-                0x00006c8a       0x5e c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libm.a(fixunssfsi.o)
-                0x00006c8a                __fixunssfsi
+                0x0000701e       0x5e c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libm.a(fixunssfsi.o)
+                0x0000701e                __fixunssfsi
  .text.avr-libc.fplib
-                0x00006ce8        0xa c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libm.a(gesf2.o)
-                0x00006ce8                __gesf2
-                0x00006ce8                __gtsf2
- .text.avr-libc.fplib
-                0x00006cf2        0xa c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libm.a(unordsf2.o)
-                0x00006cf2                __unordsf2
+                0x0000707c        0xa c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libm.a(gesf2.o)
+                0x0000707c                __gesf2
+                0x0000707c                __gtsf2
  .text.libgcc.div
-                0x00006cfc       0x28 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_udivmodhi4.o)
-                0x00006cfc                __udivmodhi4
- .text.libgcc.div
-                0x00006d24       0x28 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_divmodhi4.o)
-                0x00006d24                _div
-                0x00006d24                __divmodhi4
- .text.libgcc   0x00006d4c        0xc c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_tablejump2.o)
-                0x00006d4c                __tablejump2__
+                0x00007086       0x28 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_udivmodhi4.o)
+                0x00007086                __udivmodhi4
+ .text.libgcc   0x000070ae        0xc c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_tablejump2.o)
+                0x000070ae                __tablejump2__
  .text.libgcc.builtins
-                0x00006d58       0x3a c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_ashrdi3.o)
-                0x00006d58                __ashrdi3
-                0x00006d5c                __lshrdi3
- .text.libgcc   0x00006d92       0x18 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_cmpdi2_s8.o)
-                0x00006d92                __cmpdi2_s8
+                0x000070ba       0x3a c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_ashrdi3.o)
+                0x000070ba                __ashrdi3
+                0x000070be                __lshrdi3
+ .text.libgcc   0x000070f4       0x18 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_cmpdi2_s8.o)
+                0x000070f4                __cmpdi2_s8
  .text.avr-libc
-                0x00006daa      0x24a c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(malloc.o)
-                0x00006daa                malloc
-                0x00006ee2                free
+                0x0000710c      0x24a c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(malloc.o)
+                0x0000710c                malloc
+                0x00007244                free
  .text.avr-libc
-                0x00006ff4        0xa c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(abort.o)
-                0x00006ff4                abort
+                0x00007356      0x17a c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(realloc.o)
+                0x00007356                realloc
  .text.avr-libc
-                0x00006ffe       0x16 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(isalpha.o)
-                0x00006ffe                isupper
-                0x00007004                isalpha
-                0x00007006                islower
+                0x000074d0        0xa c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(abort.o)
+                0x000074d0                abort
  .text.avr-libc
-                0x00007014       0x10 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(tolower.o)
-                0x00007014                tolower
+                0x000074da       0x1a c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(memcmp.o)
+                0x000074da                memcmp
  .text.avr-libc
-                0x00007024       0x1a c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(memcmp.o)
-                0x00007024                memcmp
+                0x000074f4       0x12 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(memcpy.o)
+                0x000074f4                memcpy
  .text.avr-libc
-                0x0000703e       0x12 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(memcpy.o)
-                0x0000703e                memcpy
+                0x00007506      0x3b4 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(vfprintf_std.o)
+                0x00007506                vfprintf
  .text.avr-libc
-                0x00007050      0x3b4 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(vfprintf_std.o)
-                0x00007050                vfprintf
+                0x000078ba       0x16 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(strnlen_P.o)
+                0x000078ba                strnlen_P
  .text.avr-libc
-                0x00007404       0x16 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(strnlen_P.o)
-                0x00007404                strnlen_P
+                0x000078d0       0x16 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(strnlen.o)
+                0x000078d0                strnlen
  .text.avr-libc
-                0x0000741a       0x16 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(strnlen.o)
-                0x0000741a                strnlen
+                0x000078e6       0x60 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(fputc.o)
+                0x000078e6                fputc
  .text.avr-libc
-                0x00007430       0x60 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(fputc.o)
-                0x00007430                fputc
- .text.avr-libc
-                0x00007490       0xbc c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(ultoa_invert.o)
-                0x00007490                __ultoa_invert
-                0x0000754c                . = ALIGN (0x2)
+                0x00007946       0xbc c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(ultoa_invert.o)
+                0x00007946                __ultoa_invert
+                0x00007a02                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x0000754c        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_exit.o)
-                0x0000754c                _exit
-                0x0000754c                exit
+ .fini9         0x00007a02        0x0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_exit.o)
+                0x00007a02                _exit
+                0x00007a02                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
  *(.fini7)
  *(.fini7)
  *(.fini6)
- .fini6         0x0000754c       0x16 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_dtors.o)
-                0x0000754c                __do_global_dtors
+ .fini6         0x00007a02       0x16 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_dtors.o)
+                0x00007a02                __do_global_dtors
  *(.fini6)
  *(.fini5)
  *(.fini5)
@@ -1425,56 +1388,57 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x00007562        0x4 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_exit.o)
+ .fini0         0x00007a18        0x4 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_exit.o)
  *(.fini0)
-                0x00007566                _etext = .
+                0x00007a1c                _etext = .
 
-.rodata         0x0000b566      0x88e load address 0x00007566
+.rodata         0x0000ba1c      0x721 load address 0x00007a1c
  *(.rodata)
- .rodata        0x0000b566      0x1be C:\Users\stefa\AppData\Local\Temp\ccjP9dit.ltrans0.ltrans.o
+ .rodata        0x0000ba1c      0x1be C:\Users\stefa\AppData\Local\Temp\ccyplheI.ltrans0.ltrans.o
  *(.rodata*)
  .rodata.str1.1
-                0x0000b724      0x6d0 C:\Users\stefa\AppData\Local\Temp\ccjP9dit.ltrans0.ltrans.o
-                                0x6db (size before relaxing)
+                0x0000bbda      0x563 C:\Users\stefa\AppData\Local\Temp\ccyplheI.ltrans0.ltrans.o
+                                0x568 (size before relaxing)
  *(.gnu.linkonce.r*)
 
-.data           0x00802800       0x14 load address 0x00007df4
+.data           0x00802800       0x14 load address 0x0000813d
                 0x00802800                PROVIDE (__data_start, .)
  *(.data)
- .data          0x00802800        0xe C:\Users\stefa\AppData\Local\Temp\ccjP9dit.ltrans0.ltrans.o
- .data          0x0080280e        0x6 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(malloc.o)
-                0x0080280e                __malloc_heap_end
-                0x00802810                __malloc_heap_start
-                0x00802812                __malloc_margin
+ .data          0x00802800        0xd C:\Users\stefa\AppData\Local\Temp\ccyplheI.ltrans0.ltrans.o
+ .data          0x0080280d        0x6 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(malloc.o)
+                0x0080280d                __malloc_heap_end
+                0x0080280f                __malloc_heap_start
+                0x00802811                __malloc_margin
  *(.data*)
  *(.gnu.linkonce.d*)
                 0x00802814                . = ALIGN (0x2)
+ *fill*         0x00802813        0x1 
                 0x00802814                _edata = .
                 0x00802814                PROVIDE (__data_end, .)
 
-.bss            0x00802814      0x2f4
+.bss            0x00802814      0x2e1
                 0x00802814                PROVIDE (__bss_start, .)
  *(.bss)
- .bss           0x00802814      0x2e8 C:\Users\stefa\AppData\Local\Temp\ccjP9dit.ltrans0.ltrans.o
+ .bss           0x00802814      0x2d5 C:\Users\stefa\AppData\Local\Temp\ccyplheI.ltrans0.ltrans.o
  *(.bss*)
  *(COMMON)
- COMMON         0x00802afc        0x2 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(errno.o)
-                0x00802afc                errno
- COMMON         0x00802afe        0x6 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(iob.o)
-                0x00802afe                __iob
- COMMON         0x00802b04        0x4 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(malloc.o)
-                0x00802b04                __brkval
-                0x00802b06                __flp
-                0x00802b08                PROVIDE (__bss_end, .)
-                0x00007df4                __data_load_start = LOADADDR (.data)
-                0x00007e08                __data_load_end = (__data_load_start + SIZEOF (.data))
+ COMMON         0x00802ae9        0x2 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(errno.o)
+                0x00802ae9                errno
+ COMMON         0x00802aeb        0x6 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(iob.o)
+                0x00802aeb                __iob
+ COMMON         0x00802af1        0x4 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(malloc.o)
+                0x00802af1                __brkval
+                0x00802af3                __flp
+                0x00802af5                PROVIDE (__bss_end, .)
+                0x0000813d                __data_load_start = LOADADDR (.data)
+                0x00008151                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x00802b08        0x0
+.noinit         0x00802af5        0x0
                 [!provide]                PROVIDE (__noinit_start, .)
  *(.noinit*)
                 [!provide]                PROVIDE (__noinit_end, .)
-                0x00802b08                _end = .
-                0x00802b08                PROVIDE (__heap_start, .)
+                0x00802af5                _end = .
+                0x00802af5                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
  *(.eeprom*)
@@ -1515,11 +1479,14 @@ END GROUP
 
 .comment        0x00000000       0x11
  *(.comment)
- .comment       0x00000000       0x12 C:\Users\stefa\AppData\Local\Temp\ccjP9dit.ltrans0.ltrans.o
+ .comment       0x00000000       0x12 C:\Users\stefa\AppData\Local\Temp\ccyplheI.ltrans0.ltrans.o
  .comment       0x00000000       0x11 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(errno.o)
                                  0x12 (size before relaxing)
+ .comment       0x00000011       0x12 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(dtostrf.o)
  .comment       0x00000011       0x12 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(iob.o)
+ .comment       0x00000011       0x12 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(dtoa_prf.o)
  .comment       0x00000011       0x12 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(malloc.o)
+ .comment       0x00000011       0x12 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(realloc.o)
  .comment       0x00000011       0x12 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(vfprintf_std.o)
  .comment       0x00000011       0x12 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3\libc.a(fputc.o)
 
@@ -1543,10 +1510,10 @@ END GROUP
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x00000000      0x268
+.debug_aranges  0x00000000      0x248
  *(.debug_aranges)
  .debug_aranges
-                0x00000000       0x28 C:\Users\stefa\AppData\Local\Temp\ccjP9dit.ltrans0.ltrans.o
+                0x00000000       0x28 C:\Users\stefa\AppData\Local\Temp\ccyplheI.ltrans0.ltrans.o
  .debug_aranges
                 0x00000028       0x20 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_exit.o)
  .debug_aranges
@@ -1572,103 +1539,98 @@ END GROUP
  .debug_aranges
                 0x00000188       0x20 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_udivmodhi4.o)
  .debug_aranges
-                0x000001a8       0x20 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_divmodhi4.o)
+                0x000001a8       0x20 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_tablejump2.o)
  .debug_aranges
-                0x000001c8       0x20 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_tablejump2.o)
+                0x000001c8       0x20 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_ctors.o)
  .debug_aranges
-                0x000001e8       0x20 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_ctors.o)
+                0x000001e8       0x20 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_dtors.o)
  .debug_aranges
-                0x00000208       0x20 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_dtors.o)
+                0x00000208       0x20 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_ashrdi3.o)
  .debug_aranges
-                0x00000228       0x20 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_ashrdi3.o)
- .debug_aranges
-                0x00000248       0x20 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_cmpdi2_s8.o)
+                0x00000228       0x20 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_cmpdi2_s8.o)
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000    0x15794
+.debug_info     0x00000000    0x15ce9
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000     0x249d c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3/crtatmega4809.o
- .debug_info    0x0000249d    0x12577 C:\Users\stefa\AppData\Local\Temp\ccjP9dit.ltrans0.ltrans.o
- .debug_info    0x00014a14       0xc0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_exit.o)
- .debug_info    0x00014ad4       0xc0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_divmodsi4.o)
- .debug_info    0x00014b94       0xc0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_negsi2.o)
- .debug_info    0x00014c54       0xc0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_copy_data.o)
- .debug_info    0x00014d14       0xc0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_clear_bss.o)
- .debug_info    0x00014dd4       0xc0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_muluhisi3.o)
- .debug_info    0x00014e94       0xc0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_mulshisi3.o)
- .debug_info    0x00014f54       0xc0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_prologue.o)
- .debug_info    0x00015014       0xc0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_epilogue.o)
- .debug_info    0x000150d4       0xc0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_udivmodsi4.o)
- .debug_info    0x00015194       0xc0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_umulhisi3.o)
- .debug_info    0x00015254       0xc0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_udivmodhi4.o)
- .debug_info    0x00015314       0xc0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_divmodhi4.o)
- .debug_info    0x000153d4       0xc0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_tablejump2.o)
- .debug_info    0x00015494       0xc0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_ctors.o)
- .debug_info    0x00015554       0xc0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_dtors.o)
- .debug_info    0x00015614       0xc0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_ashrdi3.o)
- .debug_info    0x000156d4       0xc0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_cmpdi2_s8.o)
+ .debug_info    0x0000249d    0x12b8c C:\Users\stefa\AppData\Local\Temp\ccyplheI.ltrans0.ltrans.o
+ .debug_info    0x00015029       0xc0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_exit.o)
+ .debug_info    0x000150e9       0xc0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_divmodsi4.o)
+ .debug_info    0x000151a9       0xc0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_negsi2.o)
+ .debug_info    0x00015269       0xc0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_copy_data.o)
+ .debug_info    0x00015329       0xc0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_clear_bss.o)
+ .debug_info    0x000153e9       0xc0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_muluhisi3.o)
+ .debug_info    0x000154a9       0xc0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_mulshisi3.o)
+ .debug_info    0x00015569       0xc0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_prologue.o)
+ .debug_info    0x00015629       0xc0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_epilogue.o)
+ .debug_info    0x000156e9       0xc0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_udivmodsi4.o)
+ .debug_info    0x000157a9       0xc0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_umulhisi3.o)
+ .debug_info    0x00015869       0xc0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_udivmodhi4.o)
+ .debug_info    0x00015929       0xc0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_tablejump2.o)
+ .debug_info    0x000159e9       0xc0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_ctors.o)
+ .debug_info    0x00015aa9       0xc0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_dtors.o)
+ .debug_info    0x00015b69       0xc0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_ashrdi3.o)
+ .debug_info    0x00015c29       0xc0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_cmpdi2_s8.o)
 
-.debug_abbrev   0x00000000     0x31f2
+.debug_abbrev   0x00000000     0x325c
  *(.debug_abbrev)
  .debug_abbrev  0x00000000     0x22a8 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3/crtatmega4809.o
- .debug_abbrev  0x000022a8      0xde2 C:\Users\stefa\AppData\Local\Temp\ccjP9dit.ltrans0.ltrans.o
- .debug_abbrev  0x0000308a       0x14 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_exit.o)
- .debug_abbrev  0x0000309e       0x14 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_divmodsi4.o)
- .debug_abbrev  0x000030b2       0x14 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_negsi2.o)
- .debug_abbrev  0x000030c6       0x14 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_copy_data.o)
- .debug_abbrev  0x000030da       0x14 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_clear_bss.o)
- .debug_abbrev  0x000030ee       0x14 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_muluhisi3.o)
- .debug_abbrev  0x00003102       0x14 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_mulshisi3.o)
- .debug_abbrev  0x00003116       0x14 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_prologue.o)
- .debug_abbrev  0x0000312a       0x14 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_epilogue.o)
- .debug_abbrev  0x0000313e       0x14 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_udivmodsi4.o)
- .debug_abbrev  0x00003152       0x14 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_umulhisi3.o)
- .debug_abbrev  0x00003166       0x14 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_udivmodhi4.o)
- .debug_abbrev  0x0000317a       0x14 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_divmodhi4.o)
- .debug_abbrev  0x0000318e       0x14 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_tablejump2.o)
- .debug_abbrev  0x000031a2       0x14 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_ctors.o)
- .debug_abbrev  0x000031b6       0x14 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_dtors.o)
- .debug_abbrev  0x000031ca       0x14 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_ashrdi3.o)
- .debug_abbrev  0x000031de       0x14 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_cmpdi2_s8.o)
+ .debug_abbrev  0x000022a8      0xe60 C:\Users\stefa\AppData\Local\Temp\ccyplheI.ltrans0.ltrans.o
+ .debug_abbrev  0x00003108       0x14 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_exit.o)
+ .debug_abbrev  0x0000311c       0x14 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_divmodsi4.o)
+ .debug_abbrev  0x00003130       0x14 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_negsi2.o)
+ .debug_abbrev  0x00003144       0x14 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_copy_data.o)
+ .debug_abbrev  0x00003158       0x14 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_clear_bss.o)
+ .debug_abbrev  0x0000316c       0x14 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_muluhisi3.o)
+ .debug_abbrev  0x00003180       0x14 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_mulshisi3.o)
+ .debug_abbrev  0x00003194       0x14 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_prologue.o)
+ .debug_abbrev  0x000031a8       0x14 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_epilogue.o)
+ .debug_abbrev  0x000031bc       0x14 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_udivmodsi4.o)
+ .debug_abbrev  0x000031d0       0x14 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_umulhisi3.o)
+ .debug_abbrev  0x000031e4       0x14 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_udivmodhi4.o)
+ .debug_abbrev  0x000031f8       0x14 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_tablejump2.o)
+ .debug_abbrev  0x0000320c       0x14 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_ctors.o)
+ .debug_abbrev  0x00003220       0x14 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_dtors.o)
+ .debug_abbrev  0x00003234       0x14 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_ashrdi3.o)
+ .debug_abbrev  0x00003248       0x14 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_cmpdi2_s8.o)
 
-.debug_line     0x00000000     0x4e69
+.debug_line     0x00000000     0x4df6
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000      0x187 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3/crtatmega4809.o
- .debug_line    0x00000187     0x40d0 C:\Users\stefa\AppData\Local\Temp\ccjP9dit.ltrans0.ltrans.o
- .debug_line    0x00004257       0x62 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_exit.o)
- .debug_line    0x000042b9       0xce c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_divmodsi4.o)
- .debug_line    0x00004387       0x62 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_negsi2.o)
- .debug_line    0x000043e9       0x98 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_copy_data.o)
- .debug_line    0x00004481       0x86 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_clear_bss.o)
- .debug_line    0x00004507       0x92 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_muluhisi3.o)
- .debug_line    0x00004599       0x7a c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_mulshisi3.o)
- .debug_line    0x00004613       0xec c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_prologue.o)
- .debug_line    0x000046ff       0xe6 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_epilogue.o)
- .debug_line    0x000047e5      0x122 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_udivmodsi4.o)
- .debug_line    0x00004907       0xb0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_umulhisi3.o)
- .debug_line    0x000049b7       0xce c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_udivmodhi4.o)
- .debug_line    0x00004a85       0xc8 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_divmodhi4.o)
- .debug_line    0x00004b4d       0x7a c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_tablejump2.o)
- .debug_line    0x00004bc7       0x92 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_ctors.o)
- .debug_line    0x00004c59       0x92 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_dtors.o)
- .debug_line    0x00004ceb      0x104 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_ashrdi3.o)
- .debug_line    0x00004def       0x7a c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_cmpdi2_s8.o)
+ .debug_line    0x00000187     0x4125 C:\Users\stefa\AppData\Local\Temp\ccyplheI.ltrans0.ltrans.o
+ .debug_line    0x000042ac       0x62 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_exit.o)
+ .debug_line    0x0000430e       0xce c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_divmodsi4.o)
+ .debug_line    0x000043dc       0x62 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_negsi2.o)
+ .debug_line    0x0000443e       0x98 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_copy_data.o)
+ .debug_line    0x000044d6       0x86 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_clear_bss.o)
+ .debug_line    0x0000455c       0x92 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_muluhisi3.o)
+ .debug_line    0x000045ee       0x7a c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_mulshisi3.o)
+ .debug_line    0x00004668       0xec c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_prologue.o)
+ .debug_line    0x00004754       0xe6 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_epilogue.o)
+ .debug_line    0x0000483a      0x122 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_udivmodsi4.o)
+ .debug_line    0x0000495c       0xb0 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_umulhisi3.o)
+ .debug_line    0x00004a0c       0xce c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_udivmodhi4.o)
+ .debug_line    0x00004ada       0x7a c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_tablejump2.o)
+ .debug_line    0x00004b54       0x92 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_ctors.o)
+ .debug_line    0x00004be6       0x92 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_dtors.o)
+ .debug_line    0x00004c78      0x104 c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_ashrdi3.o)
+ .debug_line    0x00004d7c       0x7a c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/avrxmega3\libgcc.a(_cmpdi2_s8.o)
 
-.debug_frame    0x00000000     0x1a80
+.debug_frame    0x00000000     0x1ad0
  *(.debug_frame)
- .debug_frame   0x00000000     0x1a80 C:\Users\stefa\AppData\Local\Temp\ccjP9dit.ltrans0.ltrans.o
+ .debug_frame   0x00000000     0x1ad0 C:\Users\stefa\AppData\Local\Temp\ccyplheI.ltrans0.ltrans.o
 
-.debug_str      0x00000000     0x3fc8
+.debug_str      0x00000000     0x4097
  *(.debug_str)
  .debug_str     0x00000000      0xf8b c:/users/stefa/appdata/local/arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino5/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avrxmega3/crtatmega4809.o
- .debug_str     0x00000f8b     0x303d C:\Users\stefa\AppData\Local\Temp\ccjP9dit.ltrans0.ltrans.o
-                               0x3481 (size before relaxing)
+ .debug_str     0x00000f8b     0x310c C:\Users\stefa\AppData\Local\Temp\ccyplheI.ltrans0.ltrans.o
+                               0x3560 (size before relaxing)
 
-.debug_loc      0x00000000     0xc7f4
+.debug_loc      0x00000000     0xcbdf
  *(.debug_loc)
- .debug_loc     0x00000000     0xc7f4 C:\Users\stefa\AppData\Local\Temp\ccjP9dit.ltrans0.ltrans.o
+ .debug_loc     0x00000000     0xcbdf C:\Users\stefa\AppData\Local\Temp\ccyplheI.ltrans0.ltrans.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -1688,11 +1650,11 @@ END GROUP
 .debug_pubtypes
  *(.debug_pubtypes)
 
-.debug_ranges   0x00000000      0xec0
+.debug_ranges   0x00000000     0x1098
  *(.debug_ranges)
- .debug_ranges  0x00000000      0xec0 C:\Users\stefa\AppData\Local\Temp\ccjP9dit.ltrans0.ltrans.o
+ .debug_ranges  0x00000000     0x1098 C:\Users\stefa\AppData\Local\Temp\ccyplheI.ltrans0.ltrans.o
 
 .debug_macro
  *(.debug_macro)
-OUTPUT(C:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput/SMD1204_Modbus_HX711.ino.elf elf32-avr)
+OUTPUT(C:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput/SMD1204_noLoop.ino.elf elf32-avr)
 LOAD linker stubs

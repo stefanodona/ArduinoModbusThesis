@@ -7,5 +7,5 @@
   "hardwareFolders": "C:\\Users\\stefa\\AppData\\Local\\Arduino15\\packages",
   "otherLibrariesFolders": "C:\\Users\\stefa\\Documents\\Arduino\\libraries",
   "runtime.ide.version": "10607",
-  "sketchLocation": "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_Modbus_HX711"
+  "sketchLocation": "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop"
 }

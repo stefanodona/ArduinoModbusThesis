@@ -1,5 +1,5 @@
-C:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput\sketch\SMD1204_Modbus_HX711.ino.cpp.o: \
- C:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput\sketch\SMD1204_Modbus_HX711.ino.cpp \
+C:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput\sketch\SMD1204_noLoop.ino.cpp.o: \
+ C:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput\sketch\SMD1204_noLoop.ino.cpp \
  C:\Users\stefa\AppData\Local\Arduino15\packages\arduino\hardware\megaavr\1.8.8\cores\arduino/Arduino.h \
  C:\Users\stefa\AppData\Local\Arduino15\packages\arduino\hardware\megaavr\1.8.8\cores\arduino/api/ArduinoAPI.h \
  C:\Users\stefa\AppData\Local\Arduino15\packages\arduino\hardware\megaavr\1.8.8\cores\arduino/api/Binary.h \
