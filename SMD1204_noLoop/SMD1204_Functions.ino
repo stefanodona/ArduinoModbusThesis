@@ -83,6 +83,9 @@ void driverSetup()
   {
     // DEVICE ENABLED - SETTINGS HERE
     // Home Method
+    split32to16(mm2int(0));
+    modbusTCPClient.holdingRegisterWrite(Rhofs, splitted[0]);
+    modbusTCPClient.holdingRegisterWrite(Rhofs + 1, splitted[1]);
     // TODO: change homing method to -9
     // modbusTCPClient.holdingRegisterWrite(Rhmode, (int16_t)(-9)); // in battuta indietro
     modbusTCPClient.holdingRegisterWrite(Rhmode, int16_t(0)); // azzeramento sul posto
@@ -97,7 +100,7 @@ void driverSetup()
     }
 
     // disable acceleration ramp
-    splitU32to16(acc_ramp);
+    splitU32to16(acc_ramp * 100);
     if (!(modbusTCPClient.holdingRegisterWrite(Racc, splitted[0]) && modbusTCPClient.holdingRegisterWrite(Racc + 1, splitted[1])))
     {
       Serial.write("Failed to disable acceleration ramp\n");
@@ -111,10 +114,6 @@ void driverSetup()
 
 void homingRoutine()
 {
-  // measure the 0 point with spider mounted alone
-  // press enter
-  // clamp the spider
-  // press enter
   // seek the position in which the value of hx711 is equal to unclamped (in error band)
   sendCommand(home());
 
@@ -132,12 +131,17 @@ void homingRoutine()
 
   float err = fabs(clamped - tare);
 
+  split32to16(vel_tare * 100);
+  if (modbusTCPClient.holdingRegisterWrite(Rvel, splitted[0]) && modbusTCPClient.holdingRegisterWrite(Rvel + 1, splitted[1]))
+  {}
+
   // assuming loadcell reads x<0 when extended and x>0 when compressed
   int32_t pos;
   if (err > 0)
     pos = -32;
   else
     pos = 32;
+
   split32to16(pos);
   if (!(modbusTCPClient.holdingRegisterWrite(Rpostarg, splitted[0]) && modbusTCPClient.holdingRegisterWrite(Rpostarg + 1, splitted[1])))
   {
@@ -156,6 +160,10 @@ void homingRoutine()
   init_pos = getPosact();
   // Serial.write("Init pos: ");
   // Serial.println(init_pos);
+
+  split32to16(vel * 100);
+  if (modbusTCPClient.holdingRegisterWrite(Rvel, splitted[0]) && modbusTCPClient.holdingRegisterWrite(Rvel + 1, splitted[1]))
+  {}
 }
 
 void measureRoutine()
@@ -166,11 +174,17 @@ void measureRoutine()
   // una volta misurato inviamo tutto con la seriale fuck
   float pos[num_pos];
   flushSerial();
+  Serial.write("send me\n");
+  flushSerial();
   for (int i = 0; i < num_pos; i++)
   {
-    Serial.write("send me\n");
-    pos[i] = Serial.parseFloat();
+    pos[i] = Serial.parseFloat(SKIP_WHITESPACE);
   }
+
+  // for (int i = 0; i < num_pos; i++)
+  // {
+  //   Serial.println(pos[i]);
+  // }
 
   float sum_p = 0;
   float sum_m = 0;
@@ -204,12 +218,15 @@ void measureRoutine()
         getStatus();
       sum_m += getForce();
       Serial.write("check percent\n");
+      
+      // delay(100);
 
       sendPosTarget(init_pos);
       sendCommand(go());
       getStatus();
       while (bitRead(sts, 3))
         getStatus();
+      delay(2000);
     }
     float meas_p = sum_p / cnt;
     float meas_m = sum_m / cnt;
@@ -233,7 +250,7 @@ void measureRoutine()
       for (int j = 0; j < cnt; j++)
       {
         // positive movement
-        sendPosTarget(init_pos + mm2int(pos[i- 1]));
+        sendPosTarget(init_pos + mm2int(pos[i - 1]));
         sendCommand(go());
         getStatus();
         while (bitRead(sts, 3))
@@ -241,6 +258,8 @@ void measureRoutine()
         sum_p += getForce();
         Serial.write("check percent\n");
 
+        // delay(100);
+        
         // negative movement
         sendPosTarget(init_pos + mm2int(pos[i]));
         sendCommand(go());
@@ -255,6 +274,7 @@ void measureRoutine()
         getStatus();
         while (bitRead(sts, 3))
           getStatus();
+        delay(2000);
       }
       float meas_p = sum_p / cnt;
       float meas_m = sum_m / cnt;

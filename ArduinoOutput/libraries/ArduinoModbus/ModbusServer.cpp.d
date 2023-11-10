@@ -25,7 +25,5 @@ C:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput\libraries\Ard
  C:\Users\stefa\AppData\Local\Arduino15\packages\arduino\hardware\megaavr\1.8.8\cores\arduino/CDC.h \
  C:\Users\stefa\AppData\Local\Arduino15\packages\arduino\hardware\megaavr\1.8.8\cores\arduino/api/USBAPI.h \
  C:\Users\stefa\AppData\Local\Arduino15\packages\arduino\hardware\megaavr\1.8.8\cores\arduino/MSC.h \
- C:\Users\stefa\AppData\Local\Arduino15\packages\arduino\hardware\megaavr\1.8.8\cores\arduino/UNO_compat.h \
- C:\Users\stefa\AppData\Local\Arduino15\packages\arduino\hardware\megaavr\1.8.8\cores\arduino/Arduino.h \
  C:\Users\stefa\Documents\Arduino\libraries\ArduinoModbus\src\libmodbus/modbus.h \
  C:\Users\stefa\Documents\Arduino\libraries\ArduinoModbus\src\libmodbus/modbus-version.h

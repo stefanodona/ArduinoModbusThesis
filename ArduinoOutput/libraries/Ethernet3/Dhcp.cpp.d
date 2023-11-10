@@ -25,8 +25,6 @@ C:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\ArduinoOutput\libraries\Eth
  C:\Users\stefa\AppData\Local\Arduino15\packages\arduino\hardware\megaavr\1.8.8\cores\arduino/CDC.h \
  C:\Users\stefa\AppData\Local\Arduino15\packages\arduino\hardware\megaavr\1.8.8\cores\arduino/api/USBAPI.h \
  C:\Users\stefa\AppData\Local\Arduino15\packages\arduino\hardware\megaavr\1.8.8\cores\arduino/MSC.h \
- C:\Users\stefa\AppData\Local\Arduino15\packages\arduino\hardware\megaavr\1.8.8\cores\arduino/UNO_compat.h \
- C:\Users\stefa\AppData\Local\Arduino15\packages\arduino\hardware\megaavr\1.8.8\cores\arduino/Arduino.h \
  C:\Users\stefa\AppData\Local\Arduino15\packages\arduino\hardware\megaavr\1.8.8\libraries\SPI\src/SPI.h \
  C:\Users\stefa\AppData\Local\Arduino15\packages\arduino\hardware\megaavr\1.8.8\cores\arduino/api/HardwareSPI.h \
  C:\Users\stefa\Documents\Arduino\libraries\Ethernet3\src\Dhcp.h \

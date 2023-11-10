@@ -38,7 +38,6 @@
                 "ARDUINO=10607",
                 "ARDUINO_AVR_UNO_WIFI_REV2",
                 "ARDUINO_ARCH_MEGAAVR",
-                "UNO_WIFI_REV2_328MODE",
                 "MILLIS_USE_TIMERB3",
                 "__DBL_MIN_EXP__=(-125)",
                 "__HQ_FBIT__=15",

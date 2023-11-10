@@ -1,6 +1,8 @@
-import tkinter as tk
+from tkinter import *
+from typing import Optional, Tuple, Union
 import customtkinter
 import serial
+import struct
 import numpy as np
 import re  # used to compare strings
 import keyboard
@@ -10,6 +12,62 @@ import os
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 
+#############################################################################
+# ------------------------------C L A S S E S--------------------------------
+#############################################################################
+class ThrAvgFrame(customtkinter.CTkFrame):
+    def __init__(self, master: any, width: int = 200, height: int = 200, corner_radius: int | str | None = None, border_width: int | str | None = None, bg_color: str | Tuple[str, str] = "transparent", fg_color: str | Tuple[str, str] | None = None, border_color: str | Tuple[str, str] | None = None, background_corner_colors: Tuple[str | Tuple[str, str]] | None = None, overwrite_preferred_drawing_method: str | None = None, name: str | None=None, **kwargs):
+        super().__init__(master, width, height, corner_radius, border_width, bg_color, fg_color, border_color, background_corner_colors, overwrite_preferred_drawing_method, **kwargs)
+        
+        self.sliderlabel = customtkinter.CTkLabel(self, text = name+" [mm]")
+        self.sliderlabel.grid(row=0, column=0, columnspan=3, padx=10, pady=10)
+
+        self.slider = customtkinter.CTkSlider(self, from_=1, to=max_pos)
+        self.slider.grid(row=1, column=1, padx=5, pady=10)
+
+        self.slider_lowerbound = customtkinter.CTkLabel(self, text=str(0))
+        self.slider_lowerbound.grid(row=1, column=0, padx=5)
+        
+        self.slider_upperbound = customtkinter.CTkLabel(self, text=str(max_pos))
+        self.slider_upperbound.grid(row=1, column=2, padx=5)
+
+        self.avglabel = customtkinter.CTkLabel(self, text = "# Medie")
+        self.avglabel.grid(row=0, column=4, padx=10, pady=10)
+
+        self.avg_entry = customtkinter.CTkEntry(self, width=50)
+        self.avg_entry.grid(row=1, column=4, padx=10, pady=10, sticky="e")
+
+        self.dummy_spacer = customtkinter.CTkLabel(self, text="")
+        self.dummy_spacer.grid(row=0, column=3, padx=20)
+        
+
+
+
+class VelAccWindows(customtkinter.CTkToplevel):
+    def __init__(self, *args, fg_color: str | Tuple[str, str] | None = None, **kwargs):
+        super().__init__(*args, fg_color=fg_color, **kwargs)
+        # self.geometry("500x400")
+
+        self.label = customtkinter.CTkLabel(self, text="Settings")
+        self.label.pack(padx=20, pady=20)
+
+        self.th1 = ThrAvgFrame(self, name="Threshold 1")
+        self.th1.pack(padx=10, pady=10, fill="x", expand=True)
+
+        self.th2 = ThrAvgFrame(self, name="Threshold 2")
+        self.th2.pack(padx=10, pady=10, fill="x", expand=True)
+
+        self.th3 = ThrAvgFrame(self, name="Threshold 3")
+        self.th3.pack(padx=10, pady=10, fill="x", expand=True)
+
+        # self.grab_set()
+    
+
+
+
+#############################################################################
+# ----------------------------F U N C T I O N S------------------------------
+#############################################################################
 this_path = os.getcwd()
 config_path = os.path.join(this_path, "GUI\config.txt")
 print(config_path)
@@ -81,7 +139,7 @@ def populatePosArray():
     global pos, pos_sorted, max_iter
     pos = np.linspace(min_pos, max_pos, num_pos)
 
-    sort = np.argsort(-np.abs(pos))
+    sort = np.argsort(-np.abs(np.round(pos,4)))
     pos_sorted = np.flip(pos[sort])
 
     max_iter = 0
@@ -190,6 +248,7 @@ def serialListener():
             print(data)
 
             if compare_strings(data, "Ready"):
+                ser.write("Ready to write\n".encode())
                 print(data)
 
             if data == "loadcell\n":
@@ -229,8 +288,16 @@ def serialListener():
 
             # if compare_strings(data, "send me"):
             if data == "send me\n":
-                ser.write(str(pos_sorted[index]).encode())
-                index += 1
+                msg = ''
+                for p in pos_sorted:
+                    # byte = struct.pack('!f', p) 
+                    # msg+=byte
+                    msg += str(p)+" "     
+                print(msg)                               
+                ser.write(msg.encode())
+                # ser.write(str(pos_sorted[index]).encode())
+                # print(pos_sorted[index])
+                # index += 1
 
             if data == "check percent\n":
                 iter_count += 1
@@ -305,14 +372,20 @@ def drawPLots():
 def panic():
     return
 
+def vel_and_acc_setting_func():
+    topWindow = VelAccWindows(app)
+    # topWindow.grab_set()
+    app.update()
 
-# appearance
-customtkinter.set_appearance_mode("light")
-customtkinter.set_default_color_theme("blue")
+
+
 
 #############################################################################
 # ---------------------------C R E A T E   A P P-----------------------------
 #############################################################################
+# appearance
+customtkinter.set_appearance_mode("light")
+customtkinter.set_default_color_theme("blue")
 
 # create app
 app = customtkinter.CTk()
@@ -326,6 +399,35 @@ leftFrame.pack(
 
 rightFrame = customtkinter.CTkFrame(app, 500, 500, fg_color="darkgray")
 rightFrame.pack(side=customtkinter.LEFT, padx=20, pady=20, fill="both", expand=True)
+
+def donothing():
+   filewin = Toplevel(app)
+   button = Button(filewin, text="Do nothing button")
+   button.pack()
+
+#############################################################################
+# -------------------------C R E A T E   M E N U'----------------------------
+#############################################################################
+menubar = Menu(app)
+
+filemenu = Menu(menubar, tearoff=0)
+filemenu.add_command(label="New", command=donothing)
+filemenu.add_command(label="Open", command=donothing)
+filemenu.add_command(label="Save", command=donothing)
+filemenu.add_command(label="Save as...", command=donothing)
+filemenu.add_separator()
+filemenu.add_command(label="Exit", command=app.quit)
+
+menubar.add_cascade(label="File", menu=filemenu)
+
+
+velacc_window = None
+settingmenu = Menu(menubar, tearoff=0)
+settingmenu.add_command(label="Vel & Acc", command=vel_and_acc_setting_func)
+settingmenu.add_command(label="Medie & Soglie", command=donothing)
+
+menubar.add_cascade(label="Impostazioni", menu=settingmenu)
+
 
 #############################################################################
 # ----------------------------E L E M E N T S--------------------------------
@@ -464,7 +566,6 @@ leftFrame.grid_rowconfigure(8, weight=2)
 leftFrame.grid_rowconfigure(9, weight=2)
 leftFrame.grid_rowconfigure(10, weight=3)
 
-
 loadcell_label.grid(row=0, column=0, pady=10, padx=20, sticky="w")
 load_cell_menu.grid(row=1, column=0, padx=20, sticky="w")
 
@@ -482,4 +583,6 @@ checkbox_AR.grid(row=9, column=0, padx=20, sticky="w")
 startButton.grid(row=10, column=0, padx=20, sticky="ew")
 
 
+app.config(menu=menubar)
 app.mainloop()
+

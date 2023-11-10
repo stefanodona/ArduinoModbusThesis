@@ -9,6 +9,7 @@
 // USEFUL REGISTERS
 #define Rposact 0   // actual position
 #define Rpostarg 8  // target position
+#define Rhofs 36    // offset position after homing
 #define Rcmdwr 59   // command register
 #define Rvel 63     // traslation speed
 #define Racc 67     // acceleration ramp
@@ -25,7 +26,8 @@
 
 // USEFUL CONSTANT
 const int32_t vel = 10;      // rps
-const uint32_t acc_ramp = 0; // no acceleration ramp
+const int32_t vel_tare = 0.1;      // rps
+const uint32_t acc_ramp = 10    ; // no acceleration ramp
 
 const float home_err = 0.05; // 5% error band to retrieve the no-force initial position
 
@@ -78,28 +80,30 @@ void setup()
 
     // read parameters from gui
     Serial.write("Ready to read!\n");
+    while (Serial.readStringUntil("\n") != "Ready to write\n"){
+    }
 
-    flushSerial();
+    // flushSerial();
     Serial.write("loadcell\n");
     FULLSCALE = Serial.parseInt();
 
-    flushSerial();
+    // flushSerial();
     Serial.write("min_pos\n");
     min_pos = Serial.parseFloat();
 
-    flushSerial();
+    // flushSerial();
     Serial.write("max_pos\n");
     max_pos = Serial.parseFloat();
 
-    flushSerial();
+    // flushSerial();
     Serial.write("num_pos\n");
     num_pos = Serial.parseInt();
 
-    flushSerial();
+    // flushSerial();
     Serial.write("media\n");
     mean_active = bool(Serial.parseInt());
     
-    flushSerial();
+    // flushSerial();
     Serial.write("a_r\n");
     ar_flag = bool(Serial.parseInt());
     Serial.println(ar_flag);

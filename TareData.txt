@@ -1,0 +1,7 @@
+----- TARA CELLA DI CARICO -----
+
+Orizzontale		    avg: -103097.050 	std: 12.376
+Appoggio		    avg: -64517.859 	std: 55.089
+Appoggio+gancio		avg: -43248.890 	std: 37.629
+Appeso			    avg: -132924.412 	std: 13.455
+Appeso+gancio		avg: -154404.221 	std: 21.247

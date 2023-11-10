@@ -1,5 +1,5 @@
 {
-    "configuration": "mode=on",
+    "configuration": "mode=off",
     "board": "arduino:megaavr:uno2018",
     "port": "COM9",
     "programmer": "medbg",
