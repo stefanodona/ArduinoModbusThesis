@@ -27,9 +27,9 @@
 //-------------------------------------------------
 
 // USEFUL CONSTANT
-const int32_t vel = 10;      // rps
-const int32_t vel_tare = 0.1;      // rps
-const uint32_t acc_ramp = 10    ; // no acceleration ramp
+const int32_t vel = 10;       // rps
+const int32_t vel_tare = 0.1; // rps
+const uint32_t acc_ramp = 10; // no acceleration ramp
 
 const float home_err = 0.05; // 5% error band to retrieve the no-force initial position
 
@@ -47,8 +47,14 @@ int num_pos = 0;      // # of spacial points
 uint8_t pos_idx = 0; // index to navigate the pos_sorted array
 float sum_p = 0;
 float sum_m = 0;
-float avg_thr = 5; // mm below which is done an average measure
-uint8_t cnt = 4;   //
+
+float th1 = 0; // threshold for the averaging
+float th2 = 0;
+float th3 = 0;
+
+int cnt_th1 = 0; // measures to take for each average
+int cnt_th2 = 0;
+int cnt_th3 = 0;
 
 // FLAGS
 bool mean_active = false;
@@ -71,24 +77,26 @@ float t2 = 0;
 float t3 = 0;
 
 // SETUP
-#line 72 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_noLoop.ino"
+#line 78 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_noLoop.ino"
 void setup();
-#line 159 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_noLoop.ino"
+#line 197 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_noLoop.ino"
 void loop();
-#line 161 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_noLoop.ino"
+#line 199 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_noLoop.ino"
 void flushSerial();
-#line 169 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_noLoop.ino"
+#line 207 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_noLoop.ino"
 void checkModbusConnection();
-#line 3 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\HX711_Functions.ino"
+#line 1 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\HX711_Functions.ino"
 float getForce();
 #line 33 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\HX711_Functions.ino"
-float getForce1(int x);
+float getForce1(float x);
 #line 43 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\HX711_Functions.ino"
 float getForce3(int x);
 #line 52 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\HX711_Functions.ino"
 float getForce10(int x);
 #line 61 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\HX711_Functions.ino"
 float getForce50(int x);
+#line 70 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\HX711_Functions.ino"
+float avg(int times);
 #line 3 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 uint16_t disableDrive();
 #line 10 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
@@ -111,29 +119,29 @@ void driverSetup();
 void homingRoutine();
 #line 169 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 void measureRoutine();
-#line 293 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 300 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 void getStatus();
-#line 298 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 305 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 void printStatus();
-#line 340 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 347 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 void printAlarms();
-#line 381 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 388 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 void splitU32to16(uint32_t toSplit);
-#line 387 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 394 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 void split32to16(int32_t toSplit);
-#line 393 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 400 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 void awaitKeyPressed();
-#line 405 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 412 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 void sendPosTarget(int32_t pos);
-#line 414 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 421 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 int32_t mm2int(float pos_mm);
-#line 419 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 426 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 int32_t getPosact();
-#line 428 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 435 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 void printForce(uint8_t i, int32_t pos, float pos_mm, float force);
-#line 442 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 449 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 int getAvgCnt(float val);
-#line 72 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_noLoop.ino"
+#line 78 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_noLoop.ino"
 void setup()
 {
     // Setting up Serial Port Communication
@@ -145,35 +153,67 @@ void setup()
 
     // read parameters from gui
     Serial.write("Ready to read!\n");
-    while (Serial.readStringUntil("\n") != "Ready to write\n"){
+    while (Serial.readStringUntil("\n") != "Ready to write\n")
+    {
+        ;
     }
 
-    // flushSerial();
-    Serial.write("loadcell\n");
-    FULLSCALE = Serial.parseInt();
+    flushSerial();
+    Serial.write("Parameters\n");
 
     // flushSerial();
-    Serial.write("min_pos\n");
-    min_pos = Serial.parseFloat();
+    // Serial.write("loadcell\n");
+    // FULLSCALE = Serial.parseInt();
 
-    // flushSerial();
-    Serial.write("max_pos\n");
-    max_pos = Serial.parseFloat();
+    // // flushSerial();
+    // Serial.write("min_pos\n");
+    // min_pos = Serial.parseFloat();
 
-    // flushSerial();
-    Serial.write("num_pos\n");
-    num_pos = Serial.parseInt();
+    // // flushSerial();
+    // Serial.write("max_pos\n");
+    // max_pos = Serial.parseFloat();
 
-    // flushSerial();
-    Serial.write("media\n");
-    mean_active = bool(Serial.parseInt());
-    
-    // flushSerial();
-    Serial.write("a_r\n");
-    ar_flag = bool(Serial.parseInt());
-    Serial.println(ar_flag);
+    // // flushSerial();
+    // Serial.write("num_pos\n");
+    // num_pos = Serial.parseInt();
+
+    // // flushSerial();
+    // Serial.write("media\n");
+    // mean_active = bool(Serial.parseInt());
+
+    // // flushSerial();
+    // Serial.write("a_r\n");
+    // ar_flag = bool(Serial.parseInt());
+    // Serial.println(ar_flag);
+    FULLSCALE = Serial.parseInt(SKIP_WHITESPACE);
+    min_pos = Serial.parseFloat(SKIP_WHITESPACE);
+    max_pos = Serial.parseFloat(SKIP_WHITESPACE);
+    num_pos = Serial.parseInt(SKIP_WHITESPACE);
+    mean_active = bool(Serial.parseInt(SKIP_WHITESPACE));
+    ar_flag = bool(Serial.parseInt(SKIP_WHITESPACE));
+    th1 = Serial.parseFloat(SKIP_WHITESPACE);
+    cnt_th1 = Serial.parseInt(SKIP_WHITESPACE);
+    th2 = Serial.parseFloat(SKIP_WHITESPACE);
+    cnt_th2 = Serial.parseInt(SKIP_WHITESPACE);
+    th3 = Serial.parseFloat(SKIP_WHITESPACE);
+    cnt_th3 = Serial.parseInt(SKIP_WHITESPACE);
 
     flushSerial();
+
+    // Serial.println(FULLSCALE);
+    // Serial.println(min_pos);
+    // Serial.println(max_pos);
+    // Serial.println(num_pos);
+    // Serial.println(mean_active);
+    // Serial.println(ar_flag);
+    // Serial.println(th1);
+    // Serial.println(cnt_th1);
+    // Serial.println(th2);
+    // Serial.println(cnt_th2);
+    // Serial.println(th3);
+    // Serial.println(cnt_th3);
+
+    // flushSerial();
 
     // ----------------------------------------------
 
@@ -254,15 +294,15 @@ void checkModbusConnection()
     Serial.println(time + (t2 - t1));
 }
 #line 1 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\HX711_Functions.ino"
-
-
 float getForce()
 {
   float force = 0;
   while (!loadcell.is_ready())
   {
   }
-  int val = loadcell.read_average(5);
+  // float val = loadcell.read_average(5);
+  // float val = loadcell.read();
+  float val = avg(5);
   switch (FULLSCALE)
   {
   case 1:
@@ -286,7 +326,7 @@ float getForce()
 
 // insert poynomials coefficients computed for each load cell
 // x is the number read from the loadcell
-float getForce1(int x)
+float getForce1(float x)
 {
   // FIXME: insert the right ones
   float a = 2.35491e-08;
@@ -321,6 +361,30 @@ float getForce50(int x)
   float c = 0;
   float force = a * x * x + b * x + c;
   return force;
+}
+
+float avg(int times)
+{
+  // unsigned long tik = millis();
+  float sum = 0;
+  if (times < 1)
+  {
+    times = 1;
+  }
+  // unsigned long tok = millis();
+  // long cipciop = tok-tik;
+  // Serial.println("Cipciop");
+  // Serial.println(cipciop);
+
+  for (int i = 0; i < times; i++)
+  {
+    sum += loadcell.read();
+    // unsigned long tok = millis();
+    // long cipciop = tok - tik;
+    // Serial.println("Cipciop1");
+    // Serial.println(cipciop);
+  }
+  return sum / times;
 }
 #line 1 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 uint16_t splitted[2]; // utility array to split a 32 bit data into 2x16 bit data
@@ -532,7 +596,14 @@ void measureRoutine()
       getStatus();
       while (bitRead(sts, 3))
         getStatus();
+      
+      unsigned long tik = millis();
       sum_p += getForce();
+      unsigned long tok = millis();
+      long tikketokke = tok-tik;
+      Serial.write("TikkeTokke\n");
+      Serial.println(tikketokke);
+
       Serial.write("check percent\n");
 
       // negative movement
@@ -551,7 +622,7 @@ void measureRoutine()
       getStatus();
       while (bitRead(sts, 3))
         getStatus();
-      delay(2000);
+      // delay(2000);
     }
     float meas_p = sum_p / cnt;
     float meas_m = sum_m / cnt;
@@ -599,7 +670,7 @@ void measureRoutine()
         getStatus();
         while (bitRead(sts, 3))
           getStatus();
-        delay(2000);
+        // delay(2000);
       }
       float meas_p = sum_p / cnt;
       float meas_m = sum_m / cnt;
@@ -766,18 +837,15 @@ void printForce(uint8_t i, int32_t pos, float pos_mm, float force)
 // TODO: cnt threshold function
 int getAvgCnt(float val)
 {
-  float th1 = 1; // mm
-  float th2 = 3; // mm
-  float th3 = 5; // mm
   int cnt = 1;
   if (mean_active)
   {
     if (fabs(val) <= th3)
-      cnt = 2;
+      cnt = cnt_th3;
     if (fabs(val) <= th2)
-      cnt = 4;
+      cnt = cnt_th2;
     if (fabs(val) <= th1)
-      cnt = 6;
+      cnt = cnt_th1;
   }
   return cnt;
 }

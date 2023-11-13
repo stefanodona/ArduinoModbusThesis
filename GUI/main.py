@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import font
 from typing import Optional, Tuple, Union
 import customtkinter
 import serial
@@ -16,53 +17,94 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolb
 # ------------------------------C L A S S E S--------------------------------
 #############################################################################
 class ThrAvgFrame(customtkinter.CTkFrame):
-    def __init__(self, master: any, width: int = 200, height: int = 200, corner_radius: int | str | None = None, border_width: int | str | None = None, bg_color: str | Tuple[str, str] = "transparent", fg_color: str | Tuple[str, str] | None = None, border_color: str | Tuple[str, str] | None = None, background_corner_colors: Tuple[str | Tuple[str, str]] | None = None, overwrite_preferred_drawing_method: str | None = None, name: str | None=None, **kwargs):
+    def __init__(self, master: any, width: int = 200, height: int = 200, corner_radius: int | str | None = None, border_width: int | str | None = None, bg_color: str | Tuple[str, str] = "transparent", fg_color: str | Tuple[str, str] | None = None, border_color: str | Tuple[str, str] | None = None, background_corner_colors: Tuple[str | Tuple[str, str]] | None = None, overwrite_preferred_drawing_method: str | None = None, name: str | None=None, slider_val: float | None=None, avg_num: int | None=None, **kwargs):
         super().__init__(master, width, height, corner_radius, border_width, bg_color, fg_color, border_color, background_corner_colors, overwrite_preferred_drawing_method, **kwargs)
-        
-        self.sliderlabel = customtkinter.CTkLabel(self, text = name+" [mm]")
+        self.slider_val = customtkinter.DoubleVar(self, slider_val)
+        self.avg_val = customtkinter.StringVar(self, str(avg_num))
+
+        self.sliderlabel = customtkinter.CTkLabel(self, 
+                                                  text = name+" [mm]",
+                                                  )
         self.sliderlabel.grid(row=0, column=0, columnspan=3, padx=10, pady=10)
 
-        self.slider = customtkinter.CTkSlider(self, from_=1, to=max_pos)
-        self.slider.grid(row=1, column=1, padx=5, pady=10)
+        self.slider = customtkinter.CTkSlider(self, 
+                                              from_ = 1, 
+                                              to = max_pos,
+                                              number_of_steps = (max_pos-1)*2,
+                                              variable = self.slider_val,
+                                              command = self.sliderChanged)
+        self.slider.grid(row=1, column=1, padx=5, pady=5)
 
-        self.slider_lowerbound = customtkinter.CTkLabel(self, text=str(0))
+        self.slider_lowerbound = customtkinter.CTkLabel(self, text=str(1))
         self.slider_lowerbound.grid(row=1, column=0, padx=5)
         
         self.slider_upperbound = customtkinter.CTkLabel(self, text=str(max_pos))
         self.slider_upperbound.grid(row=1, column=2, padx=5)
 
+        self.slider_value_label = customtkinter.CTkLabel(self, text=str(self.slider_val.get()))
+        self.slider_value_label.grid(row=2, column=1, padx=10)
+
         self.avglabel = customtkinter.CTkLabel(self, text = "# Medie")
         self.avglabel.grid(row=0, column=4, padx=10, pady=10)
 
-        self.avg_entry = customtkinter.CTkEntry(self, width=50)
+        self.avg_entry = customtkinter.CTkEntry(self, width=50, textvariable=self.avg_val)
         self.avg_entry.grid(row=1, column=4, padx=10, pady=10, sticky="e")
 
         self.dummy_spacer = customtkinter.CTkLabel(self, text="")
         self.dummy_spacer.grid(row=0, column=3, padx=20)
-        
+    
+    def sliderChanged(self, event):
+        slider_val = self.slider_val.get()
+        self.slider_value_label.configure(text=str(slider_val))
 
 
-
-class VelAccWindows(customtkinter.CTkToplevel):
+class ThrAvgWindows(customtkinter.CTkToplevel):
     def __init__(self, *args, fg_color: str | Tuple[str, str] | None = None, **kwargs):
         super().__init__(*args, fg_color=fg_color, **kwargs)
         # self.geometry("500x400")
+        self.title("Soglie e Medie")
 
-        self.label = customtkinter.CTkLabel(self, text="Settings")
-        self.label.pack(padx=20, pady=20)
+        self.label = customtkinter.CTkLabel(self, 
+                                            text="Settings\nThresholds and Averages",
+                                            font=('Segoe UI', 14))
+        self.label.pack(padx=20, pady=10)
+        # print(font.nametofont('TkTextFont').actual())
 
-        self.th1 = ThrAvgFrame(self, name="Threshold 1")
+        self.th1 = ThrAvgFrame(self, name="Threshold 1", slider_val=th1_val, avg_num=th1_avg)
         self.th1.pack(padx=10, pady=10, fill="x", expand=True)
 
-        self.th2 = ThrAvgFrame(self, name="Threshold 2")
+        self.th2 = ThrAvgFrame(self, name="Threshold 2", slider_val=th2_val, avg_num=th2_avg)
         self.th2.pack(padx=10, pady=10, fill="x", expand=True)
 
-        self.th3 = ThrAvgFrame(self, name="Threshold 3")
+        self.th3 = ThrAvgFrame(self, name="Threshold 3", slider_val=th3_val, avg_num=th3_avg)
         self.th3.pack(padx=10, pady=10, fill="x", expand=True)
 
-        # self.grab_set()
-    
+        self.th1.slider_val.trace('w', callback=self.getWinState)
+        self.th1.avg_val.trace('w', callback=self.getWinState)
 
+        self.th2.slider_val.trace('w', callback=self.getWinState)
+        self.th2.avg_val.trace('w', callback=self.getWinState)
+
+        self.th3.slider_val.trace('w', callback=self.getWinState)
+        self.th3.avg_val.trace('w', callback=self.getWinState)
+
+
+        # self.grab_set()
+    def getWinState(self, *args):
+        global th1_val, th1_avg, th2_val, th2_avg, th3_val, th3_avg
+
+        th1_val = self.th1.slider_val.get()
+        if (not self.th1.avg_val.get()==''): 
+            th1_avg = int(self.th1.avg_val.get())
+
+        th2_val = self.th2.slider_val.get()
+        if (not self.th2.avg_val.get()==''): 
+            th2_avg = int(self.th2.avg_val.get())
+
+        th3_val = self.th3.slider_val.get()
+        if (not self.th3.avg_val.get()==''): 
+            th3_avg = int(self.th3.avg_val.get())
+        saveState()
 
 
 #############################################################################
@@ -72,6 +114,8 @@ this_path = os.getcwd()
 config_path = os.path.join(this_path, "GUI\config.txt")
 print(config_path)
 
+
+
 # load state
 f = open(config_path, "r")
 loadcell_fullscale = int(f.readline().split()[1])
@@ -80,6 +124,12 @@ max_pos = float(f.readline().split()[1])
 num_pos = int(f.readline().split()[1])
 avg_flag = bool(int(f.readline().split()[1]))
 ar_flag = bool(int(f.readline().split()[1]))
+th1_val = float(f.readline().split()[1])
+th1_avg = int(f.readline().split()[1])
+th2_val = float(f.readline().split()[1])
+th2_avg = int(f.readline().split()[1])
+th3_val = float(f.readline().split()[1])
+th3_avg = int(f.readline().split()[1])
 f.close()
 
 percent = 0
@@ -121,17 +171,14 @@ def setLoadCell(val):
 
 def setAvgCnt(val):
     # global cnt
-    th1 = 1  # mm
-    th2 = 3  # mm
-    th3 = 5  # mm
     cnt = 1
     if avg_flag:
-        if abs(val) <= th3:
-            cnt = 2
-        if abs(val) <= th2:
-            cnt = 4
-        if abs(val) <= th1:
-            cnt = 6
+        if abs(val) <= th3_val:
+            cnt = th3_avg
+        if abs(val) <= th2_val:
+            cnt = th2_avg
+        if abs(val) <= th1_val:
+            cnt = th1_avg
     return cnt
 
 
@@ -165,6 +212,12 @@ def saveState():
     ff.write("num_pos " + str(num_pos) + " \n")
     ff.write("media " + str(int(avg_flag)) + " \n")
     ff.write("ritorno " + str(int(ar_flag)) + " \n")
+    ff.write("th1_val " + str(th1_val) + " mm\n")
+    ff.write("th1_avg " + str(th1_avg) + " \n")
+    ff.write("th2_val " + str(th2_val) + " mm\n")
+    ff.write("th2_avg " + str(th2_avg) + " \n")
+    ff.write("th3_val " + str(th3_val) + " mm\n")
+    ff.write("th3_avg " + str(th3_avg) + " \n")
     ff.close()
 
 
@@ -183,6 +236,7 @@ def pressOk(msg):
 
 
 def startMeasurement():
+    os.system('cls')
     if float(min_pos_entry.get()) > 0:
         min_pos_entry.insert(0, "-")
 
@@ -227,6 +281,18 @@ def startMeasurement():
     t.start()
     # return
 
+def prepareMsgSerialParameters():
+    # global loadcell_fullscale, min_pos, max_pos, num_pos, avg_flag, ar_flag, th1_val, th1_avg, th2_val, th2_avg, th3_val, th3_avg
+    param_array = [loadcell_fullscale, min_pos, max_pos, num_pos, avg_flag, ar_flag, th1_val, th1_avg, th2_val, th2_avg, th3_val, th3_avg]
+    msg = ''
+    for param in param_array:
+        if isinstance(param, bool):
+            msg += str(int(param)) + " "
+        else:
+            msg+= str(param)+" "
+    return msg
+
+
 
 def serialListener():
     global percent, force, force_ritorno, max_iter, meas_forward
@@ -251,24 +317,29 @@ def serialListener():
                 ser.write("Ready to write\n".encode())
                 print(data)
 
-            if data == "loadcell\n":
-                if ser.writable():
-                    ser.write(str(loadcell_fullscale).encode())
+            if compare_strings(data, "Parameters"):
+                msg = prepareMsgSerialParameters()
+                ser.write(msg.encode())
+                print(data)
 
-            if data == "min_pos\n":
-                ser.write(str(min_pos).encode())
+            # if data == "loadcell\n":
+            #     if ser.writable():
+            #         ser.write(str(loadcell_fullscale).encode())
 
-            if data == "max_pos\n":
-                ser.write(str(max_pos).encode())
+            # if data == "min_pos\n":
+            #     ser.write(str(min_pos).encode())
 
-            if data == "num_pos\n":
-                ser.write(str(num_pos).encode())
+            # if data == "max_pos\n":
+            #     ser.write(str(max_pos).encode())
 
-            if data == "media\n":
-                ser.write(str(int(avg_flag)).encode())
+            # if data == "num_pos\n":
+            #     ser.write(str(num_pos).encode())
 
-            if data == "a_r\n":
-                ser.write(str(int(ar_flag)).encode())
+            # if data == "media\n":
+            #     ser.write(str(int(avg_flag)).encode())
+
+            # if data == "a_r\n":
+            #     ser.write(str(int(ar_flag)).encode())
 
             if data == "Connecting\n":
                 print(data)
@@ -372,8 +443,8 @@ def drawPLots():
 def panic():
     return
 
-def vel_and_acc_setting_func():
-    topWindow = VelAccWindows(app)
+def thr_and_avg_setting_func():
+    topWindow = ThrAvgWindows(app)
     # topWindow.grab_set()
     app.update()
 
@@ -423,8 +494,8 @@ menubar.add_cascade(label="File", menu=filemenu)
 
 velacc_window = None
 settingmenu = Menu(menubar, tearoff=0)
-settingmenu.add_command(label="Vel & Acc", command=vel_and_acc_setting_func)
-settingmenu.add_command(label="Medie & Soglie", command=donothing)
+settingmenu.add_command(label="Vel & Acc", command=donothing)#=vel_and_acc_setting_func)
+settingmenu.add_command(label="Medie & Soglie", command=thr_and_avg_setting_func)
 
 menubar.add_cascade(label="Impostazioni", menu=settingmenu)
 
@@ -582,6 +653,8 @@ checkbox.grid(row=8, column=0, padx=20, sticky="w")
 checkbox_AR.grid(row=9, column=0, padx=20, sticky="w")
 startButton.grid(row=10, column=0, padx=20, sticky="ew")
 
+
+prepareMsgSerialParameters()
 
 app.config(menu=menubar)
 app.mainloop()

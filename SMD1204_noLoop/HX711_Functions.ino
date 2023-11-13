@@ -1,12 +1,12 @@
-
-
 float getForce()
 {
   float force = 0;
   while (!loadcell.is_ready())
   {
   }
-  int val = loadcell.read_average(5);
+  // float val = loadcell.read_average(5);
+  // float val = loadcell.read();
+  float val = avg(5);
   switch (FULLSCALE)
   {
   case 1:
@@ -30,7 +30,7 @@ float getForce()
 
 // insert poynomials coefficients computed for each load cell
 // x is the number read from the loadcell
-float getForce1(int x)
+float getForce1(float x)
 {
   // FIXME: insert the right ones
   float a = 2.35491e-08;
@@ -65,4 +65,18 @@ float getForce50(int x)
   float c = 0;
   float force = a * x * x + b * x + c;
   return force;
+}
+
+float avg(int times)
+{
+  float sum = 0;
+  if (times < 1)
+  {
+    times = 1;
+  }
+  for (int i = 0; i < times; i++)
+  {
+    sum += loadcell.read();
+  }
+  return sum / times;
 }

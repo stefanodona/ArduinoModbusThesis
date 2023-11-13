@@ -207,7 +207,14 @@ void measureRoutine()
       getStatus();
       while (bitRead(sts, 3))
         getStatus();
+      
+      unsigned long tik = millis();
       sum_p += getForce();
+      unsigned long tok = millis();
+      long tikketokke = tok-tik;
+      Serial.write("TikkeTokke\n");
+      Serial.println(tikketokke);
+
       Serial.write("check percent\n");
 
       // negative movement
@@ -226,7 +233,7 @@ void measureRoutine()
       getStatus();
       while (bitRead(sts, 3))
         getStatus();
-      delay(2000);
+      // delay(2000);
     }
     float meas_p = sum_p / cnt;
     float meas_m = sum_m / cnt;
@@ -274,7 +281,7 @@ void measureRoutine()
         getStatus();
         while (bitRead(sts, 3))
           getStatus();
-        delay(2000);
+        // delay(2000);
       }
       float meas_p = sum_p / cnt;
       float meas_m = sum_m / cnt;
@@ -441,18 +448,15 @@ void printForce(uint8_t i, int32_t pos, float pos_mm, float force)
 // TODO: cnt threshold function
 int getAvgCnt(float val)
 {
-  float th1 = 1; // mm
-  float th2 = 3; // mm
-  float th3 = 5; // mm
   int cnt = 1;
   if (mean_active)
   {
     if (fabs(val) <= th3)
-      cnt = 2;
+      cnt = cnt_th3;
     if (fabs(val) <= th2)
-      cnt = 4;
+      cnt = cnt_th2;
     if (fabs(val) <= th1)
-      cnt = 6;
+      cnt = cnt_th1;
   }
   return cnt;
 }

@@ -25,9 +25,9 @@
 //-------------------------------------------------
 
 // USEFUL CONSTANT
-const int32_t vel = 10;      // rps
-const int32_t vel_tare = 0.1;      // rps
-const uint32_t acc_ramp = 10    ; // no acceleration ramp
+const int32_t vel = 10;       // rps
+const int32_t vel_tare = 0.1; // rps
+const uint32_t acc_ramp = 10; // no acceleration ramp
 
 const float home_err = 0.05; // 5% error band to retrieve the no-force initial position
 
@@ -45,8 +45,14 @@ int num_pos = 0;      // # of spacial points
 uint8_t pos_idx = 0; // index to navigate the pos_sorted array
 float sum_p = 0;
 float sum_m = 0;
-float avg_thr = 5; // mm below which is done an average measure
-uint8_t cnt = 4;   //
+
+float th1 = 0; // threshold for the averaging
+float th2 = 0;
+float th3 = 0;
+
+int cnt_th1 = 0; // measures to take for each average
+int cnt_th2 = 0;
+int cnt_th3 = 0;
 
 // FLAGS
 bool mean_active = false;
@@ -80,35 +86,67 @@ void setup()
 
     // read parameters from gui
     Serial.write("Ready to read!\n");
-    while (Serial.readStringUntil("\n") != "Ready to write\n"){
+    while (Serial.readStringUntil("\n") != "Ready to write\n")
+    {
+        ;
     }
 
-    // flushSerial();
-    Serial.write("loadcell\n");
-    FULLSCALE = Serial.parseInt();
+    flushSerial();
+    Serial.write("Parameters\n");
 
     // flushSerial();
-    Serial.write("min_pos\n");
-    min_pos = Serial.parseFloat();
+    // Serial.write("loadcell\n");
+    // FULLSCALE = Serial.parseInt();
 
-    // flushSerial();
-    Serial.write("max_pos\n");
-    max_pos = Serial.parseFloat();
+    // // flushSerial();
+    // Serial.write("min_pos\n");
+    // min_pos = Serial.parseFloat();
 
-    // flushSerial();
-    Serial.write("num_pos\n");
-    num_pos = Serial.parseInt();
+    // // flushSerial();
+    // Serial.write("max_pos\n");
+    // max_pos = Serial.parseFloat();
 
-    // flushSerial();
-    Serial.write("media\n");
-    mean_active = bool(Serial.parseInt());
-    
-    // flushSerial();
-    Serial.write("a_r\n");
-    ar_flag = bool(Serial.parseInt());
-    Serial.println(ar_flag);
+    // // flushSerial();
+    // Serial.write("num_pos\n");
+    // num_pos = Serial.parseInt();
+
+    // // flushSerial();
+    // Serial.write("media\n");
+    // mean_active = bool(Serial.parseInt());
+
+    // // flushSerial();
+    // Serial.write("a_r\n");
+    // ar_flag = bool(Serial.parseInt());
+    // Serial.println(ar_flag);
+    FULLSCALE = Serial.parseInt(SKIP_WHITESPACE);
+    min_pos = Serial.parseFloat(SKIP_WHITESPACE);
+    max_pos = Serial.parseFloat(SKIP_WHITESPACE);
+    num_pos = Serial.parseInt(SKIP_WHITESPACE);
+    mean_active = bool(Serial.parseInt(SKIP_WHITESPACE));
+    ar_flag = bool(Serial.parseInt(SKIP_WHITESPACE));
+    th1 = Serial.parseFloat(SKIP_WHITESPACE);
+    cnt_th1 = Serial.parseInt(SKIP_WHITESPACE);
+    th2 = Serial.parseFloat(SKIP_WHITESPACE);
+    cnt_th2 = Serial.parseInt(SKIP_WHITESPACE);
+    th3 = Serial.parseFloat(SKIP_WHITESPACE);
+    cnt_th3 = Serial.parseInt(SKIP_WHITESPACE);
 
     flushSerial();
+
+    // Serial.println(FULLSCALE);
+    // Serial.println(min_pos);
+    // Serial.println(max_pos);
+    // Serial.println(num_pos);
+    // Serial.println(mean_active);
+    // Serial.println(ar_flag);
+    // Serial.println(th1);
+    // Serial.println(cnt_th1);
+    // Serial.println(th2);
+    // Serial.println(cnt_th2);
+    // Serial.println(th3);
+    // Serial.println(cnt_th3);
+
+    // flushSerial();
 
     // ----------------------------------------------
 
