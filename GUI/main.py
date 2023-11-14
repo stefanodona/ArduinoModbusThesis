@@ -65,18 +65,18 @@ class ThrAvgWindows(customtkinter.CTkToplevel):
         self.title("Soglie e Medie")
 
         self.label = customtkinter.CTkLabel(self, 
-                                            text="Settings\nThresholds and Averages",
+                                            text="Impostazioni\nSoglie e Medie",
                                             font=('Segoe UI', 14))
         self.label.pack(padx=20, pady=10)
         # print(font.nametofont('TkTextFont').actual())
 
-        self.th1 = ThrAvgFrame(self, name="Threshold 1", slider_val=th1_val, avg_num=th1_avg)
+        self.th1 = ThrAvgFrame(self, name="Soglia 1", slider_val=th1_val, avg_num=th1_avg)
         self.th1.pack(padx=10, pady=10, fill="x", expand=True)
 
-        self.th2 = ThrAvgFrame(self, name="Threshold 2", slider_val=th2_val, avg_num=th2_avg)
+        self.th2 = ThrAvgFrame(self, name="Soglia 2", slider_val=th2_val, avg_num=th2_avg)
         self.th2.pack(padx=10, pady=10, fill="x", expand=True)
 
-        self.th3 = ThrAvgFrame(self, name="Threshold 3", slider_val=th3_val, avg_num=th3_avg)
+        self.th3 = ThrAvgFrame(self, name="Soglia 3", slider_val=th3_val, avg_num=th3_avg)
         self.th3.pack(padx=10, pady=10, fill="x", expand=True)
 
         self.th1.slider_val.trace('w', callback=self.getWinState)
@@ -107,8 +107,102 @@ class ThrAvgWindows(customtkinter.CTkToplevel):
         saveState()
 
 
+
+class VelAccWindows(customtkinter.CTkToplevel):
+    def __init__(self, *args, fg_color: str | Tuple[str, str] | None = None, **kwargs):
+        super().__init__(*args, fg_color=fg_color, **kwargs)
+        self.title("Velocità e Accelerazione")
+
+        # --- VARIABLES --- #
+        self.vel_max_tkvar = customtkinter.StringVar(self, str(vel_max))
+        self.acc_max_tkvar = customtkinter.StringVar(self, str(acc_max))
+        self.time_max_tkvar = customtkinter.StringVar(self, str(time_max))
+
+        self.vel_bool_tkvar = customtkinter.BooleanVar(self, vel_flag)
+        self.time_bool_tkvar = customtkinter.BooleanVar(self, time_flag)
+
+        # --- ELEMENTS --- #
+        self.label = customtkinter.CTkLabel(self, 
+                                            text="Impostazioni\nVelocita' e Accelerazione",
+                                            font=('Segoe UI', 14))
+        self.label.pack(padx=20, pady=10)
+
+        self.vel_frame = customtkinter.CTkFrame(self)
+        self.vel_frame.pack(padx=10, pady=10, fill='x', expand=True)
+
+        self.vel_checkbox = customtkinter.CTkCheckBox(self.vel_frame, text="velocita' costante", variable=self.vel_bool_tkvar, command=self.vel_chk_pressed)
+        self.vel_checkbox.grid(row=0, column=0, padx=10, pady=10, sticky='w')
+
+        self.vel_entry = customtkinter.CTkEntry(self.vel_frame, width=50, textvariable=self.vel_max_tkvar)
+        self.vel_entry_label = customtkinter.CTkLabel(self.vel_frame, text="Velocita' [rps]")
+
+        self.acc_entry = customtkinter.CTkEntry(self.vel_frame, width=50, textvariable=self.acc_max_tkvar)
+        self.acc_entry_label = customtkinter.CTkLabel(self.vel_frame, text="Accelerazione [rps^2]")
+
+        self.vel_entry.grid(row=1, column=0, padx=10, pady=5, sticky='w')
+        self.vel_entry_label.grid(row=1, column=1, padx=10, pady=5, sticky='w')
+
+        self.acc_entry.grid(row=2, column=0, padx=10, pady=5, sticky='w')
+        self.acc_entry_label.grid(row=2, column=1, padx=10, pady=5, sticky='w')
+
+        self.time_frame = customtkinter.CTkFrame(self)
+        self.time_frame.pack(padx=10, pady=10, fill='x', expand=True)
+
+        # --- TIME --- #
+
+        self.time_checkbox = customtkinter.CTkCheckBox(self.time_frame, text="tempo costante", variable=self.time_bool_tkvar, command=self.time_chk_pressed)
+        self.time_checkbox.grid(row=0, column=0, padx=10, pady=10, sticky='w')
+
+        self.time_entry = customtkinter.CTkEntry(self.time_frame, width=50, textvariable=self.time_max_tkvar)
+        self.time_entry_label = customtkinter.CTkLabel(self.time_frame, text="Tempo [s]")
+
+        self.time_entry.grid(row=1, column=0, padx=10, pady=5, sticky='w')
+        self.time_entry_label.grid(row=1, column=1, padx=10, pady=5, sticky='w')
+
+    def vel_chk_pressed(self, *args):
+        state = bool(self.vel_checkbox.get())
+
+        self.vel_bool_tkvar.set(state)
+        if(state == True):
+            self.time_checkbox.deselect()
+            self.time_bool_tkvar.set(False)
+            self.time_entry.configure(state=customtkinter.DISABLED)    
+        else:
+            self.time_checkbox.select()
+            self.time_bool_tkvar.set(True)
+            self.time_entry.configure(state=customtkinter.NORMAL)    
+
+    def time_chk_pressed(self, *args):
+        state = bool(self.time_checkbox.get())
+
+        self.time_bool_tkvar.set(state)
+        if(state == True):
+            self.vel_checkbox.deselect()
+            self.vel_bool_tkvar.set(False)
+            self.vel_entry.configure(state=customtkinter.DISABLED)    
+            self.acc_entry.configure(state=customtkinter.DISABLED)    
+        else:
+            self.vel_checkbox.select()
+            self.vel_bool_tkvar.set(True)
+            self.vel_entry.configure(state=customtkinter.NORMAL)
+            self.acc_entry.configure(state=customtkinter.NORMAL)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #############################################################################
-# ----------------------------F U N C T I O N S------------------------------
+# ----------------------------V A R I A B L E S------------------------------
 #############################################################################
 this_path = os.getcwd()
 config_path = os.path.join(this_path, "GUI\config.txt")
@@ -130,6 +224,11 @@ th2_val = float(f.readline().split()[1])
 th2_avg = int(f.readline().split()[1])
 th3_val = float(f.readline().split()[1])
 th3_avg = int(f.readline().split()[1])
+vel_flag = bool(int(f.readline().split()[1]))
+vel_max = float(f.readline().split()[1])
+acc_max = float(f.readline().split()[1])
+time_flag = bool(int(f.readline().split()[1]))
+time_max = float(f.readline().split()[1])
 f.close()
 
 percent = 0
@@ -142,9 +241,15 @@ force_ritorno = np.array([])
 pos = np.array([])
 pos_sorted = np.array([])
 
+thr_avg_window = None
+vel_acc_window = None
+
 # cnt = 0
 
 
+#############################################################################
+# ----------------------------F U N C T I O N S------------------------------
+#############################################################################
 def compare_strings(string1, string2):
     pattern = re.compile(string2)
     match = re.search(pattern, string1)
@@ -444,10 +549,18 @@ def panic():
     return
 
 def thr_and_avg_setting_func():
-    topWindow = ThrAvgWindows(app)
+    global thr_avg_window 
+    if (thr_avg_window==None or not thr_avg_window.winfo_exists()):
+        thr_avg_window = ThrAvgWindows(app)
     # topWindow.grab_set()
     app.update()
 
+def vel_and_acc_setting_func():
+    global vel_acc_window 
+    if (vel_acc_window==None or not vel_acc_window.winfo_exists()):
+        vel_acc_window = VelAccWindows(app)
+    # topWindow.grab_set()
+    app.update()
 
 
 
@@ -494,7 +607,7 @@ menubar.add_cascade(label="File", menu=filemenu)
 
 velacc_window = None
 settingmenu = Menu(menubar, tearoff=0)
-settingmenu.add_command(label="Vel & Acc", command=donothing)#=vel_and_acc_setting_func)
+settingmenu.add_command(label="Vel & Acc", command=vel_and_acc_setting_func)
 settingmenu.add_command(label="Medie & Soglie", command=thr_and_avg_setting_func)
 
 menubar.add_cascade(label="Impostazioni", menu=settingmenu)
@@ -654,8 +767,10 @@ checkbox_AR.grid(row=9, column=0, padx=20, sticky="w")
 startButton.grid(row=10, column=0, padx=20, sticky="ew")
 
 
-prepareMsgSerialParameters()
+# prepareMsgSerialParameters()
 
+app.bind('<Return>', lambda e: startMeasurement())
 app.config(menu=menubar)
+app.bind('<Escape>', lambda e: app.destroy())
 app.mainloop()
 

@@ -289,24 +289,14 @@ float getForce50(int x)
 
 float avg(int times)
 {
-  // unsigned long tik = millis();
   float sum = 0;
   if (times < 1)
   {
     times = 1;
   }
-  // unsigned long tok = millis();
-  // long cipciop = tok-tik;
-  // Serial.println("Cipciop");
-  // Serial.println(cipciop);
-
   for (int i = 0; i < times; i++)
   {
     sum += loadcell.read();
-    // unsigned long tok = millis();
-    // long cipciop = tok - tik;
-    // Serial.println("Cipciop1");
-    // Serial.println(cipciop);
   }
   return sum / times;
 }

@@ -10,3 +10,8 @@ th2_val 12.0 mm
 th2_avg 3 
 th3_val 10.0 mm
 th3_avg 2 
+vel_flg 1
+vel 10.0 rps
+acc 5.0 rps^2
+time_flg 0 
+time 1
