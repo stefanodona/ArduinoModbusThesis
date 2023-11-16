@@ -50,6 +50,7 @@ float acc_max = 0; // maximum acceleration ramp
 float time_max = 0; // maximum time of translation
 
 // FLAGS
+bool stat_creep_flag = false;
 bool mean_active = false;
 bool ar_flag = false;
 bool vel_flag = true;
@@ -90,7 +91,7 @@ void setup()
     }
     delay(100);
 
-    flushSerial();
+    // flushSerial();
     Serial.write("Parameters\n");
 
     // flushSerial();
@@ -117,6 +118,7 @@ void setup()
     // Serial.write("a_r\n");
     // ar_flag = bool(Serial.parseInt());
     // Serial.println(ar_flag);
+    stat_creep_flag = bool(Serial.parseInt(SKIP_WHITESPACE));
     FULLSCALE = Serial.parseInt(SKIP_WHITESPACE);
     min_pos = Serial.parseFloat(SKIP_WHITESPACE);
     max_pos = Serial.parseFloat(SKIP_WHITESPACE);
@@ -136,6 +138,8 @@ void setup()
     acc_max = Serial.parseFloat(SKIP_WHITESPACE);
     time_flag = bool(Serial.parseInt(SKIP_WHITESPACE));
     time_max = Serial.parseFloat(SKIP_WHITESPACE);
+
+    Serial.println(stat_creep_flag);
 
     flushSerial();
 
@@ -194,7 +198,8 @@ void setup()
 
     // MEASURE ROUTINE
     delay(500);
-    measureRoutine();
+    if (stat_creep_flag) creepRoutine();
+    else measureRoutine();
 
     // FINISH MEASUREMENT
     Serial.write("Finished\n");
@@ -239,7 +244,9 @@ float getForce()
   // while (!loadcell.is_ready())
   // {
   // }
-  float val = loadcell.read_average(5);
+  float val=0;
+  if (stat_creep_flag) val = loadcell.read();
+  else val = loadcell.read_average(5);
   // float val = loadcell.read();
   // float val = avg(5);
   switch (FULLSCALE)
@@ -620,35 +627,79 @@ void measureRoutine()
 }
 
 void creepRoutine(){
+  String msg = "val ";
+  String time_msg = "time_ax ";
+
+  char num[15];
+  char time_val[15];
+
+
   Serial.write("Creep Routine\n");
   flushSerial();
   Serial.write("send me\n");
+  delay(100);
 
   float creep_displ = Serial.parseFloat(SKIP_WHITESPACE) ;
   float creep_period = Serial.parseFloat(SKIP_WHITESPACE) ;
   float creep_duration = Serial.parseFloat(SKIP_WHITESPACE) ;
   int num_creep = (int)(creep_duration*1000/creep_period);
 
+
+
+  Serial.println(creep_displ);
+  Serial.println(creep_period);
+  Serial.println(creep_duration);
+
   Serial.write("Measuring\n");
 
   checkModbusConnection();
   setAccVelocity(creep_displ);
+
   sendPosTarget(init_pos + mm2int(creep_displ));
   sendCommand(go());
   getStatus();
   while ((((sts) >> (3)) & 0x01))
     getStatus();
 
-  float acquisitions[num_creep];
-  float time_axis[num_creep];
+  // float acquisitions[num_creep];
+  // float time_axis[num_creep];
 
+  float acquisitions;
+  float time_axis;
 
+  unsigned long tik = millis();
+  // two separate loops, in order to obtain the measured value as istant as possible
   for (int i=0; i<num_creep; i++){
-    acquisitions[i]=getForce();
+    acquisitions=getForce();
+    unsigned long tok = millis();
+    time_axis = float(tok-tik);
+    dtostrf(acquisitions, 10, 6, num);
+    Serial.println(msg + num);
+    dtostrf(time_axis, 10, 6, time_val);
+    Serial.println(time_msg + time_val);
 
-    delay(creep_period);
+    unsigned long to_wait = (unsigned long)(creep_period) - ((millis()-tik)%(int)creep_period);
+    delay(to_wait);
+
+    Serial.write("check percent\n");
+    // Serial.println(acquisitions[i]);
+    // Serial.println(time_axis[i]);
   }
 
+  // for(int i=0; i<num_creep; i++){
+  //   dtostrf(acquisitions[i], 10, 6, num); 
+  //   Serial.println(msg + num);
+  //   delay(50);
+  //   dtostrf(time_axis[i], 10, 6, time_val);
+  //   Serial.println(time_msg + time_val);
+  //   delay(50);
+  // }
+
+  sendPosTarget(init_pos);
+  sendCommand(go());
+  getStatus();
+  while ((((sts) >> (3)) & 0x01))
+    getStatus();
 
 }
 

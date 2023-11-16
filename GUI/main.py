@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import font
+from tkinter.filedialog import asksaveasfile 
 from typing import Optional, Tuple, Union
 import customtkinter
 import serial
@@ -8,6 +9,7 @@ import numpy as np
 import re  # used to compare strings
 import keyboard
 import time
+from datetime import datetime
 from threading import Thread
 import os
 import matplotlib.pyplot as plt
@@ -225,6 +227,7 @@ config_path = os.path.join(this_path, "GUI\config.txt")
 print(config_path)
 
 port = "COM9"
+spider_name = ''
 
 
 
@@ -257,11 +260,14 @@ percent = 0
 max_iter = 0
 meas_forward = True
 
-
+# arrays for static measurement 
 force = np.array([])
 force_ritorno = np.array([])
 pos = np.array([])
 pos_sorted = np.array([])
+
+# arrays for creep measurement
+time_axis = np.array([])
 
 thr_avg_window = None
 vel_acc_window = None
@@ -335,8 +341,10 @@ def populatePosArray():
     max_iter = max_iter * 2
     if ar_flag:
         max_iter *= 2
-    print(num_pos)
-    print("max iter: ", max_iter)
+    # print(num_pos)
+    # print("max iter: ", max_iter)
+    if (stat_creep_flag):
+        max_iter = int(creep_duration*1000/creep_period)
 
 
 def saveState():
@@ -394,13 +402,24 @@ def startMeasurement():
     startButton.configure(state="disabled")
     checkbox.configure(state="disabled")
     checkbox_AR.configure(state="disabled")
+
+    displ_entry.configure(state="disabled")
+    period_entry.configure(state="disabled")
+    duration_entry.configure(state="disabled")
+
+
     startButton.configure(text="Initializing...")
 
-    global min_pos, max_pos, num_pos, percent, force, force_ritorno, pos, pos_sorted
+    global min_pos, max_pos, num_pos, percent, force, force_ritorno, pos, pos_sorted, time_axis, creep_displ, creep_period, creep_duration
 
     min_pos = float(min_pos_entry.get())
     max_pos = float(max_pos_entry.get())
     num_pos = int(num_pos_entry.get())
+
+    creep_displ = float(displ_entry.get())
+    creep_period = float(period_entry.get())
+    creep_duration = float(duration_entry.get())
+
     if num_pos % 2 == 1:
         num_pos += 1
         num_pos_entry.configure(textvariable=customtkinter.StringVar(app, str(num_pos)))
@@ -413,6 +432,7 @@ def startMeasurement():
     force_ritorno = np.array([])
     pos = np.array([])
     pos_sorted = np.array([])
+    time_axis = np.array([])
 
     populatePosArray()
     print(pos)
@@ -427,7 +447,8 @@ def startMeasurement():
 
 def prepareMsgSerialParameters():
     # global loadcell_fullscale, min_pos, max_pos, num_pos, avg_flag, ar_flag, th1_val, th1_avg, th2_val, th2_avg, th3_val, th3_avg
-    param_array = [loadcell_fullscale, 
+    param_array = [stat_creep_flag,
+                   loadcell_fullscale, 
                    min_pos, max_pos, num_pos, 
                    avg_flag, ar_flag, 
                    th1_val, th1_avg, 
@@ -446,7 +467,7 @@ def prepareMsgSerialParameters():
 
 
 def serialListener():
-    global percent, force, force_ritorno, max_iter, meas_forward
+    global percent, force, force_ritorno, time_axis, max_iter, meas_forward
     with serial.Serial("COM9", 38400) as ser:
         index = 0
         iter_count = 0
@@ -511,9 +532,13 @@ def serialListener():
             # if compare_strings(data, "send me"):
             if data == "send me\n":
                 msg = ''
-                for p in pos_sorted:
-                    msg += str(p)+" "     
-                print(msg)                               
+                if (not stat_creep_flag):   # static mode
+                    for p in pos_sorted:
+                        msg += str(p)+" "    
+                else:
+                    msg+= str(creep_displ) +" "
+                    msg+= str(creep_period) +" "
+                    msg+= str(creep_duration) +" "
                 ser.write(msg.encode())
                 
 
@@ -532,10 +557,18 @@ def serialListener():
                 # print(data.split())
                 meas_val = float(data.split()[1])
                 print(meas_val)
-                if meas_forward:
-                    force = np.append(force, meas_val)
+                if (not stat_creep_flag):
+                    if meas_forward:
+                        force = np.append(force, meas_val)
+                    else:
+                        force_ritorno = np.append(force_ritorno, meas_val)
                 else:
-                    force_ritorno = np.append(force_ritorno, meas_val)
+                    force = np.append(force, meas_val)
+
+            if compare_strings(data, "time_ax"):
+                time_val = float(data.split()[1])
+                time_axis= np.append(time_axis, time_val) 
+                
 
             if compare_strings(data, "Finished"):
                 # print("matched")
@@ -551,37 +584,68 @@ def serialListener():
     checkbox.configure(state="normal")
     checkbox_AR.configure(state="normal")
     startButton.configure(state="normal")
+
+    displ_entry.configure(state="normal")
+    period_entry.configure(state="normal")
+    duration_entry.configure(state="normal")
+
     startButton.configure(text="START")
-    print(force)
-    print(force_ritorno)
-    sort = np.argsort(pos_sorted)
-    force = force[sort]
-    if(ar_flag):
-        force_ritorno = force_ritorno[sort]
-    drawPLots()
+    print("force: ",force)
+    print("Force_ret: ",force_ritorno)
+    print("Time: ",time_axis)
+
+    if (not stat_creep_flag):
+        sort = np.argsort(pos_sorted)
+        force = force[sort]
+        if(ar_flag):
+            force_ritorno = force_ritorno[sort]
+        
+    drawPlots()
 
 
-def drawPLots():
+
+def drawPlots():
     # plotts
     ax_force.clear()
-    ax_force.plot(pos, force)
-    if(ar_flag):
-        ax_force.plot(pos, force_ritorno)
-        ax_force.legend(["Andata", "Ritorno"])
-    ax_force.set_xlabel("displacement [mm]")
-    ax_force.set_ylabel("force [N]")
-    ax_force.set_title("Force vs Displacement")
-    ax_force.grid(visible=True, which="both", axis="both")
-
     ax_stiff.clear()
-    ax_stiff.plot(pos, force / pos)
-    if (ar_flag):
-        ax_stiff.plot(pos, force_ritorno / pos)
-        ax_stiff.legend(["Andata", "Ritorno"])
-    ax_stiff.set_xlabel("displacement [mm]")
-    ax_stiff.set_ylabel("stiffness [N/mm]")
-    ax_stiff.set_title("Stiffness vs Displacement")
-    ax_stiff.grid(visible=True, which="both", axis="both")
+
+    if not stat_creep_flag:
+        ax_force.plot(pos, force)
+        if(ar_flag):
+            ax_force.plot(pos, force_ritorno)
+            ax_force.legend(["Andata", "Ritorno"])
+        ax_force.set_xlabel("displacement [mm]")
+        ax_force.set_ylabel("force [N]")
+        ax_force.set_title("Force vs Displacement")
+        ax_force.grid(visible=True, which="both", axis="both")
+
+        ax_stiff.plot(pos, np.nan_to_num(force/pos))
+        if (ar_flag):
+            ax_stiff.plot(pos, np.nan_to_num(force_ritorno/pos))
+            ax_stiff.legend(["Andata", "Ritorno"])
+        ax_stiff.set_xlabel("displacement [mm]")
+        ax_stiff.set_ylabel("stiffness [N/mm]")
+        ax_stiff.set_title("Stiffness vs Displacement")
+        ax_stiff.grid(visible=True, which="both", axis="both")
+    else:
+        ax_force.plot(time_axis, force)
+        # if(ar_flag):
+        #     ax_force.plot(x, y2)
+        #     ax_force.legend(["Andata", "Ritorno"])
+        ax_force.set_xlabel("time [ms]")
+        ax_force.set_ylabel("force [N]")
+        ax_force.set_title("Force vs Time")
+        ax_force.grid(visible=True, which="both", axis="both")
+
+        ax_stiff.plot(time_axis, np.nan_to_num(force/creep_displ))
+        # if (ar_flag):
+        #     ax_stiff.plot(x, np.nan_to_num(y2 / x))
+        #     ax_stiff.legend(["Andata", "Ritorno"])
+        ax_stiff.set_xlabel("time [ms]")
+        ax_stiff.set_ylabel("stiffness [N/mm]")
+        ax_stiff.set_title("Stiffness vs Time")
+        ax_stiff.grid(visible=True, which="both", axis="both")
+
 
     chart_type_force.draw()
     chart_type_stiff.draw()
@@ -623,7 +687,54 @@ def showFrame():
     else:
         showCreepFrame()
         creep_switch.configure(text="Creep")
+    saveState()
 
+def closeAll():
+    ports = serial.tools.list_ports.comports()
+    for com in ports:
+        if (com[0]=="COM9"):
+          try:
+              ser = serial.Serial(com.device)
+              ser.close()
+              print(f"Chiusa porta {com}")
+          except serial.SerialException as e:
+              print(f"Errore chiusura porta {com}: {e}")
+
+    app.destroy()
+
+def save_as(): 
+    files = [('All Files', '*.*'),  
+             ('Python Files', '*.py'), 
+             ('Text Document', '*.txt')] 
+    file_path = asksaveasfile(initialfile = 'Untitled.txt',
+                         filetypes = files, 
+                         defaultextension = ".txt") 
+    if file_path:
+        with open(file_path.name, 'w') as fl:
+            fl.write("# Acquired on "+ datetime.now().strftime("%d/%m/%Y %H:%M:%S") +" \n")
+            fl.write("# SPIDER: " + spider_name_tkvar.get() + "\n")
+            if np.any(force):
+                if(not stat_creep_flag):
+                    fl.write("# STATIC MEASUREMENT\n\n")
+                    fl.write("# pos [mm]\t\tforce_forw [N]\t\tforce_back [N]\n")
+                    for i in range(0,len(pos)):
+                        if (ar_flag):
+                                fl.write(f"{pos[i]:.3f}"+"\t\t\t"+ f"{force[i]:.3f}" +"\t\t\t" + f"{force_ritorno[i]:.3f}" +"\n")   
+                        else:
+                                fl.write(f"{pos[i]:.3f}"+"\t\t\t"+ f"{force[i]:.3f}"+"\t\t\t"+ f"{0:.3f}" +"\n")   
+                else:
+                    fl.write("# CREEP MEASUREMENT\n\n")
+                    fl.write("# time [ms]\t\tforce [N]\t\tstiffness [N/mm]\n")
+                    for i in range(0,len(force)):
+                        fl.write(f"{time_axis[i]:.3f}" +"\t\t\t"+ f"{force[i]:.3f}" +"\t\t\t"+ f"{force[i]/creep_displ:.3f}" + "\n")
+            
+            fl.close()
+
+def save():
+    pass
+
+def load():
+    pass
 
 
 #############################################################################
@@ -674,7 +785,7 @@ filemenu = Menu(menubar, tearoff=0)
 filemenu.add_command(label="New", command=donothing)
 filemenu.add_command(label="Open", command=donothing)
 filemenu.add_command(label="Save", command=donothing)
-filemenu.add_command(label="Save as...", command=donothing)
+filemenu.add_command(label="Save as...", command=save_as)
 filemenu.add_separator()
 filemenu.add_command(label="Exit", command=app.quit)
 
@@ -699,7 +810,8 @@ settingmenu.add_cascade(label="Serial Ports", menu=COM_menu)
 # ----------------------------E L E M E N T S--------------------------------
 #############################################################################
 
-
+spider_name_tkvar = customtkinter.StringVar(app, spider_name)
+spider_entry = customtkinter.CTkEntry(leftFrame, textvariable=spider_name_tkvar, placeholder_text="Culo")
 
 loadcell_label = customtkinter.CTkLabel(
     leftFrame, text="Selezionare cella di carico", anchor="s"
@@ -842,8 +954,9 @@ pProgress.grid(row=0, column=1, sticky="ew", padx=10, pady=5)
 
 # loadcell_label.grid(row=0, column=0, pady=10, padx=20, sticky="w")
 # load_cell_menu.grid(row=1, column=0, padx=20, sticky="w")
+spider_entry.pack(padx=10, pady=10)
 loadcell_label.pack(padx=20)
-load_cell_menu.pack(pady=20, padx=20)
+load_cell_menu.pack(pady=10, padx=20)
 
 # positioning
 def showStaticFrame():
@@ -898,7 +1011,8 @@ startButton.pack(padx=20, pady=20, side=customtkinter.BOTTOM)
 showFrame()
 app.bind('<Return>', lambda e: startMeasurement())
 app.config(menu=menubar)
-app.bind('<Escape>', lambda e: app.destroy())
+app.bind('<Escape>', lambda e: closeAll())
 app.mainloop()
+
 
 

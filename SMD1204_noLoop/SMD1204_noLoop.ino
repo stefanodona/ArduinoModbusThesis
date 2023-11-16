@@ -59,6 +59,7 @@ float acc_max = 0;      // maximum acceleration ramp
 float time_max = 0;     // maximum time of translation
 
 // FLAGS
+bool stat_creep_flag = false;
 bool mean_active = false;
 bool ar_flag = false;
 bool vel_flag = true;
@@ -99,7 +100,7 @@ void setup()
     }
     delay(100);
 
-    flushSerial();
+    // flushSerial();
     Serial.write("Parameters\n");
 
     // flushSerial();
@@ -126,6 +127,7 @@ void setup()
     // Serial.write("a_r\n");
     // ar_flag = bool(Serial.parseInt());
     // Serial.println(ar_flag);
+    stat_creep_flag = bool(Serial.parseInt(SKIP_WHITESPACE));
     FULLSCALE = Serial.parseInt(SKIP_WHITESPACE);
     min_pos = Serial.parseFloat(SKIP_WHITESPACE);
     max_pos = Serial.parseFloat(SKIP_WHITESPACE);
@@ -145,6 +147,8 @@ void setup()
     acc_max = Serial.parseFloat(SKIP_WHITESPACE);
     time_flag = bool(Serial.parseInt(SKIP_WHITESPACE));
     time_max = Serial.parseFloat(SKIP_WHITESPACE);
+
+    Serial.println(stat_creep_flag);
 
     flushSerial();
 
@@ -203,7 +207,8 @@ void setup()
 
     // MEASURE ROUTINE
     delay(500);
-    measureRoutine();
+    if (stat_creep_flag) creepRoutine();
+    else measureRoutine();
 
     // FINISH MEASUREMENT
     Serial.write("Finished\n");
