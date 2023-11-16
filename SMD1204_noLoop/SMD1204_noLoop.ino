@@ -54,9 +54,15 @@ int cnt_th1 = 0; // measures to take for each average
 int cnt_th2 = 0;
 int cnt_th3 = 0;
 
+float vel_max = 0;      // maximum translation velocity
+float acc_max = 0;      // maximum acceleration ramp
+float time_max = 0;     // maximum time of translation
+
 // FLAGS
 bool mean_active = false;
 bool ar_flag = false;
+bool vel_flag = true;
+bool time_flag = false;
 
 // HX711 object
 HX711 loadcell;
@@ -86,10 +92,12 @@ void setup()
 
     // read parameters from gui
     Serial.write("Ready to read!\n");
+    delay(100);
     while (Serial.readStringUntil("\n") != "Ready to write\n")
     {
         ;
     }
+    delay(100);
 
     flushSerial();
     Serial.write("Parameters\n");
@@ -124,12 +132,19 @@ void setup()
     num_pos = Serial.parseInt(SKIP_WHITESPACE);
     mean_active = bool(Serial.parseInt(SKIP_WHITESPACE));
     ar_flag = bool(Serial.parseInt(SKIP_WHITESPACE));
+    
     th1 = Serial.parseFloat(SKIP_WHITESPACE);
     cnt_th1 = Serial.parseInt(SKIP_WHITESPACE);
     th2 = Serial.parseFloat(SKIP_WHITESPACE);
     cnt_th2 = Serial.parseInt(SKIP_WHITESPACE);
     th3 = Serial.parseFloat(SKIP_WHITESPACE);
     cnt_th3 = Serial.parseInt(SKIP_WHITESPACE);
+
+    vel_flag = bool(Serial.parseInt(SKIP_WHITESPACE));
+    vel_max = Serial.parseFloat(SKIP_WHITESPACE);
+    acc_max = Serial.parseFloat(SKIP_WHITESPACE);
+    time_flag = bool(Serial.parseInt(SKIP_WHITESPACE));
+    time_max = Serial.parseFloat(SKIP_WHITESPACE);
 
     flushSerial();
 

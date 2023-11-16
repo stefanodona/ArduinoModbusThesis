@@ -45,9 +45,15 @@ int cnt_th1 = 0; // measures to take for each average
 int cnt_th2 = 0;
 int cnt_th3 = 0;
 
+float vel_max = 0; // maximum translation velocity
+float acc_max = 0; // maximum acceleration ramp
+float time_max = 0; // maximum time of translation
+
 // FLAGS
 bool mean_active = false;
 bool ar_flag = false;
+bool vel_flag = true;
+bool time_flag = false;
 
 // HX711 object
 HX711 loadcell;
@@ -77,10 +83,12 @@ void setup()
 
     // read parameters from gui
     Serial.write("Ready to read!\n");
+    delay(100);
     while (Serial.readStringUntil("\n") != "Ready to write\n")
     {
         ;
     }
+    delay(100);
 
     flushSerial();
     Serial.write("Parameters\n");
@@ -115,12 +123,19 @@ void setup()
     num_pos = Serial.parseInt(SKIP_WHITESPACE);
     mean_active = bool(Serial.parseInt(SKIP_WHITESPACE));
     ar_flag = bool(Serial.parseInt(SKIP_WHITESPACE));
+
     th1 = Serial.parseFloat(SKIP_WHITESPACE);
     cnt_th1 = Serial.parseInt(SKIP_WHITESPACE);
     th2 = Serial.parseFloat(SKIP_WHITESPACE);
     cnt_th2 = Serial.parseInt(SKIP_WHITESPACE);
     th3 = Serial.parseFloat(SKIP_WHITESPACE);
     cnt_th3 = Serial.parseInt(SKIP_WHITESPACE);
+
+    vel_flag = bool(Serial.parseInt(SKIP_WHITESPACE));
+    vel_max = Serial.parseFloat(SKIP_WHITESPACE);
+    acc_max = Serial.parseFloat(SKIP_WHITESPACE);
+    time_flag = bool(Serial.parseInt(SKIP_WHITESPACE));
+    time_max = Serial.parseFloat(SKIP_WHITESPACE);
 
     flushSerial();
 
@@ -221,12 +236,12 @@ void checkModbusConnection()
 float getForce()
 {
   float force = 0;
-  while (!loadcell.is_ready())
-  {
-  }
-  // float val = loadcell.read_average(5);
+  // while (!loadcell.is_ready())
+  // {
+  // }
+  float val = loadcell.read_average(5);
   // float val = loadcell.read();
-  float val = avg(5);
+  // float val = avg(5);
   switch (FULLSCALE)
   {
   case 1:
@@ -478,7 +493,7 @@ void measureRoutine()
   float pos[num_pos];
   flushSerial();
   Serial.write("send me\n");
-  flushSerial();
+  // flushSerial();
   for (int i = 0; i < num_pos; i++)
   {
     pos[i] = Serial.parseFloat(SKIP_WHITESPACE);
@@ -502,6 +517,8 @@ void measureRoutine()
   {
     int cnt = getAvgCnt(pos[i]);
     checkModbusConnection();
+    setAccVelocity(pos[i]);
+
     for (int j = 0; j < cnt; j++)
     {
       // positive movement
@@ -557,6 +574,8 @@ void measureRoutine()
     {
       int cnt = getAvgCnt(pos[i]);
       checkModbusConnection();
+      setAccVelocity(pos[i]);
+
       for (int j = 0; j < cnt; j++)
       {
         // positive movement
@@ -598,6 +617,39 @@ void measureRoutine()
       sum_m = 0;
     }
   }
+}
+
+void creepRoutine(){
+  Serial.write("Creep Routine\n");
+  flushSerial();
+  Serial.write("send me\n");
+
+  float creep_displ = Serial.parseFloat(SKIP_WHITESPACE) ;
+  float creep_period = Serial.parseFloat(SKIP_WHITESPACE) ;
+  float creep_duration = Serial.parseFloat(SKIP_WHITESPACE) ;
+  int num_creep = (int)(creep_duration*1000/creep_period);
+
+  Serial.write("Measuring\n");
+
+  checkModbusConnection();
+  setAccVelocity(creep_displ);
+  sendPosTarget(init_pos + mm2int(creep_displ));
+  sendCommand(go());
+  getStatus();
+  while ((((sts) >> (3)) & 0x01))
+    getStatus();
+
+  float acquisitions[num_creep];
+  float time_axis[num_creep];
+
+
+  for (int i=0; i<num_creep; i++){
+    acquisitions[i]=getForce();
+
+    delay(creep_period);
+  }
+
+
 }
 
 void getStatus()
@@ -762,4 +814,40 @@ int getAvgCnt(float val)
       cnt = cnt_th1;
   }
   return cnt;
+}
+
+
+void setAccVelocity(float disp){
+  if(vel_flag && !time_flag){
+    split32to16(int32_t(vel_max*100));
+    modbusTCPClient.holdingRegisterWrite(63 /* traslation speed*/, splitted[0]);
+    modbusTCPClient.holdingRegisterWrite(63 /* traslation speed*/+1, splitted[1]);
+
+    splitU32to16(uint32_t(acc_max*100));
+    modbusTCPClient.holdingRegisterWrite(67 /* acceleration ramp*/, splitted[0]);
+    modbusTCPClient.holdingRegisterWrite(67 /* acceleration ramp*/+1, splitted[1]);
+    modbusTCPClient.holdingRegisterWrite(70 /* deceleration ramp*/, splitted[0]);
+    modbusTCPClient.holdingRegisterWrite(70 /* deceleration ramp*/+1, splitted[1]);
+
+  }
+  if(!vel_flag && time_flag){
+    splitU32to16(uint32_t(5*100));
+    modbusTCPClient.holdingRegisterWrite(67 /* acceleration ramp*/, splitted[0]);
+    modbusTCPClient.holdingRegisterWrite(67 /* acceleration ramp*/+1, splitted[1]);
+    splitU32to16(uint32_t(1*100));
+    modbusTCPClient.holdingRegisterWrite(70 /* deceleration ramp*/, splitted[0]);
+    modbusTCPClient.holdingRegisterWrite(70 /* deceleration ramp*/+1, splitted[1]);
+
+    // vel [mm/s]
+    float vel = fabs(disp)/(time_max*5);
+    vel = ((vel)<(-100)?(-100):((vel)>(100)?(100):(vel)));
+
+    split32to16(int32_t(vel*100));
+    modbusTCPClient.holdingRegisterWrite(63 /* traslation speed*/, splitted[0]);
+    modbusTCPClient.holdingRegisterWrite(63 /* traslation speed*/+1, splitted[1]);
+  }
+  else {
+
+  }
+
 }

@@ -175,7 +175,7 @@ void measureRoutine()
   float pos[num_pos];
   flushSerial();
   Serial.write("send me\n");
-  flushSerial();
+  // flushSerial();
   for (int i = 0; i < num_pos; i++)
   {
     pos[i] = Serial.parseFloat(SKIP_WHITESPACE);
@@ -199,6 +199,8 @@ void measureRoutine()
   {
     int cnt = getAvgCnt(pos[i]);
     checkModbusConnection();
+    setAccVelocity(pos[i]);
+
     for (int j = 0; j < cnt; j++)
     {
       // positive movement
@@ -254,6 +256,8 @@ void measureRoutine()
     {
       int cnt = getAvgCnt(pos[i]);
       checkModbusConnection();
+      setAccVelocity(pos[i]);
+
       for (int j = 0; j < cnt; j++)
       {
         // positive movement
@@ -295,6 +299,46 @@ void measureRoutine()
       sum_m = 0;
     }
   }
+}
+
+void creepRoutine(){
+  Serial.write("Creep Routine\n");
+  flushSerial();
+  Serial.write("send me\n");
+  
+  float creep_displ = Serial.parseFloat(SKIP_WHITESPACE) ;
+  float creep_period = Serial.parseFloat(SKIP_WHITESPACE) ;
+  float creep_duration = Serial.parseFloat(SKIP_WHITESPACE) ;
+  int num_creep = (int)(creep_duration*1000/creep_period);
+
+  Serial.write("Measuring\n");
+
+  checkModbusConnection();
+  setAccVelocity(creep_displ);
+  
+  sendPosTarget(init_pos + mm2int(creep_displ));
+  sendCommand(go());
+  getStatus();
+  while (bitRead(sts, 3))
+    getStatus();
+  
+  float acquisitions[num_creep];
+  float time_axis[num_creep];
+
+  unsigned double tik = millis();
+  for (int i=0; i<num_creep; i++){
+    acquisitions[i]=getForce();
+    unsigned double tok = millis();
+    time_axis[i] = float(tok-tik);
+    delay(creep_period);
+  }
+
+  sendPosTarget(init_pos);
+  sendCommand(go());
+  getStatus();
+  while (bitRead(sts, 3))
+    getStatus();
+
 }
 
 void getStatus()
@@ -460,3 +504,39 @@ int getAvgCnt(float val)
   }
   return cnt;
 }
+
+    
+void setAccVelocity(float disp){
+  if(vel_flag && !time_flag){
+    split32to16(int32_t(vel_max*100));
+    modbusTCPClient.holdingRegisterWrite(Rvel, splitted[0]);
+    modbusTCPClient.holdingRegisterWrite(Rvel+1, splitted[1]);
+
+    splitU32to16(uint32_t(acc_max*100));
+    modbusTCPClient.holdingRegisterWrite(Racc, splitted[0]);
+    modbusTCPClient.holdingRegisterWrite(Racc+1, splitted[1]);
+    modbusTCPClient.holdingRegisterWrite(Rdec, splitted[0]);
+    modbusTCPClient.holdingRegisterWrite(Rdec+1, splitted[1]);
+
+  }
+  if(!vel_flag && time_flag){
+    splitU32to16(uint32_t(5*100));
+    modbusTCPClient.holdingRegisterWrite(Racc, splitted[0]);
+    modbusTCPClient.holdingRegisterWrite(Racc+1, splitted[1]);
+    splitU32to16(uint32_t(1*100));
+    modbusTCPClient.holdingRegisterWrite(Rdec, splitted[0]);
+    modbusTCPClient.holdingRegisterWrite(Rdec+1, splitted[1]);
+
+    // vel [mm/s]
+    float vel = fabs(disp)/(time_max*5);
+    vel = constrain(vel, -100, 100);
+
+    split32to16(int32_t(vel*100));
+    modbusTCPClient.holdingRegisterWrite(Rvel, splitted[0]);
+    modbusTCPClient.holdingRegisterWrite(Rvel+1, splitted[1]);
+  }
+  else {
+
+  }
+
+} 

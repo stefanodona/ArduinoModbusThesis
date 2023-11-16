@@ -12,6 +12,8 @@ from threading import Thread
 import os
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
+import serial.tools.list_ports
+
 
 #############################################################################
 # ------------------------------C L A S S E S--------------------------------
@@ -130,8 +132,12 @@ class VelAccWindows(customtkinter.CTkToplevel):
         self.vel_frame = customtkinter.CTkFrame(self)
         self.vel_frame.pack(padx=10, pady=10, fill='x', expand=True)
 
+        self.time_frame = customtkinter.CTkFrame(self)
+        self.time_frame.pack(padx=10, pady=10, fill='x', expand=True)
+
+        # --- VELOCITY --- #
         self.vel_checkbox = customtkinter.CTkCheckBox(self.vel_frame, text="velocita' costante", variable=self.vel_bool_tkvar, command=self.vel_chk_pressed)
-        self.vel_checkbox.grid(row=0, column=0, padx=10, pady=10, sticky='w')
+        self.vel_checkbox.grid(row=0, column=0, padx=10, pady=10, sticky='w', columnspan=2)
 
         self.vel_entry = customtkinter.CTkEntry(self.vel_frame, width=50, textvariable=self.vel_max_tkvar)
         self.vel_entry_label = customtkinter.CTkLabel(self.vel_frame, text="Velocita' [rps]")
@@ -145,13 +151,9 @@ class VelAccWindows(customtkinter.CTkToplevel):
         self.acc_entry.grid(row=2, column=0, padx=10, pady=5, sticky='w')
         self.acc_entry_label.grid(row=2, column=1, padx=10, pady=5, sticky='w')
 
-        self.time_frame = customtkinter.CTkFrame(self)
-        self.time_frame.pack(padx=10, pady=10, fill='x', expand=True)
-
         # --- TIME --- #
-
         self.time_checkbox = customtkinter.CTkCheckBox(self.time_frame, text="tempo costante", variable=self.time_bool_tkvar, command=self.time_chk_pressed)
-        self.time_checkbox.grid(row=0, column=0, padx=10, pady=10, sticky='w')
+        self.time_checkbox.grid(row=0, column=0, padx=10, pady=10, sticky='w', columnspan=2)
 
         self.time_entry = customtkinter.CTkEntry(self.time_frame, width=50, textvariable=self.time_max_tkvar)
         self.time_entry_label = customtkinter.CTkLabel(self.time_frame, text="Tempo [s]")
@@ -159,46 +161,60 @@ class VelAccWindows(customtkinter.CTkToplevel):
         self.time_entry.grid(row=1, column=0, padx=10, pady=5, sticky='w')
         self.time_entry_label.grid(row=1, column=1, padx=10, pady=5, sticky='w')
 
-    def vel_chk_pressed(self, *args):
-        state = bool(self.vel_checkbox.get())
+        self.update_state()
 
-        self.vel_bool_tkvar.set(state)
-        if(state == True):
+        # self.vel_checkbox.trace('w', callback=self.getState)
+        # self.time_checkbox.trace('w', callback=self.getState)
+
+        self.vel_bool_tkvar.trace('w', callback=self.getState)
+        self.time_bool_tkvar.trace('w', callback=self.getState)
+        self.vel_max_tkvar.trace('w', callback=self.getState)
+        self.acc_max_tkvar.trace('w', callback=self.getState)
+        self.time_max_tkvar.trace('w', callback=self.getState)
+
+
+
+    def update_state(self, *args):
+        states = [customtkinter.DISABLED, customtkinter.NORMAL]
+
+        self.vel_entry.configure(state = states[self.vel_checkbox.get()])
+        self.acc_entry.configure(state = states[self.vel_checkbox.get()])
+        self.time_entry.configure(state = states[self.time_checkbox.get()])
+            
+
+    def vel_chk_pressed(self, *args):
+        if(self.vel_checkbox.get()):
             self.time_checkbox.deselect()
-            self.time_bool_tkvar.set(False)
-            self.time_entry.configure(state=customtkinter.DISABLED)    
         else:
             self.time_checkbox.select()
-            self.time_bool_tkvar.set(True)
-            self.time_entry.configure(state=customtkinter.NORMAL)    
+        self.update_state()
+
 
     def time_chk_pressed(self, *args):
-        state = bool(self.time_checkbox.get())
-
-        self.time_bool_tkvar.set(state)
-        if(state == True):
+        if(self.time_checkbox.get()):
             self.vel_checkbox.deselect()
-            self.vel_bool_tkvar.set(False)
-            self.vel_entry.configure(state=customtkinter.DISABLED)    
-            self.acc_entry.configure(state=customtkinter.DISABLED)    
         else:
             self.vel_checkbox.select()
-            self.vel_bool_tkvar.set(True)
-            self.vel_entry.configure(state=customtkinter.NORMAL)
-            self.acc_entry.configure(state=customtkinter.NORMAL)
+        self.update_state()
+
+    def getState(self, *args):
+        global vel_flag, vel_max, acc_max, time_flag, time_max
+        vel_flag = self.vel_bool_tkvar.get()
+        time_flag = self.time_bool_tkvar.get()
+
+        if (not self.vel_entry.get()==""):
+            vel_max = float(self.vel_entry.get())
+
+        if (not self.acc_entry.get()==""):
+            acc_max = float(self.acc_entry.get())
+        
+        if (not self.time_entry.get()==""):
+            time_max = float(self.time_entry.get())
+
+        saveState()
 
 
-
-
-
-
-
-
-
-
-
-
-
+    
 
 
 #############################################################################
@@ -208,10 +224,13 @@ this_path = os.getcwd()
 config_path = os.path.join(this_path, "GUI\config.txt")
 print(config_path)
 
+port = "COM9"
+
 
 
 # load state
 f = open(config_path, "r")
+stat_creep_flag = bool(int(f.readline().split()[1]))
 loadcell_fullscale = int(f.readline().split()[1])
 min_pos = float(f.readline().split()[1])
 max_pos = float(f.readline().split()[1])
@@ -229,6 +248,9 @@ vel_max = float(f.readline().split()[1])
 acc_max = float(f.readline().split()[1])
 time_flag = bool(int(f.readline().split()[1]))
 time_max = float(f.readline().split()[1])
+creep_displ = float(f.readline().split()[1])
+creep_period = float(f.readline().split()[1])
+creep_duration = float(f.readline().split()[1])
 f.close()
 
 percent = 0
@@ -290,9 +312,17 @@ def setAvgCnt(val):
 def populatePosArray():
     global pos, pos_sorted, max_iter
     pos = np.linspace(min_pos, max_pos, num_pos)
+    minus=np.flip(pos[0:int(num_pos/2)])
+    plus=pos[int(num_pos/2):]
 
-    sort = np.argsort(-np.abs(np.round(pos,4)))
-    pos_sorted = np.flip(pos[sort])
+    sor=[]
+    for i in range(0, int(num_pos/2)):
+        sor.append(plus[i])
+        sor.append(minus[i])
+    pos_sorted = np.array(sor)
+
+    # sort = np.argsort(-np.abs(np.round(pos,2)))
+    # pos_sorted = np.flip(pos[sort])
 
     max_iter = 0
     j = 0
@@ -311,6 +341,7 @@ def populatePosArray():
 
 def saveState():
     ff = open(config_path, "w")
+    ff.write("stat_creep_flag " + str(int(stat_creep_flag)) + " \n")
     ff.write("loadcell " + str(loadcell_fullscale) + " kg\n")
     ff.write("min_pos " + str(min_pos) + " mm\n")
     ff.write("max_pos " + str(max_pos) + " mm\n")
@@ -323,6 +354,14 @@ def saveState():
     ff.write("th2_avg " + str(th2_avg) + " \n")
     ff.write("th3_val " + str(th3_val) + " mm\n")
     ff.write("th3_avg " + str(th3_avg) + " \n")
+    ff.write("vel_flg " + str(int(vel_flag)) + " \n")
+    ff.write("vel " + str(vel_max) + " rps\n")
+    ff.write("acc " + str(acc_max) + " rps^2\n")
+    ff.write("time_flg " + str(int(time_flag)) + " \n")
+    ff.write("time " + str(time_max) + " s\n")
+    ff.write("creep_displ " + str(creep_displ) + " mm\n")
+    ff.write("creep_period " + str(creep_period) + " ms\n")
+    ff.write("creep_duration " + str(creep_duration) + " s\n")
     ff.close()
 
 
@@ -381,14 +420,21 @@ def startMeasurement():
 
     percent = 0
 
-    Thread(target=saveState).start()
-    t = Thread(target=serialListener)
-    t.start()
+    # Thread(target=saveState).start()
+    saveState()
+    Thread(target=serialListener).start()
     # return
 
 def prepareMsgSerialParameters():
     # global loadcell_fullscale, min_pos, max_pos, num_pos, avg_flag, ar_flag, th1_val, th1_avg, th2_val, th2_avg, th3_val, th3_avg
-    param_array = [loadcell_fullscale, min_pos, max_pos, num_pos, avg_flag, ar_flag, th1_val, th1_avg, th2_val, th2_avg, th3_val, th3_avg]
+    param_array = [loadcell_fullscale, 
+                   min_pos, max_pos, num_pos, 
+                   avg_flag, ar_flag, 
+                   th1_val, th1_avg, 
+                   th2_val, th2_avg, 
+                   th3_val, th3_avg,
+                   vel_flag, vel_max, acc_max,
+                   time_flag, time_max]
     msg = ''
     for param in param_array:
         if isinstance(param, bool):
@@ -466,14 +512,10 @@ def serialListener():
             if data == "send me\n":
                 msg = ''
                 for p in pos_sorted:
-                    # byte = struct.pack('!f', p) 
-                    # msg+=byte
                     msg += str(p)+" "     
                 print(msg)                               
                 ser.write(msg.encode())
-                # ser.write(str(pos_sorted[index]).encode())
-                # print(pos_sorted[index])
-                # index += 1
+                
 
             if data == "check percent\n":
                 iter_count += 1
@@ -552,6 +594,8 @@ def thr_and_avg_setting_func():
     global thr_avg_window 
     if (thr_avg_window==None or not thr_avg_window.winfo_exists()):
         thr_avg_window = ThrAvgWindows(app)
+    
+    thr_avg_window.focus()
     # topWindow.grab_set()
     app.update()
 
@@ -559,8 +603,26 @@ def vel_and_acc_setting_func():
     global vel_acc_window 
     if (vel_acc_window==None or not vel_acc_window.winfo_exists()):
         vel_acc_window = VelAccWindows(app)
+    
+    vel_acc_window.focus()
     # topWindow.grab_set()
     app.update()
+
+def setCOMPort(thePort):
+    global port
+    port = str(thePort[0])
+    print(port)
+
+def showFrame():
+    global stat_creep_flag
+    stat_creep_flag = bool(creep_switch.get())
+    print(stat_creep_flag)
+    if(not stat_creep_flag):
+        showStaticFrame()
+        creep_switch.configure(text="Statica")
+    else:
+        showCreepFrame()
+        creep_switch.configure(text="Creep")
 
 
 
@@ -573,13 +635,27 @@ customtkinter.set_default_color_theme("blue")
 
 # create app
 app = customtkinter.CTk()
-app.geometry("880x700")
+app.geometry("900x700")
 app.title("MyApp")
 
-leftFrame = customtkinter.CTkFrame(app, 100, 500, fg_color="lightgray")
+
+leftFrame = customtkinter.CTkFrame(app, 250, 500, fg_color="darkgray")
+leftFrame.pack_propagate(0)
 leftFrame.pack(
     side=customtkinter.LEFT, padx=20, pady=20, fill="y", expand=False, anchor="w"
 )
+
+creep_bool_tkvar = customtkinter.BooleanVar(app, stat_creep_flag)
+creep_switch = customtkinter.CTkSwitch(leftFrame, text="Mode", command=showFrame, variable=creep_bool_tkvar)
+creep_switch.pack(pady=10)
+
+
+staticFrame = customtkinter.CTkFrame(leftFrame, 290, fg_color="lightgray")
+creepFrame = customtkinter.CTkFrame(leftFrame, 290, fg_color="lightgray")
+staticFrame.grid_propagate(0)
+creepFrame.grid_propagate(0)
+
+
 
 rightFrame = customtkinter.CTkFrame(app, 500, 500, fg_color="darkgray")
 rightFrame.pack(side=customtkinter.LEFT, padx=20, pady=20, fill="both", expand=True)
@@ -612,10 +688,18 @@ settingmenu.add_command(label="Medie & Soglie", command=thr_and_avg_setting_func
 
 menubar.add_cascade(label="Impostazioni", menu=settingmenu)
 
+COM_menu = Menu(settingmenu, tearoff=0)
+COM_list = serial.tools.list_ports.comports()
+for COM_port in COM_list:
+    COM_menu.add_command(label=str(COM_port), command=setCOMPort(COM_port))
+
+settingmenu.add_cascade(label="Serial Ports", menu=COM_menu)
 
 #############################################################################
 # ----------------------------E L E M E N T S--------------------------------
 #############################################################################
+
+
 
 loadcell_label = customtkinter.CTkLabel(
     leftFrame, text="Selezionare cella di carico", anchor="s"
@@ -629,39 +713,50 @@ load_cell_menu.set(str(loadcell_fullscale) + " kg")
 
 
 min_pos_label = customtkinter.CTkLabel(
-    leftFrame, text="Posizione negativa massima", anchor="s"
+    staticFrame, text="Posizione negativa massima", anchor="s"
 )
 
 min_pos_entry = customtkinter.CTkEntry(
-    leftFrame, textvariable=customtkinter.StringVar(app, str(min_pos))
+    staticFrame, textvariable=customtkinter.StringVar(app, str(min_pos))
 )
 if float(min_pos_entry.get()) > 0:
     min_pos_entry.insert(0, "-")
 
 
 max_pos_label = customtkinter.CTkLabel(
-    leftFrame, text="Posizione positiva massima", anchor="s"
+    staticFrame, text="Posizione positiva massima", anchor="s"
 )
 
 max_pos_entry = customtkinter.CTkEntry(
-    leftFrame, textvariable=customtkinter.StringVar(app, str(max_pos))
+    staticFrame, textvariable=customtkinter.StringVar(app, str(max_pos))
 )
 
 
 num_pos_label = customtkinter.CTkLabel(
-    leftFrame, text="Numero pari di punti spaziali", anchor="s"
+    staticFrame, text="Numero pari di punti spaziali", anchor="s"
 )
 
 num_pos_entry = customtkinter.CTkEntry(
-    leftFrame, textvariable=customtkinter.StringVar(app, str(num_pos))
+    staticFrame, textvariable=customtkinter.StringVar(app, str(num_pos))
 )
 
 
-checkbox = customtkinter.CTkCheckBox(leftFrame, text="Media", command=setAvgFlag)
+checkbox = customtkinter.CTkCheckBox(staticFrame, text="Media", command=setAvgFlag)
 checkbox.configure(variable=customtkinter.BooleanVar(app, avg_flag))
 
-checkbox_AR = customtkinter.CTkCheckBox(leftFrame, text="Andata e Ritorno", command=setARFlag)
+checkbox_AR = customtkinter.CTkCheckBox(staticFrame, text="Andata e Ritorno", command=setARFlag)
 checkbox_AR.configure(variable=customtkinter.BooleanVar(app, ar_flag))
+
+
+
+displ_entry_label = customtkinter.CTkLabel(creepFrame, text="Spostamento desiderato [mm]", anchor="s")
+displ_entry = customtkinter.CTkEntry(creepFrame, textvariable=customtkinter.StringVar(app, str(creep_displ)))
+
+period_entry_label = customtkinter.CTkLabel(creepFrame, text="Intervallo di misura [ms]", anchor="s")
+period_entry = customtkinter.CTkEntry(creepFrame, textvariable=customtkinter.StringVar(app, str(creep_period)))
+
+duration_entry_label = customtkinter.CTkLabel(creepFrame, text="Durata della misura [s]", anchor="s")
+duration_entry = customtkinter.CTkEntry(creepFrame, textvariable=customtkinter.StringVar(app, str(creep_duration)))
 
 
 # create start button
@@ -669,9 +764,13 @@ startButton = customtkinter.CTkButton(
     leftFrame, text="START", height=50, command=startMeasurement
 )
 
+
+
+
 #############################################################################
 # -------------------------------P L O T S-----------------------------------
 #############################################################################
+
 plot_tabview = customtkinter.CTkTabview(rightFrame)
 plot_tabview.pack(padx=20, pady=0, fill="both", expand=True)
 plot_tabview.add("Force")
@@ -741,36 +840,65 @@ pProgress.grid(row=0, column=1, sticky="ew", padx=10, pady=5)
 # --------------------------P O S I T I O N I N G----------------------------
 #############################################################################
 
+# loadcell_label.grid(row=0, column=0, pady=10, padx=20, sticky="w")
+# load_cell_menu.grid(row=1, column=0, padx=20, sticky="w")
+loadcell_label.pack(padx=20)
+load_cell_menu.pack(pady=20, padx=20)
+
 # positioning
-leftFrame.grid_rowconfigure(1, weight=1)
-leftFrame.grid_rowconfigure(3, weight=1)
-leftFrame.grid_rowconfigure(5, weight=1)
-leftFrame.grid_rowconfigure(7, weight=1)
-leftFrame.grid_rowconfigure(8, weight=2)
-leftFrame.grid_rowconfigure(9, weight=2)
-leftFrame.grid_rowconfigure(10, weight=3)
+def showStaticFrame():
+    creepFrame.pack_forget()
+    staticFrame.pack(padx=10, fill="y", expand=True, anchor="w")
+    # staticFrame.grid_rowconfigure(1, weight=1)
+    staticFrame.grid_rowconfigure(3, weight=1)
+    staticFrame.grid_rowconfigure(5, weight=1)
+    staticFrame.grid_rowconfigure(7, weight=1)
+    staticFrame.grid_rowconfigure(8, weight=2)
+    staticFrame.grid_rowconfigure(9, weight=2)
+    # staticFrame.grid_rowconfigure(10, weight=3)
 
-loadcell_label.grid(row=0, column=0, pady=10, padx=20, sticky="w")
-load_cell_menu.grid(row=1, column=0, padx=20, sticky="w")
 
-min_pos_label.grid(row=2, column=0, pady=10, padx=20, sticky="w")
-min_pos_entry.grid(row=3, column=0, padx=20, sticky="w")
+    min_pos_label.grid(row=2, column=0, pady=10, padx=20, sticky="w")
+    min_pos_entry.grid(row=3, column=0, padx=20, sticky="w")
 
-max_pos_label.grid(row=4, column=0, pady=10, padx=20, sticky="w")
-max_pos_entry.grid(row=5, column=0, padx=20, sticky="w")
+    max_pos_label.grid(row=4, column=0, pady=10, padx=20, sticky="w")
+    max_pos_entry.grid(row=5, column=0, padx=20, sticky="w")
 
-num_pos_label.grid(row=6, column=0, pady=10, padx=20, sticky="w")
-num_pos_entry.grid(row=7, column=0, padx=20, sticky="w")
+    num_pos_label.grid(row=6, column=0, pady=10, padx=20, sticky="w")
+    num_pos_entry.grid(row=7, column=0, padx=20, sticky="w")
 
-checkbox.grid(row=8, column=0, padx=20, sticky="w")
-checkbox_AR.grid(row=9, column=0, padx=20, sticky="w")
-startButton.grid(row=10, column=0, padx=20, sticky="ew")
+    checkbox.grid(row=8, column=0, padx=20, sticky="w", pady=10)
+    checkbox_AR.grid(row=9, column=0, padx=20, sticky="w", pady=10)
+    app.update()
+
+def showCreepFrame():
+    staticFrame.pack_forget()
+    creepFrame.pack(padx=10, fill="y", expand=True, anchor="w")
+
+    creepFrame.grid_rowconfigure(2, weight=1)
+    creepFrame.grid_rowconfigure(4, weight=1)
+    creepFrame.grid_rowconfigure(6, weight=1)
+    creepFrame.grid_rowconfigure(7, weight=8)
+
+    displ_entry_label.grid(row=1, column=0, pady=10, padx=20, sticky="w")    
+    displ_entry.grid(row=2, column=0, padx=20, sticky="w")    
+
+    period_entry_label.grid(row=3, column=0, pady=10, padx=20, sticky="w")    
+    period_entry.grid(row=4, column=0, padx=20, sticky="w")    
+
+    duration_entry_label.grid(row=5, column=0, pady=10, padx=20, sticky="w")    
+    duration_entry.grid(row=6, column=0, padx=20, sticky="w")    
+
+# startButton.grid(row=10, column=0, padx=20, sticky="ew")
+startButton.pack(padx=20, pady=20, side=customtkinter.BOTTOM)
 
 
 # prepareMsgSerialParameters()
 
+showFrame()
 app.bind('<Return>', lambda e: startMeasurement())
 app.config(menu=menubar)
 app.bind('<Escape>', lambda e: app.destroy())
 app.mainloop()
+
 

@@ -1,12 +1,12 @@
 float getForce()
 {
   float force = 0;
-  while (!loadcell.is_ready())
-  {
-  }
-  // float val = loadcell.read_average(5);
+  // while (!loadcell.is_ready())
+  // {
+  // }
+  float val = loadcell.read_average(5);
   // float val = loadcell.read();
-  float val = avg(5);
+  // float val = avg(5);
   switch (FULLSCALE)
   {
   case 1:
