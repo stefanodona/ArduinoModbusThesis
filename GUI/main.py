@@ -1,9 +1,10 @@
 from tkinter import *
 from tkinter import font
-from tkinter.filedialog import asksaveasfile 
+from tkinter.filedialog import asksaveasfile, askopenfile 
 from typing import Optional, Tuple, Union
 import customtkinter
 import serial
+import json
 import struct
 import numpy as np
 import re  # used to compare strings
@@ -223,38 +224,44 @@ class VelAccWindows(customtkinter.CTkToplevel):
 # ----------------------------V A R I A B L E S------------------------------
 #############################################################################
 this_path = os.getcwd()
-config_path = os.path.join(this_path, "GUI\config.txt")
+# config_path = os.path.join(this_path, "GUI\config.txt")
+config_path = os.path.join(this_path, "GUI\config.json")
 print(config_path)
 
 port = "COM9"
 spider_name = ''
 
-
-
 # load state
+# f = open(config_path, "r")
+# stat_creep_flag = bool(int(f.readline().split()[1]))
+# loadcell_fullscale = int(f.readline().split()[1])
+# min_pos = float(f.readline().split()[1])
+# max_pos = float(f.readline().split()[1])
+# num_pos = int(f.readline().split()[1])
+# avg_flag = bool(int(f.readline().split()[1]))
+# ar_flag = bool(int(f.readline().split()[1]))
+# th1_val = float(f.readline().split()[1])
+# th1_avg = int(f.readline().split()[1])
+# th2_val = float(f.readline().split()[1])
+# th2_avg = int(f.readline().split()[1])
+# th3_val = float(f.readline().split()[1])
+# th3_avg = int(f.readline().split()[1])
+# vel_flag = bool(int(f.readline().split()[1]))
+# vel_max = float(f.readline().split()[1])
+# acc_max = float(f.readline().split()[1])
+# time_flag = bool(int(f.readline().split()[1]))
+# time_max = float(f.readline().split()[1])
+# creep_displ = float(f.readline().split()[1])
+# creep_period = float(f.readline().split()[1])
+# creep_duration = float(f.readline().split()[1])
+# f.close()
+
 f = open(config_path, "r")
-stat_creep_flag = bool(int(f.readline().split()[1]))
-loadcell_fullscale = int(f.readline().split()[1])
-min_pos = float(f.readline().split()[1])
-max_pos = float(f.readline().split()[1])
-num_pos = int(f.readline().split()[1])
-avg_flag = bool(int(f.readline().split()[1]))
-ar_flag = bool(int(f.readline().split()[1]))
-th1_val = float(f.readline().split()[1])
-th1_avg = int(f.readline().split()[1])
-th2_val = float(f.readline().split()[1])
-th2_avg = int(f.readline().split()[1])
-th3_val = float(f.readline().split()[1])
-th3_avg = int(f.readline().split()[1])
-vel_flag = bool(int(f.readline().split()[1]))
-vel_max = float(f.readline().split()[1])
-acc_max = float(f.readline().split()[1])
-time_flag = bool(int(f.readline().split()[1]))
-time_max = float(f.readline().split()[1])
-creep_displ = float(f.readline().split()[1])
-creep_period = float(f.readline().split()[1])
-creep_duration = float(f.readline().split()[1])
+params = json.loads(f.read())
 f.close()
+
+print(params)
+
 
 percent = 0
 max_iter = 0
@@ -734,7 +741,38 @@ def save():
     pass
 
 def load():
-    pass
+    global time_axis, pos, force, force_ritorno
+    files = [('All Files', '*.*'),  
+             ('Python Files', '*.py'), 
+             ('Text Document', '*.txt')] 
+    file_path = askopenfile(mode='r', defaultextension=".txt", filetypes=files)
+    if file_path:
+        with open(file_path.name, 'r') as fl:
+            fl.readline() # date time 
+            spider_name_tkvar.set(fl.readline().split()[2])
+            stat_creep = fl.readline().split()[1]
+            fl.readline() # empty line
+            fl.readline() # axis specification
+
+            if stat_creep=="STATIC":
+                pass
+            elif stat_creep=="CREEP":
+                while True:
+                    line = fl.readline()
+                    data = line.split("\t\t\t")
+                    time_axis = np.array([])
+                    force = np.array([])
+                    if not data[0]=="":
+                        np.append(time_axis,data[0])
+                        np.append(force,data[1])
+
+                    if not line:
+                        break
+            else:
+                print("ERRORE NEL CARICAMENTO")
+
+            drawPlots()         
+            fl.close()
 
 
 #############################################################################
@@ -783,7 +821,7 @@ menubar = Menu(app)
 
 filemenu = Menu(menubar, tearoff=0)
 filemenu.add_command(label="New", command=donothing)
-filemenu.add_command(label="Open", command=donothing)
+filemenu.add_command(label="Open", command=load)
 filemenu.add_command(label="Save", command=donothing)
 filemenu.add_command(label="Save as...", command=save_as)
 filemenu.add_separator()
