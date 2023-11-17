@@ -37,3 +37,4 @@ parameters2 = json.loads(file.read())
 file.close()
 print("p1: ",parameters)
 print("p2: ",parameters2)
+

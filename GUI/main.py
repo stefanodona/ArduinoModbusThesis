@@ -1,6 +1,6 @@
 from tkinter import *
 from tkinter import font
-from tkinter.filedialog import asksaveasfile, askopenfile 
+from tkinter.filedialog import asksaveasfile, asksaveasfilename, askopenfile, askopenfilename 
 from typing import Optional, Tuple, Union
 import customtkinter
 import serial
@@ -24,7 +24,7 @@ import serial.tools.list_ports
 class ThrAvgFrame(customtkinter.CTkFrame):
     def __init__(self, master: any, width: int = 200, height: int = 200, corner_radius: int | str | None = None, border_width: int | str | None = None, bg_color: str | Tuple[str, str] = "transparent", fg_color: str | Tuple[str, str] | None = None, border_color: str | Tuple[str, str] | None = None, background_corner_colors: Tuple[str | Tuple[str, str]] | None = None, overwrite_preferred_drawing_method: str | None = None, name: str | None=None, slider_val: float | None=None, avg_num: int | None=None, **kwargs):
         super().__init__(master, width, height, corner_radius, border_width, bg_color, fg_color, border_color, background_corner_colors, overwrite_preferred_drawing_method, **kwargs)
-        self.slider_val = customtkinter.DoubleVar(self, slider_val)
+        self.slider_val = customtkinter.DoubleVar(self, np.clip(slider_val, 1, max_pos))
         self.avg_val = customtkinter.StringVar(self, str(avg_num))
 
         self.sliderlabel = customtkinter.CTkLabel(self, 
@@ -110,7 +110,6 @@ class ThrAvgWindows(customtkinter.CTkToplevel):
         if (not self.th3.avg_val.get()==''): 
             th3_avg = int(self.th3.avg_val.get())
         saveState()
-
 
 
 class VelAccWindows(customtkinter.CTkToplevel):
@@ -217,9 +216,6 @@ class VelAccWindows(customtkinter.CTkToplevel):
         saveState()
 
 
-    
-
-
 #############################################################################
 # ----------------------------V A R I A B L E S------------------------------
 #############################################################################
@@ -230,38 +226,37 @@ print(config_path)
 
 port = "COM9"
 spider_name = ''
+saved_flag = False
+
+txt_path='' 
+json_path=''
 
 # load state
-# f = open(config_path, "r")
-# stat_creep_flag = bool(int(f.readline().split()[1]))
-# loadcell_fullscale = int(f.readline().split()[1])
-# min_pos = float(f.readline().split()[1])
-# max_pos = float(f.readline().split()[1])
-# num_pos = int(f.readline().split()[1])
-# avg_flag = bool(int(f.readline().split()[1]))
-# ar_flag = bool(int(f.readline().split()[1]))
-# th1_val = float(f.readline().split()[1])
-# th1_avg = int(f.readline().split()[1])
-# th2_val = float(f.readline().split()[1])
-# th2_avg = int(f.readline().split()[1])
-# th3_val = float(f.readline().split()[1])
-# th3_avg = int(f.readline().split()[1])
-# vel_flag = bool(int(f.readline().split()[1]))
-# vel_max = float(f.readline().split()[1])
-# acc_max = float(f.readline().split()[1])
-# time_flag = bool(int(f.readline().split()[1]))
-# time_max = float(f.readline().split()[1])
-# creep_displ = float(f.readline().split()[1])
-# creep_period = float(f.readline().split()[1])
-# creep_duration = float(f.readline().split()[1])
-# f.close()
-
 f = open(config_path, "r")
 params = json.loads(f.read())
 f.close()
 
-print(params)
-
+stat_creep_flag = params["stat_creep_flag"]
+loadcell_fullscale = params["loadcell_fullscale"]
+min_pos = params["min_pos"]
+max_pos = params["max_pos"]
+num_pos = params["num_pos"]
+avg_flag = bool(params["avg_flag"])
+ar_flag = bool(params["ar_flag"])
+th1_val = params["th1_val"]
+th1_avg = params["th1_avg"]
+th2_val = params["th2_val"]
+th2_avg = params["th2_avg"]
+th3_val = params["th3_val"]
+th3_avg = params["th3_avg"]
+vel_flag = bool(params["vel_flag"])
+vel_max = params["vel_max"]
+acc_max = params["acc_max"]
+time_flag = bool(params["time_flag"])
+time_max = params["time_max"]
+creep_displ = params["creep_displ"]
+creep_period = params["creep_period"]
+creep_duration = params["creep_duration"]
 
 percent = 0
 max_iter = 0
@@ -356,27 +351,9 @@ def populatePosArray():
 
 def saveState():
     ff = open(config_path, "w")
-    ff.write("stat_creep_flag " + str(int(stat_creep_flag)) + " \n")
-    ff.write("loadcell " + str(loadcell_fullscale) + " kg\n")
-    ff.write("min_pos " + str(min_pos) + " mm\n")
-    ff.write("max_pos " + str(max_pos) + " mm\n")
-    ff.write("num_pos " + str(num_pos) + " \n")
-    ff.write("media " + str(int(avg_flag)) + " \n")
-    ff.write("ritorno " + str(int(ar_flag)) + " \n")
-    ff.write("th1_val " + str(th1_val) + " mm\n")
-    ff.write("th1_avg " + str(th1_avg) + " \n")
-    ff.write("th2_val " + str(th2_val) + " mm\n")
-    ff.write("th2_avg " + str(th2_avg) + " \n")
-    ff.write("th3_val " + str(th3_val) + " mm\n")
-    ff.write("th3_avg " + str(th3_avg) + " \n")
-    ff.write("vel_flg " + str(int(vel_flag)) + " \n")
-    ff.write("vel " + str(vel_max) + " rps\n")
-    ff.write("acc " + str(acc_max) + " rps^2\n")
-    ff.write("time_flg " + str(int(time_flag)) + " \n")
-    ff.write("time " + str(time_max) + " s\n")
-    ff.write("creep_displ " + str(creep_displ) + " mm\n")
-    ff.write("creep_period " + str(creep_period) + " ms\n")
-    ff.write("creep_duration " + str(creep_duration) + " s\n")
+    for key in params:
+        params[key] = globals()[key]
+    ff.write(json.dumps(params,indent=4))
     ff.close()
 
 
@@ -616,7 +593,7 @@ def drawPlots():
     ax_force.clear()
     ax_stiff.clear()
 
-    if not stat_creep_flag:
+    if not creep_bool_tkvar.get():
         ax_force.plot(pos, force)
         if(ar_flag):
             ax_force.plot(pos, force_ritorno)
@@ -696,6 +673,20 @@ def showFrame():
         creep_switch.configure(text="Creep")
     saveState()
 
+def updateTkVars():
+    creep_bool_tkvar.set(stat_creep_flag)
+    load_cell_menu.set(str(loadcell_fullscale) + " kg")
+    spider_name_tkvar.set(spider_name)
+    min_pos_tkvar.set(str(min_pos))
+    max_pos_tkvar.set(str(max_pos))
+    num_pos_tkvar.set(str(num_pos))
+    avg_flag_tkvar.set(avg_flag)
+    ar_flag_tkvar.set(ar_flag)
+    creep_displ_tkvar.set(str(creep_displ))
+    creep_period_tkvar.set(str(creep_period))
+    creep_duration_tkvar.set(str(creep_duration))
+
+
 def closeAll():
     ports = serial.tools.list_ports.comports()
     for com in ports:
@@ -709,45 +700,84 @@ def closeAll():
 
     app.destroy()
 
+def save_data(txt_path, json_path):
+    global saved_flag
+    root_name = os.path.splitext(txt_path)[0]
+    with open(txt_path, 'w') as fl:
+        fl.write("# Acquired on "+ datetime.now().strftime("%d/%m/%Y %H:%M:%S") +" \n")
+        fl.write("# SPIDER: " + spider_name_tkvar.get() + "\n")
+        if np.any(force):
+            if(not stat_creep_flag):
+                fl.write("# STATIC MEASUREMENT\n\n")
+                fl.write("# pos [mm]\t\tforce_forw [N]\t\tforce_back [N]\n")
+                for i in range(0,len(pos)):
+                    if (ar_flag):
+                            fl.write(f"{pos[i]:.3f}"+"\t\t\t"+ f"{force[i]:.3f}" +"\t\t\t" + f"{force_ritorno[i]:.3f}" +"\n")   
+                    else:
+                            fl.write(f"{pos[i]:.3f}"+"\t\t\t"+ f"{force[i]:.3f}"+"\t\t\t"+ f"{0:.3f}" +"\n")   
+            else:
+                fl.write("# CREEP MEASUREMENT\n\n")
+                fl.write("# time [ms]\t\tforce [N]\t\tstiffness [N/mm]\n")
+                for i in range(0,len(force)):
+                    fl.write(f"{time_axis[i]:.3f}" +"\t\t\t"+ f"{force[i]:.3f}" +"\t\t\t"+ f"{force[i]/creep_displ:.3f}" + "\n")
+        fl.close()
+
+    with open(json_path, 'w') as js:
+        js.write(json.dumps(params, indent=4))
+        js.close()
+    saved_flag=True
+    app.title("MyApp - "+root_name)
+
+
 def save_as(): 
+    global txt_path, json_path
     files = [('All Files', '*.*'),  
              ('Python Files', '*.py'), 
              ('Text Document', '*.txt')] 
-    file_path = asksaveasfile(initialfile = 'Untitled.txt',
+    file_path = asksaveasfilename(initialfile = spider_name_tkvar.get()+'.txt',
                          filetypes = files, 
                          defaultextension = ".txt") 
+    
     if file_path:
-        with open(file_path.name, 'w') as fl:
-            fl.write("# Acquired on "+ datetime.now().strftime("%d/%m/%Y %H:%M:%S") +" \n")
-            fl.write("# SPIDER: " + spider_name_tkvar.get() + "\n")
-            if np.any(force):
-                if(not stat_creep_flag):
-                    fl.write("# STATIC MEASUREMENT\n\n")
-                    fl.write("# pos [mm]\t\tforce_forw [N]\t\tforce_back [N]\n")
-                    for i in range(0,len(pos)):
-                        if (ar_flag):
-                                fl.write(f"{pos[i]:.3f}"+"\t\t\t"+ f"{force[i]:.3f}" +"\t\t\t" + f"{force_ritorno[i]:.3f}" +"\n")   
-                        else:
-                                fl.write(f"{pos[i]:.3f}"+"\t\t\t"+ f"{force[i]:.3f}"+"\t\t\t"+ f"{0:.3f}" +"\n")   
-                else:
-                    fl.write("# CREEP MEASUREMENT\n\n")
-                    fl.write("# time [ms]\t\tforce [N]\t\tstiffness [N/mm]\n")
-                    for i in range(0,len(force)):
-                        fl.write(f"{time_axis[i]:.3f}" +"\t\t\t"+ f"{force[i]:.3f}" +"\t\t\t"+ f"{force[i]/creep_displ:.3f}" + "\n")
-            
-            fl.close()
+        folder = os.path.splitext(file_path)[0]
+        name = folder.split('/')[-1]
+        os.makedirs(folder, exist_ok=True)
+        txt_path = os.path.join(folder,name+".txt")
+        json_path = os.path.join(folder,name+".json")
+        print(file_path)
 
+        save_data(txt_path, json_path)
+        
 def save():
-    pass
+    if (not saved_flag):
+        save_as()
+    else:
+        file_name = (os.path.splitext(txt_path)[0]).split('/')[-1]
+        if(not file_name==spider_name_tkvar.get()):
+            save_as()
+        else:
+            save_data(txt_path, json_path)
 
 def load():
-    global time_axis, pos, force, force_ritorno
+    global time_axis, pos, force, force_ritorno, params, saved_flag
     files = [('All Files', '*.*'),  
              ('Python Files', '*.py'), 
              ('Text Document', '*.txt')] 
-    file_path = askopenfile(mode='r', defaultextension=".txt", filetypes=files)
+    file_path = askopenfilename(defaultextension=".txt", filetypes=files)
+
+    name = os.path.splitext(file_path)[0]
+
     if file_path:
-        with open(file_path.name, 'r') as fl:
+        #apri json
+        with open(name+'.json', 'r') as js:
+            params = json.loads(js.read())
+            for key in params:
+                globals()[key] = params[key]
+            js.close()
+            updateTkVars()
+            saveState()
+
+        with open(file_path, 'r') as fl:
             fl.readline() # date time 
             spider_name_tkvar.set(fl.readline().split()[2])
             stat_creep = fl.readline().split()[1]
@@ -755,24 +785,51 @@ def load():
             fl.readline() # axis specification
 
             if stat_creep=="STATIC":
-                pass
-            elif stat_creep=="CREEP":
+                p = []
+                f = []
+                f_r = []
                 while True:
                     line = fl.readline()
                     data = line.split("\t\t\t")
-                    time_axis = np.array([])
-                    force = np.array([])
-                    if not data[0]=="":
-                        np.append(time_axis,data[0])
-                        np.append(force,data[1])
-
                     if not line:
                         break
+                    if not data[0]=="":
+                        p.append(float(data[0]))
+                        f.append(float(data[1]))
+                        f_r.append(float(data[2]))
+
+                pos = np.array(p)
+                force = np.array(f)
+                force_ritorno = np.array(f_r)
+
+
+            elif stat_creep=="CREEP":
+                t = []
+                f = []
+                while True:
+                    line = fl.readline()
+                    data = line.split("\t\t\t")
+                    if not line:
+                        break
+                    if not data[0]=="":
+                        t.append(float(data[0]))
+                        f.append(float(data[1]))
+                        # print(t)
+                        # np.append(time_axis, t)
+                        # np.append(force, f)
+
+                time_axis = np.array(t)
+                force = np.array(f)
             else:
                 print("ERRORE NEL CARICAMENTO")
 
-            drawPlots()         
             fl.close()
+        
+        showFrame()
+        drawPlots()    
+        app.title("MyApp - "+ name)
+
+        saved_flag=True
 
 
 #############################################################################
@@ -848,7 +905,24 @@ settingmenu.add_cascade(label="Serial Ports", menu=COM_menu)
 # ----------------------------E L E M E N T S--------------------------------
 #############################################################################
 
+
+# ========================== #
+# -----  T K - V A R S ----- #
+# ========================== #
+
 spider_name_tkvar = customtkinter.StringVar(app, spider_name)
+min_pos_tkvar = customtkinter.StringVar(app, str(min_pos))
+max_pos_tkvar = customtkinter.StringVar(app, str(max_pos))
+num_pos_tkvar = customtkinter.StringVar(app, str(num_pos))
+avg_flag_tkvar = customtkinter.BooleanVar(app, avg_flag)
+ar_flag_tkvar = customtkinter.BooleanVar(app, ar_flag)
+creep_displ_tkvar = customtkinter.StringVar(app, str(creep_displ))
+creep_period_tkvar = customtkinter.StringVar(app, str(creep_period))
+creep_duration_tkvar = customtkinter.StringVar(app, str(creep_duration))
+
+
+#############################################################################
+
 spider_entry = customtkinter.CTkEntry(leftFrame, textvariable=spider_name_tkvar, placeholder_text="Culo")
 
 loadcell_label = customtkinter.CTkLabel(
@@ -867,7 +941,7 @@ min_pos_label = customtkinter.CTkLabel(
 )
 
 min_pos_entry = customtkinter.CTkEntry(
-    staticFrame, textvariable=customtkinter.StringVar(app, str(min_pos))
+    staticFrame, textvariable=min_pos_tkvar
 )
 if float(min_pos_entry.get()) > 0:
     min_pos_entry.insert(0, "-")
@@ -878,7 +952,7 @@ max_pos_label = customtkinter.CTkLabel(
 )
 
 max_pos_entry = customtkinter.CTkEntry(
-    staticFrame, textvariable=customtkinter.StringVar(app, str(max_pos))
+    staticFrame, textvariable=max_pos_tkvar
 )
 
 
@@ -887,26 +961,26 @@ num_pos_label = customtkinter.CTkLabel(
 )
 
 num_pos_entry = customtkinter.CTkEntry(
-    staticFrame, textvariable=customtkinter.StringVar(app, str(num_pos))
+    staticFrame, textvariable=num_pos_tkvar
 )
 
 
 checkbox = customtkinter.CTkCheckBox(staticFrame, text="Media", command=setAvgFlag)
-checkbox.configure(variable=customtkinter.BooleanVar(app, avg_flag))
+checkbox.configure(variable=avg_flag_tkvar)
 
 checkbox_AR = customtkinter.CTkCheckBox(staticFrame, text="Andata e Ritorno", command=setARFlag)
-checkbox_AR.configure(variable=customtkinter.BooleanVar(app, ar_flag))
+checkbox_AR.configure(variable=ar_flag_tkvar)
 
 
 
 displ_entry_label = customtkinter.CTkLabel(creepFrame, text="Spostamento desiderato [mm]", anchor="s")
-displ_entry = customtkinter.CTkEntry(creepFrame, textvariable=customtkinter.StringVar(app, str(creep_displ)))
+displ_entry = customtkinter.CTkEntry(creepFrame, textvariable=creep_displ_tkvar)
 
 period_entry_label = customtkinter.CTkLabel(creepFrame, text="Intervallo di misura [ms]", anchor="s")
-period_entry = customtkinter.CTkEntry(creepFrame, textvariable=customtkinter.StringVar(app, str(creep_period)))
+period_entry = customtkinter.CTkEntry(creepFrame, textvariable=creep_period_tkvar)
 
 duration_entry_label = customtkinter.CTkLabel(creepFrame, text="Durata della misura [s]", anchor="s")
-duration_entry = customtkinter.CTkEntry(creepFrame, textvariable=customtkinter.StringVar(app, str(creep_duration)))
+duration_entry = customtkinter.CTkEntry(creepFrame, textvariable=creep_duration_tkvar)
 
 
 # create start button
@@ -1043,13 +1117,12 @@ def showCreepFrame():
 # startButton.grid(row=10, column=0, padx=20, sticky="ew")
 startButton.pack(padx=20, pady=20, side=customtkinter.BOTTOM)
 
-
-# prepareMsgSerialParameters()
-
 showFrame()
 app.bind('<Return>', lambda e: startMeasurement())
 app.config(menu=menubar)
 app.bind('<Escape>', lambda e: closeAll())
+app.bind("<Control-s>", lambda e: save())
+app.bind("<Control-o>", lambda e: load())
 app.mainloop()
 
 

@@ -954,9 +954,10 @@ void setAccVelocity(float disp){
     modbusTCPClient.holdingRegisterWrite(Rvel, splitted[0]);
     modbusTCPClient.holdingRegisterWrite(Rvel+1, splitted[1]);
 
-    splitU32to16(uint32_t(acc_max*100));
+    splitU32to16(uint32_t(acc_max)*100);
     modbusTCPClient.holdingRegisterWrite(Racc, splitted[0]);
     modbusTCPClient.holdingRegisterWrite(Racc+1, splitted[1]);
+    splitU32to16(uint32_t(acc_max)*10);
     modbusTCPClient.holdingRegisterWrite(Rdec, splitted[0]);
     modbusTCPClient.holdingRegisterWrite(Rdec+1, splitted[1]);
 
