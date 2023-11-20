@@ -1,6 +1,8 @@
 from tkinter import *
-from tkinter import font
+import tkinter as tk
+from tkinter import Misc, font
 from tkinter.filedialog import asksaveasfile, asksaveasfilename, askopenfile, askopenfilename 
+from tkinter import simpledialog
 from typing import Optional, Tuple, Union
 import customtkinter
 import serial
@@ -215,6 +217,38 @@ class VelAccWindows(customtkinter.CTkToplevel):
 
         saveState()
 
+class SaveDialog(simpledialog.Dialog):
+    # def __init__(self, parent: Misc | None, title: str | None = None) -> None:
+        # super().__init__(parent, title)
+    def body(self, master):
+        self.label = tk.Label(master, text="Attenzione!\nDati non salvati")
+        # self.button_frame = tk.Frame(self)
+
+        
+        self.label.pack(padx=50, pady=50)
+        # self.button_frame.pack(padx=5, pady=5)
+
+        # self.save_button.grid(row=0, column=0)
+        # self.discard_button.grid(row=0, column=1)
+        # self.cancel_button.grid(row=0, column=2)
+    def buttonbox(self):
+
+        self.box = Frame(self)
+        self.save_button = Button(self.box, text="Salva", command=save, default=ACTIVE)
+        self.discard_button = Button(self.box, text="Non Salvare", command=closeAll)
+        self.cancel_button = Button(self.box, text="Annulla", command=self.cancel)
+
+        self.save_button.pack(side=LEFT, padx=15, pady=5)
+        self.discard_button.pack(side=LEFT, padx=15, pady=5)
+        self.cancel_button.pack(side=LEFT, padx=15, pady=5)
+
+        self.bind("<Return>", self.ok)
+        self.bind("<Escape>", self.cancel)
+
+        self.box.pack()
+
+
+
 
 #############################################################################
 # ----------------------------V A R I A B L E S------------------------------
@@ -227,6 +261,7 @@ print(config_path)
 port = "COM9"
 spider_name = ''
 saved_flag = False
+last_params = None
 
 txt_path='' 
 json_path=''
@@ -301,7 +336,7 @@ def setLoadCell(val):
     # str = load_cell_menu.get()#.split()
     # print(str)
     loadcell_fullscale = int(val.split()[0])
-    print(loadcell_fullscale)
+    # print(loadcell_fullscale) 
 
 
 def setAvgCnt(val):
@@ -350,6 +385,7 @@ def populatePosArray():
 
 
 def saveState():
+    global params
     ff = open(config_path, "w")
     for key in params:
         params[key] = globals()[key]
@@ -686,6 +722,24 @@ def updateTkVars():
     creep_period_tkvar.set(str(creep_period))
     creep_duration_tkvar.set(str(creep_duration))
 
+# def get_and_saveTkVars():
+#     global params, saved_flag
+#     for key in params:
+#         name = key+"_tkvar"
+#         if name in globals():
+#             var = globals()[name].get()
+#             if (key=="loadcell_fullscale"):
+#                 globals()[key] = int(var.split()[0])
+#             else:     
+#                 if isinstance(var, str) and not var=='':
+#                     globals()[key] = float(var)
+#     saved_flag=False
+#     saveState()
+
+def tkvar_changed():
+    global saved_flag
+    saved_flag = False
+
 
 def closeAll():
     ports = serial.tools.list_ports.comports()
@@ -701,7 +755,7 @@ def closeAll():
     app.destroy()
 
 def save_data(txt_path, json_path):
-    global saved_flag
+    global saved_flag, last_params
     root_name = os.path.splitext(txt_path)[0]
     with open(txt_path, 'w') as fl:
         fl.write("# Acquired on "+ datetime.now().strftime("%d/%m/%Y %H:%M:%S") +" \n")
@@ -722,11 +776,13 @@ def save_data(txt_path, json_path):
                     fl.write(f"{time_axis[i]:.3f}" +"\t\t\t"+ f"{force[i]:.3f}" +"\t\t\t"+ f"{force[i]/creep_displ:.3f}" + "\n")
         fl.close()
 
+    saveState()
     with open(json_path, 'w') as js:
         js.write(json.dumps(params, indent=4))
         js.close()
     saved_flag=True
     app.title("MyApp - "+root_name)
+    last_params = params
 
 
 def save_as(): 
@@ -759,7 +815,7 @@ def save():
             save_data(txt_path, json_path)
 
 def load():
-    global time_axis, pos, force, force_ritorno, params, saved_flag
+    global time_axis, pos, force, force_ritorno, params, saved_flag, last_params
     files = [('All Files', '*.*'),  
              ('Python Files', '*.py'), 
              ('Text Document', '*.txt')] 
@@ -828,9 +884,16 @@ def load():
         showFrame()
         drawPlots()    
         app.title("MyApp - "+ name)
-
+        last_params = params
         saved_flag=True
 
+
+def check_save_before_closing():
+    if (not saved_flag):
+        savedialog = SaveDialog(app)
+    else:
+        closeAll()
+    
 
 #############################################################################
 # ---------------------------C R E A T E   A P P-----------------------------
@@ -911,6 +974,7 @@ settingmenu.add_cascade(label="Serial Ports", menu=COM_menu)
 # ========================== #
 
 spider_name_tkvar = customtkinter.StringVar(app, spider_name)
+loadcell_fullscale_tkvar = customtkinter.StringVar(app, str(loadcell_fullscale)+" kg")
 min_pos_tkvar = customtkinter.StringVar(app, str(min_pos))
 max_pos_tkvar = customtkinter.StringVar(app, str(max_pos))
 num_pos_tkvar = customtkinter.StringVar(app, str(num_pos))
@@ -919,6 +983,19 @@ ar_flag_tkvar = customtkinter.BooleanVar(app, ar_flag)
 creep_displ_tkvar = customtkinter.StringVar(app, str(creep_displ))
 creep_period_tkvar = customtkinter.StringVar(app, str(creep_period))
 creep_duration_tkvar = customtkinter.StringVar(app, str(creep_duration))
+
+spider_name_tkvar.trace('w', callback=lambda *args: tkvar_changed())
+loadcell_fullscale_tkvar.trace('w', callback=lambda *args: tkvar_changed())
+min_pos_tkvar.trace('w', callback=lambda *args: tkvar_changed())
+max_pos_tkvar.trace('w', callback=lambda *args: tkvar_changed())
+num_pos_tkvar.trace('w', callback=lambda *args: tkvar_changed())
+avg_flag_tkvar.trace('w', callback=lambda *args: tkvar_changed())
+ar_flag_tkvar.trace('w', callback=lambda *args: tkvar_changed())
+creep_displ_tkvar.trace('w', callback=lambda *args: tkvar_changed())
+creep_period_tkvar.trace('w', callback=lambda *args: tkvar_changed())
+creep_duration_tkvar.trace('w', callback=lambda *args: tkvar_changed())
+
+
 
 
 #############################################################################
@@ -931,9 +1008,10 @@ loadcell_label = customtkinter.CTkLabel(
 
 
 load_cell_menu = customtkinter.CTkOptionMenu(
-    leftFrame, values=["1 kg", "3 kg", "10 kg", "50 kg"], command=setLoadCell
+    # leftFrame, values=["1 kg", "3 kg", "10 kg", "50 kg"], variable=loadcell_fullscale_tkvar,  command=setLoadCell
+    leftFrame, values=["1 kg", "3 kg", "10 kg", "50 kg"], variable=loadcell_fullscale_tkvar
 )
-load_cell_menu.set(str(loadcell_fullscale) + " kg")
+# load_cell_menu.set(str(loadcell_fullscale) + " kg")
 
 
 min_pos_label = customtkinter.CTkLabel(
@@ -1118,8 +1196,14 @@ def showCreepFrame():
 startButton.pack(padx=20, pady=20, side=customtkinter.BOTTOM)
 
 showFrame()
-app.bind('<Return>', lambda e: startMeasurement())
 app.config(menu=menubar)
+
+# savedialog = simpledialog.Dialog(app)
+# savedialog = SaveDialog(app)
+
+app.protocol("WM_DELETE_WINDOW", check_save_before_closing)
+
+app.bind('<Return>', lambda e: startMeasurement())
 app.bind('<Escape>', lambda e: closeAll())
 app.bind("<Control-s>", lambda e: save())
 app.bind("<Control-o>", lambda e: load())

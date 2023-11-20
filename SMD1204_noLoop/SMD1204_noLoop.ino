@@ -152,19 +152,6 @@ void setup()
 
     flushSerial();
 
-    // Serial.println(FULLSCALE);
-    // Serial.println(min_pos);
-    // Serial.println(max_pos);
-    // Serial.println(num_pos);
-    // Serial.println(mean_active);
-    // Serial.println(ar_flag);
-    // Serial.println(th1);
-    // Serial.println(cnt_th1);
-    // Serial.println(th2);
-    // Serial.println(cnt_th2);
-    // Serial.println(th3);
-    // Serial.println(cnt_th3);
-
     // flushSerial();
 
     // ----------------------------------------------
