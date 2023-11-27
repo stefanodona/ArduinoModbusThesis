@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import ttk
 import tkinter as tk
 from tkinter import Misc, font
 from tkinter.filedialog import asksaveasfile, asksaveasfilename, askopenfile, askopenfilename 
@@ -7,6 +8,7 @@ from typing import Optional, Tuple, Union
 import customtkinter
 import serial
 import json
+from math import floor
 import struct
 import numpy as np
 import re  # used to compare strings
@@ -261,6 +263,7 @@ print(config_path)
 port = "COM9"
 spider_name = ''
 saved_flag = False
+panic_flag = False
 last_params = None
 
 txt_path='' 
@@ -293,6 +296,7 @@ creep_displ = params["creep_displ"]
 creep_period = params["creep_period"]
 creep_duration = params["creep_duration"]
 
+tare = 0
 percent = 0
 max_iter = 0
 meas_forward = True
@@ -336,6 +340,7 @@ def setLoadCell(val):
     # str = load_cell_menu.get()#.split()
     # print(str)
     loadcell_fullscale = int(val.split()[0])
+    saveState()
     # print(loadcell_fullscale) 
 
 
@@ -487,12 +492,20 @@ def prepareMsgSerialParameters():
 
 
 def serialListener():
-    global percent, force, force_ritorno, time_axis, max_iter, meas_forward
+    global pos,  pos_sorted, percent, force, force_ritorno, time_axis, max_iter, meas_forward, panic_flag
+    print(port)
     with serial.Serial("COM9", 38400) as ser:
         index = 0
         iter_count = 0
         meas_index = 0
         while True:
+            # if panic_flag:
+            #     print("ER PANICO!")
+            #     ser.write("PANIC\n".encode())
+            #     ser.close()
+            #     panic_flag = False
+            #     break
+
             if keyboard.is_pressed("q"):
                 print("Exiting")
                 ser.close()
@@ -506,10 +519,11 @@ def serialListener():
             print(data)
 
             if compare_strings(data, "Ready"):
+                # print("adesso te manno")
                 ser.write("Ready to write\n".encode())
-                print(data)
 
             if compare_strings(data, "Parameters"):
+                # time.sleep(0.5)
                 msg = prepareMsgSerialParameters()
                 ser.write(msg.encode())
                 print(data)
@@ -585,6 +599,10 @@ def serialListener():
                 else:
                     force = np.append(force, meas_val)
 
+            if compare_strings(data, "tare"):
+                globals()["tare"]=float(data.split()[1])
+            
+
             if compare_strings(data, "time_ax"):
                 time_val = float(data.split()[1])
                 time_axis= np.append(time_axis, time_val) 
@@ -614,12 +632,21 @@ def serialListener():
     print("Force_ret: ",force_ritorno)
     print("Time: ",time_axis)
 
+    # TODO: da testare
     if (not stat_creep_flag):
+        pos_sorted= np.append(pos_sorted,0)
         sort = np.argsort(pos_sorted)
+        pos = pos_sorted[sort]
+        force = np.append(force, tare)
         force = force[sort]
         if(ar_flag):
+            force_ritorno = np.append(force_ritorno, tare)
             force_ritorno = force_ritorno[sort]
-        
+    
+    print("pos: ",pos)
+    print("force: ",force)
+    print("Force_ret: ",force_ritorno)
+    print("Time: ",time_axis)
     drawPlots()
 
 
@@ -628,6 +655,7 @@ def drawPlots():
     # plotts
     ax_force.clear()
     ax_stiff.clear()
+    # global pos, force, force_ritorno, time_axis
 
     if not creep_bool_tkvar.get():
         ax_force.plot(pos, force)
@@ -639,9 +667,13 @@ def drawPlots():
         ax_force.set_title("Force vs Displacement")
         ax_force.grid(visible=True, which="both", axis="both")
 
-        ax_stiff.plot(pos, np.nan_to_num(force/pos))
+        # avoid dividing by 0
+        idx = list(range(len(pos)))
+        idx.remove(floor(len(pos)/2))
+
+        ax_stiff.plot(pos[idx], np.nan_to_num(force[idx]/pos[idx]))
         if (ar_flag):
-            ax_stiff.plot(pos, np.nan_to_num(force_ritorno/pos))
+            ax_stiff.plot(pos[idx], np.nan_to_num(force_ritorno[idx]/pos[idx]))
             ax_stiff.legend(["Andata", "Ritorno"])
         ax_stiff.set_xlabel("displacement [mm]")
         ax_stiff.set_ylabel("stiffness [N/mm]")
@@ -672,7 +704,9 @@ def drawPlots():
 
 
 def panic():
-    return
+    global panic_flag
+    panic_flag=True
+    # return
 
 def thr_and_avg_setting_func():
     global thr_avg_window 
@@ -692,9 +726,9 @@ def vel_and_acc_setting_func():
     # topWindow.grab_set()
     app.update()
 
-def setCOMPort(thePort):
+def setCOMPort():
     global port
-    port = str(thePort[0])
+    port = COM_option.get()
     print(port)
 
 def showFrame():
@@ -738,13 +772,15 @@ def updateTkVars():
 
 def tkvar_changed():
     global saved_flag
+    saveState()
     saved_flag = False
 
 
 def closeAll():
     ports = serial.tools.list_ports.comports()
     for com in ports:
-        if (com[0]=="COM9"):
+        # if (com[0]=="COM9"):
+        if (com[0]==port):
           try:
               ser = serial.Serial(com.device)
               ser.close()
@@ -959,8 +995,13 @@ menubar.add_cascade(label="Impostazioni", menu=settingmenu)
 
 COM_menu = Menu(settingmenu, tearoff=0)
 COM_list = serial.tools.list_ports.comports()
+COM_option = tk.StringVar(app, port)
+COM_option.trace('w', callback=lambda *args:setCOMPort())
+
 for COM_port in COM_list:
-    COM_menu.add_command(label=str(COM_port), command=setCOMPort(COM_port))
+    # COM_menu.add_command(label=str(COM_port))
+    COM_menu.add_radiobutton(label=str(COM_port), variable=COM_option, value=COM_port[0])
+    # print(COM_port[0])
 
 settingmenu.add_cascade(label="Serial Ports", menu=COM_menu)
 
@@ -1008,8 +1049,8 @@ loadcell_label = customtkinter.CTkLabel(
 
 
 load_cell_menu = customtkinter.CTkOptionMenu(
-    # leftFrame, values=["1 kg", "3 kg", "10 kg", "50 kg"], variable=loadcell_fullscale_tkvar,  command=setLoadCell
-    leftFrame, values=["1 kg", "3 kg", "10 kg", "50 kg"], variable=loadcell_fullscale_tkvar
+    leftFrame, values=["1 kg", "3 kg", "10 kg", "50 kg"], variable=loadcell_fullscale_tkvar,  command=setLoadCell
+    # leftFrame, values=["1 kg", "3 kg", "10 kg", "50 kg"], variable=loadcell_fullscale_tkvar
 )
 # load_cell_menu.set(str(loadcell_fullscale) + " kg")
 

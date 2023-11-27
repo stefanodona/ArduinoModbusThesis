@@ -1,12 +1,12 @@
 {
-    "stat_creep_flag": false,
-    "loadcell_fullscale": 1,
-    "min_pos": -20.0,
-    "max_pos": 20.0,
-    "num_pos": 20,
-    "avg_flag": true,
-    "ar_flag": 0,
-    "th1_val": 3.0,
+    "stat_creep_flag": true,
+    "loadcell_fullscale": 3,
+    "min_pos": -10.0,
+    "max_pos": 10.0,
+    "num_pos": 4,
+    "avg_flag": false,
+    "ar_flag": false,
+    "th1_val": 7.0,
     "th1_avg": 5,
     "th2_val": 1.0,
     "th2_avg": 3,
@@ -17,7 +17,7 @@
     "acc_max": 5.0,
     "time_flag": false,
     "time_max": 0.5,
-    "creep_displ": 10.0,
+    "creep_displ": 3.0,
     "creep_period": 100.0,
-    "creep_duration": 15.0
+    "creep_duration": 30.0
 }

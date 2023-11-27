@@ -16,6 +16,7 @@
 #define Rdec 70     // deceleration ramp
 #define Rhmode 82   // home mode selection
 #define Rstsflg 199 // status flags
+#define Rstscllp 203 // closed loop status flags
 #define Ralarm 227  // alarms flags
 
 // HX711 pins
@@ -26,13 +27,15 @@
 
 // USEFUL CONSTANT
 const int32_t vel = 10;       // rps
-const int32_t vel_tare = 0.1; // rps
+const int32_t vel_tare = 1; // rps
 const uint32_t acc_ramp = 10; // no acceleration ramp
 
 const float home_err = 0.05; // 5% error band to retrieve the no-force initial position
+int32_t home_pos = 205;
 
 // VARIABLES
 uint16_t sts = 0;     // status of the driver
+uint16_t sts_cllp = 0;     // status of the driver
 float target = 0;     // target position [mm]
 float tare_force = 0; // tare measured before taking any measurement
 int32_t init_pos = 0; // value of the initial position
@@ -94,10 +97,26 @@ void setup()
     // read parameters from gui
     Serial.write("Ready to read!\n");
     delay(100);
-    while (Serial.readStringUntil("\n") != "Ready to write\n")
+    // while (Serial.readStringUntil("\n") != "Ready to write\n")
+    // {
+    //     if (Serial.available()){
+    //         Serial.println(Serial.readString());
+    //     }
+    //     // Serial.println("oi");
+    // }
+
+    while (true)
     {
-        ;
+        if (Serial.available())
+        {
+            String msg = Serial.readString();
+            if (msg=="Ready to write\n")
+            {
+                break;
+            }            
+        }
     }
+    
     delay(100);
 
     // flushSerial();
@@ -158,7 +177,7 @@ void setup()
 
     // initialize loadcell
     loadcell.begin(DT_PIN, SCK_PIN);
-    loadcell.set_gain((uint32_t)128, true);
+    // loadcell.set_gain((uint32_t)128, true);
 
     // ----------------------------------------------
 

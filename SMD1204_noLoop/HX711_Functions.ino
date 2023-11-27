@@ -42,7 +42,17 @@ float getForce1(float x)
   return force;
 }
 
-float getForce3(int x)
+float getForce3(float x)
+{
+  float a = 0;
+  float b = 7.540505*pow(10, -6);
+  float c = -2.664501*pow(10, -3);
+  float force = a * x * x + b * x + c;
+  // return force;
+  return x;
+}
+
+float getForce10(float x)
 {
   float a = 0;
   float b = 0;
@@ -51,16 +61,7 @@ float getForce3(int x)
   return force;
 }
 
-float getForce10(int x)
-{
-  float a = 0;
-  float b = 0;
-  float c = 0;
-  float force = a * x * x + b * x + c;
-  return force;
-}
-
-float getForce50(int x)
+float getForce50(float x)
 {
   float a = 0;
   float b = 0;
