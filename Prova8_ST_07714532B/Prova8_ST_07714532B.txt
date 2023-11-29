@@ -1,0 +1,9 @@
+# Acquired on 29/11/2023 18:42:32 
+# SPIDER: Prova8_ST_07714532B
+# STATIC MEASUREMENT
+
+# pos [mm]		force_forw [N]		force_back [N]
+-3.000			-11.196			-11.146
+-1.000			-3.467			-3.408
+1.000			3.537			3.520
+3.000			11.449			11.402

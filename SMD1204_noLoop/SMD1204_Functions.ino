@@ -140,60 +140,67 @@ void homingRoutine()
   // Serial.println("Err");
   // Serial.println(err);
 
-  split32to16(vel_tare * 50);
+  split32to16(vel_tare * 10);
   if (modbusTCPClient.holdingRegisterWrite(Rvel, splitted[0]) && modbusTCPClient.holdingRegisterWrite(Rvel + 1, splitted[1]))
   {
   }
 
   // assuming loadcell reads x<0 when extended and x>0 when compressed
-  int32_t pos;
+  float pos;
   if (clamped > tare)
     pos = -home_pos;
   else
     pos = home_pos;
 
-  // split32to16(pos);
-  // if (!(modbusTCPClient.holdingRegisterWrite(Rpostarg, splitted[0]) && modbusTCPClient.holdingRegisterWrite(Rpostarg + 1, splitted[1])))
-  // {
-  //   Serial.write("Errore nel settaggio posizione...\n");
-  // }
-  sendPosTarget(pos);
+  sendPosTarget(mm2int(pos));
 
   Serial.println("Status");
-  float abs_tol = 30000;
+  float abs_tol = 0.05;
   float upperBound = tare + abs_tol;
   float lowerBound = tare - abs_tol;
   // while (err > fabs(home_err * tare))
-  while (clamped < lowerBound || clamped > upperBound)
-  {
-    sendCommand(gor());
-    getStatus();
-    Serial.println(bitRead(sts, 3));
-    // while (!bitRead(sts, 10))
-    // // while (bitRead(sts_cllp, 2))
-    //   getStatus();
-    // clamped = getForce();
-    float post_moved = getForce();
-    float diff = (post_moved-clamped)/pos;
+  // do
+  // {
+  //   sendCommand(gor());
+  //   getStatus();
 
-    pos =(int32_t) ((tare-post_moved)/diff);
+  //   while (bitRead(sts, 3))
+  //   {
+  //     Serial.println(bitRead(sts, 3));
+  //     getStatus();
+  //   }
+  //   // while (!bitRead(sts, 10))
+  //   // // while (bitRead(sts_cllp, 2))
+  //   //   getStatus();
+  //   // clamped = getForce();
+  //   float post_moved = getForce();
+  //   float diff = (post_moved - clamped) / pos;
 
-    Serial.println("diff: ");
-    Serial.println(diff,5);
-    Serial.println("pos ");
-    Serial.println(pos);
-    Serial.println("post_moved: ");
-    Serial.println(post_moved),5;
-    
-    sendPosTarget(pos);
-    clamped = post_moved;
-    delay(200);
-    Serial.println("____");
-  }
+  //   pos = ((tare - post_moved) / diff);
+  //   pos = constrain(pos,-2,2);
 
-  delay(10000);
+  //   Serial.println("diff: ");
+  //   Serial.println(diff, 5);
+  //   Serial.println("pos ");
+  //   Serial.println(pos, 5);
+  //   Serial.println("post_moved: ");
+  //   Serial.println(post_moved, 5);
+  //   Serial.println("lowerbound: ");
+  //   Serial.println(lowerBound, 5);
+  //   Serial.println("upperbound: ");
+  //   Serial.println(upperBound, 5);
+
+  //   sendPosTarget(mm2int(pos));
+  //   clamped = post_moved;
+  //   delay(200);
+  //   Serial.println("____");
+  // } while (clamped < lowerBound || clamped > upperBound);
+
+  // delay(10000);
 
   tare_force = clamped;
+
+  // sendCommand(home());
 
   init_pos = getPosact();
   String msg = "tare ";
@@ -239,6 +246,8 @@ void measureRoutine()
 
   Serial.write("Measuring\n");
 
+  unsigned long waitTime = 1000;
+
   Serial.write("andata\n");
   for (int i = 0; i < num_pos; i = i + 2)
   {
@@ -256,6 +265,7 @@ void measureRoutine()
         // checkPanic();
         getStatus();
 
+      delay(waitTime);
       unsigned long tik = millis();
       sum_p += getForce();
       unsigned long tok = millis();
@@ -272,6 +282,7 @@ void measureRoutine()
       while (bitRead(sts, 3))
         // checkPanic();
         getStatus();
+      delay(waitTime);
       sum_m += getForce();
       Serial.write("check percent\n");
 
@@ -314,6 +325,8 @@ void measureRoutine()
         while (bitRead(sts, 3))
           // checkPanic();
           getStatus();
+        delay(waitTime);
+
         sum_p += getForce();
         Serial.write("check percent\n");
 
@@ -325,6 +338,8 @@ void measureRoutine()
         getStatus();
         while (bitRead(sts, 3))
           getStatus();
+        delay(waitTime);
+
         sum_m += getForce();
         Serial.write("check percent\n");
 

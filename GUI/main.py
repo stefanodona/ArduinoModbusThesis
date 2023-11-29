@@ -633,16 +633,31 @@ def serialListener():
     print("Time: ",time_axis)
 
     # TODO: da testare
+    # if (not stat_creep_flag):
+    #     pos_sorted_sort= np.append(pos_sorted,0)
+    #     sort = np.argsort(pos_sorted_sort)
+    #     pos = pos_sorted_sort[sort]
+    #     force = np.append(force, tare)
+    #     force = force[sort]-tare
+    #     if(ar_flag):
+    #         pos_sorted_sort = np.append(np.flip(pos_sorted),0)
+    #         sort = np.argsort(pos_sorted_sort)
+    #         force_ritorno = np.append(force_ritorno, tare)
+    #         force_ritorno = np.flip(force_ritorno[sort])-tare
+
     if (not stat_creep_flag):
-        pos_sorted= np.append(pos_sorted,0)
-        sort = np.argsort(pos_sorted)
-        pos = pos_sorted[sort]
-        force = np.append(force, tare)
+        pos_sorted_sort= pos_sorted
+        sort = np.argsort(pos_sorted_sort)
+        pos = pos_sorted_sort[sort]
         force = force[sort]
+        # force = np.append(force, tare)
         if(ar_flag):
-            force_ritorno = np.append(force_ritorno, tare)
-            force_ritorno = force_ritorno[sort]
+            pos_sorted_sort = np.flip(pos_sorted)
+            sort = np.argsort(pos_sorted_sort)
+            # force_ritorno = np.append(force_ritorno, tare)
+            force_ritorno = np.flip(force_ritorno[sort])-tare
     
+    force = force-tare
     print("pos: ",pos)
     print("force: ",force)
     print("Force_ret: ",force_ritorno)
@@ -668,12 +683,14 @@ def drawPlots():
         ax_force.grid(visible=True, which="both", axis="both")
 
         # avoid dividing by 0
-        idx = list(range(len(pos)))
-        idx.remove(floor(len(pos)/2))
+        # idx = list(range(len(pos)))
+        # idx.remove(floor(len(pos)/2))
 
-        ax_stiff.plot(pos[idx], np.nan_to_num(force[idx]/pos[idx]))
+        # ax_stiff.plot(pos, np.nan_to_num(force/pos))
+        ax_stiff.plot(pos, force/pos)
         if (ar_flag):
-            ax_stiff.plot(pos[idx], np.nan_to_num(force_ritorno[idx]/pos[idx]))
+            # ax_stiff.plot(pos, np.nan_to_num(force_ritorno/pos))
+            ax_stiff.plot(pos, force_ritorno/pos)
             ax_stiff.legend(["Andata", "Ritorno"])
         ax_stiff.set_xlabel("displacement [mm]")
         ax_stiff.set_ylabel("stiffness [N/mm]")

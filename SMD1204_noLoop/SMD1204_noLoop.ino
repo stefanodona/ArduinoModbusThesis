@@ -31,7 +31,8 @@ const int32_t vel_tare = 1; // rps
 const uint32_t acc_ramp = 10; // no acceleration ramp
 
 const float home_err = 0.05; // 5% error band to retrieve the no-force initial position
-int32_t home_pos = 205;
+// int32_t home_pos = 0.5;
+float home_pos = 0.5;
 
 // VARIABLES
 uint16_t sts = 0;     // status of the driver

@@ -48,8 +48,8 @@ float getForce3(float x)
   float b = 7.540505*pow(10, -6);
   float c = -2.664501*pow(10, -3);
   float force = a * x * x + b * x + c;
-  // return force;
-  return x;
+  return force;
+  // return x;
 }
 
 float getForce10(float x)
