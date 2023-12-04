@@ -35,6 +35,7 @@ int8_t FULLSCALE = 1; // the fullscale of the loadcell
 float min_pos = 0; // minimal position in spacial axis
 float max_pos = 0; // maximal position in spacial axis
 int num_pos = 0; // # of spacial points
+unsigned long waitTime = 3000; // wait time after which measure 
 
 uint8_t pos_idx = 0; // index to navigate the pos_sorted array
 float sum_p = 0;
@@ -142,6 +143,7 @@ void setup()
     min_pos = Serial.parseFloat(SKIP_WHITESPACE);
     max_pos = Serial.parseFloat(SKIP_WHITESPACE);
     num_pos = Serial.parseInt(SKIP_WHITESPACE);
+    waitTime = (unsigned long)(Serial.parseInt(SKIP_WHITESPACE));
     mean_active = bool(Serial.parseInt(SKIP_WHITESPACE));
     ar_flag = bool(Serial.parseInt(SKIP_WHITESPACE));
 
@@ -496,57 +498,69 @@ void homingRoutine()
   else
     pos = home_pos;
 
+  // sendPosTarget(mm2int(pos*4));
   sendPosTarget(mm2int(pos));
 
   Serial.println("Status");
   float abs_tol = 0.1;
-  float upperBound = tare + abs_tol;
-  float lowerBound = tare - abs_tol;
   // while (err > fabs(home_err * tare))
   bool search_active = true;
 
   if (search_active)
   {
-    for (int i=0; i<2; i++){
+    // sendCommand(gor());
+    // getStatus();
 
-    do
+    // while (bitRead(sts, 3))
+    // {
+    //   // Serial.println(bitRead(sts, 3));
+    //   getStatus();
+    // }
+    // sendPosTarget(mm2int(pos));
+
+    for (int i = 0; i < 2; i++)
     {
-      sendCommand(gor());
-      getStatus();
+      float upperBound = tare + abs_tol / (i * 4 + 1);
+      float lowerBound = tare - abs_tol / (i * 4 + 1);
 
-      while ((((sts) >> (3)) & 0x01))
+      do
       {
-        // Serial.println(bitRead(sts, 3));
+        sendCommand(gor());
         getStatus();
-      }
-      delay(500);
 
-      float post_moved = getForce();
-      float diff = (post_moved - clamped) / pos;
+        while ((((sts) >> (3)) & 0x01))
+        {
+          // Serial.println(bitRead(sts, 3));
+          getStatus();
+        }
+        delay(500);
 
-      pos = ((tare - post_moved) / diff);
-      pos = ((pos)<(-1.0)?(-1.0):((pos)>(1.0)?(1.0):(pos)));
+        float post_moved = getForce();
+        float diff = (post_moved - clamped) / pos;
 
-      // Serial.println("diff: ");
-      // Serial.println(diff, 5);
-      Serial.println("pos realtiva prossimo passo:");
-      Serial.println(pos, 5);
-      Serial.println("forza mancante: ");
-      Serial.println((tare-post_moved), 5);
-      Serial.println("post_moved: ");
-      Serial.println(post_moved, 5);
-      Serial.println("lowerbound: ");
-      Serial.println(lowerBound, 5);
-      Serial.println("upperbound: ");
-      Serial.println(upperBound, 5);
+        pos = ((tare - post_moved) / diff);
+        pos = ((pos)<(-1.0)?(-1.0):((pos)>(1.0)?(1.0):(pos)));
 
-      sendPosTarget(mm2int(pos));
-      clamped = post_moved;
-      delay(200);
-      Serial.println("____");
-    } while (clamped < lowerBound || clamped > upperBound);
+        // Serial.println("diff: ");
+        // Serial.println(diff, 5);
+        Serial.println("pos realtiva prossimo passo:");
+        Serial.println(pos, 5);
+        Serial.println("forza mancante: ");
+        Serial.println((tare - post_moved), 5);
+        Serial.println("post_moved: ");
+        Serial.println(post_moved, 5);
+        Serial.println("lowerbound: ");
+        Serial.println(lowerBound, 5);
+        Serial.println("upperbound: ");
+        Serial.println(upperBound, 5);
 
-    delay(10000);
+        sendPosTarget(mm2int(pos));
+        clamped = post_moved;
+        // delay(200);
+        Serial.println("____");
+      } while (clamped < lowerBound || clamped > upperBound);
+
+      delay(10000);
     }
   }
 
@@ -594,8 +608,6 @@ void measureRoutine()
   char num[15];
 
   Serial.write("Measuring\n");
-
-  unsigned long waitTime = 3000;
 
   Serial.write("andata\n");
   for (int i = 0; i < num_pos; i = i + 2)

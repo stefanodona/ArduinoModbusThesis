@@ -233,8 +233,8 @@ class SaveDialog(simpledialog.Dialog):
         # self.save_button.grid(row=0, column=0)
         # self.discard_button.grid(row=0, column=1)
         # self.cancel_button.grid(row=0, column=2)
+    
     def buttonbox(self):
-
         self.box = Frame(self)
         self.save_button = Button(self.box, text="Salva", command=save, default=ACTIVE)
         self.discard_button = Button(self.box, text="Non Salvare", command=closeAll)
@@ -279,6 +279,8 @@ loadcell_fullscale = params["loadcell_fullscale"]
 min_pos = params["min_pos"]
 max_pos = params["max_pos"]
 num_pos = params["num_pos"]
+step_pos = params["step_pos"]
+wait_time = params["wait_time"]
 avg_flag = bool(params["avg_flag"])
 ar_flag = bool(params["ar_flag"])
 th1_val = params["th1_val"]
@@ -358,11 +360,19 @@ def setAvgCnt(val):
 
 
 def populatePosArray():
-    global pos, pos_sorted, max_iter, num_pos
-    pos = np.linspace(min_pos, max_pos, num_pos)
+    global pos, pos_sorted, max_iter, num_pos, step_pos
+    # pos = np.linspace(min_pos, max_pos, num_pos)
 
-    # pos = pos[abs(pos)>0.5]
+    pos = np.arange(min_pos, max_pos+step_pos, step_pos)
+
+    if not pos[-1]==max_pos:
+        pass
+
+    pos = pos[abs(pos)>0.0025]
     num_pos = len(pos)
+
+    
+    # pos = pos[abs(pos)>0.5]
     minus=np.flip(pos[0:int(num_pos/2)])
     plus=pos[int(num_pos/2):]
 
@@ -371,6 +381,8 @@ def populatePosArray():
         sor.append(plus[i])
         sor.append(minus[i])
     pos_sorted = np.array(sor)
+
+    print(pos_sorted)
 
     # sort = np.argsort(-np.abs(np.round(pos,2)))
     # pos_sorted = np.flip(pos[sort])
@@ -420,41 +432,53 @@ def startMeasurement():
     if float(min_pos_entry.get()) > 0:
         min_pos_entry.insert(0, "-")
 
-    pPercent.configure(text="0%")
-    pProgress.set(0)
+    # pPercent.configure(text="0%")
+    # pProgress.set(0)
 
-    load_cell_menu.configure(state="disabled")
-    min_pos_entry.configure(state="disabled")
-    max_pos_entry.configure(state="disabled")
-    num_pos_entry.configure(state="disabled")
-    startButton.configure(state="disabled")
-    checkbox.configure(state="disabled")
-    checkbox_AR.configure(state="disabled")
+    # load_cell_menu.configure(state="disabled")
+    # min_pos_entry.configure(state="disabled")
+    # max_pos_entry.configure(state="disabled")
 
-    displ_entry.configure(state="disabled")
-    period_entry.configure(state="disabled")
-    duration_entry.configure(state="disabled")
+    # # num_pos_entry.configure(state="disabled")
+    # step_pos_entry.configure(state="disabled")
+
+    # startButton.configure(state="disabled")
+    # checkbox.configure(state="disabled")
+    # checkbox_AR.configure(state="disabled")
+
+    # displ_entry.configure(state="disabled")
+    # period_entry.configure(state="disabled")
+    # duration_entry.configure(state="disabled")
 
 
-    startButton.configure(text="Initializing...")
+    # startButton.configure(text="Initializing...")
 
-    global min_pos, max_pos, num_pos, percent, force, force_ritorno, pos, pos_sorted, time_axis, creep_displ, creep_period, creep_duration
+    global min_pos, max_pos, num_pos, step_pos, wait_time, percent, force, force_ritorno, pos, pos_sorted, time_axis, creep_displ, creep_period, creep_duration
 
-    min_pos = float(min_pos_entry.get())
-    max_pos = float(max_pos_entry.get())
-    num_pos = int(num_pos_entry.get())
+    # min_pos = float(min_pos_entry.get())
+    # max_pos = float(max_pos_entry.get())
+    # num_pos = int(num_pos_entry.get())
 
-    creep_displ = float(displ_entry.get())
-    creep_period = float(period_entry.get())
-    creep_duration = float(duration_entry.get())
+    min_pos = float(min_pos_tkvar.get())
+    max_pos = float(max_pos_tkvar.get())
+    num_pos = float(num_pos_tkvar.get())
+    step_pos = float(step_pos_tkvar.get())
+    wait_time = int(wait_time_tkvar.get())
 
-    if num_pos % 2 == 1:
-        num_pos += 1
-        num_pos_entry.configure(textvariable=customtkinter.StringVar(app, str(num_pos)))
+    # creep_displ = float(displ_entry.get())
+    # creep_period = float(period_entry.get())
+    # creep_duration = float(duration_entry.get())
 
-    # print(min_pos)
-    # print(max_pos)
-    # print(num_pos)
+    creep_displ = float(creep_displ_tkvar.get())
+    creep_period = float(creep_period_tkvar.get())
+    creep_duration = float(creep_duration_tkvar.get())
+
+
+
+    # if num_pos % 2 == 1:
+    #     num_pos += 1
+    #     num_pos_entry.configure(textvariable=customtkinter.StringVar(app, str(num_pos)))
+
 
     force = np.array([])
     force_ritorno = np.array([])
@@ -477,7 +501,8 @@ def prepareMsgSerialParameters():
     # global loadcell_fullscale, min_pos, max_pos, num_pos, avg_flag, ar_flag, th1_val, th1_avg, th2_val, th2_avg, th3_val, th3_avg
     param_array = [stat_creep_flag,
                    loadcell_fullscale, 
-                   min_pos, max_pos, num_pos, 
+                   min_pos, max_pos, 
+                   num_pos, wait_time,
                    avg_flag, ar_flag, 
                    th1_val, th1_avg, 
                    th2_val, th2_avg, 
@@ -501,6 +526,28 @@ def serialListener():
         index = 0
         iter_count = 0
         meas_index = 0
+
+        pPercent.configure(text="0%")
+        pProgress.set(0)
+
+        load_cell_menu.configure(state="disabled")
+        min_pos_entry.configure(state="disabled")
+        max_pos_entry.configure(state="disabled")
+
+        # num_pos_entry.configure(state="disabled")
+        step_pos_entry.configure(state="disabled")
+
+        startButton.configure(state="disabled")
+        checkbox.configure(state="disabled")
+        checkbox_AR.configure(state="disabled")
+
+        displ_entry.configure(state="disabled")
+        period_entry.configure(state="disabled")
+        duration_entry.configure(state="disabled")
+
+
+        startButton.configure(text="Initializing...")
+
         while True:
             # if panic_flag:
             #     print("ER PANICO!")
@@ -516,7 +563,7 @@ def serialListener():
             try:
                 data = ser.readline()
             except:
-                print("SeiScemo")
+                print("DATO NON LETTO!")
 
             data = data.decode()
             print(data)
@@ -622,6 +669,7 @@ def serialListener():
     min_pos_entry.configure(state="normal")
     max_pos_entry.configure(state="normal")
     num_pos_entry.configure(state="normal")
+    step_pos_entry.configure(state="normal")
     checkbox.configure(state="normal")
     checkbox_AR.configure(state="normal")
     startButton.configure(state="normal")
@@ -770,6 +818,8 @@ def updateTkVars():
     min_pos_tkvar.set(str(min_pos))
     max_pos_tkvar.set(str(max_pos))
     num_pos_tkvar.set(str(num_pos))
+    step_pos_tkvar.set(str(step_pos))
+    wait_time_tkvar.set(str(wait_time))
     avg_flag_tkvar.set(avg_flag)
     ar_flag_tkvar.set(ar_flag)
     creep_displ_tkvar.set(str(creep_displ))
@@ -794,6 +844,7 @@ def tkvar_changed():
     global saved_flag
     saveState()
     saved_flag = False
+    populatePosArray()
 
 
 def closeAll():
@@ -975,8 +1026,8 @@ creep_switch = customtkinter.CTkSwitch(leftFrame, text="Mode", command=showFrame
 creep_switch.pack(pady=10)
 
 
-staticFrame = customtkinter.CTkFrame(leftFrame, 290, fg_color="lightgray")
-creepFrame = customtkinter.CTkFrame(leftFrame, 290, fg_color="lightgray")
+staticFrame = customtkinter.CTkFrame(leftFrame, 310, fg_color="lightgray")
+creepFrame = customtkinter.CTkFrame(leftFrame, 310, fg_color="lightgray")
 staticFrame.grid_propagate(0)
 creepFrame.grid_propagate(0)
 
@@ -1038,7 +1089,11 @@ spider_name_tkvar = customtkinter.StringVar(app, spider_name)
 loadcell_fullscale_tkvar = customtkinter.StringVar(app, str(loadcell_fullscale)+" kg")
 min_pos_tkvar = customtkinter.StringVar(app, str(min_pos))
 max_pos_tkvar = customtkinter.StringVar(app, str(max_pos))
+
 num_pos_tkvar = customtkinter.StringVar(app, str(num_pos))
+step_pos_tkvar = customtkinter.StringVar(app, str(step_pos))
+wait_time_tkvar = customtkinter.StringVar(app, str(wait_time))
+
 avg_flag_tkvar = customtkinter.BooleanVar(app, avg_flag)
 ar_flag_tkvar = customtkinter.BooleanVar(app, ar_flag)
 creep_displ_tkvar = customtkinter.StringVar(app, str(creep_displ))
@@ -1050,6 +1105,7 @@ loadcell_fullscale_tkvar.trace('w', callback=lambda *args: tkvar_changed())
 min_pos_tkvar.trace('w', callback=lambda *args: tkvar_changed())
 max_pos_tkvar.trace('w', callback=lambda *args: tkvar_changed())
 num_pos_tkvar.trace('w', callback=lambda *args: tkvar_changed())
+step_pos_tkvar.trace('w', callback=lambda *args: tkvar_changed())
 avg_flag_tkvar.trace('w', callback=lambda *args: tkvar_changed())
 ar_flag_tkvar.trace('w', callback=lambda *args: tkvar_changed())
 creep_displ_tkvar.trace('w', callback=lambda *args: tkvar_changed())
@@ -1069,14 +1125,14 @@ loadcell_label = customtkinter.CTkLabel(
 
 
 load_cell_menu = customtkinter.CTkOptionMenu(
-    leftFrame, values=["1 kg", "3 kg", "10 kg", "50 kg"], variable=loadcell_fullscale_tkvar,  command=setLoadCell
+    leftFrame, values=["3 kg", "10 kg", "50 kg"], variable=loadcell_fullscale_tkvar,  command=setLoadCell
     # leftFrame, values=["1 kg", "3 kg", "10 kg", "50 kg"], variable=loadcell_fullscale_tkvar
 )
 # load_cell_menu.set(str(loadcell_fullscale) + " kg")
 
 
 min_pos_label = customtkinter.CTkLabel(
-    staticFrame, text="Posizione negativa massima", anchor="s"
+    staticFrame, text="Posizione negativa massima [mm]", anchor="s"
 )
 
 min_pos_entry = customtkinter.CTkEntry(
@@ -1087,7 +1143,7 @@ if float(min_pos_entry.get()) > 0:
 
 
 max_pos_label = customtkinter.CTkLabel(
-    staticFrame, text="Posizione positiva massima", anchor="s"
+    staticFrame, text="Posizione positiva massima [mm]", anchor="s"
 )
 
 max_pos_entry = customtkinter.CTkEntry(
@@ -1099,10 +1155,32 @@ num_pos_label = customtkinter.CTkLabel(
     staticFrame, text="Numero pari di punti spaziali", anchor="s"
 )
 
+step_pos_label = customtkinter.CTkLabel(
+    staticFrame, text="Intervallo [mm]", anchor="s", width=80
+)
+
+wait_time_label = customtkinter.CTkLabel(
+    staticFrame, text="Tempo [ms]", anchor="s", width=80
+)
+
 num_pos_entry = customtkinter.CTkEntry(
     staticFrame, textvariable=num_pos_tkvar
 )
 
+step_pos_entry = customtkinter.CTkEntry(
+    staticFrame, textvariable=step_pos_tkvar, width=80
+)
+
+wait_time_entry = customtkinter.CTkEntry(
+    staticFrame, textvariable=wait_time_tkvar, width=80
+)
+
+
+mesh_label = customtkinter.CTkLabel(
+    staticFrame, text="Il valore massimo non è multiplo\ndel passo scelto ", anchor="s",
+    font=('Segoe UI', 10),
+    text_color="red"
+)
 
 checkbox = customtkinter.CTkCheckBox(staticFrame, text="Media", command=setAvgFlag)
 checkbox.configure(variable=avg_flag_tkvar)
@@ -1219,20 +1297,29 @@ def showStaticFrame():
     staticFrame.grid_rowconfigure(7, weight=1)
     staticFrame.grid_rowconfigure(8, weight=2)
     staticFrame.grid_rowconfigure(9, weight=2)
+    # staticFrame.grid_columnconfigure(0, weight=1)
+    # staticFrame.grid_columnconfigure(1, weight=2)
+
     # staticFrame.grid_rowconfigure(10, weight=3)
 
 
-    min_pos_label.grid(row=2, column=0, pady=10, padx=20, sticky="w")
-    min_pos_entry.grid(row=3, column=0, padx=20, sticky="w")
+    min_pos_label.grid(row=2, column=0, pady=10, padx=20, sticky="w", columnspan=2)
+    min_pos_entry.grid(row=3, column=0, padx=20, sticky="w", columnspan=2)
 
-    max_pos_label.grid(row=4, column=0, pady=10, padx=20, sticky="w")
-    max_pos_entry.grid(row=5, column=0, padx=20, sticky="w")
+    max_pos_label.grid(row=4, column=0, pady=10, padx=20, sticky="w", columnspan=2)
+    max_pos_entry.grid(row=5, column=0, padx=20, sticky="w", columnspan=2)
 
-    num_pos_label.grid(row=6, column=0, pady=10, padx=20, sticky="w")
-    num_pos_entry.grid(row=7, column=0, padx=20, sticky="w")
+    # num_pos_label.grid(row=6, column=0, pady=10, padx=20, sticky="w")
+    # num_pos_entry.grid(row=7, column=0, padx=20, sticky="w")
 
-    checkbox.grid(row=8, column=0, padx=20, sticky="w", pady=10)
-    checkbox_AR.grid(row=9, column=0, padx=20, sticky="w", pady=10)
+    step_pos_label.grid(row=6, column=0, pady=10, padx=10)
+    step_pos_entry.grid(row=7, column=0, padx=20)
+
+    wait_time_label.grid(row=6, column=1, pady=10, padx=10, sticky="w")
+    wait_time_entry.grid(row=7, column=1, padx=20, sticky="w")
+
+    checkbox.grid(row=8, column=0, padx=20, sticky="w", pady=10, columnspan=2)
+    checkbox_AR.grid(row=9, column=0, padx=20, sticky="w", pady=10, columnspan=2)
     app.update()
 
 def showCreepFrame():
@@ -1269,6 +1356,3 @@ app.bind('<Escape>', lambda e: closeAll())
 app.bind("<Control-s>", lambda e: save())
 app.bind("<Control-o>", lambda e: load())
 app.mainloop()
-
-
-

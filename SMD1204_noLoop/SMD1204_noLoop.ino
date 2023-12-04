@@ -45,6 +45,7 @@ int8_t FULLSCALE = 1; // the fullscale of the loadcell
 float min_pos = 0;    // minimal position in spacial axis
 float max_pos = 0;    // maximal position in spacial axis
 int num_pos = 0;      // # of spacial points
+unsigned long waitTime = 3000; // wait time after which measure 
 
 uint8_t pos_idx = 0; // index to navigate the pos_sorted array
 float sum_p = 0;
@@ -152,6 +153,7 @@ void setup()
     min_pos = Serial.parseFloat(SKIP_WHITESPACE);
     max_pos = Serial.parseFloat(SKIP_WHITESPACE);
     num_pos = Serial.parseInt(SKIP_WHITESPACE);
+    waitTime = (unsigned long)(Serial.parseInt(SKIP_WHITESPACE));
     mean_active = bool(Serial.parseInt(SKIP_WHITESPACE));
     ar_flag = bool(Serial.parseInt(SKIP_WHITESPACE));
     
