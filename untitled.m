@@ -24,3 +24,14 @@ force_back = data(:,3);
 
 figure();
 plot(pos, force_forw./pos);
+
+%%
+close all
+
+vel = 1;
+
+mm = [0,1,-1,2,-2,3,-3,4,-4,5,-5];
+
+
+figure();
+plot(t, mm)

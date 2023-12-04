@@ -358,8 +358,11 @@ def setAvgCnt(val):
 
 
 def populatePosArray():
-    global pos, pos_sorted, max_iter
+    global pos, pos_sorted, max_iter, num_pos
     pos = np.linspace(min_pos, max_pos, num_pos)
+
+    # pos = pos[abs(pos)>0.5]
+    num_pos = len(pos)
     minus=np.flip(pos[0:int(num_pos/2)])
     plus=pos[int(num_pos/2):]
 
@@ -601,7 +604,7 @@ def serialListener():
 
             if compare_strings(data, "tare"):
                 globals()["tare"]=float(data.split()[1])
-            
+                            
 
             if compare_strings(data, "time_ax"):
                 time_val = float(data.split()[1])

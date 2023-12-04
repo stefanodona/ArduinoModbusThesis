@@ -1,8 +1,8 @@
 {
-    "stat_creep_flag": false,
+    "stat_creep_flag": true,
     "loadcell_fullscale": 10,
-    "min_pos": -3.5,
-    "max_pos": 3.5,
+    "min_pos": -5.0,
+    "max_pos": 5.0,
     "num_pos": 30,
     "avg_flag": false,
     "ar_flag": false,
@@ -17,7 +17,7 @@
     "acc_max": 5.0,
     "time_flag": false,
     "time_max": 0.5,
-    "creep_displ": -2.0,
+    "creep_displ": -0.7,
     "creep_period": 100.0,
     "creep_duration": 10.0
 }

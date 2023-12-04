@@ -128,35 +128,37 @@ void sendCommand(uint16_t cmd);
 void driverSetup();
 #line 115 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 void homingRoutine();
-#line 221 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 243 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 void measureRoutine();
-#line 368 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 408 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 void creepRoutine();
-#line 444 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 493 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 void getStatus();
-#line 450 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 499 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 void printStatus();
-#line 492 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 541 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 void printAlarms();
-#line 533 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 582 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 void splitU32to16(uint32_t toSplit);
-#line 539 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 588 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 void split32to16(int32_t toSplit);
-#line 545 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 594 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 void awaitKeyPressed();
-#line 557 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 606 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 void sendPosTarget(int32_t pos);
-#line 567 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 616 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 int32_t mm2int(float pos_mm);
-#line 572 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 621 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+float int2mm(int32_t pos_step);
+#line 626 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 int32_t getPosact();
-#line 581 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 635 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 void printForce(uint8_t i, int32_t pos, float pos_mm, float force);
-#line 595 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 649 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 int getAvgCnt(float val);
-#line 610 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 664 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 void setAccVelocity(float disp);
-#line 647 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 701 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 void checkPanic();
 #line 89 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_noLoop.ino"
 void setup()
@@ -384,7 +386,7 @@ float getForce3(float x)
 float getForce10(float x)
 {
   float a = 0;
-  float b = 0;
+  float b = 7.540505*pow(10, -6)*10/3;
   float c = 0;
   float force = a * x * x + b * x + c;
   return force;
@@ -529,19 +531,36 @@ void driverSetup()
 
 void homingRoutine()
 {
+  split32to16(vel_tare * 10);
+  if (modbusTCPClient.holdingRegisterWrite(Rvel, splitted[0]) && modbusTCPClient.holdingRegisterWrite(Rvel + 1, splitted[1]))
+  {
+  }
   // seek the position in which the value of hx711 is equal to unclamped (in error band)
   sendCommand(home());
   // sendPosTarget((int32_t)2048);
   // sendCommand(gor());
 
-  Serial.write("Porre il centratore sulla cella...\n");
-  // Serial.write("Premere enter\n");
-  awaitKeyPressed();
+  // Serial.write("Togliere il centratore dalla cella...\n");
+  // // Serial.write("Premere enter\n");
+  // awaitKeyPressed();
 
+  // float tare = getForce();
+  // // tare = getForce3(373950);
+  // delay(1000);
+  // sendPosTarget(mm2int(-10));
+  // sendCommand(gor());
+  // getStatus();
+  //     while (bitRead(sts, 3))
+  //       // checkPanic();
+  //       getStatus();
+
+  Serial.write("Posizionare il centratore...\n");
+  awaitKeyPressed();
   float tare = getForce();
-  // tare = getForce3(373950);
-  delay(1000);
-  Serial.write("Clampare il centratore...\n");
+  // sendPosTarget(mm2int(10));
+  // sendCommand(gor());
+
+  Serial.write("Stringere il centratore...\n");
   // Serial.write("Premere enter\n");
   awaitKeyPressed();
 
@@ -555,11 +574,6 @@ void homingRoutine()
   // Serial.println("Err");
   // Serial.println(err);
 
-  split32to16(vel_tare * 10);
-  if (modbusTCPClient.holdingRegisterWrite(Rvel, splitted[0]) && modbusTCPClient.holdingRegisterWrite(Rvel + 1, splitted[1]))
-  {
-  }
-
   // assuming loadcell reads x<0 when extended and x>0 when compressed
   float pos;
   if (clamped > tare)
@@ -570,54 +584,64 @@ void homingRoutine()
   sendPosTarget(mm2int(pos));
 
   Serial.println("Status");
-  float abs_tol = 0.05;
+  float abs_tol = 0.1;
   float upperBound = tare + abs_tol;
   float lowerBound = tare - abs_tol;
   // while (err > fabs(home_err * tare))
-  // do
-  // {
-  //   sendCommand(gor());
-  //   getStatus();
+  bool search_active = true;
 
-  //   while (bitRead(sts, 3))
-  //   {
-  //     Serial.println(bitRead(sts, 3));
-  //     getStatus();
-  //   }
-  //   // while (!bitRead(sts, 10))
-  //   // // while (bitRead(sts_cllp, 2))
-  //   //   getStatus();
-  //   // clamped = getForce();
-  //   float post_moved = getForce();
-  //   float diff = (post_moved - clamped) / pos;
+  if (search_active)
+  {
+    for (int i=0; i<2; i++){
 
-  //   pos = ((tare - post_moved) / diff);
-  //   pos = constrain(pos,-2,2);
+    do
+    {
+      sendCommand(gor());
+      getStatus();
 
-  //   Serial.println("diff: ");
-  //   Serial.println(diff, 5);
-  //   Serial.println("pos ");
-  //   Serial.println(pos, 5);
-  //   Serial.println("post_moved: ");
-  //   Serial.println(post_moved, 5);
-  //   Serial.println("lowerbound: ");
-  //   Serial.println(lowerBound, 5);
-  //   Serial.println("upperbound: ");
-  //   Serial.println(upperBound, 5);
+      while (bitRead(sts, 3))
+      {
+        // Serial.println(bitRead(sts, 3));
+        getStatus();
+      }
+      delay(500);
 
-  //   sendPosTarget(mm2int(pos));
-  //   clamped = post_moved;
-  //   delay(200);
-  //   Serial.println("____");
-  // } while (clamped < lowerBound || clamped > upperBound);
+      float post_moved = getForce();
+      float diff = (post_moved - clamped) / pos;
 
-  // delay(10000);
+      pos = ((tare - post_moved) / diff);
+      pos = constrain(pos, -1.0, 1.0);
+
+      // Serial.println("diff: ");
+      // Serial.println(diff, 5);
+      Serial.println("pos realtiva prossimo passo:");
+      Serial.println(pos, 5);
+      Serial.println("forza mancante: ");
+      Serial.println((tare-post_moved), 5);
+      Serial.println("post_moved: ");
+      Serial.println(post_moved, 5);
+      Serial.println("lowerbound: ");
+      Serial.println(lowerBound, 5);
+      Serial.println("upperbound: ");
+      Serial.println(upperBound, 5);
+
+      sendPosTarget(mm2int(pos));
+      clamped = post_moved;
+      delay(200);
+      Serial.println("____");
+    } while (clamped < lowerBound || clamped > upperBound);
+
+    delay(10000);
+    }
+  }
 
   tare_force = clamped;
 
   // sendCommand(home());
 
   init_pos = getPosact();
+  // Serial.println("Init Pos: ");
+  // Serial.println(init_pos);
   String msg = "tare ";
   char num[15];
   dtostrf(tare_force, 10, 6, num);
@@ -648,11 +672,6 @@ void measureRoutine()
     pos[i] = Serial.parseFloat(SKIP_WHITESPACE);
   }
 
-  // for (int i = 0; i < num_pos; i++)
-  // {
-  //   Serial.println(pos[i]);
-  // }
-
   float sum_p = 0;
   float sum_m = 0;
   String msg = "val ";
@@ -661,7 +680,7 @@ void measureRoutine()
 
   Serial.write("Measuring\n");
 
-  unsigned long waitTime = 1000;
+  unsigned long waitTime = 3000;
 
   Serial.write("andata\n");
   for (int i = 0; i < num_pos; i = i + 2)
@@ -680,6 +699,8 @@ void measureRoutine()
         // checkPanic();
         getStatus();
 
+      // sendCommand(disableDrive());
+
       delay(waitTime);
       unsigned long tik = millis();
       sum_p += getForce();
@@ -690,6 +711,19 @@ void measureRoutine()
 
       Serial.write("check percent\n");
 
+      // getStatus();
+      // while (!bitRead(sts, 0))
+      // {
+      //   getStatus();
+      //   sendCommand(enableDrive());
+      // }
+
+      sendPosTarget(init_pos);
+      sendCommand(go());
+      getStatus();
+      while (bitRead(sts, 3))
+        getStatus();
+
       // negative movement
       sendPosTarget(init_pos + mm2int(pos[i + 1]));
       sendCommand(go());
@@ -697,11 +731,19 @@ void measureRoutine()
       while (bitRead(sts, 3))
         // checkPanic();
         getStatus();
+      // sendCommand(disableDrive());
       delay(waitTime);
       sum_m += getForce();
       Serial.write("check percent\n");
 
       // delay(100);
+
+      // getStatus();
+      // while (!bitRead(sts, 0))
+      // {
+      //   getStatus();
+      //   sendCommand(enableDrive());
+      // }
 
       sendPosTarget(init_pos);
       sendCommand(go());
@@ -814,6 +856,8 @@ void creepRoutine()
     // while (bitRead(sts_cllp, 2))
     getStatus();
 
+  sendCommand(disableDrive());
+
   // float acquisitions[num_creep];
   // float time_axis[num_creep];
 
@@ -848,6 +892,13 @@ void creepRoutine()
   //   Serial.println(time_msg + time_val);
   //   delay(50);
   // }
+
+  getStatus();
+  while (!bitRead(sts, 0))
+  {
+    getStatus();
+    sendCommand(enableDrive());
+  }
 
   sendPosTarget(init_pos);
   sendCommand(go());
@@ -982,6 +1033,11 @@ void sendPosTarget(int32_t pos)
 int32_t mm2int(float pos_mm)
 {
   return int32_t(pos_mm * 2048 / 5);
+}
+
+float int2mm(int32_t pos_step)
+{
+  return float(pos_step * 5 / 2048);
 }
 
 int32_t getPosact()
