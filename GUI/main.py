@@ -308,6 +308,7 @@ force = np.array([])
 force_ritorno = np.array([])
 pos = np.array([])
 pos_sorted = np.array([])
+pos_acquired = np.array([])
 
 # arrays for creep measurement
 time_axis = np.array([])
@@ -453,7 +454,7 @@ def startMeasurement():
 
     # startButton.configure(text="Initializing...")
 
-    global min_pos, max_pos, num_pos, step_pos, wait_time, percent, force, force_ritorno, pos, pos_sorted, time_axis, creep_displ, creep_period, creep_duration
+    global min_pos, max_pos, num_pos, step_pos, wait_time, percent, force, force_ritorno, pos, pos_acquired, pos_sorted, time_axis, creep_displ, creep_period, creep_duration
 
     # min_pos = float(min_pos_entry.get())
     # max_pos = float(max_pos_entry.get())
@@ -483,6 +484,7 @@ def startMeasurement():
     force = np.array([])
     force_ritorno = np.array([])
     pos = np.array([])
+    pos_acquired = np.array([])
     pos_sorted = np.array([])
     time_axis = np.array([])
 
@@ -520,7 +522,7 @@ def prepareMsgSerialParameters():
 
 
 def serialListener():
-    global pos,  pos_sorted, percent, force, force_ritorno, time_axis, max_iter, meas_forward, panic_flag
+    global pos,  pos_sorted, pos_acquired, percent, force, force_ritorno, time_axis, max_iter, meas_forward, panic_flag
     print(port)
     with serial.Serial("COM9", 38400) as ser:
         index = 0
@@ -578,25 +580,6 @@ def serialListener():
                 ser.write(msg.encode())
                 print(data)
 
-            # if data == "loadcell\n":
-            #     if ser.writable():
-            #         ser.write(str(loadcell_fullscale).encode())
-
-            # if data == "min_pos\n":
-            #     ser.write(str(min_pos).encode())
-
-            # if data == "max_pos\n":
-            #     ser.write(str(max_pos).encode())
-
-            # if data == "num_pos\n":
-            #     ser.write(str(num_pos).encode())
-
-            # if data == "media\n":
-            #     ser.write(str(int(avg_flag)).encode())
-
-            # if data == "a_r\n":
-            #     ser.write(str(int(ar_flag)).encode())
-
             if data == "Connecting\n":
                 print(data)
                 startButton.configure(text="Connecting...")
@@ -649,6 +632,13 @@ def serialListener():
                 else:
                     force = np.append(force, meas_val)
 
+            if compare_strings(data, "driver_pos"):
+                # print(data.split())
+                meas_val = float(data.split()[1])
+                pos_acquired = np.append(pos_acquired, meas_val)
+                
+
+
             if compare_strings(data, "tare"):
                 globals()["tare"]=float(data.split()[1])
                             
@@ -700,6 +690,7 @@ def serialListener():
         pos_sorted_sort= pos_sorted
         sort = np.argsort(pos_sorted_sort)
         pos = pos_sorted_sort[sort]
+        pos_acquired = pos_acquired[sort]  
         force = force[sort]
         # force = np.append(force, tare)
         if(ar_flag):
@@ -710,9 +701,17 @@ def serialListener():
     
     force = force-tare
     print("pos: ",pos)
+    print("pos_ac: ",pos_acquired)
     print("force: ",force)
     print("Force_ret: ",force_ritorno)
     print("Time: ",time_axis)
+
+    mirror = False
+    if mirror:
+        pos = np.flip(-pos)
+        force = np.flip(force)
+        force_ritorno = np.flip(force_ritorno)
+
     drawPlots()
 
 
@@ -724,9 +723,9 @@ def drawPlots():
     # global pos, force, force_ritorno, time_axis
 
     if not creep_bool_tkvar.get():
-        ax_force.plot(pos, force)
+        ax_force.plot(pos_acquired, force)
         if(ar_flag):
-            ax_force.plot(pos, force_ritorno)
+            ax_force.plot(pos_acquired, force_ritorno)
             ax_force.legend(["Andata", "Ritorno"])
         ax_force.set_xlabel("displacement [mm]")
         ax_force.set_ylabel("force [N]")
@@ -738,10 +737,10 @@ def drawPlots():
         # idx.remove(floor(len(pos)/2))
 
         # ax_stiff.plot(pos, np.nan_to_num(force/pos))
-        ax_stiff.plot(pos, force/pos)
+        ax_stiff.plot(pos_acquired, force/pos_acquired)
         if (ar_flag):
             # ax_stiff.plot(pos, np.nan_to_num(force_ritorno/pos))
-            ax_stiff.plot(pos, force_ritorno/pos)
+            ax_stiff.plot(pos_acquired, force_ritorno/pos_acquired)
             ax_stiff.legend(["Andata", "Ritorno"])
         ax_stiff.set_xlabel("displacement [mm]")
         ax_stiff.set_ylabel("stiffness [N/mm]")
@@ -871,11 +870,11 @@ def save_data(txt_path, json_path):
             if(not stat_creep_flag):
                 fl.write("# STATIC MEASUREMENT\n\n")
                 fl.write("# pos [mm]\t\tforce_forw [N]\t\tforce_back [N]\n")
-                for i in range(0,len(pos)):
+                for i in range(0,len(pos_acquired)):
                     if (ar_flag):
-                            fl.write(f"{pos[i]:.3f}"+"\t\t\t"+ f"{force[i]:.3f}" +"\t\t\t" + f"{force_ritorno[i]:.3f}" +"\n")   
+                            fl.write(f"{pos_acquired[i]:.3f}"+"\t\t\t"+ f"{force[i]:.3f}" +"\t\t\t" + f"{force_ritorno[i]:.3f}" +"\n")   
                     else:
-                            fl.write(f"{pos[i]:.3f}"+"\t\t\t"+ f"{force[i]:.3f}"+"\t\t\t"+ f"{0:.3f}" +"\n")   
+                            fl.write(f"{pos_acquired[i]:.3f}"+"\t\t\t"+ f"{force[i]:.3f}"+"\t\t\t"+ f"{0:.3f}" +"\n")   
             else:
                 fl.write("# CREEP MEASUREMENT\n\n")
                 fl.write("# time [ms]\t\tforce [N]\t\tstiffness [N/mm]\n")

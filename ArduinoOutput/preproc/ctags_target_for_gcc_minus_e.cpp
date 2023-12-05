@@ -505,6 +505,10 @@ void homingRoutine()
   float abs_tol = 0.1;
   // while (err > fabs(home_err * tare))
   bool search_active = true;
+  // float disks_weight = (0.12995+0.1083+0.02543)*9.81;
+  float disks_weight = (0.12995 + 0.1083) * 9.81;
+
+  // tare += disks_weight;
 
   if (search_active)
   {
@@ -603,7 +607,10 @@ void measureRoutine()
 
   float sum_p = 0;
   float sum_m = 0;
+  float sum_pos_p = 0;
+  float sum_pos_m = 0;
   String msg = "val ";
+  String msg_pos = "driver_pos ";
   char buff[15];
   char num[15];
 
@@ -629,6 +636,7 @@ void measureRoutine()
       // sendCommand(disableDrive());
 
       delay(waitTime);
+      sum_pos_p += int2mm(getPosact()-init_pos);
       unsigned long tik = millis();
       sum_p += getForce();
       unsigned long tok = millis();
@@ -660,6 +668,7 @@ void measureRoutine()
         getStatus();
       // sendCommand(disableDrive());
       delay(waitTime);
+      sum_pos_m += int2mm(getPosact()-init_pos);
       sum_m += getForce();
       Serial.write("check percent\n");
 
@@ -682,13 +691,23 @@ void measureRoutine()
     float meas_p = sum_p / cnt;
     float meas_m = sum_m / cnt;
 
+    float pos_p = sum_pos_p / cnt;
+    float pos_m = sum_pos_m / cnt;
+
     dtostrf(meas_p, 10, 6, num);
     Serial.println(msg + num);
+    dtostrf(pos_p, 10, 6, num);
+    Serial.println(msg_pos + num);
+
     dtostrf(meas_m, 10, 6, num);
     Serial.println(msg + num);
+    dtostrf(pos_m, 10, 6, num);
+    Serial.println(msg_pos + num);
 
     sum_p = 0;
     sum_m = 0;
+    sum_pos_p = 0;
+    sum_pos_m = 0;
   }
 
   if (ar_flag)
@@ -711,6 +730,7 @@ void measureRoutine()
           getStatus();
         delay(waitTime);
 
+        sum_pos_p += int2mm(getPosact()-init_pos);
         sum_p += getForce();
         Serial.write("check percent\n");
 
@@ -724,6 +744,7 @@ void measureRoutine()
           getStatus();
         delay(waitTime);
 
+        sum_pos_m += int2mm(getPosact()-init_pos);
         sum_m += getForce();
         Serial.write("check percent\n");
 
@@ -738,13 +759,23 @@ void measureRoutine()
       float meas_p = sum_p / cnt;
       float meas_m = sum_m / cnt;
 
+      float pos_p = sum_pos_p / cnt;
+      float pos_m = sum_pos_m / cnt;
+
       dtostrf(meas_p, 10, 6, num);
       Serial.println(msg + num);
+      dtostrf(pos_p, 10, 6, num);
+      Serial.println(msg_pos + num);
+
       dtostrf(meas_m, 10, 6, num);
       Serial.println(msg + num);
+      dtostrf(pos_m, 10, 6, num);
+      Serial.println(msg_pos + num);
 
       sum_p = 0;
       sum_m = 0;
+      sum_pos_p = 0;
+      sum_pos_m = 0;
     }
   }
 }
@@ -964,7 +995,7 @@ int32_t mm2int(float pos_mm)
 
 float int2mm(int32_t pos_step)
 {
-  return float(pos_step * 5 / 2048);
+  return float(pos_step) * 5 / 2048;
 }
 
 int32_t getPosact()

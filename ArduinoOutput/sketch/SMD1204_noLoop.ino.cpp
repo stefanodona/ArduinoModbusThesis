@@ -129,37 +129,37 @@ void sendCommand(uint16_t cmd);
 void driverSetup();
 #line 115 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 void homingRoutine();
-#line 255 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 259 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 void measureRoutine();
-#line 418 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 449 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 void creepRoutine();
-#line 503 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 534 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 void getStatus();
-#line 509 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 540 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 void printStatus();
-#line 551 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 582 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 void printAlarms();
-#line 592 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 623 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 void splitU32to16(uint32_t toSplit);
-#line 598 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 629 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 void split32to16(int32_t toSplit);
-#line 604 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 635 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 void awaitKeyPressed();
-#line 616 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 647 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 void sendPosTarget(int32_t pos);
-#line 626 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 657 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 int32_t mm2int(float pos_mm);
-#line 631 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 662 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 float int2mm(int32_t pos_step);
-#line 636 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 667 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 int32_t getPosact();
-#line 645 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 676 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 void printForce(uint8_t i, int32_t pos, float pos_mm, float force);
-#line 659 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 690 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 int getAvgCnt(float val);
-#line 674 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 705 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 void setAccVelocity(float disp);
-#line 711 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 742 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 void checkPanic();
 #line 90 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_noLoop.ino"
 void setup()
@@ -590,6 +590,10 @@ void homingRoutine()
   float abs_tol = 0.1;
   // while (err > fabs(home_err * tare))
   bool search_active = true;
+  // float disks_weight = (0.12995+0.1083+0.02543)*9.81;
+  float disks_weight = (0.12995 + 0.1083) * 9.81;
+
+  // tare += disks_weight;
 
   if (search_active)
   {
@@ -688,7 +692,10 @@ void measureRoutine()
 
   float sum_p = 0;
   float sum_m = 0;
+  float sum_pos_p = 0;
+  float sum_pos_m = 0;
   String msg = "val ";
+  String msg_pos = "driver_pos ";
   char buff[15];
   char num[15];
 
@@ -714,6 +721,7 @@ void measureRoutine()
       // sendCommand(disableDrive());
 
       delay(waitTime);
+      sum_pos_p += int2mm(getPosact()-init_pos);
       unsigned long tik = millis();
       sum_p += getForce();
       unsigned long tok = millis();
@@ -745,6 +753,7 @@ void measureRoutine()
         getStatus();
       // sendCommand(disableDrive());
       delay(waitTime);
+      sum_pos_m += int2mm(getPosact()-init_pos);
       sum_m += getForce();
       Serial.write("check percent\n");
 
@@ -767,13 +776,23 @@ void measureRoutine()
     float meas_p = sum_p / cnt;
     float meas_m = sum_m / cnt;
 
+    float pos_p = sum_pos_p / cnt;
+    float pos_m = sum_pos_m / cnt;
+
     dtostrf(meas_p, 10, 6, num);
     Serial.println(msg + num);
+    dtostrf(pos_p, 10, 6, num);
+    Serial.println(msg_pos + num);
+
     dtostrf(meas_m, 10, 6, num);
     Serial.println(msg + num);
+    dtostrf(pos_m, 10, 6, num);
+    Serial.println(msg_pos + num);
 
     sum_p = 0;
     sum_m = 0;
+    sum_pos_p = 0;
+    sum_pos_m = 0;
   }
 
   if (ar_flag)
@@ -796,6 +815,7 @@ void measureRoutine()
           getStatus();
         delay(waitTime);
 
+        sum_pos_p += int2mm(getPosact()-init_pos);
         sum_p += getForce();
         Serial.write("check percent\n");
 
@@ -809,6 +829,7 @@ void measureRoutine()
           getStatus();
         delay(waitTime);
 
+        sum_pos_m += int2mm(getPosact()-init_pos);
         sum_m += getForce();
         Serial.write("check percent\n");
 
@@ -823,13 +844,23 @@ void measureRoutine()
       float meas_p = sum_p / cnt;
       float meas_m = sum_m / cnt;
 
+      float pos_p = sum_pos_p / cnt;
+      float pos_m = sum_pos_m / cnt;
+
       dtostrf(meas_p, 10, 6, num);
       Serial.println(msg + num);
+      dtostrf(pos_p, 10, 6, num);
+      Serial.println(msg_pos + num);
+
       dtostrf(meas_m, 10, 6, num);
       Serial.println(msg + num);
+      dtostrf(pos_m, 10, 6, num);
+      Serial.println(msg_pos + num);
 
       sum_p = 0;
       sum_m = 0;
+      sum_pos_p = 0;
+      sum_pos_m = 0;
     }
   }
 }
@@ -1049,7 +1080,7 @@ int32_t mm2int(float pos_mm)
 
 float int2mm(int32_t pos_step)
 {
-  return float(pos_step * 5 / 2048);
+  return float(pos_step) * 5 / 2048;
 }
 
 int32_t getPosact()
