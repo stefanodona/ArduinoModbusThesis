@@ -3,7 +3,7 @@
     "loadcell_fullscale": 10,
     "min_pos": -3.0,
     "max_pos": 3.0,
-    "num_pos": 84,
+    "num_pos": 64,
     "step_pos": 0.05,
     "wait_time": 1000,
     "avg_flag": false,

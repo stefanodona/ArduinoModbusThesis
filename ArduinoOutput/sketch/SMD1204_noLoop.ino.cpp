@@ -129,37 +129,37 @@ void sendCommand(uint16_t cmd);
 void driverSetup();
 #line 115 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 void homingRoutine();
-#line 259 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 273 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 void measureRoutine();
-#line 449 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 465 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 void creepRoutine();
-#line 534 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 550 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 void getStatus();
-#line 540 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 556 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 void printStatus();
-#line 582 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 598 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 void printAlarms();
-#line 623 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 639 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 void splitU32to16(uint32_t toSplit);
-#line 629 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 645 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 void split32to16(int32_t toSplit);
-#line 635 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 651 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 void awaitKeyPressed();
-#line 647 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 663 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 void sendPosTarget(int32_t pos);
-#line 657 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 673 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 int32_t mm2int(float pos_mm);
-#line 662 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 678 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 float int2mm(int32_t pos_step);
-#line 667 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 683 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 int32_t getPosact();
-#line 676 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 692 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 void printForce(uint8_t i, int32_t pos, float pos_mm, float force);
-#line 690 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 706 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 int getAvgCnt(float val);
-#line 705 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 721 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 void setAccVelocity(float disp);
-#line 742 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 758 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 void checkPanic();
 #line 90 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_noLoop.ino"
 void setup()
@@ -606,11 +606,11 @@ void homingRoutine()
     //   getStatus();
     // }
     // sendPosTarget(mm2int(pos));
-
-    for (int i = 0; i < 2; i++)
+    float div[] = {1, 5, 20};
+    for (int i = 0; i < 3; i++)
     {
-      float upperBound = tare + abs_tol / (i * 4 + 1);
-      float lowerBound = tare - abs_tol / (i * 4 + 1);
+      float upperBound = tare + abs_tol / div[i];
+      float lowerBound = tare - abs_tol / div[i];
 
       do
       {
@@ -655,7 +655,14 @@ void homingRoutine()
 
   tare_force = clamped;
 
-  // sendCommand(home());
+  // sendPosTarget(mm2int(-2));
+  // sendCommand(go());
+  // getStatus();
+  // while (bitRead(sts, 3))
+  //   // checkPanic();
+  //   getStatus();
+
+  sendCommand(home());
 
   init_pos = getPosact();
   // Serial.println("Init Pos: ");
@@ -664,6 +671,13 @@ void homingRoutine()
   char num[15];
   dtostrf(tare_force, 10, 6, num);
   Serial.println(msg + num);
+
+  // msg = "val ";
+  // String msg_pos = "driver_pos ";
+  // dtostrf(tare_force, 10, 6, num);
+  // Serial.println(msg + num);
+  // dtostrf(0, 10, 6, num);
+  // Serial.println(msg_pos + num);
 
   // Serial.write("Init pos: ");
   // Serial.println(init_pos);
@@ -718,25 +732,25 @@ void measureRoutine()
         // checkPanic();
         getStatus();
 
-      // sendCommand(disableDrive());
+      sendCommand(disableDrive());
 
       delay(waitTime);
-      sum_pos_p += int2mm(getPosact()-init_pos);
-      unsigned long tik = millis();
+      sum_pos_p += int2mm(getPosact() - init_pos);
+      // unsigned long tik = millis();
       sum_p += getForce();
-      unsigned long tok = millis();
-      long tikketokke = tok - tik;
-      Serial.write("TikkeTokke\n");
-      Serial.println(tikketokke);
+      // unsigned long tok = millis();
+      // long tikketokke = tok - tik;
+      // Serial.write("TikkeTokke\n");
+      // Serial.println(tikketokke);
 
       Serial.write("check percent\n");
 
-      // getStatus();
-      // while (!bitRead(sts, 0))
-      // {
-      //   getStatus();
-      //   sendCommand(enableDrive());
-      // }
+      getStatus();
+      while (!bitRead(sts, 0))
+      {
+        getStatus();
+        sendCommand(enableDrive());
+      }
 
       sendPosTarget(init_pos);
       sendCommand(go());
@@ -751,27 +765,27 @@ void measureRoutine()
       while (bitRead(sts, 3))
         // checkPanic();
         getStatus();
-      // sendCommand(disableDrive());
+      sendCommand(disableDrive());
       delay(waitTime);
-      sum_pos_m += int2mm(getPosact()-init_pos);
+      sum_pos_m += int2mm(getPosact() - init_pos);
       sum_m += getForce();
       Serial.write("check percent\n");
 
       // delay(100);
 
-      // getStatus();
-      // while (!bitRead(sts, 0))
-      // {
-      //   getStatus();
-      //   sendCommand(enableDrive());
-      // }
+      getStatus();
+      while (!bitRead(sts, 0))
+      {
+        getStatus();
+        sendCommand(enableDrive());
+      }
 
       sendPosTarget(init_pos);
       sendCommand(go());
       getStatus();
       while (bitRead(sts, 3))
         getStatus();
-      // delay(2000);
+
     }
     float meas_p = sum_p / cnt;
     float meas_m = sum_m / cnt;
@@ -815,7 +829,7 @@ void measureRoutine()
           getStatus();
         delay(waitTime);
 
-        sum_pos_p += int2mm(getPosact()-init_pos);
+        sum_pos_p += int2mm(getPosact() - init_pos);
         sum_p += getForce();
         Serial.write("check percent\n");
 
@@ -829,7 +843,7 @@ void measureRoutine()
           getStatus();
         delay(waitTime);
 
-        sum_pos_m += int2mm(getPosact()-init_pos);
+        sum_pos_m += int2mm(getPosact() - init_pos);
         sum_m += getForce();
         Serial.write("check percent\n");
 
@@ -863,6 +877,8 @@ void measureRoutine()
       sum_pos_m = 0;
     }
   }
+  sendPosTarget(0);
+  sendCommand(go());
 }
 
 void creepRoutine()

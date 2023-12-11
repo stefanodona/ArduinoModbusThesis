@@ -521,11 +521,11 @@ void homingRoutine()
     //   getStatus();
     // }
     // sendPosTarget(mm2int(pos));
-
-    for (int i = 0; i < 2; i++)
+    float div[] = {1, 5, 20};
+    for (int i = 0; i < 3; i++)
     {
-      float upperBound = tare + abs_tol / (i * 4 + 1);
-      float lowerBound = tare - abs_tol / (i * 4 + 1);
+      float upperBound = tare + abs_tol / div[i];
+      float lowerBound = tare - abs_tol / div[i];
 
       do
       {
@@ -570,7 +570,14 @@ void homingRoutine()
 
   tare_force = clamped;
 
-  // sendCommand(home());
+  // sendPosTarget(mm2int(-2));
+  // sendCommand(go());
+  // getStatus();
+  // while (bitRead(sts, 3))
+  //   // checkPanic();
+  //   getStatus();
+
+  sendCommand(home());
 
   init_pos = getPosact();
   // Serial.println("Init Pos: ");
@@ -579,6 +586,13 @@ void homingRoutine()
   char num[15];
   dtostrf(tare_force, 10, 6, num);
   Serial.println(msg + num);
+
+  // msg = "val ";
+  // String msg_pos = "driver_pos ";
+  // dtostrf(tare_force, 10, 6, num);
+  // Serial.println(msg + num);
+  // dtostrf(0, 10, 6, num);
+  // Serial.println(msg_pos + num);
 
   // Serial.write("Init pos: ");
   // Serial.println(init_pos);
@@ -633,25 +647,25 @@ void measureRoutine()
         // checkPanic();
         getStatus();
 
-      // sendCommand(disableDrive());
+      sendCommand(disableDrive());
 
       delay(waitTime);
-      sum_pos_p += int2mm(getPosact()-init_pos);
-      unsigned long tik = millis();
+      sum_pos_p += int2mm(getPosact() - init_pos);
+      // unsigned long tik = millis();
       sum_p += getForce();
-      unsigned long tok = millis();
-      long tikketokke = tok - tik;
-      Serial.write("TikkeTokke\n");
-      Serial.println(tikketokke);
+      // unsigned long tok = millis();
+      // long tikketokke = tok - tik;
+      // Serial.write("TikkeTokke\n");
+      // Serial.println(tikketokke);
 
       Serial.write("check percent\n");
 
-      // getStatus();
-      // while (!bitRead(sts, 0))
-      // {
-      //   getStatus();
-      //   sendCommand(enableDrive());
-      // }
+      getStatus();
+      while (!(((sts) >> (0)) & 0x01))
+      {
+        getStatus();
+        sendCommand(enableDrive());
+      }
 
       sendPosTarget(init_pos);
       sendCommand(go());
@@ -666,27 +680,27 @@ void measureRoutine()
       while ((((sts) >> (3)) & 0x01))
         // checkPanic();
         getStatus();
-      // sendCommand(disableDrive());
+      sendCommand(disableDrive());
       delay(waitTime);
-      sum_pos_m += int2mm(getPosact()-init_pos);
+      sum_pos_m += int2mm(getPosact() - init_pos);
       sum_m += getForce();
       Serial.write("check percent\n");
 
       // delay(100);
 
-      // getStatus();
-      // while (!bitRead(sts, 0))
-      // {
-      //   getStatus();
-      //   sendCommand(enableDrive());
-      // }
+      getStatus();
+      while (!(((sts) >> (0)) & 0x01))
+      {
+        getStatus();
+        sendCommand(enableDrive());
+      }
 
       sendPosTarget(init_pos);
       sendCommand(go());
       getStatus();
       while ((((sts) >> (3)) & 0x01))
         getStatus();
-      // delay(2000);
+
     }
     float meas_p = sum_p / cnt;
     float meas_m = sum_m / cnt;
@@ -730,7 +744,7 @@ void measureRoutine()
           getStatus();
         delay(waitTime);
 
-        sum_pos_p += int2mm(getPosact()-init_pos);
+        sum_pos_p += int2mm(getPosact() - init_pos);
         sum_p += getForce();
         Serial.write("check percent\n");
 
@@ -744,7 +758,7 @@ void measureRoutine()
           getStatus();
         delay(waitTime);
 
-        sum_pos_m += int2mm(getPosact()-init_pos);
+        sum_pos_m += int2mm(getPosact() - init_pos);
         sum_m += getForce();
         Serial.write("check percent\n");
 
@@ -778,6 +792,8 @@ void measureRoutine()
       sum_pos_m = 0;
     }
   }
+  sendPosTarget(0);
+  sendCommand(go());
 }
 
 void creepRoutine()

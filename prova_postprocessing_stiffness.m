@@ -9,6 +9,8 @@ fclose(FID);
 
 x_pres = datacell{1};
 force_forw_pres = datacell{2};
+% force_forw_pres = force_forw_pres(force_forw_pres~=0); 
+% x_pres = x_pres(force_forw_pres~=0)
 force_back_pres = datacell{3};
 
 matr = [x_pres, force_forw_pres];
@@ -57,7 +59,7 @@ title("K_{ms} calcolata con F_m e F_v contro x_{pres}")
 
 
 kms_fvera = f_vera./x_pres;
-
+kms_presunta = force_forw_pres./x_pres;
 
 %%
 f_pos = force_forw_pres(force_forw_pres>0);
@@ -103,24 +105,24 @@ grid on
 stiff = @(x) fit_obj.p1 .* x.^2 + fit_obj.p2 .* x + fit_obj.p3;
 % x_ideale = -5:0.25:5;
 % x_pres = datacell{1};
-x_ideale = x_pres(1) : x_pres(2)-x_pres(1) : x_pres(end) ;
-x_ideale = x_ideale(x_ideale~=0);
-
-force_ideale = stiff(x_ideale).*x_ideale;
-
-figure()
-plot(x_pres, force_forw_pres, x_ideale, force_ideale)
-grid on
-xline(x_0, 'k--')
-legend("pres", "vera")
-
-x_pres_teorica = x_ideale+x_0;
-kms_pres_teorica = force_ideale./x_pres_teorica;
-
-figure();
-plot(x_pres_teorica, kms_pres_teorica, x_pres, force_forw_pres./x_pres)
-grid on
-legend("teorica", "misurata")
+% x_ideale = x_pres(1) : x_pres(2)-x_pres(1) : x_pres(end) ;
+% x_ideale = x_ideale(x_ideale~=0);
+% 
+% force_ideale = stiff(x_ideale).*x_ideale;
+% 
+% figure()
+% plot(x_pres, force_forw_pres, x_ideale, force_ideale)
+% grid on
+% xline(x_0, 'k--')
+% legend("pres", "vera")
+% 
+% x_pres_teorica = x_ideale+x_0;
+% kms_pres_teorica = force_ideale./x_pres_teorica;
+% 
+% figure();
+% plot(x_pres_teorica, kms_pres_teorica, x_pres, force_forw_pres./x_pres)
+% grid on
+% legend("teorica", "misurata")
 
 
 

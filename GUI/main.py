@@ -369,6 +369,9 @@ def populatePosArray():
     if not pos[-1]==max_pos:
         pass
 
+
+    pos = np.array([-10, -9.5, -9, -8.5, -8, -7.5, -7, -6.5, -6, -5.5, 5, -4.5, -4, -3.5, -3, -2.75, -2.5, -2.25, -2, -1.75, -1.5, -1.25, -1, -0.95, -0.9,  -0.85, -0.8, -0.75, -0.7, -0.65, -0.6, -0.55, -0.5, -0.45, -0.4, -0.35, -0.3, -0.25, -0.2, -0.15, -0.1, -0.05, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1, 1.25, 1.5, 1.75, 2, 2.25, 2.5, 2.75, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10])
+
     pos = pos[abs(pos)>0.0025]
     num_pos = len(pos)
 
@@ -379,8 +382,8 @@ def populatePosArray():
 
     sor=[]
     for i in range(0, int(num_pos/2)):
-        sor.append(plus[i])
         sor.append(minus[i])
+        sor.append(plus[i])
     pos_sorted = np.array(sor)
 
     print(pos_sorted)
@@ -413,19 +416,32 @@ def saveState():
     ff.write(json.dumps(params,indent=4))
     ff.close()
 
+def setPanic(var):
+    globals()["panic_flag"]=var
+
 
 def pressOk(msg):
+    global panic_flag
     topLevel = customtkinter.CTkToplevel(app)
+    okVar = customtkinter.IntVar(topLevel)
     topLevel.geometry("300x300")
 
-    okButton = customtkinter.CTkButton(topLevel, text="OK", command=topLevel.destroy)
+    # okButton = customtkinter.CTkButton(topLevel, text="OK", command=topLevel.destroy)
+    okButton = customtkinter.CTkButton(topLevel, text="OK", command=lambda: okVar.set(1))
     okButton.pack(side=customtkinter.BOTTOM, pady=50)
 
     label = customtkinter.CTkLabel(topLevel, text=str(msg)+'\n e premere OK')
     label.pack(padx=50, pady=50, side=customtkinter.BOTTOM)
     topLevel.focus()
-    while(topLevel.winfo_exists()):
-        pass
+    
+    # topLevel.protocol("WM_DELETE_WINDOW", lambda: setPanic(True))
+
+    topLevel.wait_variable(okVar)
+
+    topLevel.destroy()
+    
+    # while(topLevel.winfo_exists()):
+    #     pass
 
 
 def startMeasurement():
@@ -551,12 +567,12 @@ def serialListener():
         startButton.configure(text="Initializing...")
 
         while True:
-            # if panic_flag:
-            #     print("ER PANICO!")
-            #     ser.write("PANIC\n".encode())
-            #     ser.close()
-            #     panic_flag = False
-            #     break
+            if panic_flag:
+                print("ER PANICO!")
+                ser.write("PANIC\n".encode())
+                ser.close()
+                panic_flag = False
+                break
 
             if keyboard.is_pressed("q"):
                 print("Exiting")
@@ -669,6 +685,7 @@ def serialListener():
     duration_entry.configure(state="normal")
 
     startButton.configure(text="START")
+    print("pos acquired: ", pos_acquired)
     print("force: ",force)
     print("Force_ret: ",force_ritorno)
     print("Time: ",time_axis)
@@ -687,9 +704,10 @@ def serialListener():
     #         force_ritorno = np.flip(force_ritorno[sort])-tare
 
     if (not stat_creep_flag):
-        pos_sorted_sort= pos_sorted
-        sort = np.argsort(pos_sorted_sort)
-        pos = pos_sorted_sort[sort]
+        # pos_sorted_sort = pos_sorted
+        # sort = np.argsort(pos_sorted_sort)
+        sort = np.argsort(pos_acquired)
+        # pos = pos_sorted_sort[sort]
         pos_acquired = pos_acquired[sort]  
         force = force[sort]
         # force = np.append(force, tare)
@@ -699,7 +717,7 @@ def serialListener():
             # force_ritorno = np.append(force_ritorno, tare)
             force_ritorno = np.flip(force_ritorno[sort])-tare
     
-    force = force-tare
+    # force = force-tare
     print("pos: ",pos)
     print("pos_ac: ",pos_acquired)
     print("force: ",force)
@@ -921,7 +939,7 @@ def save():
             save_data(txt_path, json_path)
 
 def load():
-    global time_axis, pos, force, force_ritorno, params, saved_flag, last_params
+    global time_axis, pos, pos_acquired, force, force_ritorno, params, saved_flag, last_params
     files = [('All Files', '*.*'),  
              ('Python Files', '*.py'), 
              ('Text Document', '*.txt')] 
@@ -961,6 +979,7 @@ def load():
                         f_r.append(float(data[2]))
 
                 pos = np.array(p)
+                pos_acquired = np.array(p)
                 force = np.array(f)
                 force_ritorno = np.array(f_r)
 
@@ -1270,6 +1289,7 @@ panicButton.pack(side=customtkinter.LEFT, padx=10, pady=20, anchor="s")
 
 progressFrame.grid_columnconfigure(1, weight=2)
 pPercent = customtkinter.CTkLabel(progressFrame, text="0%", text_color="white")
+
 pProgress = customtkinter.CTkProgressBar(progressFrame)
 pProgress.set(percent)
 
