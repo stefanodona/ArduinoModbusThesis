@@ -28,7 +28,10 @@ import serial.tools.list_ports
 class ThrAvgFrame(customtkinter.CTkFrame):
     def __init__(self, master: any, width: int = 200, height: int = 200, corner_radius: int | str | None = None, border_width: int | str | None = None, bg_color: str | Tuple[str, str] = "transparent", fg_color: str | Tuple[str, str] | None = None, border_color: str | Tuple[str, str] | None = None, background_corner_colors: Tuple[str | Tuple[str, str]] | None = None, overwrite_preferred_drawing_method: str | None = None, name: str | None=None, slider_val: float | None=None, avg_num: int | None=None, **kwargs):
         super().__init__(master, width, height, corner_radius, border_width, bg_color, fg_color, border_color, background_corner_colors, overwrite_preferred_drawing_method, **kwargs)
-        self.slider_val = customtkinter.DoubleVar(self, np.clip(slider_val, 1, max_pos))
+        max_pos = float(max_pos_tkvar.get())
+        step = float(step_pos_tkvar.get())
+
+        self.slider_val = customtkinter.DoubleVar(self, np.round(np.clip(slider_val, step, max_pos),2))
         self.avg_val = customtkinter.StringVar(self, str(avg_num))
 
         self.sliderlabel = customtkinter.CTkLabel(self, 
@@ -37,9 +40,9 @@ class ThrAvgFrame(customtkinter.CTkFrame):
         self.sliderlabel.grid(row=0, column=0, columnspan=3, padx=10, pady=10)
 
         self.slider = customtkinter.CTkSlider(self, 
-                                              from_ = 1, 
+                                              from_ = step, 
                                               to = max_pos,
-                                              number_of_steps = (max_pos-1)*2,
+                                              number_of_steps = (max_pos-step)/step,
                                               variable = self.slider_val,
                                               command = self.sliderChanged)
         self.slider.grid(row=1, column=1, padx=5, pady=5)
@@ -50,7 +53,7 @@ class ThrAvgFrame(customtkinter.CTkFrame):
         self.slider_upperbound = customtkinter.CTkLabel(self, text=str(max_pos))
         self.slider_upperbound.grid(row=1, column=2, padx=5)
 
-        self.slider_value_label = customtkinter.CTkLabel(self, text=str(self.slider_val.get()))
+        self.slider_value_label = customtkinter.CTkLabel(self, text=str(np.round(self.slider_val.get(), 2)))
         self.slider_value_label.grid(row=2, column=1, padx=10)
 
         self.avglabel = customtkinter.CTkLabel(self, text = "# Medie")
@@ -63,7 +66,7 @@ class ThrAvgFrame(customtkinter.CTkFrame):
         self.dummy_spacer.grid(row=0, column=3, padx=20)
     
     def sliderChanged(self, event):
-        slider_val = self.slider_val.get()
+        slider_val = round(self.slider_val.get(),2)
         self.slider_value_label.configure(text=str(slider_val))
 
 
@@ -102,15 +105,15 @@ class ThrAvgWindows(customtkinter.CTkToplevel):
     def getWinState(self, *args):
         global th1_val, th1_avg, th2_val, th2_avg, th3_val, th3_avg
 
-        th1_val = self.th1.slider_val.get()
+        th1_val = round(self.th1.slider_val.get(),2)
         if (not self.th1.avg_val.get()==''): 
             th1_avg = int(self.th1.avg_val.get())
 
-        th2_val = self.th2.slider_val.get()
+        th2_val = round(self.th2.slider_val.get(),2)
         if (not self.th2.avg_val.get()==''): 
             th2_avg = int(self.th2.avg_val.get())
 
-        th3_val = self.th3.slider_val.get()
+        th3_val = round(self.th3.slider_val.get(),2)
         if (not self.th3.avg_val.get()==''): 
             th3_avg = int(self.th3.avg_val.get())
         saveState()
@@ -305,10 +308,12 @@ meas_forward = True
 
 # arrays for static measurement 
 force = np.array([])
+dev_force = np.array([])
 force_ritorno = np.array([])
 pos = np.array([])
 pos_sorted = np.array([])
 pos_acquired = np.array([])
+dev_pos_acquired = np.array([])
 
 # arrays for creep measurement
 time_axis = np.array([])
@@ -368,45 +373,37 @@ def populatePosArray():
 
     if not pos[-1]==max_pos:
         pass
-
-
-    pos = np.array([-10, -9.5, -9, -8.5, -8, -7.5, -7, -6.5, -6, -5.5, 5, -4.5, -4, -3.5, -3, -2.75, -2.5, -2.25, -2, -1.75, -1.5, -1.25, -1, -0.95, -0.9,  -0.85, -0.8, -0.75, -0.7, -0.65, -0.6, -0.55, -0.5, -0.45, -0.4, -0.35, -0.3, -0.25, -0.2, -0.15, -0.1, -0.05, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1, 1.25, 1.5, 1.75, 2, 2.25, 2.5, 2.75, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10])
+    # pos = np.array([-10, -9.5, -9, -8.5, -8, -7.5, -7, -6.5, -6, -5.5, 5, -4.5, -4, -3.5, -3, -2.75, -2.5, -2.25, -2, -1.75, -1.5, -1.25, -1, -0.95, -0.9,  -0.85, -0.8, -0.75, -0.7, -0.65, -0.6, -0.55, -0.5, -0.45, -0.4, -0.35, -0.3, -0.25, -0.2, -0.15, -0.1, -0.05, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1, 1.25, 1.5, 1.75, 2, 2.25, 2.5, 2.75, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10])
 
     pos = pos[abs(pos)>0.0025]
     num_pos = len(pos)
 
-    
-    # pos = pos[abs(pos)>0.5]
     minus=np.flip(pos[0:int(num_pos/2)])
     plus=pos[int(num_pos/2):]
 
     sor=[]
     for i in range(0, int(num_pos/2)):
-        sor.append(minus[i])
         sor.append(plus[i])
+        sor.append(minus[i])
     pos_sorted = np.array(sor)
 
     print(pos_sorted)
 
-    # sort = np.argsort(-np.abs(np.round(pos,2)))
-    # pos_sorted = np.flip(pos[sort])
-
     max_iter = 0
-    j = 0
-    while j < num_pos:
-        if avg_flag:
-            max_iter = max_iter + setAvgCnt(pos_sorted[j])
-        else:
-            max_iter = max_iter + 1
-        j = j + 2
-    max_iter = max_iter * 2
-    if ar_flag:
-        max_iter *= 2
-    # print(num_pos)
-    # print("max iter: ", max_iter)
+
     if (stat_creep_flag):
         max_iter = int(creep_duration*1000/creep_period)
-
+    else:
+        j = 0
+        while j < num_pos:
+            if avg_flag:
+                max_iter = max_iter + setAvgCnt(pos_sorted[j])
+            else:
+                max_iter = max_iter + 1
+            j = j + 2
+        max_iter = max_iter * 2
+        if ar_flag:
+            max_iter *= 2
 
 def saveState():
     global params
@@ -470,7 +467,7 @@ def startMeasurement():
 
     # startButton.configure(text="Initializing...")
 
-    global min_pos, max_pos, num_pos, step_pos, wait_time, percent, force, force_ritorno, pos, pos_acquired, pos_sorted, time_axis, creep_displ, creep_period, creep_duration
+    global min_pos, max_pos, num_pos, step_pos, wait_time, percent, force, dev_force, force_ritorno, pos, pos_acquired,dev_pos_acquired, pos_sorted, time_axis, creep_displ, creep_period, creep_duration
 
     # min_pos = float(min_pos_entry.get())
     # max_pos = float(max_pos_entry.get())
@@ -490,17 +487,16 @@ def startMeasurement():
     creep_period = float(creep_period_tkvar.get())
     creep_duration = float(creep_duration_tkvar.get())
 
-
-
     # if num_pos % 2 == 1:
     #     num_pos += 1
     #     num_pos_entry.configure(textvariable=customtkinter.StringVar(app, str(num_pos)))
 
-
     force = np.array([])
+    dev_force = np.array([])
     force_ritorno = np.array([])
     pos = np.array([])
     pos_acquired = np.array([])
+    dev_pos_acquired = np.array([])
     pos_sorted = np.array([])
     time_axis = np.array([])
 
@@ -538,7 +534,7 @@ def prepareMsgSerialParameters():
 
 
 def serialListener():
-    global pos,  pos_sorted, pos_acquired, percent, force, force_ritorno, time_axis, max_iter, meas_forward, panic_flag
+    global pos, pos_sorted, pos_acquired, dev_pos_acquired, percent, force, dev_force, force_ritorno, time_axis, max_iter, meas_forward, panic_flag
     print(port)
     with serial.Serial("COM9", 38400) as ser:
         index = 0
@@ -565,11 +561,13 @@ def serialListener():
 
 
         startButton.configure(text="Initializing...")
-
+        logfile = open("./log.txt", "w")
+        
         while True:
             if panic_flag:
                 print("ER PANICO!")
                 ser.write("PANIC\n".encode())
+                time.sleep(0.1)
                 ser.close()
                 panic_flag = False
                 break
@@ -578,6 +576,7 @@ def serialListener():
                 print("Exiting")
                 ser.close()
                 break
+
             try:
                 data = ser.readline()
             except:
@@ -587,7 +586,6 @@ def serialListener():
             print(data)
 
             if compare_strings(data, "Ready"):
-                # print("adesso te manno")
                 ser.write("Ready to write\n".encode())
 
             if compare_strings(data, "Parameters"):
@@ -599,6 +597,8 @@ def serialListener():
             if data == "Connecting\n":
                 print(data)
                 startButton.configure(text="Connecting...")
+
+            # TODO: aggiungere messaggio tara
 
             if data == "Measure Routine\n":
                 startButton.configure(text="Getting Data...")
@@ -612,7 +612,6 @@ def serialListener():
                 time.sleep(1)
                 ser.write("\n".encode())
 
-            # if compare_strings(data, "send me"):
             if data == "send me\n":
                 msg = ''
                 if (not stat_creep_flag):   # static mode
@@ -631,13 +630,15 @@ def serialListener():
                 pPercent.configure(text=str(int(percent * 100)) + "%")
                 pProgress.set(percent)
 
+            if data == "ErrorPos\n":
+                iter_count -= 1
+
             if data == "andata\n":
                 meas_forward = True
             if data == "ritorno\n":
                 meas_forward = False
 
             if compare_strings(data, "val"):
-                # print(data.split())
                 meas_val = float(data.split()[1])
                 print(meas_val)
                 if (not stat_creep_flag):
@@ -647,6 +648,22 @@ def serialListener():
                         force_ritorno = np.append(force_ritorno, meas_val)
                 else:
                     force = np.append(force, meas_val)
+
+            if compare_strings(data, "std"):
+                # print(data.split())
+                std_f = float(data.split()[1])
+                std_p = float(data.split()[2])
+                print(std_f)
+                print(std_p)
+                if (not stat_creep_flag):
+                    if meas_forward:
+                        dev_force = np.append(dev_force, std_f)
+                        #TODO finire con std pos
+                        dev_pos_acquired = np.append(dev_pos_acquired, std_p)
+                    else:
+                        force_ritorno = np.append(force_ritorno, meas_val)
+                else:
+                    dev_force = np.append(dev_force, meas_val)
 
             if compare_strings(data, "driver_pos"):
                 # print(data.split())
@@ -671,6 +688,9 @@ def serialListener():
                 ser.close()
                 break
 
+            logfile.write(data)
+
+    logfile.close()
     load_cell_menu.configure(state="normal")
     min_pos_entry.configure(state="normal")
     max_pos_entry.configure(state="normal")
@@ -704,31 +724,28 @@ def serialListener():
     #         force_ritorno = np.flip(force_ritorno[sort])-tare
 
     if (not stat_creep_flag):
-        # pos_sorted_sort = pos_sorted
-        # sort = np.argsort(pos_sorted_sort)
         sort = np.argsort(pos_acquired)
-        # pos = pos_sorted_sort[sort]
         pos_acquired = pos_acquired[sort]  
-        force = force[sort]
-        # force = np.append(force, tare)
+        dev_pos_acquired = dev_pos_acquired[sort] 
+        force = force[sort]-tare
+        dev_force = dev_force[sort]
         if(ar_flag):
-            pos_sorted_sort = np.flip(pos_sorted)
+            pos_sorted_sort = np.flip(pos_acquired)
             sort = np.argsort(pos_sorted_sort)
-            # force_ritorno = np.append(force_ritorno, tare)
             force_ritorno = np.flip(force_ritorno[sort])-tare
+        # mirror = True
+        # if mirror:
+        #     pos = np.flip(-pos)
+        #     force = np.flip(-force)
+        #     force_ritorno = np.flip(-force_ritorno)
+    else:
+        force = force-tare
     
-    # force = force-tare
     print("pos: ",pos)
     print("pos_ac: ",pos_acquired)
-    print("force: ",force)
+    print("force: ",force)  
     print("Force_ret: ",force_ritorno)
     print("Time: ",time_axis)
-
-    mirror = False
-    if mirror:
-        pos = np.flip(-pos)
-        force = np.flip(force)
-        force_ritorno = np.flip(force_ritorno)
 
     drawPlots()
 
@@ -738,9 +755,12 @@ def drawPlots():
     # plotts
     ax_force.clear()
     ax_stiff.clear()
+    ax_inc_stiff.clear()
     # global pos, force, force_ritorno, time_axis
 
     if not creep_bool_tkvar.get():
+        sign = (-1)**int(not reverse_bool_tkvar.get())
+
         ax_force.plot(pos_acquired, force)
         if(ar_flag):
             ax_force.plot(pos_acquired, force_ritorno)
@@ -750,20 +770,32 @@ def drawPlots():
         ax_force.set_title("Force vs Displacement")
         ax_force.grid(visible=True, which="both", axis="both")
 
-        # avoid dividing by 0
-        # idx = list(range(len(pos)))
-        # idx.remove(floor(len(pos)/2))
-
-        # ax_stiff.plot(pos, np.nan_to_num(force/pos))
-        ax_stiff.plot(pos_acquired, force/pos_acquired)
+        ax_stiff.plot(pos_acquired, sign*force/pos_acquired)
         if (ar_flag):
             # ax_stiff.plot(pos, np.nan_to_num(force_ritorno/pos))
-            ax_stiff.plot(pos_acquired, force_ritorno/pos_acquired)
+            ax_stiff.plot(pos_acquired, sign*force_ritorno/pos_acquired)
             ax_stiff.legend(["Andata", "Ritorno"])
         ax_stiff.set_xlabel("displacement [mm]")
         ax_stiff.set_ylabel("stiffness [N/mm]")
         ax_stiff.set_title("Stiffness vs Displacement")
         ax_stiff.grid(visible=True, which="both", axis="both")
+
+
+        # gradient = np.gradient(force/pos_acquired, pos_acquired)
+        # gradient = np.diff(force)/np.diff(pos_acquired)
+        gradient = np.gradient(sign*force, pos_acquired)
+        # ax_inc_stiff.plot(pos_acquired[:-1], gradient)
+        ax_inc_stiff.plot(pos_acquired, gradient)
+        if (ar_flag):
+            gradient_ritorno = np.gradient(sign*force_ritorno, pos_acquired)
+            # ax_stiff.plot(pos, np.nan_to_num(force_ritorno/pos))
+            ax_inc_stiff.plot(pos_acquired, gradient_ritorno)
+            ax_inc_stiff.legend(["Andata", "Ritorno"])
+        ax_inc_stiff.set_xlabel("displacement [mm]")
+        ax_inc_stiff.set_ylabel("incremental stiffness [N/mm]")
+        ax_inc_stiff.set_title("Incremental Stiffness vs Displacement")
+        ax_inc_stiff.grid(visible=True, which="both", axis="both")
+
     else:
         ax_force.plot(time_axis, force)
         # if(ar_flag):
@@ -786,6 +818,7 @@ def drawPlots():
 
     chart_type_force.draw()
     chart_type_stiff.draw()
+    chart_type_inc_stiff.draw()
 
 
 def panic():
@@ -857,6 +890,13 @@ def updateTkVars():
 #     saved_flag=False
 #     saveState()
 
+def reverse_plot():
+    global pos_acquired, force, force_ritorno
+    pos_acquired = np.flip(-pos_acquired)
+    force = np.flip(force)
+    force_ritorno = np.flip(force_ritorno)
+    drawPlots()
+
 def tkvar_changed():
     global saved_flag
     saveState()
@@ -887,12 +927,14 @@ def save_data(txt_path, json_path):
         if np.any(force):
             if(not stat_creep_flag):
                 fl.write("# STATIC MEASUREMENT\n\n")
-                fl.write("# pos [mm]\t\tforce_forw [N]\t\tforce_back [N]\n")
+                fl.write("# pos [mm]\t\tdev_pos [mm]\t\tforce_forw [N]\t\tdev_force_forw [N]\t\tforce_back [N]\n")
                 for i in range(0,len(pos_acquired)):
                     if (ar_flag):
-                            fl.write(f"{pos_acquired[i]:.3f}"+"\t\t\t"+ f"{force[i]:.3f}" +"\t\t\t" + f"{force_ritorno[i]:.3f}" +"\n")   
+                        # andata e ritorno
+                        fl.write(f"{pos_acquired[i]:.5f}"+"\t\t\t"+ f"{force[i]:.5f}" +"\t\t\t" + f"{dev_force[i]:.5f}" +"\t\t\t" + f"{force_ritorno[i]:.5f}" +"\n")   
                     else:
-                            fl.write(f"{pos_acquired[i]:.3f}"+"\t\t\t"+ f"{force[i]:.3f}"+"\t\t\t"+ f"{0:.3f}" +"\n")   
+                        #solo andata
+                        fl.write(f"{pos_acquired[i]:.5f}"+"\t\t\t"+f"{dev_pos_acquired[i]:.5f}"+"\t\t\t"+ f"{force[i]:.5f}"+"\t\t\t" + f"{dev_force[i]:.5f}" +"\t\t\t"+ f"{0:.5f}"+"\n")   
             else:
                 fl.write("# CREEP MEASUREMENT\n\n")
                 fl.write("# time [ms]\t\tforce [N]\t\tstiffness [N/mm]\n")
@@ -939,7 +981,7 @@ def save():
             save_data(txt_path, json_path)
 
 def load():
-    global time_axis, pos, pos_acquired, force, force_ritorno, params, saved_flag, last_params
+    global time_axis, pos, pos_acquired, dev_pos_acquired, force, dev_force, force_ritorno, params, saved_flag, last_params
     files = [('All Files', '*.*'),  
              ('Python Files', '*.py'), 
              ('Text Document', '*.txt')] 
@@ -966,7 +1008,9 @@ def load():
 
             if stat_creep=="STATIC":
                 p = []
+                dev_p = []
                 f = []
+                dev_f = []
                 f_r = []
                 while True:
                     line = fl.readline()
@@ -975,12 +1019,16 @@ def load():
                         break
                     if not data[0]=="":
                         p.append(float(data[0]))
-                        f.append(float(data[1]))
-                        f_r.append(float(data[2]))
+                        dev_p.append(float(data[1]))
+                        f.append(float(data[2]))
+                        dev_f.append(float(data[3]))
+                        f_r.append(float(data[4]))
 
                 pos = np.array(p)
                 pos_acquired = np.array(p)
+                dev_pos_acquired = np.array(dev_p)
                 force = np.array(f)
+                dev_force = np.array(dev_f)
                 force_ritorno = np.array(f_r)
 
 
@@ -1131,8 +1179,6 @@ creep_period_tkvar.trace('w', callback=lambda *args: tkvar_changed())
 creep_duration_tkvar.trace('w', callback=lambda *args: tkvar_changed())
 
 
-
-
 #############################################################################
 
 spider_entry = customtkinter.CTkEntry(leftFrame, textvariable=spider_name_tkvar, placeholder_text="Culo")
@@ -1230,10 +1276,18 @@ startButton = customtkinter.CTkButton(
 # -------------------------------P L O T S-----------------------------------
 #############################################################################
 
+reverse_bool_tkvar = customtkinter.BooleanVar(app, False)
+reverse_switch = customtkinter.CTkSwitch(rightFrame, text="Mirror", command=reverse_plot, variable=reverse_bool_tkvar)
+reverse_switch.pack(padx=20, pady=10, fill="x", anchor="sw")
+
+
+
 plot_tabview = customtkinter.CTkTabview(rightFrame)
 plot_tabview.pack(padx=20, pady=0, fill="both", expand=True)
 plot_tabview.add("Force")
 plot_tabview.add("Stiffness")
+plot_tabview.add("Inc. Stiff.")
+
 
 figure_force = plt.Figure(dpi=100)
 ax_force = figure_force.add_subplot(111)
@@ -1264,6 +1318,21 @@ toolbar_stiff = NavigationToolbar2Tk(
     chart_type_stiff, plot_tabview.tab("Stiffness"), pack_toolbar=False
 )
 toolbar_stiff.pack(fill="x", expand=False, padx=20, pady=5, anchor="n")
+
+figure_inc_stiff = plt.Figure(dpi=100)
+ax_inc_stiff = figure_inc_stiff.add_subplot(111)
+ax_inc_stiff.set_xlabel("displacement [mm]")
+ax_inc_stiff.set_ylabel("incremental stiffness [N/mm]")
+ax_inc_stiff.set_title("Incremental Stiffness vs Displacement")
+ax_inc_stiff.grid(visible=True, which="both")
+chart_type_inc_stiff = FigureCanvasTkAgg(figure_inc_stiff, plot_tabview.tab("Inc. Stiff."))
+chart_type_inc_stiff.get_tk_widget().pack(
+    fill="both", expand=True, side=customtkinter.TOP, pady=20, padx=20, anchor="n"
+)
+toolbar_inc_stiff = NavigationToolbar2Tk(
+    chart_type_inc_stiff, plot_tabview.tab("Inc. Stiff."), pack_toolbar=False
+)
+toolbar_inc_stiff.pack(fill="x", expand=False, padx=20, pady=5, anchor="n")
 
 
 #############################################################################

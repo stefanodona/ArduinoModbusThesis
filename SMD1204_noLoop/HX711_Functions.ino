@@ -27,7 +27,7 @@ float getForce()
     Serial.println("Error in retrieving the force...");
     break;
   }
-  return force;
+  return -force;
 }
 
 // insert poynomials coefficients computed for each load cell

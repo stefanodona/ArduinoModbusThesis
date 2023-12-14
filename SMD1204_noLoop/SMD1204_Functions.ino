@@ -77,51 +77,51 @@ void driverSetup()
   }
 
   // enable drive if disabled
-  if (!bitRead(sts, 0))
-    sendCommand(enableDrive());
-  else
+  while (!bitRead(sts, 0))
   {
-    // DEVICE ENABLED - SETTINGS HERE
-    // Home Method
-    split32to16(mm2int(0));
-    modbusTCPClient.holdingRegisterWrite(Rhofs, splitted[0]);
-    modbusTCPClient.holdingRegisterWrite(Rhofs + 1, splitted[1]);
-    // TODO: change homing method to -9
-    // modbusTCPClient.holdingRegisterWrite(Rhmode, (int16_t)(-9)); // in battuta indietro
-    modbusTCPClient.holdingRegisterWrite(Rhmode, int16_t(0)); // azzeramento sul posto
+    sendCommand(enableDrive());
+    getStatus();
+  }
 
-    // velocity setting - rps*100
-    split32to16(vel * 100);
-    if (modbusTCPClient.holdingRegisterWrite(Rvel, splitted[0]) && modbusTCPClient.holdingRegisterWrite(Rvel + 1, splitted[1]))
-    {
-      Serial.print("Velocita' massima settata a: ");
-      Serial.print(vel);
-      Serial.println(" rps");
-    }
+  // DEVICE ENABLED - SETTINGS HERE
+  // Home Method
+  split32to16(mm2int(0));
+  modbusTCPClient.holdingRegisterWrite(Rhofs, splitted[0]);
+  modbusTCPClient.holdingRegisterWrite(Rhofs + 1, splitted[1]);
+  // TODO: change homing method to -9
+  // modbusTCPClient.holdingRegisterWrite(Rhmode, (int16_t)(-9)); // in battuta indietro
+  modbusTCPClient.holdingRegisterWrite(Rhmode, (int16_t)0); // azzeramento sul posto
 
-    // disable acceleration ramp
-    splitU32to16(acc_ramp * 100);
-    if (!(modbusTCPClient.holdingRegisterWrite(Racc, splitted[0]) && modbusTCPClient.holdingRegisterWrite(Racc + 1, splitted[1])))
-    {
-      Serial.write("Failed to disable acceleration ramp\n");
-    }
-    if (!(modbusTCPClient.holdingRegisterWrite(Rdec, splitted[0]) && modbusTCPClient.holdingRegisterWrite(Rdec + 1, splitted[1])))
-    {
-      Serial.write("Failed to disable deceleration ramp\n");
-    }
+  // velocity setting - rps*100
+  split32to16(vel * 100);
+  if (modbusTCPClient.holdingRegisterWrite(Rvel, splitted[0]) && modbusTCPClient.holdingRegisterWrite(Rvel + 1, splitted[1]))
+  {
+    Serial.print("Velocita' massima settata a: ");
+    Serial.print(vel);
+    Serial.println(" rps");
+  }
+
+  // setting acceleration ramp
+  splitU32to16(acc_ramp * 100);
+  if (!(modbusTCPClient.holdingRegisterWrite(Racc, splitted[0]) && modbusTCPClient.holdingRegisterWrite(Racc + 1, splitted[1])))
+  {
+    Serial.write("Failed to disable acceleration ramp\n");
+  }
+  if (!(modbusTCPClient.holdingRegisterWrite(Rdec, splitted[0]) && modbusTCPClient.holdingRegisterWrite(Rdec + 1, splitted[1])))
+  {
+    Serial.write("Failed to disable deceleration ramp\n");
   }
 }
 
 void homingRoutine()
 {
+  // setting velocity to seek the tare position
   split32to16(vel_tare * 10);
   if (modbusTCPClient.holdingRegisterWrite(Rvel, splitted[0]) && modbusTCPClient.holdingRegisterWrite(Rvel + 1, splitted[1]))
   {
   }
   // seek the position in which the value of hx711 is equal to unclamped (in error band)
   sendCommand(home());
-  // sendPosTarget((int32_t)2048);
-  // sendCommand(gor());
 
   // Serial.write("Togliere il centratore dalla cella...\n");
   // // Serial.write("Premere enter\n");
@@ -140,22 +140,15 @@ void homingRoutine()
   Serial.write("Posizionare il centratore...\n");
   awaitKeyPressed();
   float tare = getForce();
-  // sendPosTarget(mm2int(10));
-  // sendCommand(gor());
 
   Serial.write("Stringere il centratore...\n");
-  // Serial.write("Premere enter\n");
   awaitKeyPressed();
-
   float clamped = getForce();
-  Serial.println("Clamped");
-  Serial.println(clamped);
-  Serial.println("T4re");
-  Serial.println(tare);
 
-  // float err = fabs(clamped - tare);
-  // Serial.println("Err");
-  // Serial.println(err);
+  Serial.println("Clamped");
+  Serial.println(clamped, 6);
+  Serial.println("T4re");
+  Serial.println(tare, 6);
 
   // assuming loadcell reads x<0 when extended and x>0 when compressed
   float pos;
@@ -168,8 +161,7 @@ void homingRoutine()
   sendPosTarget(mm2int(pos));
 
   Serial.println("Status");
-  float abs_tol = 0.1;
-  // while (err > fabs(home_err * tare))
+  float abs_tol = 0.1; // [N] tolerance
   bool search_active = true;
   // float disks_weight = (0.12995+0.1083+0.02543)*9.81;
   float disks_weight = (0.12995 + 0.1083) * 9.81;
@@ -178,16 +170,7 @@ void homingRoutine()
 
   if (search_active)
   {
-    // sendCommand(gor());
-    // getStatus();
-
-    // while (bitRead(sts, 3))
-    // {
-    //   // Serial.println(bitRead(sts, 3));
-    //   getStatus();
-    // }
-    // sendPosTarget(mm2int(pos));
-    float div[] = {1, 5, 20};
+    float div[] = {1, 5, 20}; // 3 cycles of refinement 1, 1/5, 1/20 of abs_tol
     for (int i = 0; i < 3; i++)
     {
       float upperBound = tare + abs_tol / div[i];
@@ -200,7 +183,6 @@ void homingRoutine()
 
         while (bitRead(sts, 3))
         {
-          // Serial.println(bitRead(sts, 3));
           getStatus();
         }
         delay(500);
@@ -234,9 +216,10 @@ void homingRoutine()
     }
   }
 
-  tare_force = clamped;
+  // tare_force = clamped;
+  tare_force = getForce();
 
-  // sendPosTarget(mm2int(-2));
+  // sendPosTarget(mm2int(1));
   // sendCommand(go());
   // getStatus();
   // while (bitRead(sts, 3))
@@ -245,7 +228,16 @@ void homingRoutine()
 
   sendCommand(home());
 
+  getStatus();
+  while (bitRead(sts, 15))
+  {
+    getStatus();
+  }
+
   init_pos = getPosact();
+  Serial.println("init pos");
+  Serial.println(init_pos);
+
   // Serial.println("Init Pos: ");
   // Serial.println(init_pos);
   String msg = "tare ";
@@ -283,16 +275,27 @@ void measureRoutine()
   for (int i = 0; i < num_pos; i++)
   {
     pos[i] = Serial.parseFloat(SKIP_WHITESPACE);
+    Serial.println(pos[i]);
   }
 
   float sum_p = 0;
   float sum_m = 0;
+  float sum_sq_p = 0;
+  float sum_sq_m = 0;
+
   float sum_pos_p = 0;
   float sum_pos_m = 0;
+  float sum_sq_pos_p = 0;
+  float sum_sq_pos_m = 0;
+
   String msg = "val ";
   String msg_pos = "driver_pos ";
-  char buff[15];
+  String msg_std = "std ";
+  // String msg_std_pos = "std_pos ";
+  // char buff[15];
   char num[15];
+  char std1[15];
+  char std2[15];
 
   Serial.write("Measuring\n");
 
@@ -303,9 +306,26 @@ void measureRoutine()
     checkModbusConnection();
     setAccVelocity(pos[i]);
 
+    Serial.println("cnt ");
+    Serial.println(cnt);
+
+    float k_f_p = 0;
+    float k_f_m = 0;
+    float k_p_p = 0;
+    float k_p_m = 0;
+
+    float Ex_p = 0;
+    float Ex_m = 0;
+    float Ey_p = 0;
+    float Ey_m = 0;
+
+    float prev_x_p = fabs(pos[i]);
+    float prev_x_m = fabs(pos[i + 1]);
+
     for (int j = 0; j < cnt; j++)
     {
-      // positive movement
+
+      // positive movement (up)
       sendPosTarget(init_pos + mm2int(pos[i]));
       sendCommand(go());
       getStatus();
@@ -316,9 +336,29 @@ void measureRoutine()
       sendCommand(disableDrive());
 
       delay(waitTime);
-      sum_pos_p += int2mm(getPosact() - init_pos);
+      float x_p = int2mm(getPosact() - init_pos);
       // unsigned long tik = millis();
-      sum_p += getForce();
+      float y_p = getForce();
+
+      if (j == 0)
+      {
+        k_p_p = x_p;
+        k_f_p = y_p;
+      }
+
+      sum_pos_p += x_p;
+      sum_p += y_p;
+      Ex_p += x_p - k_p_p;
+      Ey_p += y_p - k_f_p;
+      sum_sq_pos_p += pow(x_p - k_p_p, 2);
+      sum_sq_p += pow(y_p - k_f_p, 2);
+
+      Serial.println("x_p: ");
+      Serial.println(x_p, 6);
+      Serial.println("Ex_p: ");
+      Serial.println(Ex_p, 6);
+      Serial.println("sum_sq_pos_p: ");
+      Serial.println(sum_sq_pos_p, 6);
       // unsigned long tok = millis();
       // long tikketokke = tok - tik;
       // Serial.write("TikkeTokke\n");
@@ -339,7 +379,7 @@ void measureRoutine()
       while (bitRead(sts, 3))
         getStatus();
 
-      // negative movement
+      // negative movement (down)
       sendPosTarget(init_pos + mm2int(pos[i + 1]));
       sendCommand(go());
       getStatus();
@@ -348,11 +388,30 @@ void measureRoutine()
         getStatus();
       sendCommand(disableDrive());
       delay(waitTime);
-      sum_pos_m += int2mm(getPosact() - init_pos);
-      sum_m += getForce();
-      Serial.write("check percent\n");
+      float x_m = int2mm(getPosact() - init_pos);
+      float y_m = getForce();
 
-      // delay(100);
+      if (j == 0)
+      {
+        k_p_m = x_m;
+        k_f_m = y_m;
+      }
+
+      sum_pos_m += x_m;
+      sum_m += y_m;
+      Ex_m += x_m - k_p_m;
+      Ey_m += y_m - k_f_m;
+      sum_sq_pos_m += pow(x_m - k_p_m, 2);
+      sum_sq_m += pow(y_m - k_f_m, 2);
+
+      Serial.println("x_m: ");
+      Serial.println(x_m, 6);
+      Serial.println("Ex_m: ");
+      Serial.println(Ex_m, 6);
+      Serial.println("sum_sq_pos_m: ");
+      Serial.println(sum_sq_pos_m, 6);
+
+      Serial.write("check percent\n");
 
       getStatus();
       while (!bitRead(sts, 0))
@@ -367,20 +426,77 @@ void measureRoutine()
       while (bitRead(sts, 3))
         getStatus();
 
+      // check to read consistent data
+      if ((fabs(x_p) > 2 * prev_x_p || fabs(x_m) > 2 * prev_x_m))
+      {
+        // delete data from the cumulative quantities and redo the measure
+        Serial.println("ErrorPos");
+        sum_pos_p -= x_p;
+        sum_p -= y_p;
+        Ex_p -= x_p - k_p_p;
+        Ey_p -= y_p - k_f_p;
+        sum_sq_pos_p -= pow(x_p - k_p_p, 2);
+        sum_sq_p -= pow(y_p - k_f_p, 2);
+
+        sum_pos_m -= x_m;
+        sum_m -= y_m;
+        Ex_m -= x_m - k_p_m;
+        Ey_m -= y_m - k_f_m;
+        sum_sq_pos_m -= pow(x_m - k_p_m, 2);
+        sum_sq_m -= pow(y_m - k_f_m, 2);
+        j--;
+      }
     }
+
     float meas_p = sum_p / cnt;
     float meas_m = sum_m / cnt;
-
     float pos_p = sum_pos_p / cnt;
     float pos_m = sum_pos_m / cnt;
 
+    float var_f_p = 0;
+    float var_f_m = 0;
+    float var_pos_p = 0;
+    float var_pos_m = 0;
+
+    float std_f_p = 0;
+    float std_f_m = 0;
+    float std_pos_p = 0;
+    float std_pos_m = 0;
+
+    if (cnt > 1)
+    {
+      var_f_p = (sum_sq_p - pow(Ey_p, 2) / cnt) / (cnt - 1);
+      var_f_m = (sum_sq_m - pow(Ey_m, 2) / cnt) / (cnt - 1);
+      var_pos_p = (sum_sq_pos_p - pow(Ex_p, 2) / cnt) / (cnt - 1);
+      var_pos_m = (sum_sq_pos_m - pow(Ex_m, 2) / cnt) / (cnt - 1);
+
+      std_f_p = sqrtf(var_f_p);
+      std_f_m = sqrtf(var_f_m);
+      std_pos_p = sqrtf(var_pos_p);
+      std_pos_m = sqrtf(var_pos_m);
+    }
+
+    //////////////////////////////////
+
     dtostrf(meas_p, 10, 6, num);
     Serial.println(msg + num);
+
+    dtostrf(std_f_p, 10, 6, std1);
+    dtostrf(std_pos_p, 10, 6, std2);
+    Serial.println(msg_std + std1 + " " + std2);
+
     dtostrf(pos_p, 10, 6, num);
     Serial.println(msg_pos + num);
 
+    //////////////////////////////////
+
     dtostrf(meas_m, 10, 6, num);
     Serial.println(msg + num);
+
+    dtostrf(std_f_m, 10, 6, std1);
+    dtostrf(std_pos_m, 10, 6, std2);
+    Serial.println(msg_std + std1 + " " + std2);
+
     dtostrf(pos_m, 10, 6, num);
     Serial.println(msg_pos + num);
 
@@ -388,6 +504,10 @@ void measureRoutine()
     sum_m = 0;
     sum_pos_p = 0;
     sum_pos_m = 0;
+    sum_sq_p = 0;
+    sum_sq_m = 0;
+    sum_sq_pos_p = 0;
+    sum_sq_pos_m = 0;
   }
 
   if (ar_flag)

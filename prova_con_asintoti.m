@@ -1,7 +1,7 @@
 close all; 
-% clear; clc
+clear; clc
 
-filename = "Prova50_ST_07714532B";
+filename = "Prova48_ST_07714532B";
 % FID=fopen("Prova14_ST_07714532B\Prova14_ST_07714532B.txt");
 FID=fopen(strcat(filename,"/",filename,".txt"));
 % FID=fopen("Prova16_ST_0714532B\Prova16_ST_0714532B.txt");
