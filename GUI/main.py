@@ -310,19 +310,20 @@ meas_forward = True
 force = np.array([])
 dev_force = np.array([])
 force_ritorno = np.array([])
+dev_force_ritorno = np.array([])
 pos = np.array([])
 pos_sorted = np.array([])
+
 pos_acquired = np.array([])
 dev_pos_acquired = np.array([])
+pos_acquired_ritorno = np.array([])
+dev_pos_acquired_ritorno = np.array([])
 
 # arrays for creep measurement
 time_axis = np.array([])
 
 thr_avg_window = None
 vel_acc_window = None
-
-# cnt = 0
-
 
 #############################################################################
 # ----------------------------F U N C T I O N S------------------------------
@@ -430,11 +431,13 @@ def pressOk(msg):
     label = customtkinter.CTkLabel(topLevel, text=str(msg)+'\n e premere OK')
     label.pack(padx=50, pady=50, side=customtkinter.BOTTOM)
     topLevel.focus()
+    topLevel.bind('<Return>', lambda e: okVar.set(1))
     
     # topLevel.protocol("WM_DELETE_WINDOW", lambda: setPanic(True))
 
     topLevel.wait_variable(okVar)
 
+    time.sleep(0.1)
     topLevel.destroy()
     
     # while(topLevel.winfo_exists()):
@@ -467,7 +470,7 @@ def startMeasurement():
 
     # startButton.configure(text="Initializing...")
 
-    global min_pos, max_pos, num_pos, step_pos, wait_time, percent, force, dev_force, force_ritorno, pos, pos_acquired,dev_pos_acquired, pos_sorted, time_axis, creep_displ, creep_period, creep_duration
+    global min_pos, max_pos, num_pos, step_pos, wait_time, percent, force, dev_force, force_ritorno, pos, pos_acquired,dev_pos_acquired, pos_acquired_ritorno, dev_pos_acquired_ritorno, pos_sorted, time_axis, creep_displ, creep_period, creep_duration
 
     # min_pos = float(min_pos_entry.get())
     # max_pos = float(max_pos_entry.get())
@@ -497,6 +500,8 @@ def startMeasurement():
     pos = np.array([])
     pos_acquired = np.array([])
     dev_pos_acquired = np.array([])
+    pos_acquired_ritorno = np.array([])
+    dev_pos_acquired_ritorno = np.array([])
     pos_sorted = np.array([])
     time_axis = np.array([])
 
@@ -534,7 +539,7 @@ def prepareMsgSerialParameters():
 
 
 def serialListener():
-    global pos, pos_sorted, pos_acquired, dev_pos_acquired, percent, force, dev_force, force_ritorno, time_axis, max_iter, meas_forward, panic_flag
+    global pos, pos_sorted, pos_acquired, dev_pos_acquired, pos_acquired_ritorno, dev_pos_acquired_ritorno, percent, force, dev_force, force_ritorno, dev_force_ritorno, time_axis, max_iter, meas_forward, panic_flag
     print(port)
     with serial.Serial("COM9", 38400) as ser:
         index = 0
@@ -560,7 +565,7 @@ def serialListener():
         duration_entry.configure(state="disabled")
 
 
-        startButton.configure(text="Initializing...")
+        startButton.configure(text="Inizializzazione...")
         logfile = open("./log.txt", "w")
         
         while True:
@@ -596,16 +601,18 @@ def serialListener():
 
             if data == "Connecting\n":
                 print(data)
-                startButton.configure(text="Connecting...")
+                startButton.configure(text="Connessione...")
 
-            # TODO: aggiungere messaggio tara
+            if data == "Taratura\n":
+                print(data)
+                startButton.configure(text="Taratura...")
 
             if data == "Measure Routine\n":
-                startButton.configure(text="Getting Data...")
+                startButton.configure(text="Acquisendo i Dati...")
 
             if data == "Measuring\n":
                 print(data)
-                startButton.configure(text="Measuring...")
+                startButton.configure(text="Misurazione...")
 
             if compare_strings(data, "centratore"):
                 pressOk(data)
@@ -631,7 +638,7 @@ def serialListener():
                 pProgress.set(percent)
 
             if data == "ErrorPos\n":
-                iter_count -= 1
+                iter_count -= 2
 
             if data == "andata\n":
                 meas_forward = True
@@ -658,18 +665,20 @@ def serialListener():
                 if (not stat_creep_flag):
                     if meas_forward:
                         dev_force = np.append(dev_force, std_f)
-                        #TODO finire con std pos
                         dev_pos_acquired = np.append(dev_pos_acquired, std_p)
                     else:
-                        force_ritorno = np.append(force_ritorno, meas_val)
+                        dev_force_ritorno = np.append(dev_force_ritorno, std_f)
+                        dev_pos_acquired_ritorno = np.append(dev_pos_acquired_ritorno, std_p)
                 else:
                     dev_force = np.append(dev_force, meas_val)
 
             if compare_strings(data, "driver_pos"):
                 # print(data.split())
                 meas_val = float(data.split()[1])
-                pos_acquired = np.append(pos_acquired, meas_val)
-                
+                if meas_forward:
+                    pos_acquired = np.append(pos_acquired, meas_val)
+                else:
+                    pos_acquired_ritorno = np.append(pos_acquired_ritorno, meas_val)
 
 
             if compare_strings(data, "tare"):
@@ -702,12 +711,20 @@ def serialListener():
 
     displ_entry.configure(state="normal")
     period_entry.configure(state="normal")
-    duration_entry.configure(state="normal")
+    duration_entry.configure(state="normal")    
 
     startButton.configure(text="START")
-    print("pos acquired: ", pos_acquired)
-    print("force: ",force)
+    print("pos: ",pos)
+    print("pos_ac: ",pos_acquired)
+    print("force: ",force)  
+    print("dev_pos_ac: ",dev_pos_acquired)
+    print("dev_force: ",dev_force)  
+
+    print("pos_ac_ret: ",pos_acquired_ritorno)
     print("Force_ret: ",force_ritorno)
+    print("dev_pos_ac_ret: ",dev_pos_acquired_ritorno)
+    print("dev_Force_ret: ",dev_force_ritorno)
+
     print("Time: ",time_axis)
 
     # TODO: da testare
@@ -726,23 +743,28 @@ def serialListener():
     if (not stat_creep_flag):
         sort = np.argsort(pos_acquired)
         pos_acquired = pos_acquired[sort]  
+        force = force[sort]
         dev_pos_acquired = dev_pos_acquired[sort] 
-        force = force[sort]-tare
         dev_force = dev_force[sort]
         if(ar_flag):
-            pos_sorted_sort = np.flip(pos_acquired)
-            sort = np.argsort(pos_sorted_sort)
-            force_ritorno = np.flip(force_ritorno[sort])-tare
+            pos_sorted_sort = np.flip(pos_acquired_ritorno)
+            # sort = np.argsort(pos_sorted_sort)
+            sort = np.argsort(pos_acquired_ritorno)
+            pos_acquired_ritorno = pos_acquired_ritorno[sort]
+            force_ritorno = force_ritorno[sort]
+            dev_pos_acquired_ritorno = dev_pos_acquired_ritorno[sort]
+            dev_force_ritorno = dev_force_ritorno[sort]
         # mirror = True
         # if mirror:
         #     pos = np.flip(-pos)
         #     force = np.flip(-force)
         #     force_ritorno = np.flip(-force_ritorno)
-    else:
-        force = force-tare
+    # else:
+    #     force = force
     
     print("pos: ",pos)
     print("pos_ac: ",pos_acquired)
+    print("pos_ac_ret: ",pos_acquired_ritorno)
     print("force: ",force)  
     print("Force_ret: ",force_ritorno)
     print("Time: ",time_axis)
@@ -763,7 +785,7 @@ def drawPlots():
 
         ax_force.plot(pos_acquired, force)
         if(ar_flag):
-            ax_force.plot(pos_acquired, force_ritorno)
+            ax_force.plot(pos_acquired_ritorno, force_ritorno)
             ax_force.legend(["Andata", "Ritorno"])
         ax_force.set_xlabel("displacement [mm]")
         ax_force.set_ylabel("force [N]")
@@ -773,7 +795,7 @@ def drawPlots():
         ax_stiff.plot(pos_acquired, sign*force/pos_acquired)
         if (ar_flag):
             # ax_stiff.plot(pos, np.nan_to_num(force_ritorno/pos))
-            ax_stiff.plot(pos_acquired, sign*force_ritorno/pos_acquired)
+            ax_stiff.plot(pos_acquired_ritorno, sign*force_ritorno/pos_acquired_ritorno)
             ax_stiff.legend(["Andata", "Ritorno"])
         ax_stiff.set_xlabel("displacement [mm]")
         ax_stiff.set_ylabel("stiffness [N/mm]")
@@ -787,9 +809,9 @@ def drawPlots():
         # ax_inc_stiff.plot(pos_acquired[:-1], gradient)
         ax_inc_stiff.plot(pos_acquired, gradient)
         if (ar_flag):
-            gradient_ritorno = np.gradient(sign*force_ritorno, pos_acquired)
+            gradient_ritorno = np.gradient(sign*force_ritorno, pos_acquired_ritorno)
             # ax_stiff.plot(pos, np.nan_to_num(force_ritorno/pos))
-            ax_inc_stiff.plot(pos_acquired, gradient_ritorno)
+            ax_inc_stiff.plot(pos_acquired_ritorno, gradient_ritorno)
             ax_inc_stiff.legend(["Andata", "Ritorno"])
         ax_inc_stiff.set_xlabel("displacement [mm]")
         ax_inc_stiff.set_ylabel("incremental stiffness [N/mm]")
@@ -891,8 +913,9 @@ def updateTkVars():
 #     saveState()
 
 def reverse_plot():
-    global pos_acquired, force, force_ritorno
+    global pos_acquired, pos_acquired_ritorno, force, force_ritorno
     pos_acquired = np.flip(-pos_acquired)
+    pos_acquired_ritorno = np.flip(-pos_acquired_ritorno)
     force = np.flip(force)
     force_ritorno = np.flip(force_ritorno)
     drawPlots()
@@ -927,14 +950,25 @@ def save_data(txt_path, json_path):
         if np.any(force):
             if(not stat_creep_flag):
                 fl.write("# STATIC MEASUREMENT\n\n")
-                fl.write("# pos [mm]\t\tdev_pos [mm]\t\tforce_forw [N]\t\tdev_force_forw [N]\t\tforce_back [N]\n")
+                # fl.write("# pos [mm]\t\tdev_pos [mm]\t\tforce_forw [N]\t\tdev_force_forw [N]\t\tforce_back [N]\n")
+                fl.write("# pos [mm]\t\t")          # 0
+                fl.write("dev_pos [mm]\t\t")        # 1    
+                fl.write("force_forw [N]\t\t")      # 2    
+                fl.write("dev_force_forw [N]\t\t")  # 3        
+                fl.write("pos_back [mm]\t\t")       # 4    
+                fl.write("dev_p_back [mm]\t\t")     # 5    
+                fl.write("f_forw_back [N]\t\t")     # 6    
+                fl.write("dev_f_forw_back [N]\t\t") # 7        
+                fl.write("\n")                      
                 for i in range(0,len(pos_acquired)):
                     if (ar_flag):
                         # andata e ritorno
-                        fl.write(f"{pos_acquired[i]:.5f}"+"\t\t\t"+ f"{force[i]:.5f}" +"\t\t\t" + f"{dev_force[i]:.5f}" +"\t\t\t" + f"{force_ritorno[i]:.5f}" +"\n")   
+                        fl.write(f"{pos_acquired[i]:.5f}"+"\t\t\t"+f"{dev_pos_acquired[i]:.5f}"+"\t\t\t"+f"{force[i]:.5f}" +"\t\t\t" + f"{dev_force[i]:.5f}" +"\t\t\t"+f"{pos_acquired_ritorno[i]:.5f}"+"\t\t\t"+f"{dev_pos_acquired_ritorno[i]:.5f}"+"\t\t\t"+f"{force_ritorno[i]:.5f}"+"\t\t\t"+f"{dev_force_ritorno[i]:.5f}"+"\n")   
                     else:
                         #solo andata
-                        fl.write(f"{pos_acquired[i]:.5f}"+"\t\t\t"+f"{dev_pos_acquired[i]:.5f}"+"\t\t\t"+ f"{force[i]:.5f}"+"\t\t\t" + f"{dev_force[i]:.5f}" +"\t\t\t"+ f"{0:.5f}"+"\n")   
+                        fl.write(f"{pos_acquired[i]:.5f}"+"\t\t\t"+f"{dev_pos_acquired[i]:.5f}"+"\t\t\t"+f"{force[i]:.5f}" +"\t\t\t" + f"{dev_force[i]:.5f}" +"\t\t\t"+f"{0:.5f}"+"\t\t\t"+f"{0:.5f}"+"\t\t\t"+f"{0:.5f}"+"\t\t\t"+f"{0:.5f}"+"\n")   
+
+                        # fl.write(f"{pos_acquired[i]:.5f}"+"\t\t\t"+f"{dev_pos_acquired[i]:.5f}"+"\t\t\t"+ f"{force[i]:.5f}"+"\t\t\t" + f"{dev_force[i]:.5f}" +"\t\t\t"+ f"{0:.5f}"+"\n")   
             else:
                 fl.write("# CREEP MEASUREMENT\n\n")
                 fl.write("# time [ms]\t\tforce [N]\t\tstiffness [N/mm]\n")
@@ -981,7 +1015,7 @@ def save():
             save_data(txt_path, json_path)
 
 def load():
-    global time_axis, pos, pos_acquired, dev_pos_acquired, force, dev_force, force_ritorno, params, saved_flag, last_params
+    global time_axis, pos, pos_acquired, dev_pos_acquired, pos_acquired_ritorno, dev_pos_acquired_ritorno, force, dev_force, force_ritorno, dev_force_ritorno, params, saved_flag, last_params
     files = [('All Files', '*.*'),  
              ('Python Files', '*.py'), 
              ('Text Document', '*.txt')] 
@@ -1011,7 +1045,11 @@ def load():
                 dev_p = []
                 f = []
                 dev_f = []
+
+                p_r = []
+                dev_p_r = []
                 f_r = []
+                dev_f_r = []
                 while True:
                     line = fl.readline()
                     data = line.split("\t\t\t")
@@ -1022,14 +1060,22 @@ def load():
                         dev_p.append(float(data[1]))
                         f.append(float(data[2]))
                         dev_f.append(float(data[3]))
-                        f_r.append(float(data[4]))
 
-                pos = np.array(p)
+                        p_r.append(float(data[4]))
+                        dev_p_r.append(float(data[5]))
+                        f_r.append(float(data[6]))
+                        dev_f_r.append(float(data[7]))
+
+                # pos = np.array(p)
                 pos_acquired = np.array(p)
                 dev_pos_acquired = np.array(dev_p)
                 force = np.array(f)
                 dev_force = np.array(dev_f)
+
+                pos_acquired_ritorno = np.array(p_r)
+                dev_pos_acquired_ritorno = np.array(dev_p_r)
                 force_ritorno = np.array(f_r)
+                dev_force_ritorno = np.array(dev_f_r)
 
 
             elif stat_creep=="CREEP":

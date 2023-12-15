@@ -174,6 +174,8 @@ void setup()
 
     flushSerial();
 
+    vel_max = constrain(vel_max, 0.1, 10);
+
     // flushSerial();
 
     // ----------------------------------------------

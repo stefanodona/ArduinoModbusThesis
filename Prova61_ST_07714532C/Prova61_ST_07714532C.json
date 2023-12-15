@@ -6,7 +6,7 @@
     "num_pos": 48,
     "step_pos": 0.5,
     "wait_time": 1000,
-    "avg_flag": false,
+    "avg_flag": 0,
     "ar_flag": true,
     "th1_val": 3.0,
     "th1_avg": 3,

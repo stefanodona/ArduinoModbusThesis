@@ -7,393 +7,161 @@ Cable connected!
 192.168.56.1
 Attempting to connect to Modbus TCP server
 Modbus TCP Client connected!
-time: 12.00
+time: 13.00
 Velocita' massima settata a: 10 rps
 Posizionare il centratore...
 Stringere il centratore...
 Clamped
--3.552452
+-2.691171
 T4re
--2.156172
-Status
+-1.818081
+Taratura
 pos realtiva prossimo passo:
--0.86089
+-1.00000
 forza mancante: 
-3.33078
+1.56768
 post_moved: 
--5.48695
+-3.38576
 lowerbound: 
--2.25617
+-1.91808
 upperbound: 
--2.05617
+-1.71808
 ____
 pos realtiva prossimo passo:
--0.02678
+-0.07769
 forza mancante: 
-0.10048
+0.11301
 post_moved: 
--2.25666
+-1.93109
 lowerbound: 
--2.25617
+-1.91808
 upperbound: 
--2.05617
+-1.71808
 ____
 pos realtiva prossimo passo:
--0.00994
+0.00088
 forza mancante: 
-0.02721
+-0.00129
 post_moved: 
--2.18338
+-1.81679
 lowerbound: 
--2.25617
+-1.91808
 upperbound: 
--2.05617
+-1.71808
 ____
 pos realtiva prossimo passo:
--0.01747
+-0.00085
 forza mancante: 
-0.01734
+0.03755
 post_moved: 
--2.17351
+-1.85563
 lowerbound: 
--2.17617
+-1.83808
 upperbound: 
--2.13617
+-1.79808
 ____
 pos realtiva prossimo passo:
-0.01347
+0.04048
 forza mancante: 
--0.05831
+0.03836
 post_moved: 
--2.09786
+-1.85644
 lowerbound: 
--2.16117
+-1.83808
 upperbound: 
--2.15117
+-1.79808
 ____
 pos realtiva prossimo passo:
-0.02300
+-0.07072
 forza mancante: 
--0.03678
+0.08970
 post_moved: 
--2.11939
+-1.90778
 lowerbound: 
--2.16117
+-1.83808
 upperbound: 
--2.15117
+-1.79808
 ____
 pos realtiva prossimo passo:
--0.01161
+0.00957
 forza mancante: 
-0.03748
+-0.01403
 post_moved: 
--2.19365
+-1.80405
 lowerbound: 
--2.16117
+-1.83808
 upperbound: 
--2.15117
+-1.79808
 ____
 pos realtiva prossimo passo:
--0.02059
+-0.00186
 forza mancante: 
-0.02396
+0.00338
 post_moved: 
--2.18014
+-1.82146
 lowerbound: 
--2.16117
+-1.82308
 upperbound: 
--2.15117
-____
-pos realtiva prossimo passo:
-0.01208
-forza mancante: 
--0.03405
-post_moved: 
--2.12212
-lowerbound: 
--2.16117
-upperbound: 
--2.15117
-____
-pos realtiva prossimo passo:
-0.01476
-forza mancante: 
--0.01873
-post_moved: 
--2.13745
-lowerbound: 
--2.16117
-upperbound: 
--2.15117
-____
-pos realtiva prossimo passo:
--0.00887
-forza mancante: 
-0.02822
-post_moved: 
--2.18439
-lowerbound: 
--2.16117
-upperbound: 
--2.15117
-____
-pos realtiva prossimo passo:
--0.01788
-forza mancante: 
-0.01886
-post_moved: 
--2.17503
-lowerbound: 
--2.16117
-upperbound: 
--2.15117
-____
-pos realtiva prossimo passo:
-0.01114
-forza mancante: 
--0.03118
-post_moved: 
--2.12499
-lowerbound: 
--2.16117
-upperbound: 
--2.15117
-____
-pos realtiva prossimo passo:
-0.00573
-forza mancante: 
--0.01059
-post_moved: 
--2.14559
-lowerbound: 
--2.16117
-upperbound: 
--2.15117
-____
-pos realtiva prossimo passo:
--0.00166
-forza mancante: 
-0.00432
-post_moved: 
--2.16049
-lowerbound: 
--2.16117
-upperbound: 
--2.15117
+-1.81308
 ____
 init pos
 0
-tare  -2.163853
+tare  -1.829492
 Measure Routine
 send me
-0.25
--0.25
 0.50
 -0.50
-0.75
--0.75
 1.00
 -1.00
-1.25
--1.25
 1.50
 -1.50
-1.75
--1.75
 2.00
 -2.00
-2.25
--2.25
 2.50
 -2.50
-2.75
--2.75
 3.00
 -3.00
-3.25
--3.25
 3.50
 -3.50
-3.75
--3.75
 4.00
 -4.00
-4.25
--4.25
 4.50
 -4.50
-4.75
--4.75
 5.00
 -5.00
-5.25
--5.25
 5.50
 -5.50
-5.75
--5.75
 6.00
 -6.00
-6.25
--6.25
 6.50
 -6.50
-6.75
--6.75
 7.00
 -7.00
-7.25
--7.25
 7.50
 -7.50
-7.75
--7.75
 8.00
 -8.00
-8.25
--8.25
 8.50
 -8.50
-8.75
--8.75
 9.00
 -9.00
-9.25
--9.25
 9.50
 -9.50
-9.75
--9.75
 10.00
 -10.00
-10.25
--10.25
 10.50
 -10.50
-10.75
--10.75
 11.00
 -11.00
-11.25
--11.25
 11.50
 -11.50
-11.75
--11.75
 12.00
 -12.00
 Measuring
 andata
 time: 0.00
 cnt 
-6
-x_p: 
-0.222168
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--0.229492
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-0.227051
-Ex_p: 
-0.004883
-sum_sq_pos_p: 
-0.000024
-check percent
-x_m: 
--0.229492
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-0.227051
-Ex_p: 
-0.009766
-sum_sq_pos_p: 
-0.000048
-check percent
-x_m: 
--0.229492
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-0.227051
-Ex_p: 
-0.014648
-sum_sq_pos_p: 
-0.000072
-check percent
-x_m: 
--0.229492
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-0.227051
-Ex_p: 
-0.019531
-sum_sq_pos_p: 
-0.000095
-check percent
-x_m: 
--0.229492
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-0.227051
-Ex_p: 
-0.024414
-sum_sq_pos_p: 
-0.000119
-check percent
-x_m: 
--0.229492
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-val  -2.988978
-std   0.013017   0.001993
-driver_pos   0.226237
-val  -1.282426
-std   0.002956   0.000000
-driver_pos  -0.229492
-time: 0.00
-cnt 
-6
-x_p: 
-0.480957
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--0.483398
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
+1
 x_p: 
 0.480957
 Ex_p: 
@@ -404,554 +172,65 @@ check percent
 x_m: 
 -0.485840
 Ex_m: 
--0.002441
+0.000000
 sum_sq_pos_m: 
-0.000006
+0.000000
 check percent
-x_p: 
-0.483398
-Ex_p: 
-0.002441
-sum_sq_pos_p: 
-0.000006
-check percent
-x_m: 
--0.483398
-Ex_m: 
--0.002441
-sum_sq_pos_m: 
-0.000006
-check percent
-x_p: 
-0.480957
-Ex_p: 
-0.002441
-sum_sq_pos_p: 
-0.000006
-check percent
-x_m: 
--0.483398
-Ex_m: 
--0.002441
-sum_sq_pos_m: 
-0.000006
-check percent
-x_p: 
-0.480957
-Ex_p: 
-0.002441
-sum_sq_pos_p: 
-0.000006
-check percent
-x_m: 
--0.485840
-Ex_m: 
--0.004883
-sum_sq_pos_m: 
-0.000012
-check percent
-x_p: 
-0.483398
-Ex_p: 
-0.004883
-sum_sq_pos_p: 
-0.000012
-check percent
-x_m: 
--0.483398
-Ex_m: 
--0.004883
-sum_sq_pos_m: 
-0.000012
-check percent
-val  -3.980134
-std   0.004876   0.001261
-driver_pos   0.481771
-val  -0.312403
-std   0.003634   0.001261
-driver_pos  -0.484212
+val  -0.780995
+std   0.000000   0.000000
+driver_pos   0.480957
+val   0.803280
+std   0.000000   0.000000
+driver_pos  -0.485840
 time: 0.00
 cnt 
-6
+1
 x_p: 
-0.727539
+0.986328
 Ex_p: 
 0.000000
 sum_sq_pos_p: 
 0.000000
 check percent
 x_m: 
--0.732422
+-0.986328
 Ex_m: 
 0.000000
 sum_sq_pos_m: 
 0.000000
 check percent
-x_p: 
-0.725098
-Ex_p: 
--0.002441
-sum_sq_pos_p: 
-0.000006
-check percent
-x_m: 
--0.732422
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-0.725098
-Ex_p: 
--0.004883
-sum_sq_pos_p: 
-0.000012
-check percent
-x_m: 
--0.732422
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-0.725098
-Ex_p: 
--0.007324
-sum_sq_pos_p: 
-0.000018
-check percent
-x_m: 
--0.732422
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-0.725098
-Ex_p: 
--0.009766
-sum_sq_pos_p: 
-0.000024
-check percent
-x_m: 
--0.732422
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-0.727539
-Ex_p: 
--0.009766
-sum_sq_pos_p: 
-0.000024
-check percent
-x_m: 
--0.732422
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-val  -4.931267
-std   0.004231   0.001261
-driver_pos   0.725911
-val   0.634595
-std   0.005959   0.000000
-driver_pos  -0.732422
+val  -1.478135
+std   0.000000   0.000000
+driver_pos   0.986328
+val   1.647525
+std   0.000000   0.000000
+driver_pos  -0.986328
 time: 0.00
 cnt 
-6
+1
 x_p: 
-0.981445
+1.486816
 Ex_p: 
 0.000000
 sum_sq_pos_p: 
 0.000000
 check percent
 x_m: 
--0.983887
+-1.489258
 Ex_m: 
 0.000000
 sum_sq_pos_m: 
 0.000000
 check percent
-x_p: 
-0.983887
-Ex_p: 
-0.002441
-sum_sq_pos_p: 
-0.000006
-check percent
-x_m: 
--0.983887
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-0.983887
-Ex_p: 
-0.004883
-sum_sq_pos_p: 
-0.000012
-check percent
-x_m: 
--0.983887
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-3014081.000000
-Ex_p: 
-3014080.000000
-sum_sq_pos_p: 
-ovf
-check percent
-x_m: 
--0.983887
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-0.983887
-Ex_p: 
-0.002441
-sum_sq_pos_p: 
-0.000006
-check percent
-x_m: 
--0.983887
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-0.983887
-Ex_p: 
-0.004883
-sum_sq_pos_p: 
-0.000012
-check percent
-x_m: 
--0.983887
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-0.983887
-Ex_p: 
-0.007324
-sum_sq_pos_p: 
-0.000018
-check percent
-x_m: 
--0.983887
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-val  -5.927895
-std   0.005557   0.001337
-driver_pos   0.991943
-val   1.598517
-std   0.008729   0.000000
-driver_pos  -0.983887
+val  -2.033584
+std   0.000000   0.000000
+driver_pos   1.486816
+val   2.570357
+std   0.000000   0.000000
+driver_pos  -1.489258
 time: 0.00
 cnt 
-6
-x_p: 
-1.228027
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--1.230469
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-1.228027
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--1.232910
-Ex_m: 
--0.002441
-sum_sq_pos_m: 
-0.000006
-check percent
-x_p: 
-1.228027
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--1.230469
-Ex_m: 
--0.002441
-sum_sq_pos_m: 
-0.000006
-check percent
-x_p: 
-1.228027
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--1.230469
-Ex_m: 
--0.002441
-sum_sq_pos_m: 
-0.000006
-check percent
-x_p: 
-1.228027
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--1.232910
-Ex_m: 
--0.004883
-sum_sq_pos_m: 
-0.000012
-check percent
-x_p: 
-1.228027
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--1.230469
-Ex_m: 
--0.004883
-sum_sq_pos_m: 
-0.000012
-check percent
-val  -6.897694
-std   0.005599   0.000000
-driver_pos   1.228027
-val   2.558980
-std   0.002671   0.001261
-driver_pos  -1.231283
-time: 0.00
-cnt 
-6
-x_p: 
-1.484375
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--1.484375
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-1.484375
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--1.484375
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-1.484375
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--1.484375
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-1.484375
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--1.486816
-Ex_m: 
--0.002441
-sum_sq_pos_m: 
-0.000006
-check percent
-x_p: 
-1.484375
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--1.484375
-Ex_m: 
--0.002441
-sum_sq_pos_m: 
-0.000006
-check percent
-x_p: 
-1.484375
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--1.484375
-Ex_m: 
--0.002441
-sum_sq_pos_m: 
-0.000006
-check percent
-val  -7.909975
-std   0.002192   0.000000
-driver_pos   1.484375
-val   3.550236
-std   0.007413   0.000997
-driver_pos  -1.484782
-time: 0.00
-cnt 
-6
-x_p: 
-1.728516
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--1.728516
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-1.726074
-Ex_p: 
--0.002441
-sum_sq_pos_p: 
-0.000006
-check percent
-x_m: 
--1.728516
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-1.726074
-Ex_p: 
--0.004883
-sum_sq_pos_p: 
-0.000012
-check percent
-x_m: 
--1.728516
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-1.728516
-Ex_p: 
--0.004883
-sum_sq_pos_p: 
-0.000012
-check percent
-x_m: 
--1.728516
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-1.726074
-Ex_p: 
--0.007324
-sum_sq_pos_p: 
-0.000018
-check percent
-x_m: 
--1.728516
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-1.726074
-Ex_p: 
--0.009766
-sum_sq_pos_p: 
-0.000024
-check percent
-x_m: 
--1.728516
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-val  -8.899049
-std   0.002095   0.001261
-driver_pos   1.726888
-val   4.522254
-std   0.011013   0.000000
-driver_pos  -1.728516
-time: 0.00
-cnt 
-6
+1
 x_p: 
 1.987305
 Ex_p: 
@@ -966,180 +245,17 @@ Ex_m:
 sum_sq_pos_m: 
 0.000000
 check percent
-x_p: 
-1.987305
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--1.987305
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-1.984863
-Ex_p: 
--0.002441
-sum_sq_pos_p: 
-0.000006
-check percent
-x_m: 
--1.987305
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-1.987305
-Ex_p: 
--0.002441
-sum_sq_pos_p: 
-0.000006
-check percent
-x_m: 
--1.987305
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-1.984863
-Ex_p: 
--0.004883
-sum_sq_pos_p: 
-0.000012
-check percent
-x_m: 
--1.987305
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-1.984863
-Ex_p: 
--0.007324
-sum_sq_pos_p: 
-0.000018
-check percent
-x_m: 
--1.987305
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-val  -9.970384
-std   0.003935   0.001337
-driver_pos   1.986084
-val   5.564956
-std   0.008927   0.000000
+val  -2.495786
+std   0.000000   0.000000
+driver_pos   1.987305
+val   3.585274
+std   0.000000   0.000000
 driver_pos  -1.987305
 time: 0.00
 cnt 
-6
+1
 x_p: 
-2.229004
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--2.226562
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-2.229004
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--2.226562
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-2.229004
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--2.226562
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-2.229004
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--2.226562
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-2.229004
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--2.226562
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-2.229004
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--2.226562
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-val -11.001588
-std   0.002682   0.000000
-driver_pos   2.229004
-val   6.560583
-std   0.010364   0.000000
-driver_pos  -2.226563
-time: 0.00
-cnt 
-6
-x_p: 
-2.487793
+2.485352
 Ex_p: 
 0.000000
 sum_sq_pos_p: 
@@ -1152,322 +268,38 @@ Ex_m:
 sum_sq_pos_m: 
 0.000000
 check percent
-x_p: 
-2.487793
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--2.485352
-Ex_m: 
-0.002441
-sum_sq_pos_m: 
-0.000006
-check percent
-x_p: 
-2.487793
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--2.487793
-Ex_m: 
-0.002441
-sum_sq_pos_m: 
-0.000006
-check percent
-x_p: 
-2.487793
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--2.485352
-Ex_m: 
-0.004883
-sum_sq_pos_m: 
-0.000012
-check percent
-x_p: 
-2.487793
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--2.485352
-Ex_m: 
-0.007324
-sum_sq_pos_m: 
-0.000018
-check percent
-x_p: 
-2.487793
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--2.485352
-Ex_m: 
-0.009766
-sum_sq_pos_m: 
-0.000024
-check percent
-val -12.117949
-std   0.006238   0.000000
-driver_pos   2.487793
-val   7.652630
-std   0.013092   0.001261
-driver_pos  -2.486165
+val  -2.885108
+std   0.000000   0.000000
+driver_pos   2.485352
+val   4.715776
+std   0.000000   0.000000
+driver_pos  -2.487793
 time: 0.00
 cnt 
-6
+1
 x_p: 
-2.727051
+2.985840
 Ex_p: 
 0.000000
 sum_sq_pos_p: 
 0.000000
 check percent
 x_m: 
--2.727051
+-2.988281
 Ex_m: 
 0.000000
 sum_sq_pos_m: 
 0.000000
 check percent
-x_p: 
-2.727051
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--2.727051
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-2.727051
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--2.727051
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-2.727051
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--2.727051
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-2.727051
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--2.727051
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-2.727051
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--2.727051
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-val -13.190684
-std   0.005885   0.000000
-driver_pos   2.727051
-val   8.693307
-std   0.015236   0.000000
-driver_pos  -2.727051
+val  -3.239054
+std   0.000000   0.000000
+driver_pos   2.985840
+val   5.967068
+std   0.000000   0.000000
+driver_pos  -2.988281
 time: 0.00
 cnt 
-6
-x_p: 
-2.983398
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--2.983398
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-2.983398
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--2.980957
-Ex_m: 
-0.002441
-sum_sq_pos_m: 
-0.000006
-check percent
-x_p: 
-2.983398
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--2.980957
-Ex_m: 
-0.004883
-sum_sq_pos_m: 
-0.000012
-check percent
-x_p: 
-2.983398
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--2.983398
-Ex_m: 
-0.004883
-sum_sq_pos_m: 
-0.000012
-check percent
-x_p: 
-2.983398
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--2.980957
-Ex_m: 
-0.007324
-sum_sq_pos_m: 
-0.000018
-check percent
-x_p: 
-2.983398
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--2.983398
-Ex_m: 
-0.007324
-sum_sq_pos_m: 
-0.000018
-check percent
-val -14.347920
-std   0.010841   0.000000
-driver_pos   2.983398
-val   9.823630
-std   0.012901   0.001337
-driver_pos  -2.982178
-time: 0.00
-cnt 
-3
-x_p: 
-3.227539
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--3.225098
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-3.227539
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--3.227539
-Ex_m: 
--0.002441
-sum_sq_pos_m: 
-0.000006
-check percent
-x_p: 
-3.227539
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--3.227539
-Ex_m: 
--0.004883
-sum_sq_pos_m: 
-0.000012
-check percent
-val -15.511246
-std   0.006225   0.000000
-driver_pos   3.227539
-val  10.951973
-std   0.011301   0.001410
-driver_pos  -3.226725
-time: 0.00
-cnt 
-3
+1
 x_p: 
 3.486328
 Ex_p: 
@@ -1476,1217 +308,959 @@ sum_sq_pos_p:
 0.000000
 check percent
 x_m: 
--3.481445
+-3.486328
 Ex_m: 
 0.000000
 sum_sq_pos_m: 
 0.000000
 check percent
+val  -3.572319
+std   0.000000   0.000000
+driver_pos   3.486328
+val   7.365630
+std   0.000000   0.000000
+driver_pos  -3.486328
+time: 0.00
+cnt 
+1
+x_p: 
+3.986816
+Ex_p: 
+0.000000
+sum_sq_pos_p: 
+0.000000
+check percent
+x_m: 
+-3.986816
+Ex_m: 
+0.000000
+sum_sq_pos_m: 
+0.000000
+check percent
+val  -3.900688
+std   0.000000   0.000000
+driver_pos   3.986816
+val   8.946507
+std   0.000000   0.000000
+driver_pos  -3.986816
+time: 2.00
+cnt 
+1
+x_p: 
+4.487305
+Ex_p: 
+0.000000
+sum_sq_pos_p: 
+0.000000
+check percent
+x_m: 
+-4.484863
+Ex_m: 
+0.000000
+sum_sq_pos_m: 
+0.000000
+check percent
+val  -4.235149
+std   0.000000   0.000000
+driver_pos   4.487305
+val  10.728756
+std   0.000000   0.000000
+driver_pos  -4.484863
+time: 0.00
+cnt 
+1
+x_p: 
+4.987793
+Ex_p: 
+0.000000
+sum_sq_pos_p: 
+0.000000
+check percent
+x_m: 
+-4.985352
+Ex_m: 
+0.000000
+sum_sq_pos_m: 
+0.000000
+check percent
+val  -4.597954
+std   0.000000   0.000000
+driver_pos   4.987793
+val  12.759841
+std   0.000000   0.000000
+driver_pos  -4.985352
+time: 0.00
+cnt 
+1
+x_p: 
+5.485840
+Ex_p: 
+0.000000
+sum_sq_pos_p: 
+0.000000
+check percent
+x_m: 
+-5.485840
+Ex_m: 
+0.000000
+sum_sq_pos_m: 
+0.000000
+check percent
+val  -4.977844
+std   0.000000   0.000000
+driver_pos   5.485840
+val  15.056452
+std   0.000000   0.000000
+driver_pos  -5.485840
+time: 0.00
+cnt 
+1
+x_p: 
+5.986328
+Ex_p: 
+0.000000
+sum_sq_pos_p: 
+0.000000
+check percent
+x_m: 
+-5.986328
+Ex_m: 
+0.000000
+sum_sq_pos_m: 
+0.000000
+check percent
+val  -5.412378
+std   0.000000   0.000000
+driver_pos   5.986328
+val  17.679337
+std   0.000000   0.000000
+driver_pos  -5.986328
+time: 0.00
+cnt 
+1
+x_p: 
+6.486816
+Ex_p: 
+0.000000
+sum_sq_pos_p: 
+0.000000
+check percent
+x_m: 
+-6.486816
+Ex_m: 
+0.000000
+sum_sq_pos_m: 
+0.000000
+check percent
+val  -5.888581
+std   0.000000   0.000000
+driver_pos   6.486816
+val  20.713259
+std   0.000000   0.000000
+driver_pos  -6.486816
+time: 1.00
+cnt 
+1
+x_p: 
+6.984863
+Ex_p: 
+0.000000
+sum_sq_pos_p: 
+0.000000
+check percent
+x_m: 
+-6.987305
+Ex_m: 
+0.000000
+sum_sq_pos_m: 
+0.000000
+check percent
+val  -6.429476
+std   0.000000   0.000000
+driver_pos   6.984863
+val  24.230904
+std   0.000000   0.000000
+driver_pos  -6.987305
+time: 0.00
+cnt 
+1
+x_p: 
+7.485352
+Ex_p: 
+0.000000
+sum_sq_pos_p: 
+0.000000
+check percent
+x_m: 
+-7.485352
+Ex_m: 
+0.000000
+sum_sq_pos_m: 
+0.000000
+check percent
+val  -7.024729
+std   0.000000   0.000000
+driver_pos   7.485352
+val  28.230106
+std   0.000000   0.000000
+driver_pos  -7.485352
+time: 1.00
+cnt 
+1
+x_p: 
+7.985840
+Ex_p: 
+0.000000
+sum_sq_pos_p: 
+0.000000
+check percent
+x_m: 
+-7.983398
+Ex_m: 
+0.000000
+sum_sq_pos_m: 
+0.000000
+check percent
+val  -7.689369
+std   0.000000   0.000000
+driver_pos   7.985840
+val  32.784161
+std   0.000000   0.000000
+driver_pos  -7.983398
+time: 0.00
+cnt 
+1
+x_p: 
+8.483887
+Ex_p: 
+0.000000
+sum_sq_pos_p: 
+0.000000
+check percent
+x_m: 
+-8.481446
+Ex_m: 
+0.000000
+sum_sq_pos_m: 
+0.000000
+check percent
+val  -8.438408
+std   0.000000   0.000000
+driver_pos   8.483887
+val  38.092312
+std   0.000000   0.000000
+driver_pos  -8.481445
+time: 0.00
+cnt 
+1
+x_p: 
+8.984375
+Ex_p: 
+0.000000
+sum_sq_pos_p: 
+0.000000
+check percent
+x_m: 
+-8.979493
+Ex_m: 
+0.000000
+sum_sq_pos_m: 
+0.000000
+check percent
+val  -9.265309
+std   0.000000   0.000000
+driver_pos   8.984375
+val  44.144459
+std   0.000000   0.000000
+driver_pos  -8.979492
+time: 0.00
+cnt 
+1
+x_p: 
+9.484864
+Ex_p: 
+0.000000
+sum_sq_pos_p: 
+0.000000
+check percent
+x_m: 
+-9.479981
+Ex_m: 
+0.000000
+sum_sq_pos_m: 
+0.000000
+check percent
+val -10.184890
+std   0.000000   0.000000
+driver_pos   9.484863
+val  51.222271
+std   0.000000   0.000000
+driver_pos  -9.479980
+time: 0.00
+cnt 
+1
+x_p: 
+9.985352
+Ex_p: 
+0.000000
+sum_sq_pos_p: 
+0.000000
+check percent
+x_m: 
+-9.978028
+Ex_m: 
+0.000000
+sum_sq_pos_m: 
+0.000000
+check percent
+val -11.196136
+std   0.000000   0.000000
+driver_pos   9.985352
+val  59.252434
+std   0.000000   0.000000
+driver_pos  -9.978027
+time: 0.00
+cnt 
+1
+x_p: 
+10.485840
+Ex_p: 
+0.000000
+sum_sq_pos_p: 
+0.000000
+check percent
+x_m: 
+-10.458985
+Ex_m: 
+0.000000
+sum_sq_pos_m: 
+0.000000
+check percent
+val -12.305778
+std   0.000000   0.000000
+driver_pos  10.485840
+val  68.034203
+std   0.000000   0.000000
+driver_pos -10.458984
+time: 0.00
+cnt 
+1
+x_p: 
+10.986329
+Ex_p: 
+0.000000
+sum_sq_pos_p: 
+0.000000
+check percent
+x_m: 
+-10.939942
+Ex_m: 
+0.000000
+sum_sq_pos_m: 
+0.000000
+check percent
+val -13.552379
+std   0.000000   0.000000
+driver_pos  10.986328
+val  77.998657
+std   0.000000   0.000000
+driver_pos -10.939941
+time: 0.00
+cnt 
+1
+x_p: 
+11.484375
+Ex_p: 
+0.000000
+sum_sq_pos_p: 
+0.000000
+check percent
+x_m: 
+-11.435547
+Ex_m: 
+0.000000
+sum_sq_pos_m: 
+0.000000
+check percent
+val -14.921522
+std   0.000000   0.000000
+driver_pos  11.484375
+val  88.975403
+std   0.000000   0.000000
+driver_pos -11.435547
+time: 0.00
+cnt 
+1
+x_p: 
+11.984864
+Ex_p: 
+0.000000
+sum_sq_pos_p: 
+0.000000
+check percent
+x_m: 
+-11.928711
+Ex_m: 
+0.000000
+sum_sq_pos_m: 
+0.000000
+check percent
+val -16.387804
+std   0.000000   0.000000
+driver_pos  11.984863
+val  99.446373
+std   0.000000   0.000000
+driver_pos -11.928711
+ritorno
+time: 0.00
+cnt 
+1
+x_p: 
+11.982422
+Ex_p: 
+0.000000
+sum_sq_pos_p: 
+0.000000
+check percent
+x_m: 
+-11.928711
+Ex_m: 
+0.000000
+sum_sq_pos_m: 
+0.000000
+check percent
+val -16.147020
+std   0.000000   0.000000
+driver_pos  11.982422
+val  96.911972
+std   0.000000   0.000000
+driver_pos -11.928711
+time: 0.00
+cnt 
+1
+x_p: 
+11.484375
+Ex_p: 
+0.000000
+sum_sq_pos_p: 
+0.000000
+check percent
+x_m: 
+-11.437989
+Ex_m: 
+0.000000
+sum_sq_pos_m: 
+0.000000
+check percent
+val -14.382170
+std   0.000000   0.000000
+driver_pos  11.484375
+val  82.199287
+std   0.000000   0.000000
+driver_pos -11.437988
+time: 0.00
+cnt 
+1
+x_p: 
+10.986329
+Ex_p: 
+0.000000
+sum_sq_pos_p: 
+0.000000
+check percent
+x_m: 
+-10.957032
+Ex_m: 
+0.000000
+sum_sq_pos_m: 
+0.000000
+check percent
+val -12.897229
+std   0.000000   0.000000
+driver_pos  10.986328
+val  70.763016
+std   0.000000   0.000000
+driver_pos -10.957031
+time: 0.00
+cnt 
+1
+x_p: 
+10.485840
+Ex_p: 
+0.000000
+sum_sq_pos_p: 
+0.000000
+check percent
+x_m: 
+-10.476075
+Ex_m: 
+0.000000
+sum_sq_pos_m: 
+0.000000
+check percent
+val -11.609773
+std   0.000000   0.000000
+driver_pos  10.485840
+val  60.988503
+std   0.000000   0.000000
+driver_pos -10.476074
+time: 0.00
+cnt 
+1
+x_p: 
+9.987793
+Ex_p: 
+0.000000
+sum_sq_pos_p: 
+0.000000
+check percent
+x_m: 
+-9.980469
+Ex_m: 
+0.000000
+sum_sq_pos_m: 
+0.000000
+check percent
+val -10.467809
+std   0.000000   0.000000
+driver_pos   9.987793
+val  52.412258
+std   0.000000   0.000000
+driver_pos  -9.980469
+time: 0.00
+cnt 
+1
+x_p: 
+9.484864
+Ex_p: 
+0.000000
+sum_sq_pos_p: 
+0.000000
+check percent
+x_m: 
+-9.482422
+Ex_m: 
+0.000000
+sum_sq_pos_m: 
+0.000000
+check percent
+val  -9.462267
+std   0.000000   0.000000
+driver_pos   9.484863
+val  44.956135
+std   0.000000   0.000000
+driver_pos  -9.482422
+time: 0.00
+cnt 
+1
+x_p: 
+8.984375
+Ex_p: 
+0.000000
+sum_sq_pos_p: 
+0.000000
+check percent
+x_m: 
+-8.981934
+Ex_m: 
+0.000000
+sum_sq_pos_m: 
+0.000000
+check percent
+val  -8.557447
+std   0.000000   0.000000
+driver_pos   8.984375
+val  38.546246
+std   0.000000   0.000000
+driver_pos  -8.981934
+time: 0.00
+cnt 
+1
+x_p: 
+8.483887
+Ex_p: 
+0.000000
+sum_sq_pos_p: 
+0.000000
+check percent
+x_m: 
+-8.481446
+Ex_m: 
+0.000000
+sum_sq_pos_m: 
+0.000000
+check percent
+val  -7.756927
+std   0.000000   0.000000
+driver_pos   8.483887
+val  33.011005
+std   0.000000   0.000000
+driver_pos  -8.481445
+time: 0.00
+cnt 
+1
+x_p: 
+7.983398
+Ex_p: 
+0.000000
+sum_sq_pos_p: 
+0.000000
+check percent
+x_m: 
+-7.983398
+Ex_m: 
+0.000000
+sum_sq_pos_m: 
+0.000000
+check percent
+val  -7.052936
+std   0.000000   0.000000
+driver_pos   7.983398
+val  28.244013
+std   0.000000   0.000000
+driver_pos  -7.983398
+time: 0.00
+cnt 
+1
+x_p: 
+7.485352
+Ex_p: 
+0.000000
+sum_sq_pos_p: 
+0.000000
+check percent
+x_m: 
+-7.485352
+Ex_m: 
+0.000000
+sum_sq_pos_m: 
+0.000000
+check percent
+val  -6.426239
+std   0.000000   0.000000
+driver_pos   7.485352
+val  24.088091
+std   0.000000   0.000000
+driver_pos  -7.485352
+time: 0.00
+cnt 
+1
+x_p: 
+6.984863
+Ex_p: 
+0.000000
+sum_sq_pos_p: 
+0.000000
+check percent
+x_m: 
+-6.984863
+Ex_m: 
+0.000000
+sum_sq_pos_m: 
+0.000000
+check percent
+val  -5.880005
+std   0.000000   0.000000
+driver_pos   6.984863
+val  20.484068
+std   0.000000   0.000000
+driver_pos  -6.984863
+time: 0.00
+cnt 
+1
+x_p: 
+6.486816
+Ex_p: 
+0.000000
+sum_sq_pos_p: 
+0.000000
+check percent
+x_m: 
+-6.486816
+Ex_m: 
+0.000000
+sum_sq_pos_m: 
+0.000000
+check percent
+val  -5.399213
+std   0.000000   0.000000
+driver_pos   6.486816
+val  17.337524
+std   0.000000   0.000000
+driver_pos  -6.486816
+time: 0.00
+cnt 
+1
+x_p: 
+5.986328
+Ex_p: 
+0.000000
+sum_sq_pos_p: 
+0.000000
+check percent
+x_m: 
+-5.986328
+Ex_m: 
+0.000000
+sum_sq_pos_m: 
+0.000000
+check percent
+val  -4.968227
+std   0.000000   0.000000
+driver_pos   5.986328
+val  14.647902
+std   0.000000   0.000000
+driver_pos  -5.986328
+time: 0.00
+cnt 
+1
+x_p: 
+5.485840
+Ex_p: 
+0.000000
+sum_sq_pos_p: 
+0.000000
+check percent
+x_m: 
+-5.485840
+Ex_m: 
+0.000000
+sum_sq_pos_m: 
+0.000000
+check percent
+val  -4.595128
+std   0.000000   0.000000
+driver_pos   5.485840
+val  12.325282
+std   0.000000   0.000000
+driver_pos  -5.485840
+time: 0.00
+cnt 
+1
+x_p: 
+4.987793
+Ex_p: 
+0.000000
+sum_sq_pos_p: 
+0.000000
+check percent
+x_m: 
+-4.985352
+Ex_m: 
+0.000000
+sum_sq_pos_m: 
+0.000000
+check percent
+val  -4.266875
+std   0.000000   0.000000
+driver_pos   4.987793
+val  10.316496
+std   0.000000   0.000000
+driver_pos  -4.985352
+time: 0.00
+cnt 
+1
+x_p: 
+4.487305
+Ex_p: 
+0.000000
+sum_sq_pos_p: 
+0.000000
+check percent
+x_m: 
+-4.484863
+Ex_m: 
+0.000000
+sum_sq_pos_m: 
+0.000000
+check percent
+val  -3.976526
+std   0.000000   0.000000
+driver_pos   4.487305
+val   8.548474
+std   0.000000   0.000000
+driver_pos  -4.484863
+time: 0.00
+cnt 
+1
+x_p: 
+3.986816
+Ex_p: 
+0.000000
+sum_sq_pos_p: 
+0.000000
+check percent
+x_m: 
+-3.984375
+Ex_m: 
+0.000000
+sum_sq_pos_m: 
+0.000000
+check percent
+val  -3.712467
+std   0.000000   0.000000
+driver_pos   3.986816
+val   7.008869
+std   0.000000   0.000000
+driver_pos  -3.984375
+time: 0.00
+cnt 
+1
 x_p: 
 3.483887
 Ex_p: 
--0.002441
-sum_sq_pos_p: 
-0.000006
-check percent
-x_m: 
--3.481445
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-3.483887
-Ex_p: 
--0.004883
-sum_sq_pos_p: 
-0.000012
-check percent
-x_m: 
--3.481445
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-val -16.766237
-std   0.013224   0.001410
-driver_pos   3.484700
-val  12.159409
-std   0.016613   0.000000
-driver_pos  -3.481445
-time: 1.00
-cnt 
-3
-x_p: 
-3.730469
-Ex_p: 
 0.000000
 sum_sq_pos_p: 
 0.000000
 check percent
 x_m: 
--3.728027
+-3.486328
 Ex_m: 
 0.000000
 sum_sq_pos_m: 
 0.000000
 check percent
-x_p: 
-3.730469
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--3.725586
-Ex_m: 
-0.002441
-sum_sq_pos_m: 
-0.000006
-check percent
-x_p: 
-3.730469
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--3.725586
-Ex_m: 
-0.004883
-sum_sq_pos_m: 
-0.000012
-check percent
-val -18.013487
-std   0.015224   0.000000
-driver_pos   3.730469
-val  13.359471
-std   0.024379   0.001410
-driver_pos  -3.726400
-time: 0.00
-cnt 
-3
-x_p: 
-3.984375
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--3.981934
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-3.984375
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--3.981934
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-3.984375
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--3.981934
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-val -19.347366
-std   0.016629   0.000000
-driver_pos   3.984375
-val  14.653294
-std   0.025400   0.000000
-driver_pos  -3.981934
-time: 0.00
-cnt 
-3
-x_p: 
-4.226074
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--4.223633
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-4.226074
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--4.223633
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-4.226074
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--4.223633
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-val -20.638639
-std   0.023673   0.000000
-driver_pos   4.226074
-val  15.904145
-std   0.028175   0.000000
-driver_pos  -4.223633
-time: 0.00
-cnt 
-3
-x_p: 
-4.484863
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--4.482422
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-4.484863
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--4.482422
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-4.482422
-Ex_p: 
--0.002441
-sum_sq_pos_p: 
-0.000006
-check percent
-x_m: 
--4.482422
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-val -22.058203
-std   0.031776   0.001410
-driver_pos   4.484049
-val  17.274572
-std   0.036477   0.000000
-driver_pos  -4.482422
-time: 0.00
-cnt 
-3
-x_p: 
-4.724121
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--4.721680
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-4.724121
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--4.724121
-Ex_m: 
--0.002441
-sum_sq_pos_m: 
-0.000006
-check percent
-x_p: 
-4.724121
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--4.721680
-Ex_m: 
--0.002441
-sum_sq_pos_m: 
-0.000006
-check percent
-val -23.409395
-std   0.032043   0.000000
-driver_pos   4.724121
-val  18.585573
-std   0.041262   0.001410
-driver_pos  -4.722494
-time: 0.00
-cnt 
-3
-x_p: 
-4.982910
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--4.982910
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-4.980469
-Ex_p: 
--0.002441
-sum_sq_pos_p: 
-0.000006
-check percent
-x_m: 
--4.982910
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-4.982910
-Ex_p: 
--0.002441
-sum_sq_pos_p: 
-0.000006
-check percent
-x_m: 
--4.982910
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-val -24.925364
-std   0.039621   0.001410
-driver_pos   4.982096
-val  20.052233
-std   0.050676   0.000000
-driver_pos  -4.982910
-time: 0.00
-cnt 
-3
-x_p: 
-5.222168
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--5.224609
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-5.222168
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--5.224609
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-5.222168
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--5.222168
-Ex_m: 
-0.002441
-sum_sq_pos_m: 
-0.000006
-check percent
-val -26.347527
-std   0.044733   0.000000
-driver_pos   5.222168
-val  21.417902
-std   0.060087   0.001410
-driver_pos  -5.223795
-time: 0.00
-cnt 
-3
-x_p: 
-5.478516
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--5.478516
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-5.478516
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--5.478516
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-5.478516
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--5.478516
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-val -27.895864
-std   0.059190   0.000000
-driver_pos   5.478516
-val  22.915358
-std   0.064964   0.000000
-driver_pos  -5.478516
-time: 0.00
-cnt 
-3
-x_p: 
-5.722656
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--5.725098
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-5.722656
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--5.725098
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-5.722656
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--5.725098
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-val -29.428404
-std   0.066383   0.000000
-driver_pos   5.722656
-val  24.411362
-std   0.074438   0.000000
-driver_pos  -5.725098
-time: 0.00
-cnt 
-3
-x_p: 
-5.979004
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--5.979004
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-5.979004
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--5.979004
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-5.976562
-Ex_p: 
--0.002441
-sum_sq_pos_p: 
-0.000006
-check percent
-x_m: 
--5.979004
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-val -31.032541
-std   0.088342   0.001410
-driver_pos   5.978190
-val  25.969477
-std   0.091242   0.000000
-driver_pos  -5.979004
-time: 0.00
-cnt 
-3
-x_p: 
-6.223145
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--6.223145
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-6.223145
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--6.223145
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-6.223145
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--6.223145
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-val -32.592846
-std   0.084755   0.000000
-driver_pos   6.223145
-val  27.511292
-std   0.106505   0.000000
-driver_pos  -6.223145
-time: 0.00
-cnt 
-3
-x_p: 
-6.479492
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--6.479492
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-6.477051
-Ex_p: 
--0.002441
-sum_sq_pos_p: 
-0.000006
-check percent
-x_m: 
--6.479492
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-6.479492
-Ex_p: 
--0.002441
-sum_sq_pos_p: 
-0.000006
-check percent
-x_m: 
--6.479492
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-val -34.256153
-std   0.118550   0.001410
-driver_pos   6.478678
-val  29.181427
-std   0.116987   0.000000
-driver_pos  -6.479492
-time: 0.00
-cnt 
-3
-x_p: 
-6.721191
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--6.721191
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-6.721191
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--6.721191
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-6.721191
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--6.721191
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-val -35.807240
-std   0.132693   0.000000
-driver_pos   6.721191
-val  30.761335
-std   0.130686   0.000000
-driver_pos  -6.721191
-time: 1.00
-cnt 
-3
-x_p: 
-6.977539
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--6.977539
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-6.977539
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--6.977539
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-x_p: 
-6.977539
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--6.977539
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-val -37.489849
-std   0.144882   0.000000
-driver_pos   6.977539
-val  32.544128
-std   0.151937   0.000000
-driver_pos  -6.977539
+val  -3.462404
+std   0.000000   0.000000
+driver_pos   3.483887
+val   5.653574
+std   0.000000   0.000000
+driver_pos  -3.486328
 time: 0.00
 cnt 
 1
 x_p: 
-7.219238
+2.985840
 Ex_p: 
 0.000000
 sum_sq_pos_p: 
 0.000000
 check percent
 x_m: 
--7.219238
+-2.988281
 Ex_m: 
 0.000000
 sum_sq_pos_m: 
 0.000000
 check percent
-val -39.228325
+val  -3.211310
 std   0.000000   0.000000
-driver_pos   7.219238
-val  34.349300
+driver_pos   2.985840
+val   4.463421
 std   0.000000   0.000000
-driver_pos  -7.219238
+driver_pos  -2.988281
 time: 0.00
 cnt 
 1
 x_p: 
-7.478027
+2.485352
 Ex_p: 
 0.000000
 sum_sq_pos_p: 
 0.000000
 check percent
 x_m: 
--7.478027
+-2.487793
 Ex_m: 
 0.000000
 sum_sq_pos_m: 
 0.000000
 check percent
-val -41.150364
+val  -2.947483
 std   0.000000   0.000000
-driver_pos   7.478027
-val  36.464657
+driver_pos   2.485352
+val   3.400999
 std   0.000000   0.000000
-driver_pos  -7.478027
+driver_pos  -2.487793
 time: 0.00
 cnt 
 1
 x_p: 
-7.717285
+1.984863
 Ex_p: 
 0.000000
 sum_sq_pos_p: 
 0.000000
 check percent
 x_m: 
--7.719727
+-1.987305
 Ex_m: 
 0.000000
 sum_sq_pos_m: 
 0.000000
 check percent
-val -42.902470
+val  -2.655625
 std   0.000000   0.000000
-driver_pos   7.717285
-val  38.374352
+driver_pos   1.984863
+val   2.436769
 std   0.000000   0.000000
-driver_pos  -7.719727
+driver_pos  -1.987305
 time: 0.00
 cnt 
 1
 x_p: 
-7.973633
+1.486816
 Ex_p: 
 0.000000
 sum_sq_pos_p: 
 0.000000
 check percent
 x_m: 
--7.973633
+-1.486816
 Ex_m: 
 0.000000
 sum_sq_pos_m: 
 0.000000
 check percent
-val -44.723404
+val  -2.316921
 std   0.000000   0.000000
-driver_pos   7.973633
-val  40.454475
+driver_pos   1.486816
+val   1.560694
 std   0.000000   0.000000
-driver_pos  -7.973633
+driver_pos  -1.486816
 time: 0.00
 cnt 
 1
 x_p: 
-8.215332
+0.986328
 Ex_p: 
 0.000000
 sum_sq_pos_p: 
 0.000000
 check percent
 x_m: 
--8.217774
+-0.986328
 Ex_m: 
 0.000000
 sum_sq_pos_m: 
 0.000000
 check percent
-val -46.417419
+val  -1.905596
 std   0.000000   0.000000
-driver_pos   8.215332
-val  42.475582
+driver_pos   0.986328
+val   0.755207
 std   0.000000   0.000000
-driver_pos  -8.217773
+driver_pos  -0.986328
 time: 0.00
 cnt 
 1
 x_p: 
-8.474122
+0.485840
 Ex_p: 
 0.000000
 sum_sq_pos_p: 
 0.000000
 check percent
 x_m: 
--8.474122
+-0.485840
 Ex_m: 
 0.000000
 sum_sq_pos_m: 
 0.000000
 check percent
-val -48.164707
+val  -1.402675
 std   0.000000   0.000000
-driver_pos   8.474121
-val  44.700886
+driver_pos   0.485840
+val  -0.010672
 std   0.000000   0.000000
-driver_pos  -8.474121
-time: 0.00
-cnt 
-1
-x_p: 
-8.718262
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--8.715821
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-val -49.801723
-std   0.000000   0.000000
-driver_pos   8.718262
-val  46.796440
-std   0.000000   0.000000
-driver_pos  -8.715820
-time: 0.00
-cnt 
-1
-x_p: 
-8.972168
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--8.972168
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-val -51.463039
-std   0.000000   0.000000
-driver_pos   8.972168
-val  49.117420
-std   0.000000   0.000000
-driver_pos  -8.972168
-time: 0.00
-cnt 
-1
-x_p: 
-9.216309
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--9.211426
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-val -53.050808
-std   0.000000   0.000000
-driver_pos   9.216309
-val  51.354370
-std   0.000000   0.000000
-driver_pos  -9.211426
-time: 0.00
-cnt 
-1
-x_p: 
-9.472657
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--9.472657
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-val -54.661846
-std   0.000000   0.000000
-driver_pos   9.472656
-val  53.884377
-std   0.000000   0.000000
-driver_pos  -9.472656
-time: 0.00
-cnt 
-1
-x_p: 
-9.714356
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--9.709473
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-val -56.166134
-std   0.000000   0.000000
-driver_pos   9.714355
-val  56.242722
-std   0.000000   0.000000
-driver_pos  -9.709473
-time: 0.00
-cnt 
-1
-x_p: 
-9.973145
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--9.973145
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-val -57.737186
-std   0.000000   0.000000
-driver_pos   9.973145
-val  59.055172
-std   0.000000   0.000000
-driver_pos  -9.973145
-time: 0.00
-cnt 
-1
-x_p: 
-10.207520
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--10.207520
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-val -59.114552
-std   0.000000   0.000000
-driver_pos  10.207520
-val  61.500031
-std   0.000000   0.000000
-driver_pos -10.207520
-time: 0.00
-cnt 
-1
-x_p: 
-10.471192
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--10.468750
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-val -60.703224
-std   0.000000   0.000000
-driver_pos  10.471191
-val  64.434547
-std   0.000000   0.000000
-driver_pos -10.468750
-time: 1.00
-cnt 
-1
-x_p: 
-10.710450
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--10.700684
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-val -62.123150
-std   0.000000   0.000000
-driver_pos  10.710449
-val  67.119751
-std   0.000000   0.000000
-driver_pos -10.700684
-time: 0.00
-cnt 
-1
-x_p: 
-10.971680
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--10.964356
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-val -63.714561
-std   0.000000   0.000000
-driver_pos  10.971680
-val  70.353966
-std   0.000000   0.000000
-driver_pos -10.964355
-time: 0.00
-cnt 
-1
-x_p: 
-11.213379
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--11.196290
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-val -65.185486
-std   0.000000   0.000000
-driver_pos  11.213379
-val  73.274742
-std   0.000000   0.000000
-driver_pos -11.196289
-time: 0.00
-cnt 
-1
-x_p: 
-11.469727
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--11.447754
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-val -66.812225
-std   0.000000   0.000000
-driver_pos  11.469727
-val  76.694283
-std   0.000000   0.000000
-driver_pos -11.447754
-time: 0.00
-cnt 
-1
-x_p: 
-11.706543
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--11.689454
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-val -68.352798
-std   0.000000   0.000000
-driver_pos  11.706543
-val  79.957237
-std   0.000000   0.000000
-driver_pos -11.689453
-time: 0.00
-cnt 
-1
-x_p: 
-11.970215
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--11.940918
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-val -70.325554
-std   0.000000   0.000000
-driver_pos  11.970215
-val  83.737854
-std   0.000000   0.000000
-driver_pos -11.940918
+driver_pos  -0.485840
