@@ -88,7 +88,6 @@ void driverSetup()
   split32to16(mm2int(0));
   modbusTCPClient.holdingRegisterWrite(Rhofs, splitted[0]);
   modbusTCPClient.holdingRegisterWrite(Rhofs + 1, splitted[1]);
-  // TODO: change homing method to -9
   // modbusTCPClient.holdingRegisterWrite(Rhmode, (int16_t)(-9)); // in battuta indietro
   modbusTCPClient.holdingRegisterWrite(Rhmode, (int16_t)0); // azzeramento sul posto
 
@@ -165,6 +164,7 @@ void homingRoutine()
   bool search_active = true;
   // float disks_weight = (0.12995+0.1083+0.02543)*9.81;
   float disks_weight = (0.12995 + 0.1083) * 9.81;
+  tare -= disks_weight;
 
   // tare += disks_weight;
 
@@ -245,33 +245,20 @@ void homingRoutine()
   dtostrf(tare_force, 10, 6, num);
   Serial.println(msg + num);
 
-  // msg = "val ";
-  // String msg_pos = "driver_pos ";
-  // dtostrf(tare_force, 10, 6, num);
-  // Serial.println(msg + num);
-  // dtostrf(0, 10, 6, num);
-  // Serial.println(msg_pos + num);
-
-  // Serial.write("Init pos: ");
-  // Serial.println(init_pos);
-
   split32to16(vel * 100);
   if (modbusTCPClient.holdingRegisterWrite(Rvel, splitted[0]) && modbusTCPClient.holdingRegisterWrite(Rvel + 1, splitted[1]))
   {
   }
 }
 
-// TODO: aggiungere lettura registri spostamento
 void measureRoutine()
 {
   Serial.write("Measure Routine\n");
-  // teniamo tutto in macchina
   // inizializziamo qua
-  // una volta misurato inviamo tutto con la seriale fuck
   float pos[num_pos];
   flushSerial();
   Serial.write("send me\n");
-  // flushSerial();
+
   for (int i = 0; i < num_pos; i++)
   {
     pos[i] = Serial.parseFloat(SKIP_WHITESPACE);
@@ -291,9 +278,15 @@ void measureRoutine()
   String msg = "val ";
   String msg_pos = "driver_pos ";
   String msg_std = "std ";
+
+  String msg_zero = "zero ";
+  // String msg_zero_pos = "zero_p ";
+
   // String msg_std_pos = "std_pos ";
   // char buff[15];
   char num[15];
+  char zero_buff_pos[15];
+  char zero_buff_force[15];
   char std1[15];
   char std2[15];
 
@@ -446,6 +439,15 @@ void measureRoutine()
         sum_sq_m -= pow(y_m - k_f_m, 2);
         j--;
       }
+
+      delay(waitTime);
+      float zero_val = getForce() - tare_force;
+      float zero_pos = int2mm(getPosact() - init_pos);
+
+      dtostrf(zero_val, 10, 6, zero_buff_force);
+      dtostrf(zero_pos, 10, 6, zero_buff_pos);
+      String tosend = "r " + msg_zero + zero_buff_force + " " + zero_buff_pos + "\n";
+      Serial.println(tosend);
     }
 
     float meas_p = sum_p / cnt;
@@ -663,6 +665,15 @@ void measureRoutine()
           sum_sq_m -= pow(y_m - k_f_m, 2);
           j--;
         }
+
+        delay(waitTime);
+        float zero_val = getForce() - tare_force;
+        float zero_pos = int2mm(getPosact() - init_pos);
+
+        dtostrf(zero_val, 10, 6, zero_buff_force);
+        dtostrf(zero_pos, 10, 6, zero_buff_pos);
+        String tosend = "r " + msg_zero + zero_buff_force + " " + zero_buff_pos + "\n";
+        Serial.println(tosend);
       }
 
       float meas_p = sum_p / cnt;
@@ -984,6 +995,8 @@ int getAvgCnt(float val)
     if (fabs(val) <= th1)
       cnt = cnt_th1;
   }
+  if (fabs(val) == zero_approx)
+    cnt = cnt_zero;
   return cnt;
 }
 

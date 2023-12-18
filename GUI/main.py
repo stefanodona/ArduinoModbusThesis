@@ -292,6 +292,8 @@ th2_val = params["th2_val"]
 th2_avg = params["th2_avg"]
 th3_val = params["th3_val"]
 th3_avg = params["th3_avg"]
+zero_approx = params["zero_approx"]
+zero_avg = params["zero_avg"]
 vel_flag = bool(params["vel_flag"])
 vel_max = params["vel_max"]
 acc_max = params["acc_max"]
@@ -318,6 +320,9 @@ pos_acquired = np.array([])
 dev_pos_acquired = np.array([])
 pos_acquired_ritorno = np.array([])
 dev_pos_acquired_ritorno = np.array([])
+
+zero_f = np.array([])
+zero_p = np.array([])
 
 # arrays for creep measurement
 time_axis = np.array([])
@@ -363,6 +368,8 @@ def setAvgCnt(val):
             cnt = th2_avg
         if abs(val) <= th1_val:
             cnt = th1_avg
+    if abs(val) == zero_approx:
+        cnt = zero_avg
     return cnt
 
 
@@ -387,6 +394,8 @@ def populatePosArray():
         sor.append(plus[i])
         sor.append(minus[i])
     pos_sorted = np.array(sor)
+    # pos_sorted = np.append([zero_approx, -zero_approx], pos_sorted)
+    num_pos = len(pos_sorted)
 
     print(pos_sorted)
 
@@ -397,14 +406,16 @@ def populatePosArray():
     else:
         j = 0
         while j < num_pos:
-            if avg_flag:
-                max_iter = max_iter + setAvgCnt(pos_sorted[j])
-            else:
-                max_iter = max_iter + 1
+            # if avg_flag:
+            max_iter = max_iter + setAvgCnt(pos_sorted[j])
+            # else:
+                # max_iter = max_iter + 1
             j = j + 2
-        max_iter = max_iter * 2
+        max_iter *= 2
         if ar_flag:
             max_iter *= 2
+
+    print(max_iter)
 
 def saveState():
     global params
@@ -449,32 +460,10 @@ def startMeasurement():
     if float(min_pos_entry.get()) > 0:
         min_pos_entry.insert(0, "-")
 
-    # pPercent.configure(text="0%")
-    # pProgress.set(0)
 
-    # load_cell_menu.configure(state="disabled")
-    # min_pos_entry.configure(state="disabled")
-    # max_pos_entry.configure(state="disabled")
+    global min_pos, max_pos, num_pos, step_pos, wait_time, percent, force, dev_force, force_ritorno, pos, pos_acquired,dev_pos_acquired, pos_acquired_ritorno, dev_pos_acquired_ritorno, pos_sorted, time_axis, creep_displ, creep_period, creep_duration, zero_p, zero_f
 
-    # # num_pos_entry.configure(state="disabled")
-    # step_pos_entry.configure(state="disabled")
-
-    # startButton.configure(state="disabled")
-    # checkbox.configure(state="disabled")
-    # checkbox_AR.configure(state="disabled")
-
-    # displ_entry.configure(state="disabled")
-    # period_entry.configure(state="disabled")
-    # duration_entry.configure(state="disabled")
-
-
-    # startButton.configure(text="Initializing...")
-
-    global min_pos, max_pos, num_pos, step_pos, wait_time, percent, force, dev_force, force_ritorno, pos, pos_acquired,dev_pos_acquired, pos_acquired_ritorno, dev_pos_acquired_ritorno, pos_sorted, time_axis, creep_displ, creep_period, creep_duration
-
-    # min_pos = float(min_pos_entry.get())
-    # max_pos = float(max_pos_entry.get())
-    # num_pos = int(num_pos_entry.get())
+    reverse_bool_tkvar.set(False)
 
     min_pos = float(min_pos_tkvar.get())
     max_pos = float(max_pos_tkvar.get())
@@ -482,17 +471,9 @@ def startMeasurement():
     step_pos = float(step_pos_tkvar.get())
     wait_time = int(wait_time_tkvar.get())
 
-    # creep_displ = float(displ_entry.get())
-    # creep_period = float(period_entry.get())
-    # creep_duration = float(duration_entry.get())
-
     creep_displ = float(creep_displ_tkvar.get())
     creep_period = float(creep_period_tkvar.get())
     creep_duration = float(creep_duration_tkvar.get())
-
-    # if num_pos % 2 == 1:
-    #     num_pos += 1
-    #     num_pos_entry.configure(textvariable=customtkinter.StringVar(app, str(num_pos)))
 
     force = np.array([])
     dev_force = np.array([])
@@ -504,6 +485,9 @@ def startMeasurement():
     dev_pos_acquired_ritorno = np.array([])
     pos_sorted = np.array([])
     time_axis = np.array([])
+
+    zero_f = np.array([])
+    zero_p = np.array([])
 
     populatePosArray()
     print(pos)
@@ -526,6 +510,7 @@ def prepareMsgSerialParameters():
                    th1_val, th1_avg, 
                    th2_val, th2_avg, 
                    th3_val, th3_avg,
+                   zero_approx, zero_avg,
                    vel_flag, vel_max, acc_max,
                    time_flag, time_max]
     msg = ''
@@ -539,7 +524,7 @@ def prepareMsgSerialParameters():
 
 
 def serialListener():
-    global pos, pos_sorted, pos_acquired, dev_pos_acquired, pos_acquired_ritorno, dev_pos_acquired_ritorno, percent, force, dev_force, force_ritorno, dev_force_ritorno, time_axis, max_iter, meas_forward, panic_flag
+    global pos, pos_sorted, pos_acquired, dev_pos_acquired, pos_acquired_ritorno, dev_pos_acquired_ritorno, percent, force, dev_force, force_ritorno, dev_force_ritorno, time_axis, max_iter, meas_forward, panic_flag, zero_p, zero_f
     print(port)
     with serial.Serial("COM9", 38400) as ser:
         index = 0
@@ -679,6 +664,14 @@ def serialListener():
                     pos_acquired = np.append(pos_acquired, meas_val)
                 else:
                     pos_acquired_ritorno = np.append(pos_acquired_ritorno, meas_val)
+
+            if compare_strings(data, "zero"):
+                # a_r = data.split()[0]
+                zerof = float(data.split()[2])
+                zerop = float(data.split()[3])
+                
+                zero_f = np.append(zero_f, zerof)
+                zero_p = np.append(zero_p, zerop)
 
 
             if compare_strings(data, "tare"):
@@ -941,7 +934,7 @@ def closeAll():
 
     app.destroy()
 
-def save_data(txt_path, json_path):
+def save_data(txt_path, json_path, zero_path):
     global saved_flag, last_params
     root_name = os.path.splitext(txt_path)[0]
     with open(txt_path, 'w') as fl:
@@ -975,6 +968,7 @@ def save_data(txt_path, json_path):
                 for i in range(0,len(force)):
                     fl.write(f"{time_axis[i]:.3f}" +"\t\t\t"+ f"{force[i]:.3f}" +"\t\t\t"+ f"{force[i]/creep_displ:.3f}" + "\n")
         fl.close()
+    
 
     saveState()
     with open(json_path, 'w') as js:
@@ -984,6 +978,12 @@ def save_data(txt_path, json_path):
     app.title("MyApp - "+root_name)
     last_params = params
 
+    with open(zero_path, 'w') as zfl:
+        zfl.write("# zero pos")
+        zfl.write("\t\t\t zero force\n")
+        for i in range(0, len(zero_f)):
+            zfl.write(f"{zero_p[i]:.5f}"+"\t\t\t"+f"{zero_f[i]:.5f}"+"\n")
+        zfl.close()
 
 def save_as(): 
     global txt_path, json_path
@@ -1000,9 +1000,10 @@ def save_as():
         os.makedirs(folder, exist_ok=True)
         txt_path = os.path.join(folder,name+".txt")
         json_path = os.path.join(folder,name+".json")
+        zero_path = os.path.join(folder,"zero_"+name+".txt")
         print(file_path)
 
-        save_data(txt_path, json_path)
+        save_data(txt_path, json_path, zero_path)
         
 def save():
     if (not saved_flag):

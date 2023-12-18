@@ -9,17 +9,17 @@
 #include <HX711.h>
 
 // USEFUL REGISTERS
-#define Rposact 0   // actual position
-#define Rpostarg 8  // target position
-#define Rhofs 36    // offset position after homing
-#define Rcmdwr 59   // command register
-#define Rvel 63     // traslation speed
-#define Racc 67     // acceleration ramp
-#define Rdec 70     // deceleration ramp
-#define Rhmode 82   // home mode selection
-#define Rstsflg 199 // status flags
+#define Rposact 0    // actual position
+#define Rpostarg 8   // target position
+#define Rhofs 36     // offset position after homing
+#define Rcmdwr 59    // command register
+#define Rvel 63      // traslation speed
+#define Racc 67      // acceleration ramp
+#define Rdec 70      // deceleration ramp
+#define Rhmode 82    // home mode selection
+#define Rstsflg 199  // status flags
 #define Rstscllp 203 // closed loop status flags
-#define Ralarm 227  // alarms flags
+#define Ralarm 227   // alarms flags
 
 // HX711 pins
 #define DT_PIN A0
@@ -29,7 +29,7 @@
 
 // USEFUL CONSTANT
 const int32_t vel = 10;       // rps
-const int32_t vel_tare = 1; // rps
+const int32_t vel_tare = 1;   // rps
 const uint32_t acc_ramp = 10; // no acceleration ramp
 
 const float home_err = 0.05; // 5% error band to retrieve the no-force initial position
@@ -37,17 +37,17 @@ const float home_err = 0.05; // 5% error band to retrieve the no-force initial p
 float home_pos = 0.5;
 
 // VARIABLES
-uint16_t sts = 0;     // status of the driver
-uint16_t sts_cllp = 0;     // status of the driver
-float target = 0;     // target position [mm]
-float tare_force = 0; // tare measured before taking any measurement
-int32_t init_pos = 0; // value of the initial position
+uint16_t sts = 0;      // status of the driver
+uint16_t sts_cllp = 0; // status of the driver
+float target = 0;      // target position [mm]
+float tare_force = 0;  // tare measured before taking any measurement
+int32_t init_pos = 0;  // value of the initial position
 
-int8_t FULLSCALE = 1; // the fullscale of the loadcell
-float min_pos = 0;    // minimal position in spacial axis
-float max_pos = 0;    // maximal position in spacial axis
-int num_pos = 0;      // # of spacial points
-unsigned long waitTime = 3000; // wait time after which measure 
+int8_t FULLSCALE = 1;          // the fullscale of the loadcell
+float min_pos = 0;             // minimal position in spacial axis
+float max_pos = 0;             // maximal position in spacial axis
+int num_pos = 0;               // # of spacial points
+unsigned long waitTime = 3000; // wait time after which measure
 
 uint8_t pos_idx = 0; // index to navigate the pos_sorted array
 float sum_p = 0;
@@ -56,14 +56,16 @@ float sum_m = 0;
 float th1 = 0; // threshold for the averaging
 float th2 = 0;
 float th3 = 0;
+float zero_approx = 0;
 
 int cnt_th1 = 0; // measures to take for each average
 int cnt_th2 = 0;
 int cnt_th3 = 0;
+int cnt_zero = 0;
 
-float vel_max = 0;      // maximum translation velocity
-float acc_max = 0;      // maximum acceleration ramp
-float time_max = 0;     // maximum time of translation
+float vel_max = 0;  // maximum translation velocity
+float acc_max = 0;  // maximum acceleration ramp
+float time_max = 0; // maximum time of translation
 
 // FLAGS
 bool stat_creep_flag = false;
@@ -89,13 +91,13 @@ float t2 = 0;
 float t3 = 0;
 
 // SETUP
-#line 90 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_noLoop.ino"
+#line 92 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_noLoop.ino"
 void setup();
-#line 228 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_noLoop.ino"
+#line 239 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_noLoop.ino"
 void loop();
-#line 230 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_noLoop.ino"
+#line 241 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_noLoop.ino"
 void flushSerial();
-#line 238 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_noLoop.ino"
+#line 249 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_noLoop.ino"
 void checkModbusConnection();
 #line 1 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\HX711_Functions.ino"
 float getForce();
@@ -127,41 +129,41 @@ uint16_t home();
 void sendCommand(uint16_t cmd);
 #line 65 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 void driverSetup();
-#line 116 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 115 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 void homingRoutine();
-#line 265 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 254 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 void measureRoutine();
-#line 734 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 745 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 void creepRoutine();
-#line 819 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 830 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 void getStatus();
-#line 825 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 836 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 void printStatus();
-#line 867 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 878 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 void printAlarms();
-#line 908 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 919 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 void splitU32to16(uint32_t toSplit);
-#line 914 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 925 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 void split32to16(int32_t toSplit);
-#line 920 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 931 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 void awaitKeyPressed();
-#line 932 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 943 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 void sendPosTarget(int32_t pos);
-#line 942 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 953 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 int32_t mm2int(float pos_mm);
-#line 947 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 958 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 float int2mm(int32_t pos_step);
-#line 952 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 963 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 int32_t getPosact();
-#line 961 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 972 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 void printForce(uint8_t i, int32_t pos, float pos_mm, float force);
-#line 975 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 986 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 int getAvgCnt(float val);
-#line 990 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 1003 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 void setAccVelocity(float disp);
-#line 1027 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+#line 1040 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 void checkPanic();
-#line 90 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_noLoop.ino"
+#line 92 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_noLoop.ino"
 void setup()
 {
     // Setting up Serial Port Communication
@@ -187,13 +189,13 @@ void setup()
         if (Serial.available())
         {
             String msg = Serial.readString();
-            if (msg=="Ready to write\n")
+            if (msg == "Ready to write\n")
             {
                 break;
-            }            
+            }
         }
     }
-    
+
     delay(100);
 
     // flushSerial();
@@ -231,13 +233,16 @@ void setup()
     waitTime = (unsigned long)(Serial.parseInt(SKIP_WHITESPACE));
     mean_active = bool(Serial.parseInt(SKIP_WHITESPACE));
     ar_flag = bool(Serial.parseInt(SKIP_WHITESPACE));
-    
+
     th1 = Serial.parseFloat(SKIP_WHITESPACE);
     cnt_th1 = Serial.parseInt(SKIP_WHITESPACE);
     th2 = Serial.parseFloat(SKIP_WHITESPACE);
     cnt_th2 = Serial.parseInt(SKIP_WHITESPACE);
     th3 = Serial.parseFloat(SKIP_WHITESPACE);
     cnt_th3 = Serial.parseInt(SKIP_WHITESPACE);
+
+    zero_approx = Serial.parseFloat(SKIP_WHITESPACE);
+    cnt_zero = Serial.parseInt(SKIP_WHITESPACE);
 
     vel_flag = bool(Serial.parseInt(SKIP_WHITESPACE));
     vel_max = Serial.parseFloat(SKIP_WHITESPACE);
@@ -246,6 +251,10 @@ void setup()
     time_max = Serial.parseFloat(SKIP_WHITESPACE);
 
     Serial.println(stat_creep_flag);
+    Serial.println("zer0_approx");
+    Serial.println(zero_approx);
+    Serial.println("cnt_zer0");
+    Serial.println(cnt_zero);
 
     flushSerial();
 
@@ -293,8 +302,10 @@ void setup()
 
     // MEASURE ROUTINE
     delay(500);
-    if (stat_creep_flag) creepRoutine();
-    else measureRoutine();
+    if (stat_creep_flag)
+        creepRoutine();
+    else
+        measureRoutine();
 
     // FINISH MEASUREMENT
     Serial.write("Finished\n");
@@ -509,7 +520,6 @@ void driverSetup()
   split32to16(mm2int(0));
   modbusTCPClient.holdingRegisterWrite(Rhofs, splitted[0]);
   modbusTCPClient.holdingRegisterWrite(Rhofs + 1, splitted[1]);
-  // TODO: change homing method to -9
   // modbusTCPClient.holdingRegisterWrite(Rhmode, (int16_t)(-9)); // in battuta indietro
   modbusTCPClient.holdingRegisterWrite(Rhmode, (int16_t)0); // azzeramento sul posto
 
@@ -586,6 +596,7 @@ void homingRoutine()
   bool search_active = true;
   // float disks_weight = (0.12995+0.1083+0.02543)*9.81;
   float disks_weight = (0.12995 + 0.1083) * 9.81;
+  tare -= disks_weight;
 
   // tare += disks_weight;
 
@@ -666,33 +677,20 @@ void homingRoutine()
   dtostrf(tare_force, 10, 6, num);
   Serial.println(msg + num);
 
-  // msg = "val ";
-  // String msg_pos = "driver_pos ";
-  // dtostrf(tare_force, 10, 6, num);
-  // Serial.println(msg + num);
-  // dtostrf(0, 10, 6, num);
-  // Serial.println(msg_pos + num);
-
-  // Serial.write("Init pos: ");
-  // Serial.println(init_pos);
-
   split32to16(vel * 100);
   if (modbusTCPClient.holdingRegisterWrite(Rvel, splitted[0]) && modbusTCPClient.holdingRegisterWrite(Rvel + 1, splitted[1]))
   {
   }
 }
 
-// TODO: aggiungere lettura registri spostamento
 void measureRoutine()
 {
   Serial.write("Measure Routine\n");
-  // teniamo tutto in macchina
   // inizializziamo qua
-  // una volta misurato inviamo tutto con la seriale fuck
   float pos[num_pos];
   flushSerial();
   Serial.write("send me\n");
-  // flushSerial();
+
   for (int i = 0; i < num_pos; i++)
   {
     pos[i] = Serial.parseFloat(SKIP_WHITESPACE);
@@ -712,9 +710,15 @@ void measureRoutine()
   String msg = "val ";
   String msg_pos = "driver_pos ";
   String msg_std = "std ";
+
+  String msg_zero = "zero ";
+  // String msg_zero_pos = "zero_p ";
+
   // String msg_std_pos = "std_pos ";
   // char buff[15];
   char num[15];
+  char zero_buff_pos[15];
+  char zero_buff_force[15];
   char std1[15];
   char std2[15];
 
@@ -867,6 +871,15 @@ void measureRoutine()
         sum_sq_m -= pow(y_m - k_f_m, 2);
         j--;
       }
+
+      delay(waitTime);
+      float zero_val = getForce() - tare_force;
+      float zero_pos = int2mm(getPosact() - init_pos);
+
+      dtostrf(zero_val, 10, 6, zero_buff_force);
+      dtostrf(zero_pos, 10, 6, zero_buff_pos);
+      String tosend = "r " + msg_zero + zero_buff_force + " " + zero_buff_pos + "\n";
+      Serial.println(tosend);
     }
 
     float meas_p = sum_p / cnt;
@@ -1084,6 +1097,15 @@ void measureRoutine()
           sum_sq_m -= pow(y_m - k_f_m, 2);
           j--;
         }
+
+        delay(waitTime);
+        float zero_val = getForce() - tare_force;
+        float zero_pos = int2mm(getPosact() - init_pos);
+
+        dtostrf(zero_val, 10, 6, zero_buff_force);
+        dtostrf(zero_pos, 10, 6, zero_buff_pos);
+        String tosend = "r " + msg_zero + zero_buff_force + " " + zero_buff_pos + "\n";
+        Serial.println(tosend);
       }
 
       float meas_p = sum_p / cnt;
@@ -1405,6 +1427,8 @@ int getAvgCnt(float val)
     if (fabs(val) <= th1)
       cnt = cnt_th1;
   }
+  if (fabs(val) == zero_approx)
+    cnt = cnt_zero;
   return cnt;
 }
 
