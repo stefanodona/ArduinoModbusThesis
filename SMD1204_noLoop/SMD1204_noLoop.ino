@@ -71,6 +71,7 @@ bool mean_active = false;
 bool ar_flag = false;
 bool vel_flag = true;
 bool time_flag = false;
+bool search_active = true;
 
 // HX711 object
 HX711 loadcell;
@@ -174,6 +175,8 @@ void setup()
     acc_max = Serial.parseFloat(SKIP_WHITESPACE);
     time_flag = bool(Serial.parseInt(SKIP_WHITESPACE));
     time_max = Serial.parseFloat(SKIP_WHITESPACE);
+
+    search_active = bool(Serial.parseInt(SKIP_WHITESPACE));
 
     Serial.println(stat_creep_flag);
     Serial.println("zer0_approx");

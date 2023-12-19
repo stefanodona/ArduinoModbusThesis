@@ -61,6 +61,7 @@ bool mean_active = false;
 bool ar_flag = false;
 bool vel_flag = true;
 bool time_flag = false;
+bool search_active = true;
 
 // HX711 object
 HX711 loadcell;
@@ -164,6 +165,8 @@ void setup()
     acc_max = Serial.parseFloat(SKIP_WHITESPACE);
     time_flag = bool(Serial.parseInt(SKIP_WHITESPACE));
     time_max = Serial.parseFloat(SKIP_WHITESPACE);
+
+    search_active = bool(Serial.parseInt(SKIP_WHITESPACE));
 
     Serial.println(stat_creep_flag);
     Serial.println("zer0_approx");
@@ -316,7 +319,8 @@ float getForce3(float x)
 float getForce10(float x)
 {
   float a = 0;
-  float b = 7.540505*pow(10, -6)*10/3;
+  float b = 7.540505*pow(10, -6)*10/3; // vecchio
+  // float b = 2.708316*pow(10, -5);
   float c = 0;
   float force = a * x * x + b * x + c;
   return force;
@@ -508,9 +512,10 @@ void homingRoutine()
 
   Serial.write("Taratura\n");
   float abs_tol = 0.1; // [N] tolerance
-  bool search_active = true;
+  // bool search_active = true;
   // float disks_weight = (0.12995+0.1083+0.02543)*9.81;
-  float disks_weight = (0.12995 + 0.1083) * 9.81;
+  float disks_weight = (0.12995+0.1083+0.02027)*9.81;
+  // float disks_weight = (0.12995 + 0.1083) * 9.81;
   tare -= disks_weight;
 
   // tare += disks_weight;
@@ -588,9 +593,11 @@ void homingRoutine()
   // Serial.println("Init Pos: ");
   // Serial.println(init_pos);
   String msg = "tare ";
-  char num[15];
-  dtostrf(tare_force, 10, 6, num);
-  Serial.println(msg + num);
+  // char num[15];
+  // dtostrf(tare_force, 10, 6, num);
+  // Serial.println(msg + num);
+
+  sendMessage("tare", tare_force, 0, 0);
 
   split32to16(vel * 100);
   if (modbusTCPClient.holdingRegisterWrite(63 /* traslation speed*/, splitted[0]) && modbusTCPClient.holdingRegisterWrite(63 /* traslation speed*/ + 1, splitted[1]))
@@ -1395,4 +1402,29 @@ void checkPanic()
     Serial.println("OPS");
     sendCommand(disableDrive());
   }
+}
+
+void sendMessage(String msg, float val1, float val2, float val3)
+{
+  char buff1[15];
+  char buff2[15];
+  char buff3[15];
+  dtostrf(val1, 10, 6, buff1);
+  msg += " ";
+  msg += buff1;
+
+  if (val2)
+  {
+    dtostrf(val2, 10, 6, buff2);
+    msg += " ";
+    msg += buff2;
+  }
+  if (val3)
+  {
+    dtostrf(val3, 10, 6, buff3);
+    msg += " ";
+    msg += buff3;
+  }
+
+  Serial.println(msg);
 }

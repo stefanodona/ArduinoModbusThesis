@@ -302,6 +302,8 @@ time_max = params["time_max"]
 creep_displ = params["creep_displ"]
 creep_period = params["creep_period"]
 creep_duration = params["creep_duration"]
+search_zero_flag =  params["search_zero_flag"]
+
 
 tare = 0
 percent = 0
@@ -398,7 +400,7 @@ def populatePosArray():
     num_pos = len(pos_sorted)
 
     print(pos_sorted)
-
+    
     max_iter = 0
 
     if (stat_creep_flag):
@@ -512,7 +514,8 @@ def prepareMsgSerialParameters():
                    th3_val, th3_avg,
                    zero_approx, zero_avg,
                    vel_flag, vel_max, acc_max,
-                   time_flag, time_max]
+                   time_flag, time_max,
+                   search_zero_flag]
     msg = ''
     for param in param_array:
         if isinstance(param, bool):
@@ -533,6 +536,8 @@ def serialListener():
 
         pPercent.configure(text="0%")
         pProgress.set(0)
+
+        spider_entry.configure(state="disabled")
 
         load_cell_menu.configure(state="disabled")
         min_pos_entry.configure(state="disabled")
@@ -693,6 +698,7 @@ def serialListener():
             logfile.write(data)
 
     logfile.close()
+    spider_entry.configure(state="normal")
     load_cell_menu.configure(state="normal")
     min_pos_entry.configure(state="normal")
     max_pos_entry.configure(state="normal")
@@ -720,18 +726,6 @@ def serialListener():
 
     print("Time: ",time_axis)
 
-    # TODO: da testare
-    # if (not stat_creep_flag):
-    #     pos_sorted_sort= np.append(pos_sorted,0)
-    #     sort = np.argsort(pos_sorted_sort)
-    #     pos = pos_sorted_sort[sort]
-    #     force = np.append(force, tare)
-    #     force = force[sort]-tare
-    #     if(ar_flag):
-    #         pos_sorted_sort = np.append(np.flip(pos_sorted),0)
-    #         sort = np.argsort(pos_sorted_sort)
-    #         force_ritorno = np.append(force_ritorno, tare)
-    #         force_ritorno = np.flip(force_ritorno[sort])-tare
 
     if (not stat_creep_flag):
         sort = np.argsort(pos_acquired)
@@ -890,6 +884,7 @@ def updateTkVars():
     creep_displ_tkvar.set(str(creep_displ))
     creep_period_tkvar.set(str(creep_period))
     creep_duration_tkvar.set(str(creep_duration))
+    search_zero_flag_tkvar.set(search_zero_flag)
 
 # def get_and_saveTkVars():
 #     global params, saved_flag
@@ -1113,6 +1108,10 @@ def check_save_before_closing():
         savedialog = SaveDialog(app)
     else:
         closeAll()
+
+def setZeroSearch():
+    global search_zero_flag
+    search_zero_flag = search_zero_flag_tkvar.get()
     
 
 #############################################################################
@@ -1157,12 +1156,13 @@ def donothing():
 #############################################################################
 # -------------------------C R E A T E   M E N U'----------------------------
 #############################################################################
+   
 menubar = Menu(app)
 
 filemenu = Menu(menubar, tearoff=0)
 filemenu.add_command(label="New", command=donothing)
 filemenu.add_command(label="Open", command=load)
-filemenu.add_command(label="Save", command=donothing)
+filemenu.add_command(label="Save", command=save)
 filemenu.add_command(label="Save as...", command=save_as)
 filemenu.add_separator()
 filemenu.add_command(label="Exit", command=app.quit)
@@ -1175,12 +1175,15 @@ settingmenu = Menu(menubar, tearoff=0)
 settingmenu.add_command(label="Vel & Acc", command=vel_and_acc_setting_func)
 settingmenu.add_command(label="Medie & Soglie", command=thr_and_avg_setting_func)
 
+search_zero_flag_tkvar = tk.BooleanVar(app, search_zero_flag)
+settingmenu.add_checkbutton(label="Ricerca dello zero", variable=search_zero_flag_tkvar, command=setZeroSearch)
+
 menubar.add_cascade(label="Impostazioni", menu=settingmenu)
 
 COM_menu = Menu(settingmenu, tearoff=0)
 COM_list = serial.tools.list_ports.comports()
 COM_option = tk.StringVar(app, port)
-COM_option.trace('w', callback=lambda *args:setCOMPort())
+COM_option.trace_add('write', callback=lambda *args:setCOMPort())
 
 for COM_port in COM_list:
     # COM_menu.add_command(label=str(COM_port))
@@ -1188,6 +1191,7 @@ for COM_port in COM_list:
     # print(COM_port[0])
 
 settingmenu.add_cascade(label="Serial Ports", menu=COM_menu)
+
 
 #############################################################################
 # ----------------------------E L E M E N T S--------------------------------
@@ -1213,17 +1217,17 @@ creep_displ_tkvar = customtkinter.StringVar(app, str(creep_displ))
 creep_period_tkvar = customtkinter.StringVar(app, str(creep_period))
 creep_duration_tkvar = customtkinter.StringVar(app, str(creep_duration))
 
-spider_name_tkvar.trace('w', callback=lambda *args: tkvar_changed())
-loadcell_fullscale_tkvar.trace('w', callback=lambda *args: tkvar_changed())
-min_pos_tkvar.trace('w', callback=lambda *args: tkvar_changed())
-max_pos_tkvar.trace('w', callback=lambda *args: tkvar_changed())
-num_pos_tkvar.trace('w', callback=lambda *args: tkvar_changed())
-step_pos_tkvar.trace('w', callback=lambda *args: tkvar_changed())
-avg_flag_tkvar.trace('w', callback=lambda *args: tkvar_changed())
-ar_flag_tkvar.trace('w', callback=lambda *args: tkvar_changed())
-creep_displ_tkvar.trace('w', callback=lambda *args: tkvar_changed())
-creep_period_tkvar.trace('w', callback=lambda *args: tkvar_changed())
-creep_duration_tkvar.trace('w', callback=lambda *args: tkvar_changed())
+spider_name_tkvar.trace_add('write', callback=lambda *args: tkvar_changed())
+loadcell_fullscale_tkvar.trace_add('write', callback=lambda *args: tkvar_changed())
+min_pos_tkvar.trace_add('write', callback=lambda *args: tkvar_changed())
+max_pos_tkvar.trace_add('write', callback=lambda *args: tkvar_changed())
+num_pos_tkvar.trace_add('write', callback=lambda *args: tkvar_changed())
+step_pos_tkvar.trace_add('write', callback=lambda *args: tkvar_changed())
+avg_flag_tkvar.trace_add('write', callback=lambda *args: tkvar_changed())
+ar_flag_tkvar.trace_add('write', callback=lambda *args: tkvar_changed())
+creep_displ_tkvar.trace_add('write', callback=lambda *args: tkvar_changed())
+creep_period_tkvar.trace_add('write', callback=lambda *args: tkvar_changed())
+creep_duration_tkvar.trace_add('write', callback=lambda *args: tkvar_changed())
 
 
 #############################################################################

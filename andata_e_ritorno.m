@@ -1,11 +1,14 @@
-close all; 
+% close all; 
 clear; clc
 
 % filename = "Prova63_ST_07714532C";
-filenames = {"Prova63_ST_07714532C", "Prova64_ST_07714532C"};
+filenames = {"Prova70_ST_07714532B", "Prova71_ST_07714532B"};
+
+filenames = {"Prova72_ST_07714532B-2", "Prova73_ST_07714532B-2"};
+% filenames = {"Prova74_ST_07714532C-1", "Prova75_ST_07714532C-1"};
 lab = {"su", "giù"};
 
-for j=1:2
+for j=1:length(filenames)
     filename = filenames{j};
     % filename = "ProvaZeri";
     % filename = "ST01_07714532B-1";
@@ -36,8 +39,8 @@ for j=1:2
         x_p = x_pos(1)
         x_n = x_neg(end)
     
-        f_p = force(x==x_n);
-        f_n = force(x==x_p);
+        f_p = force(x==x_p)
+        f_n = force(x==x_n)
     
     %     f_pos = force(force>0);
     %     f_neg = force(force<0);
@@ -49,14 +52,18 @@ for j=1:2
     %     x_n = x(force==f_n);
     %     
     %     x_0 = x_n + ((x_p-x_n)./(f_p-f_n))*(-f_n)
-        f_0 = f_n + ((f_p-f_n)./(x_p-x_n))*(-x_n)
+%         f_0 = f_n + ((f_p-f_n)./(x_p-x_n))*(-x_n)
+        f_0 = f_p - ((f_p-f_n)./(x_p-x_n))*(x_p)
         f_vera = force-f_0;
+
+        forza_che_passa_per_0(:,i) = force-f_0; 
+        x_che_passa_per_0(:,i) = x; 
         kms_vera_aux = -f_vera./x;
     
         idx = find(x==x_n);
         f_vera(idx)
         f_vera(idx+1)
-        f_vera(idx) = (f_p+f_n)/2-f_0;
+        f_vera(idx) = 0;
         f_vera(idx+1) = [];
     
         x(idx) = 0;
@@ -75,7 +82,7 @@ for j=1:2
     plot(x_vera(:,2), force_vera(:,2))
     hold on
     grid on
-    legend("andata", "ritorno")
+%     legend("andata", "ritorno")
     
     
     figure(2);
@@ -84,7 +91,7 @@ for j=1:2
     plot(x_vera(:,2), kms_vera(:,2))
     hold on
     grid on
-    legend("andata", "ritorno")
+    
     
     x_vera_forw = x_vera(:,1);
     x_vera_back = x_vera(:,2);
@@ -101,23 +108,53 @@ for j=1:2
     plot(x_back, kms_inc_back)
     hold on
    
-    legend("andata", "ritorno")
-
     figure(3)
     plot(x_forw, force_forw)
     hold on
     plot(x_back, force_back)
     grid on
     % 
+
+    figure(5);
+    plot(x_che_passa_per_0(:,1), forza_che_passa_per_0(:,1))
+    hold on
+    plot(x_che_passa_per_0(:,2), forza_che_passa_per_0(:,2))
+    hold on
+    grid on
 end
+cnt = split(filename, '_');
+cnt = cnt(3)
+
+figure(1)
+fig = figure(1);
+fig.Name = cnt;
+hold off
+title("Forza Elastica")
+subtitle("postprocessata")
+legend("su andata", "su ritorno", "giù andata", "giù ritorno")
+
 figure(3)
+fig = figure(3);
+fig.Name = cnt;
+hold off
+title("Forza Elastica Misurata")
 legend("su andata", "su ritorno", "giù andata", "giù ritorno")
 
 figure(4)
+fig = figure(4);
+fig.Name = cnt;
+hold off
+title("K_{ms} incrementale")
 legend("su andata", "su ritorno", "giù andata", "giù ritorno")
 grid minor
-% figure()
-% plot(x_forw, kms_presunta_forw)
-% hold on
-% plot(x_back, kms_presunta_back)
-% grid on
+
+figure(2)
+fig = figure(2);
+fig.Name = cnt;
+hold off
+title("K_{ms}")
+legend("su andata", " su ritorno", "giù andata", " giù ritorno")
+
+
+figure(5)
+hold off
