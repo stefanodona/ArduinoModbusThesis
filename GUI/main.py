@@ -12,7 +12,7 @@ from math import floor
 import struct
 import numpy as np
 import re  # used to compare strings
-import keyboard
+# import keyboard
 import time
 from datetime import datetime
 from threading import Thread
@@ -531,7 +531,7 @@ def prepareMsgSerialParameters():
 def serialListener():
     global pos, pos_sorted, pos_acquired, dev_pos_acquired, pos_acquired_ritorno, dev_pos_acquired_ritorno, percent, force, dev_force, force_ritorno, dev_force_ritorno, time_axis, max_iter, meas_forward, panic_flag, zero_p, zero_f
     print(port)
-    with serial.Serial("COM9", 38400) as ser:
+    with serial.Serial(port, 38400) as ser:
         index = 0
         iter_count = 0
         meas_index = 0
@@ -569,10 +569,10 @@ def serialListener():
                 panic_flag = False
                 break
 
-            if keyboard.is_pressed("q"):
-                print("Exiting")
-                ser.close()
-                break
+            # if keyboard.is_pressed("q"):
+            #     print("Exiting")
+            #     ser.close()
+            #     break
 
             try:
                 data = ser.readline()
@@ -1122,9 +1122,11 @@ def playFinish():
     file_dir = os.path.dirname(this_path+'\GUI\Finish.wav')
     file_path = file_dir + '\Finish.wav'
 
-    playsound(file_path)
+    print(file_dir)
     print(file_path)
-
+    # playsound(file_path)
+    
+playFinish()
 
 #############################################################################
 # ---------------------------C R E A T E   A P P-----------------------------

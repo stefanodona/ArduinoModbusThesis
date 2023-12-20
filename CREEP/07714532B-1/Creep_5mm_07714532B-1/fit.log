@@ -1,0 +1,173 @@
+
+
+*******************************************************************************
+Wed Dec 20 15:06:30 2023
+
+
+FIT:    data read from file u 1:(log($2))
+        format = x:z
+BREAK: No data to fit
+
+*******************************************************************************
+Wed Dec 20 15:07:02 2023
+
+
+FIT:    data read from file u 1:2
+        format = x:z
+        #datapoints = 3000
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f(x)
+	f(x) = b + n*exp(-x/u)
+BREAK: Need via and either parameter list or file
+
+*******************************************************************************
+Wed Dec 20 15:07:10 2023
+
+
+FIT:    data read from file u 1:2
+        format = x:z
+        #datapoints = 3000
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f(x)
+	f(x) = b + n*exp(-x/u)
+fitted parameters initialized with current variable values
+
+iter      chisq       delta/lim  lambda   b             n             u            
+   0 1.0613496492e+06   0.00e+00  5.77e-01    1.000000e+00   1.000000e+00   1.000000e+00
+BREAK: Singular matrix in Invert_RtR
+
+*******************************************************************************
+Wed Dec 20 15:08:14 2023
+
+
+FIT:    data read from file u 1:2
+        format = x:z
+        #datapoints = 3000
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f(x)
+	f(x) = b + n*exp(-x/u)
+fitted parameters initialized with current variable values
+
+iter      chisq       delta/lim  lambda   b             n             u            
+   0 1.0613496492e+06   0.00e+00  5.77e-01    1.000000e+00   1.000000e+00   1.000000e+00
+BREAK: Singular matrix in Invert_RtR
+
+*******************************************************************************
+Wed Dec 20 15:08:23 2023
+
+
+FIT:    data read from file u 1:(log($2))
+        format = x:z
+BREAK: No data to fit
+
+*******************************************************************************
+Wed Dec 20 15:27:50 2023
+
+
+FIT:    data read from file u 1:(-($2))
+        format = x:z
+        #datapoints = 3000
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f(x)
+	f(x) = b+n*exp(-x/u)
+fitted parameters initialized with current variable values
+
+iter      chisq       delta/lim  lambda   b             n             u            
+   0 6.5795198523e+05   0.00e+00  1.73e+00    3.000000e+00   1.000000e+00   2.000000e+00
+BREAK: Singular matrix in Invert_RtR
+
+*******************************************************************************
+Wed Dec 20 15:28:28 2023
+
+
+FIT:    data read from file u 1:(log(-($2)))
+        format = x:z
+        #datapoints = 3000
+        residuals are weighted equally (unit weight)
+
+function used for fitting: log(f(x))
+	f(x) = b+n*exp(-x/u)
+fitted parameters initialized with current variable values
+
+iter      chisq       delta/lim  lambda   b             n             u            
+   0 1.0943639247e+00   0.00e+00  5.77e-01    1.780596e+01  -1.049947e+00   2.002000e+00
+BREAK: Singular matrix in Invert_RtR
+
+*******************************************************************************
+Wed Dec 20 15:29:49 2023
+
+
+FIT:    data read from file u (log($1)):(-($2))
+        format = x:z
+        #datapoints = 2999
+        residuals are weighted equally (unit weight)
+
+function used for fitting: log(f(x))
+	f(x) = b+n*exp(-x/u)
+fitted parameters initialized with current variable values
+
+iter      chisq       delta/lim  lambda   b             n             u            
+   0 6.6856709354e+05   0.00e+00  5.77e-01    1.780268e+01  -1.048159e+00   2.004002e+00
+  13 3.5913323599e+02  -3.18e-01  5.77e-09    7.862349e+07  -2.454384e+07   1.988420e+06
+
+After 13 iterations the fit converged.
+final sum of squares of residuals : 359.133
+rel. change during last iteration : -3.17739e-06
+
+degrees of freedom    (FIT_NDF)                        : 2996
+rms of residuals      (FIT_STDFIT) = sqrt(WSSR/ndf)    : 0.346224
+variance of residuals (reduced chisquare) = WSSR/ndf   : 0.119871
+
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+b               = 7.86235e+07      +/- 5.676e+16    (7.219e+10%)
+n               = -2.45438e+07     +/- 5.671e+16    (2.31e+11%)
+u               = 1.98842e+06      +/- 4.603e+15    (2.315e+11%)
+
+correlation matrix of the fit parameters:
+                b      n      u      
+b               1.000 
+n              -1.000  1.000 
+u               1.000 -1.000  1.000 
+
+
+*******************************************************************************
+Wed Dec 20 15:30:39 2023
+
+
+FIT:    data read from file u (log($1)):2
+        format = x:z
+        #datapoints = 2999
+        residuals are weighted equally (unit weight)
+
+function used for fitting: log(f(x))
+	f(x) = b+n*exp(-x/u)
+fitted parameters initialized with current variable values
+
+iter      chisq       delta/lim  lambda   b             n             u            
+   0 3.8037198481e+06   0.00e+00  8.79e-01    7.862349e+07  -2.454384e+07   1.988420e+06
+  37 2.1600070410e+06   0.00e+00  8.79e+11    2.935688e+07  -2.936540e+07   1.988423e+06
+
+After 37 iterations the fit converged.
+final sum of squares of residuals : 2.16001e+06
+rel. change during last iteration : 0
+
+degrees of freedom    (FIT_NDF)                        : 2996
+rms of residuals      (FIT_STDFIT) = sqrt(WSSR/ndf)    : 26.8508
+variance of residuals (reduced chisquare) = WSSR/ndf   : 720.964
+
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+b               = 2.93569e+07      +/- 3.181e+09    (1.084e+04%)
+n               = -2.93654e+07     +/- 1.909e+09    (6501%)
+u               = 1.98842e+06      +/- 1.971e+11    (9.912e+06%)
+
+correlation matrix of the fit parameters:
+                b      n      u      
+b               1.000 
+n               1.000  1.000 
+u              -1.000 -1.000  1.000 
