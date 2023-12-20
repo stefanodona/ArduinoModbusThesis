@@ -260,8 +260,9 @@ class SaveDialog(simpledialog.Dialog):
 # ----------------------------V A R I A B L E S------------------------------
 #############################################################################
 this_path = os.getcwd()
+print(this_path)
 # config_path = os.path.join(this_path, "GUI\config.txt")
-config_path = os.path.join(this_path, "GUI\config.json")
+config_path = os.path.join(this_path, "GUI/config.json")
 print(config_path)
 
 port = "COM9"
@@ -1131,14 +1132,25 @@ def playFinish():
 # appearance
 customtkinter.set_appearance_mode("light")
 customtkinter.set_default_color_theme("blue")
+customtkinter.deactivate_automatic_dpi_awareness()
 
-appWidth, appHeight = 900, 700
+# appWidth, appHeight = 900, 700
 
 # create app
 app = customtkinter.CTk()
-# app.geometry("900x700")
-app.geometry(f"{appWidth}x{appHeight}")
+w,h = app.winfo_screenwidth(), app.winfo_screenheight()
+app.geometry("900x700")
+# app.geometry(f"{w}x{h}+0+0")
+# app.geometry(f"{appWidth}x{appHeight}")
 app.title("MyApp")
+
+app.update_idletasks()
+
+
+appWidth = app.winfo_width()
+appHeight = app.winfo_height()
+print("app width: ", appWidth)
+print("app height: ", appHeight)
 
 leftFrame = customtkinter.CTkFrame(app, 250, 500, fg_color="darkgray")
 leftFrame.pack_propagate(0)
@@ -1159,6 +1171,7 @@ creepFrame.grid_propagate(0)
 
 
 rightFrame = customtkinter.CTkFrame(app, 500, 500, fg_color="darkgray")
+# rightFrame.pack_propagate(0)
 rightFrame.pack(side=customtkinter.LEFT, padx=20, pady=20, fill="both", expand=True)
 
 def donothing():
@@ -1334,8 +1347,6 @@ startButton = customtkinter.CTkButton(
 )
 
 
-
-
 #############################################################################
 # -------------------------------P L O T S-----------------------------------
 #############################################################################
@@ -1343,6 +1354,12 @@ startButton = customtkinter.CTkButton(
 reverse_bool_tkvar = customtkinter.BooleanVar(app, False)
 reverse_switch = customtkinter.CTkSwitch(rightFrame, text="Mirror", command=reverse_plot, variable=reverse_bool_tkvar)
 reverse_switch.pack(padx=20, pady=10, fill="x", anchor="sw")
+
+rightFrameWidth = rightFrame.winfo_width()
+rightFrameHeight = rightFrame.winfo_height()
+print(rightFrameWidth)
+print(rightFrameHeight)
+print(int(rightFrameHeight*0.9))
 
 
 plot_tabview = customtkinter.CTkTabview(rightFrame)
@@ -1352,7 +1369,7 @@ plot_tabview.add("Stiffness")
 plot_tabview.add("Inc. Stiff.")
 
 
-figure_force = plt.Figure(dpi=100)
+figure_force = plt.Figure(dpi=100, figsize=(1,1))
 ax_force = figure_force.add_subplot(111)
 ax_force.set_xlabel("displacement [mm]")
 ax_force.set_ylabel("force [N]")
@@ -1367,7 +1384,7 @@ toolbar_force = NavigationToolbar2Tk(
 )
 toolbar_force.pack(fill="x", expand=False, padx=20, pady=5, anchor="n")
 
-figure_stiff = plt.Figure(dpi=100)
+figure_stiff = plt.Figure(dpi=100, figsize=(1,1))
 ax_stiff = figure_stiff.add_subplot(111)
 ax_stiff.set_xlabel("displacement [mm]")
 ax_stiff.set_ylabel("stiffness [N/mm]")
@@ -1382,7 +1399,7 @@ toolbar_stiff = NavigationToolbar2Tk(
 )
 toolbar_stiff.pack(fill="x", expand=False, padx=20, pady=5, anchor="n")
 
-figure_inc_stiff = plt.Figure(dpi=100)
+figure_inc_stiff = plt.Figure(dpi=100, figsize=(1,1))
 ax_inc_stiff = figure_inc_stiff.add_subplot(111)
 ax_inc_stiff.set_xlabel("displacement [mm]")
 ax_inc_stiff.set_ylabel("incremental stiffness [N/mm]")
