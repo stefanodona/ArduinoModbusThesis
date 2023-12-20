@@ -16,68 +16,41 @@ Velocita' massima settata a: 10 rps
 Posizionare il centratore...
 Stringere il centratore...
 Clamped
-0.966688
+-4.233958
 T4re
-0.966713
+-4.233878
 Taratura
 init pos
 0
-tare   0.967065
+tare  -4.234124
 Measure Routine
 send me
-0.50
--0.50
 1.00
 -1.00
 Measuring
 andata
-time: 1.00
-cnt 
-1
-x_p: 
-0.485840
-Ex_p: 
-0.000000
-sum_sq_pos_p: 
-0.000000
-check percent
-x_m: 
--0.488281
-Ex_m: 
-0.000000
-sum_sq_pos_m: 
-0.000000
-check percent
-r zero  -0.000176  -0.004883
-
-val   0.000236
-std   0.000000   0.000000
-driver_pos   0.485840
-val  -0.000342
-std   0.000000   0.000000
-driver_pos  -0.488281
 time: 0.00
 cnt 
 1
 x_p: 
-0.986328
+0.991211
 Ex_p: 
 0.000000
 sum_sq_pos_p: 
 0.000000
 check percent
 x_m: 
--0.991211
+-0.981445
 Ex_m: 
 0.000000
 sum_sq_pos_m: 
 0.000000
 check percent
-r zero  -0.000060  -0.004883
+r zero  -0.019414  -0.007324
 
-val   0.000452
+val  -3.019756
 std   0.000000   0.000000
-driver_pos   0.986328
-val  -0.000176
+driver_pos   0.991211
+val   2.860933
 std   0.000000   0.000000
-driver_pos  -0.991211
+driver_pos  -0.981445

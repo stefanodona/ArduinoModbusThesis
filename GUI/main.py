@@ -715,7 +715,7 @@ def serialListener():
 
     startButton.configure(text="START")
 
-    Thread(target=lambda: playsound("GUI/Finish.wav")).start()
+    Thread(target=playFinish).start()
 
     print("pos: ",pos)
     print("pos_ac: ",pos_acquired)
@@ -1116,7 +1116,14 @@ def check_save_before_closing():
 def setZeroSearch():
     global search_zero_flag
     search_zero_flag = search_zero_flag_tkvar.get()
-    
+
+def playFinish():
+    file_dir = os.path.dirname(this_path+'\GUI\Finish.wav')
+    file_path = file_dir + '\Finish.wav'
+
+    playsound(file_path)
+    print(file_path)
+
 
 #############################################################################
 # ---------------------------C R E A T E   A P P-----------------------------
