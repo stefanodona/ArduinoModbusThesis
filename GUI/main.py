@@ -20,6 +20,7 @@ import os
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 import serial.tools.list_ports
+from playsound import playsound
 
 
 #############################################################################
@@ -91,14 +92,14 @@ class ThrAvgWindows(customtkinter.CTkToplevel):
         self.th3 = ThrAvgFrame(self, name="Soglia 3", slider_val=th3_val, avg_num=th3_avg)
         self.th3.pack(padx=10, pady=10, fill="x", expand=True)
 
-        self.th1.slider_val.trace('w', callback=self.getWinState)
-        self.th1.avg_val.trace('w', callback=self.getWinState)
+        self.th1.slider_val.trace_add('write', callback=self.getWinState)
+        self.th1.avg_val.trace_add('write', callback=self.getWinState)
 
-        self.th2.slider_val.trace('w', callback=self.getWinState)
-        self.th2.avg_val.trace('w', callback=self.getWinState)
+        self.th2.slider_val.trace_add('write', callback=self.getWinState)
+        self.th2.avg_val.trace_add('write', callback=self.getWinState)
 
-        self.th3.slider_val.trace('w', callback=self.getWinState)
-        self.th3.avg_val.trace('w', callback=self.getWinState)
+        self.th3.slider_val.trace_add('write', callback=self.getWinState)
+        self.th3.avg_val.trace_add('write', callback=self.getWinState)
 
 
         # self.grab_set()
@@ -175,11 +176,11 @@ class VelAccWindows(customtkinter.CTkToplevel):
         # self.vel_checkbox.trace('w', callback=self.getState)
         # self.time_checkbox.trace('w', callback=self.getState)
 
-        self.vel_bool_tkvar.trace('w', callback=self.getState)
-        self.time_bool_tkvar.trace('w', callback=self.getState)
-        self.vel_max_tkvar.trace('w', callback=self.getState)
-        self.acc_max_tkvar.trace('w', callback=self.getState)
-        self.time_max_tkvar.trace('w', callback=self.getState)
+        self.vel_bool_tkvar.trace_add('write', callback=self.getState)
+        self.time_bool_tkvar.trace_add('write', callback=self.getState)
+        self.vel_max_tkvar.trace_add('write', callback=self.getState)
+        self.acc_max_tkvar.trace_add('write', callback=self.getState)
+        self.time_max_tkvar.trace_add('write', callback=self.getState)
 
 
 
@@ -713,6 +714,9 @@ def serialListener():
     duration_entry.configure(state="normal")    
 
     startButton.configure(text="START")
+
+    Thread(target=lambda: playsound("GUI/Finish.wav")).start()
+
     print("pos: ",pos)
     print("pos_ac: ",pos_acquired)
     print("force: ",force)  
@@ -1121,11 +1125,13 @@ def setZeroSearch():
 customtkinter.set_appearance_mode("light")
 customtkinter.set_default_color_theme("blue")
 
+appWidth, appHeight = 900, 700
+
 # create app
 app = customtkinter.CTk()
-app.geometry("900x700")
+# app.geometry("900x700")
+app.geometry(f"{appWidth}x{appHeight}")
 app.title("MyApp")
-
 
 leftFrame = customtkinter.CTkFrame(app, 250, 500, fg_color="darkgray")
 leftFrame.pack_propagate(0)
@@ -1332,7 +1338,6 @@ reverse_switch = customtkinter.CTkSwitch(rightFrame, text="Mirror", command=reve
 reverse_switch.pack(padx=20, pady=10, fill="x", anchor="sw")
 
 
-
 plot_tabview = customtkinter.CTkTabview(rightFrame)
 plot_tabview.pack(padx=20, pady=0, fill="both", expand=True)
 plot_tabview.add("Force")
@@ -1390,7 +1395,7 @@ toolbar_inc_stiff.pack(fill="x", expand=False, padx=20, pady=5, anchor="n")
 # ------------------------P R O G R E S S   B A R----------------------------
 #############################################################################
 
-# progress barr
+# progress bar
 progressFrame = customtkinter.CTkFrame(rightFrame, 500, 40, fg_color="black")
 progressFrame.pack(
     anchor="s", padx=10, pady=20, fill="x", expand=True, side=customtkinter.LEFT

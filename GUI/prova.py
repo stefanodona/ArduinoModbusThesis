@@ -1,4 +1,11 @@
 import json
+from playsound import playsound
+
+import tkinter as tk
+from tkinter import ttk
+import customtkinter as ctk
+
+# playsound("./GUI/Finish.wav")
 
 parameters = {
     "stat_creep_flag": 1,
@@ -26,15 +33,29 @@ parameters = {
 
 my_json = json.dumps(parameters, indent=4)
 
-
-# file = open("provajson.json", 'w')
-# file.write(my_json)
-# file.close()
-
-
 file = open("provajson.json", 'r')
 parameters2 = json.loads(file.read())
 file.close()
-print("p1: ",parameters)
-print("p2: ",parameters2)
+# print("p1: ",parameters)
+# print("p2: ",parameters2)
 
+# root = tk.Tk()
+ctk.set_appearance_mode("light")
+
+root = ctk.CTk()
+root.geometry("600x600")
+# width = root.winfo_screenwidth()
+root.update_idletasks()
+width_root = root.winfo_width()
+print(width_root)
+
+# button = ttk.Button(root, width=int(0.5*width_root))
+button = ctk.CTkButton(root, width=int(0.5*width_root))
+button.pack(padx = 10, pady = 20)
+
+
+
+print(root.winfo_reqwidth())
+print(button.winfo_width())
+root.bind('<Escape>', root.destroy)
+root.mainloop()
