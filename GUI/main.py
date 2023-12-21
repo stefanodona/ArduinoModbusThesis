@@ -256,8 +256,10 @@ class SaveDialog(simpledialog.Dialog):
 
 class confirmTopLevel(customtkinter.CTkToplevel):
     def __init__(self, *args, fg_color: str | Tuple[str, str] | None = None, msg: str | None=None, **kwargs):
+        global confirm_flag
+        confirm_flag = False
         super().__init__(*args, fg_color=fg_color, **kwargs)
-        self.okVar = customtkinter.BooleanVar(self, False)
+        # self.okVar = customtkinter.BooleanVar(self, False)
 
         self.title("Conferma Azione")
         self.okButton = customtkinter.CTkButton(self, text="OK", command=self.okPressed)
@@ -273,16 +275,54 @@ class confirmTopLevel(customtkinter.CTkToplevel):
         self.label.pack(padx=50, pady=50, side=customtkinter.BOTTOM)
         self.focus()
         # self.wait_variable(self.okVar)
+        # app.wait_window(self)
+
 
     def okPressed(self, *args):
-        self.okVar.set(True)
+        # self.okVar.set(True)
+        global confirm_flag
+        confirm_flag= True
         self.destroy()
+
 
     def cancelPressed(self, *args):
-        self.okVar.set(False)
+        # self.okVar.set(False)
+        global confirm_flag
+        confirm_flag= False
         self.destroy()
 
-    
+
+# class confirmTopLevel(tk.Toplevel):
+#     def __init__(self, parent, msg: str | None=None):
+#         super().__init__(parent)
+
+#         self.okVar = tk.BooleanVar(self, False)
+
+#         self.title("Conferma Azione")
+#         self.okButton = ttk.Button(self, text="OK", command=self.okPressed)
+#         self.cancelButton = ttk.Button(self, text="Annulla", command=self.cancelPressed)
+         
+#         # okButton.pack(side=customtkinter.LEFT, pady=20)
+#         self.cancelButton.pack(side = tk.BOTTOM, expand=True, padx = 10, pady = 20)
+#         self.okButton.pack(side = tk.BOTTOM, expand=True, padx = 10)
+        
+#         # cancelButton.pack(side=customtkinter.BOTTOM, pady=50)
+        
+#         self.label = ttk.Label(self, text=str(msg)+'\n e premere OK')
+#         self.label.pack(padx=50, pady=50, side=tk.BOTTOM)
+#         self.focus()
+#         # self.wait_variable(self.okVar)
+#         app.wait_window(self)
+
+
+#     def okPressed(self, *args):
+#         self.okVar.set(True)
+#         self.destroy()
+
+
+#     def cancelPressed(self, *args):
+#         self.okVar.set(False)
+#         self.destroy()
 
 
 #############################################################################
@@ -299,6 +339,7 @@ spider_name = ''
 saved_flag = False
 panic_flag = False
 last_params = None
+confirm_flag = False
 
 txt_path='' 
 json_path=''
@@ -510,9 +551,13 @@ def pressOk(the_msg):
     # # Blocca l'interazione con la finestra principale mentre il Toplevel è aperto
     # toplevel.focus()
     app.wait_window(toplevel)
+    print(toplevel)
+    del toplevel
 
     # Restituisce lo stato del pulsante
-    return toplevel.okVar.get()
+    time.sleep(1)
+    # global confirm_flag
+    # return confirm_flag
 
 
 def startMeasurement():
@@ -639,6 +684,7 @@ def serialListener():
             print(data)
 
             if compare_strings(data, "Ready"):
+                time.sleep(1)
                 ser.write("Ready to write\n".encode())
 
             if compare_strings(data, "Parameters"):
@@ -663,14 +709,15 @@ def serialListener():
                 startButton.configure(text="Misurazione...")
 
             if compare_strings(data, "centratore"):
-                flag = pressOk(data)
-                time.sleep(1)
-                if flag:
+                # flag = pressOk(data)
+                pressOk(data)
+                if confirm_flag:
                     ser.write("ok\n".encode())
                 else:
                     ser.write("nope\n".encode())
                     ser.close()
                     break
+                time.sleep(1)
 
             if data == "send me\n":
                 msg = ''
@@ -978,7 +1025,7 @@ def tkvar_changed():
     global saved_flag
     saveState()
     saved_flag = False
-    populatePosArray()
+    # populatePosArray()
 
 
 def closeAll():
