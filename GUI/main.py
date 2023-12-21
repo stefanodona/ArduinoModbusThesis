@@ -254,32 +254,33 @@ class SaveDialog(simpledialog.Dialog):
         self.box.pack()
 
 
-# class confirmTopLevel(customtkinter.CTkToplevel):
-#     def __init__(self, msg: str | None=None, *args, fg_color: str | Tuple[str, str] | None = None, **kwargs):
-#         super().__init__(*args, fg_color=fg_color, **kwargs)
-#         self.okVar = customtkinter.BooleanVar(self, False)
+class confirmTopLevel(customtkinter.CTkToplevel):
+    def __init__(self, *args, fg_color: str | Tuple[str, str] | None = None, msg: str | None=None, **kwargs):
+        super().__init__(*args, fg_color=fg_color, **kwargs)
+        self.okVar = customtkinter.BooleanVar(self, False)
 
-#         self.title("Conferma Azione")
-#         self.okButton = customtkinter.CTkButton(self, text="OK")
-#         self.cancelButton = customtkinter.CTkButton(self, text="Annulla", fg_color="gray")
+        self.title("Conferma Azione")
+        self.okButton = customtkinter.CTkButton(self, text="OK", command=self.okPressed)
+        self.cancelButton = customtkinter.CTkButton(self, text="Annulla", fg_color="gray", command=self.cancelPressed)
          
-#         # okButton.pack(side=customtkinter.LEFT, pady=20)
-#         self.cancelButton.pack(side = customtkinter.BOTTOM, expand=True, padx = 10, pady = 20)
-#         self.okButton.pack(side = customtkinter.BOTTOM, expand=True, padx = 10)
+        # okButton.pack(side=customtkinter.LEFT, pady=20)
+        self.cancelButton.pack(side = customtkinter.BOTTOM, expand=True, padx = 10, pady = 20)
+        self.okButton.pack(side = customtkinter.BOTTOM, expand=True, padx = 10)
         
-#         # cancelButton.pack(side=customtkinter.BOTTOM, pady=50)
+        # cancelButton.pack(side=customtkinter.BOTTOM, pady=50)
         
-#         self.label = customtkinter.CTkLabel(self, text=str(msg)+'\n e premere OK')
-#         self.label.pack(padx=50, pady=50, side=customtkinter.BOTTOM)
-#         self.focus()
-#         self.wait_variable(self.okVar)
+        self.label = customtkinter.CTkLabel(self, text=str(msg)+'\n e premere OK')
+        self.label.pack(padx=50, pady=50, side=customtkinter.BOTTOM)
+        self.focus()
+        # self.wait_variable(self.okVar)
 
-#     def okPressed(self, *args):
-#         self.okVar.set(True)
-#         self.destroy()
+    def okPressed(self, *args):
+        self.okVar.set(True)
+        self.destroy()
 
-#     def cancelPressed(self, *args):
-#         self.destroy()
+    def cancelPressed(self, *args):
+        self.okVar.set(False)
+        self.destroy()
 
     
 
@@ -461,8 +462,8 @@ def setPanic(var):
     globals()["panic_flag"]=var
 
 
-def pressOk(msg):
-    global panic_flag
+def pressOk(the_msg):
+    # global panic_flag
     # topLevel = confirmTopLevel(app, msg)
     # okVar = customtkinter.IntVar(topLevel)
     # # topLevel.geometry("300x300")
@@ -476,40 +477,42 @@ def pressOk(msg):
     # topLevel.bind('<Return>', lambda e: okVar.set(1))
     
     # topLevel.wait_variable(okVar)
-    toplevel = customtkinter.CTkToplevel(app)
+    # toplevel = customtkinter.CTkToplevel(app)
+    toplevel = confirmTopLevel(app, msg=the_msg)
 
     # Variabile di controllo per gestire lo stato del pulsante
-    okVar = customtkinter.BooleanVar(toplevel, False)
+    # okVar = customtkinter.BooleanVar(toplevel, False)
 
-    # Funzione chiamata quando il pulsante viene premuto
-    def okPressed():
-        okVar.set(True)
-        toplevel.destroy()
-    def cancelPressed():
-        okVar.set(False)
-        toplevel.destroy()
+    # # Funzione chiamata quando il pulsante viene premuto
+    # def okPressed():
+    #     okVar.set(True)
+    #     toplevel.destroy()
+    # def cancelPressed():
+    #     okVar.set(False)
+    #     toplevel.destroy()
 
-    okButton = customtkinter.CTkButton(toplevel, text="OK", command=okPressed)
-    cancelButton = customtkinter.CTkButton(toplevel, text="Annulla", fg_color="gray", command=cancelPressed)
+    # okButton = customtkinter.CTkButton(toplevel, text="OK", command=okPressed)
+    # cancelButton = customtkinter.CTkButton(toplevel, text="Annulla", fg_color="gray", command=cancelPressed)
     
-    cancelButton.pack(side = customtkinter.BOTTOM, expand=True, padx = 10, pady = 20)
-    okButton.pack(side = customtkinter.BOTTOM, expand=True, padx = 10)
+    # cancelButton.pack(side = customtkinter.BOTTOM, expand=True, padx = 10, pady = 20)
+    # okButton.pack(side = customtkinter.BOTTOM, expand=True, padx = 10)
 
-    label = customtkinter.CTkLabel(toplevel, text=str(msg)+'\n e premere OK')
-    label.pack(padx=50, pady=50, side=customtkinter.BOTTOM)
+    # label = customtkinter.CTkLabel(toplevel, text=str(msg)+'\n e premere OK')
+    # label.pack(padx=50, pady=50, side=customtkinter.BOTTOM)
 
-    # Pulsante nel Toplevel
-    # pulsante_toplevel = customtkinter.CTkButton(toplevel, text="Premi", command=azione_pulsante)
-    # pulsante_toplevel.pack(padx=20, pady=10)
+    # # Pulsante nel Toplevel
+    # # pulsante_toplevel = customtkinter.CTkButton(toplevel, text="Premi", command=azione_pulsante)
+    # # pulsante_toplevel.pack(padx=20, pady=10)
 
-    # Assegna la variabile di controllo alla proprietà 'var' del pulsante
-    # okButton["variable"] = okVar
+    # # Assegna la variabile di controllo alla proprietà 'var' del pulsante
+    # # okButton["variable"] = okVar
 
-    # Blocca l'interazione con la finestra principale mentre il Toplevel è aperto
+    # # Blocca l'interazione con la finestra principale mentre il Toplevel è aperto
+    # toplevel.focus()
     app.wait_window(toplevel)
 
     # Restituisce lo stato del pulsante
-    return okVar.get()
+    return toplevel.okVar.get()
 
 
 def startMeasurement():
