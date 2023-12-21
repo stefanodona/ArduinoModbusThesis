@@ -254,6 +254,34 @@ class SaveDialog(simpledialog.Dialog):
         self.box.pack()
 
 
+# class confirmTopLevel(customtkinter.CTkToplevel):
+#     def __init__(self, msg: str | None=None, *args, fg_color: str | Tuple[str, str] | None = None, **kwargs):
+#         super().__init__(*args, fg_color=fg_color, **kwargs)
+#         self.okVar = customtkinter.BooleanVar(self, False)
+
+#         self.title("Conferma Azione")
+#         self.okButton = customtkinter.CTkButton(self, text="OK")
+#         self.cancelButton = customtkinter.CTkButton(self, text="Annulla", fg_color="gray")
+         
+#         # okButton.pack(side=customtkinter.LEFT, pady=20)
+#         self.cancelButton.pack(side = customtkinter.BOTTOM, expand=True, padx = 10, pady = 20)
+#         self.okButton.pack(side = customtkinter.BOTTOM, expand=True, padx = 10)
+        
+#         # cancelButton.pack(side=customtkinter.BOTTOM, pady=50)
+        
+#         self.label = customtkinter.CTkLabel(self, text=str(msg)+'\n e premere OK')
+#         self.label.pack(padx=50, pady=50, side=customtkinter.BOTTOM)
+#         self.focus()
+#         self.wait_variable(self.okVar)
+
+#     def okPressed(self, *args):
+#         self.okVar.set(True)
+#         self.destroy()
+
+#     def cancelPressed(self, *args):
+#         self.destroy()
+
+    
 
 
 #############################################################################
@@ -435,28 +463,53 @@ def setPanic(var):
 
 def pressOk(msg):
     global panic_flag
-    topLevel = customtkinter.CTkToplevel(app)
-    okVar = customtkinter.IntVar(topLevel)
-    topLevel.geometry("300x300")
+    # topLevel = confirmTopLevel(app, msg)
+    # okVar = customtkinter.IntVar(topLevel)
+    # # topLevel.geometry("300x300")
 
-    # okButton = customtkinter.CTkButton(topLevel, text="OK", command=topLevel.destroy)
-    okButton = customtkinter.CTkButton(topLevel, text="OK", command=lambda: okVar.set(1))
-    okButton.pack(side=customtkinter.BOTTOM, pady=50)
+    
+    # # okButton.pack(side=customtkinter.LEFT, pady=20)
 
-    label = customtkinter.CTkLabel(topLevel, text=str(msg)+'\n e premere OK')
+    # # cancelButton.pack(side=customtkinter.BOTTOM, pady=50)
+    
+    # topLevel.focus()
+    # topLevel.bind('<Return>', lambda e: okVar.set(1))
+    
+    # topLevel.wait_variable(okVar)
+    toplevel = customtkinter.CTkToplevel(app)
+
+    # Variabile di controllo per gestire lo stato del pulsante
+    okVar = customtkinter.BooleanVar(toplevel, False)
+
+    # Funzione chiamata quando il pulsante viene premuto
+    def okPressed():
+        okVar.set(True)
+        toplevel.destroy()
+    def cancelPressed():
+        okVar.set(False)
+        toplevel.destroy()
+
+    okButton = customtkinter.CTkButton(toplevel, text="OK", command=okPressed)
+    cancelButton = customtkinter.CTkButton(toplevel, text="Annulla", fg_color="gray", command=cancelPressed)
+    
+    cancelButton.pack(side = customtkinter.BOTTOM, expand=True, padx = 10, pady = 20)
+    okButton.pack(side = customtkinter.BOTTOM, expand=True, padx = 10)
+
+    label = customtkinter.CTkLabel(toplevel, text=str(msg)+'\n e premere OK')
     label.pack(padx=50, pady=50, side=customtkinter.BOTTOM)
-    topLevel.focus()
-    topLevel.bind('<Return>', lambda e: okVar.set(1))
-    
-    # topLevel.protocol("WM_DELETE_WINDOW", lambda: setPanic(True))
 
-    topLevel.wait_variable(okVar)
+    # Pulsante nel Toplevel
+    # pulsante_toplevel = customtkinter.CTkButton(toplevel, text="Premi", command=azione_pulsante)
+    # pulsante_toplevel.pack(padx=20, pady=10)
 
-    time.sleep(0.1)
-    topLevel.destroy()
-    
-    # while(topLevel.winfo_exists()):
-    #     pass
+    # Assegna la variabile di controllo alla proprietà 'var' del pulsante
+    # okButton["variable"] = okVar
+
+    # Blocca l'interazione con la finestra principale mentre il Toplevel è aperto
+    app.wait_window(toplevel)
+
+    # Restituisce lo stato del pulsante
+    return okVar.get()
 
 
 def startMeasurement():
@@ -607,9 +660,14 @@ def serialListener():
                 startButton.configure(text="Misurazione...")
 
             if compare_strings(data, "centratore"):
-                pressOk(data)
+                flag = pressOk(data)
                 time.sleep(1)
-                ser.write("\n".encode())
+                if flag:
+                    ser.write("ok\n".encode())
+                else:
+                    ser.write("nope\n".encode())
+                    ser.close()
+                    break
 
             if data == "send me\n":
                 msg = ''
@@ -1520,6 +1578,7 @@ app.config(menu=menubar)
 # savedialog = SaveDialog(app)
 
 app.protocol("WM_DELETE_WINDOW", check_save_before_closing)
+
 
 app.bind('<Return>', lambda e: startMeasurement())
 app.bind('<Escape>', lambda e: closeAll())

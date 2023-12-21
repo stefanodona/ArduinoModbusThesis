@@ -489,10 +489,23 @@ void homingRoutine()
 
   Serial.write("Posizionare il centratore...\n");
   awaitKeyPressed();
+  String inc_msg = Serial.readString();
+  if (inc_msg!="ok\n")
+  {
+    return;
+  }
+
+
   float tare = getForce();
 
   Serial.write("Stringere il centratore...\n");
   awaitKeyPressed();
+  inc_msg = Serial.readString();
+  if (inc_msg!="ok\n")
+  {
+    return;
+  }
+
   float clamped = getForce();
 
   Serial.println("Clamped");
