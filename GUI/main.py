@@ -1177,14 +1177,15 @@ def setZeroSearch():
     search_zero_flag = search_zero_flag_tkvar.get()
 
 def playFinish():
-    file_dir = os.path.dirname(this_path+'\GUI\Finish.wav')
-    file_path = file_dir + '\Finish.wav'
+    #file_dir = os.path.dirname(this_path+'\GUI\Finish.wav')
+    file_path = this_path + '/GUI/Finish.wav'
 
-    print(file_dir)
+    print(this_path)
+    #print(file_dir)
     print(file_path)
-    # playsound(file_path)
+    playsound(file_path)
     
-playFinish()
+#playFinish()
 
 #############################################################################
 # ---------------------------C R E A T E   A P P-----------------------------
