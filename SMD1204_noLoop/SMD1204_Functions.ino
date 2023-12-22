@@ -141,6 +141,8 @@ void homingRoutine()
   String inc_msg = Serial.readString();
   if (inc_msg!="ok\n")
   {
+    flushSerial();
+    Serial.flush();
     return;
   }
   
@@ -152,6 +154,8 @@ void homingRoutine()
   inc_msg = Serial.readString();
   if (inc_msg!="ok\n")
   {
+    flushSerial();
+    Serial.flush();
     return;
   }
 

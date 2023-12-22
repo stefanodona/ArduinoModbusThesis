@@ -3,6 +3,6 @@
     "board": "arduino:megaavr:uno2018",
     "port": "COM9",
     "programmer": "medbg",
-    "sketch": "SMD1204_noLoop\\SMD1204_noLoop.ino",
+    "sketch": "SMD1204_noLoop/SMD1204_noLoop.ino",
     "output": "./ArduinoOutput"
 }
