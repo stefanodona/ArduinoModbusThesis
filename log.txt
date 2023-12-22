@@ -1,0 +1,16 @@
+Ready to read!
+Parameters
+0
+zer0_approx
+0.02
+cnt_zer0
+5
+Initializing...
+Connecting
+Cable connected!
+192.168.56.1
+Attempting to connect to Modbus TCP server
+Modbus TCP Client connected!
+time: 12.00
+Velocita' massima settata a: 10 rps
+Posizionare il centratore...
