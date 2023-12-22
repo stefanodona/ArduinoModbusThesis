@@ -7,7 +7,7 @@ myFolders = dir("CREEP/077*");
 idx=1;
 
 % for idx=1:length(myFolders)
-for idx=1:2
+for idx=1:1
     nm = myFolders(idx).name
     fd = myFolders(idx).folder
     
@@ -21,7 +21,7 @@ for idx=1:2
         filename_folder = spiFolder(jj).folder; 
         meas_name = split(filename, '_');
         displ_name = meas_name{2};
-        displ = str2num(displ_name(1:end-2));
+        displ = str2num(displ_name(1:end-2))*1e-3;
        
         data(idx).cnt(jj).displ_val = displ_name;
         data(idx).cnt(jj).params = struct();
@@ -67,27 +67,33 @@ for idx=1:2
         
         C_ms = abs(displ)./forces;
         R_ms = taus./C_ms(2:end);
-
+        
+        x_lab = {'disp'};
         C_lab = {'C0','C1','C2','C3','C4'};
         R_lab = {'R1','R2','R3','R4'};
         
-        values = [C_ms, R_ms]
-        labels = [C_lab, R_lab];
+        values = [displ, C_ms, R_ms]
+        labels = [x_lab, C_lab, R_lab];
+
+        um_lab(1) = {"m"};
+        um_lab(2:5) = {"m/N"};
+        um_lab(6:9) = {"m*s/N"};
 
         for kk=1:length(coeff_val)
-            data(idx).cnt(jj).params.fit_coeff(kk).symbol = coeff_names{kk};
-            data(idx).cnt(jj).params.fit_coeff(kk).value  = coeff_val(kk);
+            data(idx).cnt(jj).params.fit_coeff(kk).symbol       = coeff_names{kk};
+            data(idx).cnt(jj).params.fit_coeff(kk).value        = coeff_val(kk);
             
-            data(idx).cnt(jj).params.model_coeff(kk).symbol = labels{kk};
-            data(idx).cnt(jj).params.model_coeff(kk).value  = values(kk);
+            data(idx).cnt(jj).params.model_coeff(kk).sample     = nm;
+%             data(idx).cnt(jj).params.model_coeff(kk).displ    = displ;
+%             data(idx).cnt(jj).params.model_coeff(kk).displ_um = "m";
 
+            data(idx).cnt(jj).params.model_coeff(kk).symbol     = labels{kk};
+            data(idx).cnt(jj).params.model_coeff(kk).value_um   = um_lab(kk);
+            data(idx).cnt(jj).params.model_coeff(kk).value      = values(kk);
         end
 
     end
 
 end
+%%
 
-% 
-% for i=1:length(myFolders)
-%     cnt = myFolders(i).name
-% end
