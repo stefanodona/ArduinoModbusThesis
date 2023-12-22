@@ -674,11 +674,11 @@ def serialListener():
                 print("ER PANICO!")
                 ser.write("PANIC\n".encode())
                 time.sleep(0.1)
-                try:
-                    ser.close()
-                    print(f"Chiusa porta {port}")
-                except serial.SerialException as e:
-                    print(f"Errore chiusura porta {port}: {e}")
+                # try:
+                #     ser.close()
+                #     print(f"Chiusa porta {port}")
+                # except serial.SerialException as e:
+                #     print(f"Errore chiusura porta {port}: {e}")
                 panic_flag = False
                 break
 
@@ -728,11 +728,11 @@ def serialListener():
                     ser.write("ok\n".encode())
                 else:
                     ser.write("nope\n".encode())
-                    try:
-                        ser.close()
-                        print(f"Chiusa porta {port}")
-                    except serial.SerialException as e:
-                        print(f"Errore chiusura porta {port}: {e}")
+                    # try:
+                    #     ser.close()
+                    #     print(f"Chiusa porta {port}")
+                    # except serial.SerialException as e:
+                    #     print(f"Errore chiusura porta {port}: {e}")
                     break
                 time.sleep(1)
 
@@ -819,14 +819,16 @@ def serialListener():
                 # print("matched")
                 print(data)
                 pPercent.configure(text="DONE")
-                try:
-                    ser.close()
-                    print(f"Chiusa porta {port}")
-                except serial.SerialException as e:
-                    print(f"Errore chiusura porta {port}: {e}")
                 break
 
             logfile.write(data)
+        ser.flush()
+        try:
+            ser.close()
+            print(f"Chiusa porta {port}")
+        except serial.SerialException as e:
+            print(f"Errore chiusura porta {port}: {e}")
+        del ser
 
     logfile.close()
     spider_entry.configure(state="normal")
@@ -1062,6 +1064,7 @@ def closeAll():
               print(f"Errore chiusura porta {com}: {e}")
 
     app.destroy()
+    # del app
 
 def save_data(txt_path, json_path, zero_path):
     global saved_flag, last_params
