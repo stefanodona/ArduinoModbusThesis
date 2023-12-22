@@ -240,9 +240,9 @@ class SaveDialog(simpledialog.Dialog):
     
     def buttonbox(self):
         self.box = Frame(self)
-        self.save_button = Button(self.box, text="Salva", command=save, default=ACTIVE)
-        self.discard_button = Button(self.box, text="Non Salvare", command=closeAll)
-        self.cancel_button = Button(self.box, text="Annulla", command=self.cancel)
+        self.save_button = ttk.Button(self.box, text="Salva", command=save, default=ACTIVE)
+        self.discard_button = ttk.Button(self.box, text="Non Salvare", command=closeAll)
+        self.cancel_button = ttk.Button(self.box, text="Annulla", command=self.cancel)
 
         self.save_button.pack(side=LEFT, padx=15, pady=5)
         self.discard_button.pack(side=LEFT, padx=15, pady=5)

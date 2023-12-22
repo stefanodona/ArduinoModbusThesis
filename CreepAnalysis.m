@@ -1,11 +1,3 @@
-
-
-a = struct()
-
-a.cnt = struct()
-a.cnt.name = "07714532B-1"
-
-%%
 clear; close all; clc;
 data = struct();
 data.cnt = struct();
@@ -15,7 +7,7 @@ myFolders = dir("CREEP/077*");
 idx=1;
 
 % for idx=1:length(myFolders)
-for idx=1:1
+for idx=1:2
     nm = myFolders(idx).name
     fd = myFolders(idx).folder
     
