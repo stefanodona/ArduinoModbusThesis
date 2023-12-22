@@ -255,13 +255,16 @@ class SaveDialog(simpledialog.Dialog):
 
 
 class confirmTopLevel(customtkinter.CTkToplevel):
-    def __init__(self, *args, fg_color: str | Tuple[str, str] | None = None, msg: str | None=None, **kwargs):
+    def __init__(self, *args, fg_color: str | Tuple[str, str] | None = None, **kwargs):
         global confirm_flag
         confirm_flag = False
         super().__init__(*args, fg_color=fg_color, **kwargs)
         # self.okVar = customtkinter.BooleanVar(self, False)
 
         self.title("Conferma Azione")
+
+        self.labelText = customtkinter.StringVar(self, "Test")    
+
         self.okButton = customtkinter.CTkButton(self, text="OK", command=self.okPressed)
         self.cancelButton = customtkinter.CTkButton(self, text="Annulla", fg_color="gray", command=self.cancelPressed)
          
@@ -271,7 +274,7 @@ class confirmTopLevel(customtkinter.CTkToplevel):
         
         # cancelButton.pack(side=customtkinter.BOTTOM, pady=50)
         
-        self.label = customtkinter.CTkLabel(self, text=str(msg)+'\n e premere OK')
+        self.label = customtkinter.CTkLabel(self, textvariable=self.labelText)
         self.label.pack(padx=50, pady=50, side=customtkinter.BOTTOM)
         self.focus()
         # self.wait_variable(self.okVar)
@@ -290,6 +293,10 @@ class confirmTopLevel(customtkinter.CTkToplevel):
         global confirm_flag
         confirm_flag= False
         self.destroy()
+
+    def setMessage(self, msg, *args):
+        self.labelText.set(str(msg)+"\n e premere ok")
+
 
 
 # class confirmTopLevel(tk.Toplevel):
@@ -519,7 +526,8 @@ def pressOk(the_msg):
     
     # topLevel.wait_variable(okVar)
     # toplevel = customtkinter.CTkToplevel(app)
-    toplevel = confirmTopLevel(app, msg=the_msg)
+    toplevel = confirmTopLevel(app)
+    toplevel.setMessage(the_msg)
 
     # Variabile di controllo per gestire lo stato del pulsante
     # okVar = customtkinter.BooleanVar(toplevel, False)
@@ -666,7 +674,11 @@ def serialListener():
                 print("ER PANICO!")
                 ser.write("PANIC\n".encode())
                 time.sleep(0.1)
-                ser.close()
+                try:
+                    ser.close()
+                    print(f"Chiusa porta {port}")
+                except serial.SerialException as e:
+                    print(f"Errore chiusura porta {port}: {e}")
                 panic_flag = False
                 break
 
@@ -710,12 +722,17 @@ def serialListener():
 
             if compare_strings(data, "centratore"):
                 # flag = pressOk(data)
+                time.sleep(0.5)
                 pressOk(data)
                 if confirm_flag:
                     ser.write("ok\n".encode())
                 else:
                     ser.write("nope\n".encode())
-                    ser.close()
+                    try:
+                        ser.close()
+                        print(f"Chiusa porta {port}")
+                    except serial.SerialException as e:
+                        print(f"Errore chiusura porta {port}: {e}")
                     break
                 time.sleep(1)
 
@@ -802,7 +819,11 @@ def serialListener():
                 # print("matched")
                 print(data)
                 pPercent.configure(text="DONE")
-                ser.close()
+                try:
+                    ser.close()
+                    print(f"Chiusa porta {port}")
+                except serial.SerialException as e:
+                    print(f"Errore chiusura porta {port}: {e}")
                 break
 
             logfile.write(data)
@@ -824,7 +845,6 @@ def serialListener():
 
     startButton.configure(text="START")
 
-    Thread(target=playFinish).start()
 
     print("pos: ",pos)
     print("pos_ac: ",pos_acquired)
@@ -839,37 +859,38 @@ def serialListener():
 
     print("Time: ",time_axis)
 
+    if np.any(pos_acquired):
+        if (not stat_creep_flag):
+            sort = np.argsort(pos_acquired)
+            pos_acquired = pos_acquired[sort]  
+            force = force[sort]
+            dev_pos_acquired = dev_pos_acquired[sort] 
+            dev_force = dev_force[sort]
+            if(ar_flag):
+                pos_sorted_sort = np.flip(pos_acquired_ritorno)
+                # sort = np.argsort(pos_sorted_sort)
+                sort = np.argsort(pos_acquired_ritorno)
+                pos_acquired_ritorno = pos_acquired_ritorno[sort]
+                force_ritorno = force_ritorno[sort]
+                dev_pos_acquired_ritorno = dev_pos_acquired_ritorno[sort]
+                dev_force_ritorno = dev_force_ritorno[sort]
+            # mirror = True
+            # if mirror:
+            #     pos = np.flip(-pos)
+            #     force = np.flip(-force)
+            #     force_ritorno = np.flip(-force_ritorno)
+        # else:
+        #     force = force
+        
+        print("pos: ",pos)
+        print("pos_ac: ",pos_acquired)
+        print("pos_ac_ret: ",pos_acquired_ritorno)
+        print("force: ",force)  
+        print("Force_ret: ",force_ritorno)
+        print("Time: ",time_axis)
 
-    if (not stat_creep_flag):
-        sort = np.argsort(pos_acquired)
-        pos_acquired = pos_acquired[sort]  
-        force = force[sort]
-        dev_pos_acquired = dev_pos_acquired[sort] 
-        dev_force = dev_force[sort]
-        if(ar_flag):
-            pos_sorted_sort = np.flip(pos_acquired_ritorno)
-            # sort = np.argsort(pos_sorted_sort)
-            sort = np.argsort(pos_acquired_ritorno)
-            pos_acquired_ritorno = pos_acquired_ritorno[sort]
-            force_ritorno = force_ritorno[sort]
-            dev_pos_acquired_ritorno = dev_pos_acquired_ritorno[sort]
-            dev_force_ritorno = dev_force_ritorno[sort]
-        # mirror = True
-        # if mirror:
-        #     pos = np.flip(-pos)
-        #     force = np.flip(-force)
-        #     force_ritorno = np.flip(-force_ritorno)
-    # else:
-    #     force = force
-    
-    print("pos: ",pos)
-    print("pos_ac: ",pos_acquired)
-    print("pos_ac_ret: ",pos_acquired_ritorno)
-    print("force: ",force)  
-    print("Force_ret: ",force_ritorno)
-    print("Time: ",time_axis)
-
-    drawPlots()
+        Thread(target=playFinish).start()
+        drawPlots()
 
 
 
