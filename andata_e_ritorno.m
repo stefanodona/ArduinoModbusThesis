@@ -1,19 +1,22 @@
 % close all; 
-clear; clc
+clear; clc; close all;
 
 % filename = "Prova63_ST_07714532C";
-filenames = {"Prova70_ST_07714532B", "Prova71_ST_07714532B"};
+folders = {"STATICA_2023-12-21", "STATICA_2023-12-22"};
 
-filenames = {"Prova72_ST_07714532B-2", "Prova73_ST_07714532B-2"};
+filename = "Statica_07714532B-"
+filenames = {strcat(folders{1},"/",filename,"1/",filename,"1.txt"),
+    strcat(folders{1},"/",filename,"2/",filename,"2.txt")}
 % filenames = {"Prova74_ST_07714532C-1", "Prova75_ST_07714532C-1"};
-lab = {"su", "giù"};
+lab = {"ieri", "oggi"};
 
-for j=1:length(filenames)
+for j=1:length(folders)
     filename = filenames{j};
     % filename = "ProvaZeri";
     % filename = "ST01_07714532B-1";
     % FID = fopen(strcat("Measures/",filename,"/",filename,".txt"));
-    FID = fopen(strcat(filename,"/",filename,".txt"));
+%     FID = fopen(strcat(folders{j},"/",filename,"/",filename,".txt"));
+    FID = fopen(filename);
     datacell = textscan(FID, '%f%f%f%f%f%f%f%f', CommentStyle='#'); 
     fclose(FID);
     
@@ -131,21 +134,21 @@ fig.Name = cnt;
 hold off
 title("Forza Elastica")
 subtitle("postprocessata")
-legend("su andata", "su ritorno", "giù andata", "giù ritorno")
+legend("1 andata", "1 ritorno", "2 andata", "2 ritorno")
 
 figure(3)
 fig = figure(3);
 fig.Name = cnt;
 hold off
 title("Forza Elastica Misurata")
-legend("su andata", "su ritorno", "giù andata", "giù ritorno")
+legend("1 andata", "1 ritorno", "2 andata", "2 ritorno")
 
 figure(4)
 fig = figure(4);
 fig.Name = cnt;
 hold off
 title("K_{ms} incrementale")
-legend("su andata", "su ritorno", "giù andata", "giù ritorno")
+legend("1 andata", "1 ritorno", "2 andata", "2 ritorno")
 grid minor
 
 figure(2)
@@ -153,7 +156,7 @@ fig = figure(2);
 fig.Name = cnt;
 hold off
 title("K_{ms}")
-legend("su andata", " su ritorno", "giù andata", " giù ritorno")
+legend("1 andata", "1 ritorno", "2 andata", " 2 ritorno")
 
 
 figure(5)
