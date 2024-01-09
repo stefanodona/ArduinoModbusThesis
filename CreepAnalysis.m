@@ -6,8 +6,8 @@ myFolders = dir("CREEP/077*");
 
 idx=1;
 
-% for idx=1:length(myFolders)
-for idx=2:2
+for idx=1:length(myFolders)
+% for idx=2:2
 % for idx=3:3
     nm = myFolders(idx).name
     fd = myFolders(idx).folder
@@ -50,7 +50,7 @@ for idx=2:2
         f(ind_to_delete)=[];
 
          % plot data
-        figure()
+        figure(1)
         plot(t, f);
         grid on
         title(strcat(nm, "   ", displ_name))
@@ -107,5 +107,14 @@ for idx=2:2
     end
 
 end
-%%
+
+
+%% SORTING
+for cnt_index=1:length(myFolders)
+    T = struct2table(data(cnt_index).cnt)
+    sorted = sortrows(T, "displ_val")
+    data(cnt_index).cnt = table2struct(sorted)
+end
+
+save("MisureRilassamento_cnt077145.mat", "data")
 
