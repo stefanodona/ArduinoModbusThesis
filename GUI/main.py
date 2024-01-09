@@ -874,7 +874,8 @@ def serialListener():
                 print(data)
                 pPercent.configure(text="DONE")
                 break
-
+            
+            app.update()
             logfile.write(data)
         ser.flush()
         try:
@@ -947,7 +948,7 @@ def serialListener():
 
         Thread(target=playFinish).start()
         drawPlots()
-    # return
+        return
 
 
 
