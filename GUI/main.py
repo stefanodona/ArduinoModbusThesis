@@ -1,3 +1,5 @@
+import tkthread; tkthread.patch()
+
 from tkinter import *
 from tkinter import ttk
 import tkinter as tk
@@ -254,75 +256,29 @@ class SaveDialog(simpledialog.Dialog):
         self.box.pack()
 
 
-# class confirmTopLevel(customtkinter.CTkToplevel):
-#     def __init__(self, *args, fg_color: str | Tuple[str, str] | None = None, **kwargs):
-#         global confirm_flag
-#         confirm_flag = False
-#         super().__init__(*args, fg_color=fg_color, **kwargs)
-#         # self.okVar = customtkinter.BooleanVar(self, False)
-
-#         self.title("Conferma Azione")
-
-#         self.labelText = customtkinter.StringVar(self, "Test")    
-
-#         self.okButton = customtkinter.CTkButton(self, text="OK", command=self.okPressed)
-#         self.cancelButton = customtkinter.CTkButton(self, text="Annulla", fg_color="gray", command=self.cancelPressed)
-         
-#         # okButton.pack(side=customtkinter.LEFT, pady=20)
-#         self.cancelButton.pack(side = customtkinter.BOTTOM, expand=True, padx = 10, pady = 20)
-#         self.okButton.pack(side = customtkinter.BOTTOM, expand=True, padx = 10)
-        
-#         # cancelButton.pack(side=customtkinter.BOTTOM, pady=50)
-        
-#         self.label = customtkinter.CTkLabel(self, textvariable=self.labelText)
-#         self.label.pack(padx=50, pady=50, side=customtkinter.BOTTOM)
-#         self.focus()
-#         # self.wait_variable(self.okVar)
-#         # app.wait_window(self)
-
-
-#     def okPressed(self, *args):
-#         # self.okVar.set(True)
-#         global confirm_flag
-#         confirm_flag= True
-#         self.destroy()
-#         self.update()
-
-
-#     def cancelPressed(self, *args):
-#         # self.okVar.set(False)
-#         global confirm_flag
-#         confirm_flag= False
-#         self.destroy()
-#         self.update()
-
-#     def setMessage(self, msg, *args):
-#         self.labelText.set(str(msg)+"\n e premere ok")
-
-
-class ConfirmTopLevel(tk.Toplevel):
-    def __init__(self, *args, fg_color: str | Tuple[str, str] | None = None, **kwargs):
+class ConfirmTopLevel(customtkinter.CTkToplevel):
+    def __init__(self, *args, fg_color: str | tuple[str, str] | None = None, **kwargs):
         global confirm_flag
         confirm_flag = False
-        super().__init__(*args, **kwargs)
+        super().__init__(*args, fg_color=fg_color, **kwargs)
         # self.okVar = customtkinter.BooleanVar(self, False)
 
         self.title("Conferma Azione")
 
-        self.labelText = tk.StringVar(self, "Test")    
+        self.labelText = customtkinter.StringVar(self, "Test")    
 
-        self.okButton = tk.Button(self, text="OK", command=self.okPressed)
-        self.cancelButton = tk.Button(self, text="Annulla", command=self.cancelPressed)
+        self.okButton = customtkinter.CTkButton(self, text="OK", command=self.okPressed)
+        self.cancelButton = customtkinter.CTkButton(self, text="Annulla", fg_color="gray", command=self.cancelPressed)
          
         # okButton.pack(side=customtkinter.LEFT, pady=20)
-        self.cancelButton.pack(side = tk.BOTTOM, expand=True, padx = 10, pady = 20)
-        self.okButton.pack(side = tk.BOTTOM, expand=True, padx = 10)
+        self.cancelButton.pack(side = customtkinter.BOTTOM, expand=True, padx = 10, pady = 20)
+        self.okButton.pack(side = customtkinter.BOTTOM, expand=True, padx = 10)
         
         # cancelButton.pack(side=customtkinter.BOTTOM, pady=50)
         
-        self.label = tk.Label(self, textvariable=self.labelText)
-        self.label.pack(padx=50, pady=50, side=tk.BOTTOM)
-        # self.focus()
+        self.label = customtkinter.CTkLabel(self, textvariable=self.labelText)
+        self.label.pack(padx=50, pady=50, side=customtkinter.BOTTOM)
+        self.focus()
         # self.wait_variable(self.okVar)
         # app.wait_window(self)
 
@@ -332,7 +288,7 @@ class ConfirmTopLevel(tk.Toplevel):
         global confirm_flag
         confirm_flag= True
         self.destroy()
-        # self.update()
+        self.update()
 
 
     def cancelPressed(self, *args):
@@ -340,10 +296,56 @@ class ConfirmTopLevel(tk.Toplevel):
         global confirm_flag
         confirm_flag= False
         self.destroy()
-        # self.update()
+        self.update()
 
     def setMessage(self, msg, *args):
         self.labelText.set(str(msg)+"\n e premere ok")
+
+
+# class ConfirmTopLevel(tk.Toplevel):
+#     def __init__(self, *args, fg_color: str | Tuple[str, str] | None = None, **kwargs):
+#         global confirm_flag
+#         confirm_flag = False
+#         super().__init__(*args, **kwargs)
+#         # self.okVar = customtkinter.BooleanVar(self, False)
+
+#         self.title("Conferma Azione")
+
+#         self.labelText = tk.StringVar(self, "Test")    
+
+#         self.okButton = tk.Button(self, text="OK", command=self.okPressed)
+#         self.cancelButton = tk.Button(self, text="Annulla", command=self.cancelPressed)
+         
+#         # okButton.pack(side=customtkinter.LEFT, pady=20)
+#         self.cancelButton.pack(side = tk.BOTTOM, expand=True, padx = 10, pady = 20)
+#         self.okButton.pack(side = tk.BOTTOM, expand=True, padx = 10)
+        
+#         # cancelButton.pack(side=customtkinter.BOTTOM, pady=50)
+        
+#         self.label = tk.Label(self, textvariable=self.labelText)
+#         self.label.pack(padx=50, pady=50, side=tk.BOTTOM)
+#         # self.focus()
+#         # self.wait_variable(self.okVar)
+#         # app.wait_window(self)
+
+
+#     def okPressed(self, *args):
+#         # self.okVar.set(True)
+#         global confirm_flag
+#         confirm_flag= True
+#         self.destroy()
+#         # self.update()
+
+
+#     def cancelPressed(self, *args):
+#         # self.okVar.set(False)
+#         global confirm_flag
+#         confirm_flag= False
+#         self.destroy()
+#         # self.update()
+
+#     def setMessage(self, msg, *args):
+#         self.labelText.set(str(msg)+"\n e premere ok")
 
 # class confirmTopLevel(tk.Toplevel):
 #     def __init__(self, parent, msg: str | None=None):
@@ -572,6 +574,7 @@ def pressOk(the_msg):
     
     # topLevel.wait_variable(okVar)
     # toplevel = customtkinter.CTkToplevel(app)
+    # toplevel = ConfirmTopLevel(app)
     toplevel = ConfirmTopLevel(app)
     toplevel.setMessage(the_msg)
 
@@ -603,12 +606,9 @@ def pressOk(the_msg):
     # # okButton["variable"] = okVar
 
     # # Blocca l'interazione con la finestra principale mentre il Toplevel è aperto
-    toplevel.focus()
+    # toplevel.focus()
     app.wait_window(toplevel)
     print(toplevel)
-    del toplevel.labelText
-    # del 
-    del toplevel
 
     time.sleep(0.5)
     # app.update()
@@ -662,7 +662,7 @@ def startMeasurement():
 
     # Thread(target=saveState).start()
     saveState()
-    Thread(target=serialListener).start()
+    Thread(target=tkt(serialListener)).start()
     # return
 
 def prepareMsgSerialParameters():
@@ -775,7 +775,8 @@ def serialListener():
             if compare_strings(data, "centratore"):
                 # flag = pressOk(data)
                 time.sleep(0.5)
-                pressOk(data)
+#                app.after(0, lambda:pressOk(data))
+                pressOk(data)                
                 
                 if confirm_flag:
                     ser.write("ok\n".encode())
@@ -1333,6 +1334,8 @@ app.geometry("900x700")
 # app.geometry(f"{w}x{h}+0+0")
 # app.geometry(f"{appWidth}x{appHeight}")
 app.title("MyApp")
+
+tkt = tkthread.TkThread(app)
 
 app.update_idletasks()
 
