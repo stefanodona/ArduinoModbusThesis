@@ -1,5 +1,5 @@
 % close all; 
-clear; clc; close all;
+% clear; clc; close all;
 
 % filename = "Prova63_ST_07714532C";
 folders = {"STATICA_2023-12-21", "STATICA_2023-12-22"};
