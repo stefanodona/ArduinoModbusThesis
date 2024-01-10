@@ -2,7 +2,7 @@ clear; close all; clc;
 data = struct();
 data.cnt = struct();
 
-myFolders = dir("CREEP/077*");
+myFolders = dir("CREEP_2024/077*");
 
 idx=1;
 
@@ -118,4 +118,5 @@ for cnt_index=1:length(myFolders)
 end
 
 save("MisureRilassamento_cnt077145.mat", "data")
-
+%% LAUNCH PLT SCRIPT
+plot_creep_param

@@ -2,7 +2,7 @@ clear; close all; clc;
 load MisureRilassamento_cnt077145.mat
 
 
-for jj=1:5
+for jj=1:4
 %     T = struct2table(data(jj).cnt); % convert the struct array to a table
 %     sortedT = sortrows(T, 'displ_val'); % sort the table by 'DOB'
 %     data(jj).cnt = table2struct(sortedT); % change it back to struct array if necessary
