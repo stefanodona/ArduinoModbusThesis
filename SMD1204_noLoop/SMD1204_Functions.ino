@@ -143,7 +143,9 @@ void homingRoutine()
   {
     flushSerial();
     Serial.flush();
-    return;
+    Serial.end();
+    // return;
+    resetFunc();
   }
   
 
@@ -156,7 +158,9 @@ void homingRoutine()
   {
     flushSerial();
     Serial.flush();
-    return;
+    Serial.end();
+    // return;
+    resetFunc();
   }
 
   float clamped = getForce();
@@ -263,7 +267,7 @@ void homingRoutine()
   // dtostrf(tare_force, 10, 6, num);
   // Serial.println(msg + num);
 
-  sendMessage("tare", tare_force, 0, 0);
+  sendMessage("tare", tare_force, NULL, NULL);
 
   split32to16(vel * 100);
   if (modbusTCPClient.holdingRegisterWrite(Rvel, splitted[0]) && modbusTCPClient.holdingRegisterWrite(Rvel + 1, splitted[1]))
@@ -312,6 +316,10 @@ void measureRoutine()
 
   Serial.write("Measuring\n");
 
+  unsigned long tik = millis();
+  unsigned long tok = 0;
+  unsigned long tiktok = 0;
+
   Serial.write("andata\n");
   for (int i = 0; i < num_pos; i = i + 2)
   {
@@ -349,8 +357,15 @@ void measureRoutine()
       sendCommand(disableDrive());
 
       delay(waitTime);
+
+      // Measure rise time
+      tok=millis();
+      tiktok = tok-tik;
+      String t_rise = "t_r";
+      sendMessage(t_rise, float(tiktok), pos[i], NULL);
+
+      // Measure position and force
       float x_p = int2mm(getPosact() - init_pos);
-      // unsigned long tik = millis();
       float y_p = getForce() - tare_force;
 
       if (j == 0)
@@ -386,6 +401,12 @@ void measureRoutine()
         sendCommand(enableDrive());
       }
 
+      // Measure fall time
+      tok=millis();
+      tiktok = tok-tik;
+      String t_fall = "t_f";
+      sendMessage(t_fall, float(tiktok), pos[i], NULL);
+
       sendPosTarget(init_pos);
       sendCommand(go());
       getStatus();
@@ -401,6 +422,14 @@ void measureRoutine()
         getStatus();
       sendCommand(disableDrive());
       delay(waitTime);
+
+      // Measure rise time
+      tok=millis();
+      tiktok = tok-tik;
+      // String t_rise = "t_r";
+      sendMessage(t_rise, float(tiktok), pos[i+1], NULL);
+
+      // measure position and force
       float x_m = int2mm(getPosact() - init_pos);
       float y_m = getForce() - tare_force;
 
@@ -432,6 +461,12 @@ void measureRoutine()
         getStatus();
         sendCommand(enableDrive());
       }
+
+      // Measure rise time
+      tok=millis();
+      tiktok = tok-tik;
+      // String t_fall = "t_f";
+      sendMessage(t_fall, float(tiktok), pos[i+1], NULL);
 
       sendPosTarget(init_pos);
       sendCommand(go());
@@ -1079,13 +1114,13 @@ void sendMessage(String msg, float val1, float val2, float val3)
   msg += " ";
   msg += buff1;
 
-  if (val2)
+  if (val2!=NULL)
   {
     dtostrf(val2, 10, 6, buff2);
     msg += " ";
     msg += buff2;
   }
-  if (val3)
+  if (val3!=NULL)
   {
     dtostrf(val3, 10, 6, buff3);
     msg += " ";
@@ -1094,3 +1129,5 @@ void sendMessage(String msg, float val1, float val2, float val3)
 
   Serial.println(msg);
 }
+
+void(* resetFunc)(void)=0;
