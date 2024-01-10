@@ -3,15 +3,15 @@ load MisureRilassamento_cnt077145.mat
 
 
 for jj=1:5
-    T = struct2table(data(jj).cnt); % convert the struct array to a table
-    sortedT = sortrows(T, 'displ_val'); % sort the table by 'DOB'
-    data(jj).cnt = table2struct(sortedT); % change it back to struct array if necessary
+%     T = struct2table(data(jj).cnt); % convert the struct array to a table
+%     sortedT = sortrows(T, 'displ_val'); % sort the table by 'DOB'
+%     data(jj).cnt = table2struct(sortedT); % change it back to struct array if necessary
     
     figure()
     c0=[];c1=[];c2=[];c3=[];c4=[];
           r1=[];r2=[];r3=[];r4=[];
     displ = [];
-    for ii=1:10
+    for ii=1:length(data(jj).cnt)
     %     displ = [data(1).cnt.displ_val];
     
         if abs(data(jj).cnt(ii).params.model_coeff(1).value)==1e-3

@@ -2,7 +2,7 @@ clear; close all; clc;
 load MisureRilassamento_cnt077145.mat
 
 
-for jj=3:3
+for jj=1:1
 %     T = struct2table(data(jj).cnt); % convert the struct array to a table
 %     sortedT = sortrows(T, 'displ_val'); % sort the table by 'DOB'
 %     data(jj).cnt = table2struct(sortedT); % change it back to struct array if necessary
@@ -243,7 +243,7 @@ hold on
 % folders = {"STATICA_2023-12-22"};
 % 
 % filename = "Statica_07714532B-1"
-file_name = strcat(folders{1},"/",filename,"/",filename,".txt");
+filename = strcat(folders{1},"/",filename,"/",filename,".txt");
 %     strcat(folders{1},"/",filename,"2/",filename,"2.txt")}
 % filenames = {"Prova74_ST_07714532C-1", "Prova75_ST_07714532C-1"};
 lab = {"ieri", "oggi"};
@@ -251,7 +251,7 @@ lab = {"ieri", "oggi"};
 for j=1:length(folders)
 %     filename = "Statica_07714532B-1"
     
-    FID = fopen(file_name);
+    FID = fopen(filename);
     datacell = textscan(FID, '%f%f%f%f%f%f%f%f', CommentStyle='#'); 
     fclose(FID);
     
