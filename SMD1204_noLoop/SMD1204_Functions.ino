@@ -356,7 +356,6 @@ void measureRoutine()
 
       sendCommand(disableDrive());
 
-      delay(waitTime);
 
       // Measure rise time
       tok=millis();
@@ -364,6 +363,7 @@ void measureRoutine()
       String t_rise = "t_r";
       sendMessage(t_rise, float(tiktok), pos[i], NULL);
 
+      delay(waitTime);
       // Measure position and force
       float x_p = int2mm(getPosact() - init_pos);
       float y_p = getForce() - tare_force;
@@ -421,7 +421,6 @@ void measureRoutine()
         // checkPanic();
         getStatus();
       sendCommand(disableDrive());
-      delay(waitTime);
 
       // Measure rise time
       tok=millis();
@@ -429,6 +428,7 @@ void measureRoutine()
       // String t_rise = "t_r";
       sendMessage(t_rise, float(tiktok), pos[i+1], NULL);
 
+      delay(waitTime);
       // measure position and force
       float x_m = int2mm(getPosact() - init_pos);
       float y_m = getForce() - tare_force;
