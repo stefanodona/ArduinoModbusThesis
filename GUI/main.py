@@ -72,7 +72,6 @@ class ThrAvgFrame(customtkinter.CTkFrame):
         slider_val = round(self.slider_val.get(),2)
         self.slider_value_label.configure(text=str(slider_val))
 
-
 class ThrAvgWindows(customtkinter.CTkToplevel):
     def __init__(self, *args, fg_color: str | Tuple[str, str] | None = None, **kwargs):
         super().__init__(*args, fg_color=fg_color, **kwargs)
@@ -120,7 +119,6 @@ class ThrAvgWindows(customtkinter.CTkToplevel):
         if (not self.th3.avg_val.get()==''): 
             th3_avg = int(self.th3.avg_val.get())
         saveState()
-
 
 class VelAccWindows(customtkinter.CTkToplevel):
     def __init__(self, *args, fg_color: str | Tuple[str, str] | None = None, **kwargs):
@@ -255,7 +253,6 @@ class SaveDialog(simpledialog.Dialog):
 
         self.box.pack()
 
-
 class ConfirmTopLevel(customtkinter.CTkToplevel):
     def __init__(self, *args, fg_color: str | tuple[str, str] | None = None, **kwargs):
         global confirm_flag
@@ -347,39 +344,6 @@ class ConfirmTopLevel(customtkinter.CTkToplevel):
 #     def setMessage(self, msg, *args):
 #         self.labelText.set(str(msg)+"\n e premere ok")
 
-# class confirmTopLevel(tk.Toplevel):
-#     def __init__(self, parent, msg: str | None=None):
-#         super().__init__(parent)
-
-#         self.okVar = tk.BooleanVar(self, False)
-
-#         self.title("Conferma Azione")
-#         self.okButton = ttk.Button(self, text="OK", command=self.okPressed)
-#         self.cancelButton = ttk.Button(self, text="Annulla", command=self.cancelPressed)
-         
-#         # okButton.pack(side=customtkinter.LEFT, pady=20)
-#         self.cancelButton.pack(side = tk.BOTTOM, expand=True, padx = 10, pady = 20)
-#         self.okButton.pack(side = tk.BOTTOM, expand=True, padx = 10)
-        
-#         # cancelButton.pack(side=customtkinter.BOTTOM, pady=50)
-        
-#         self.label = ttk.Label(self, text=str(msg)+'\n e premere OK')
-#         self.label.pack(padx=50, pady=50, side=tk.BOTTOM)
-#         self.focus()
-#         # self.wait_variable(self.okVar)
-#         app.wait_window(self)
-
-
-#     def okPressed(self, *args):
-#         self.okVar.set(True)
-#         self.destroy()
-
-
-#     def cancelPressed(self, *args):
-#         self.okVar.set(False)
-#         self.destroy()
-
-
 #############################################################################
 # ----------------------------V A R I A B L E S------------------------------
 #############################################################################
@@ -452,6 +416,9 @@ dev_pos_acquired_ritorno = np.array([])
 
 zero_f = np.array([])
 zero_p = np.array([])
+
+t_rise = np.array([])
+t_fall = np.array([])
 
 # arrays for creep measurement
 time_axis = np.array([])
@@ -559,65 +526,14 @@ def setPanic(var):
 
 
 def pressOk(the_msg):
-    # global panic_flag
-    # topLevel = confirmTopLevel(app, msg)
-    # okVar = customtkinter.IntVar(topLevel)
-    # # topLevel.geometry("300x300")
-
-    
-    # # okButton.pack(side=customtkinter.LEFT, pady=20)
-
-    # # cancelButton.pack(side=customtkinter.BOTTOM, pady=50)
-    
-    # topLevel.focus()
-    # topLevel.bind('<Return>', lambda e: okVar.set(1))
-    
-    # topLevel.wait_variable(okVar)
-    # toplevel = customtkinter.CTkToplevel(app)
-    # toplevel = ConfirmTopLevel(app)
     toplevel = ConfirmTopLevel(app)
     toplevel.setMessage(the_msg)
 
-    # Variabile di controllo per gestire lo stato del pulsante
-    # okVar = customtkinter.BooleanVar(toplevel, False)
-
-    # # Funzione chiamata quando il pulsante viene premuto
-    # def okPressed():
-    #     okVar.set(True)
-    #     toplevel.destroy()
-    # def cancelPressed():
-    #     okVar.set(False)
-    #     toplevel.destroy()
-
-    # okButton = customtkinter.CTkButton(toplevel, text="OK", command=okPressed)
-    # cancelButton = customtkinter.CTkButton(toplevel, text="Annulla", fg_color="gray", command=cancelPressed)
-    
-    # cancelButton.pack(side = customtkinter.BOTTOM, expand=True, padx = 10, pady = 20)
-    # okButton.pack(side = customtkinter.BOTTOM, expand=True, padx = 10)
-
-    # label = customtkinter.CTkLabel(toplevel, text=str(msg)+'\n e premere OK')
-    # label.pack(padx=50, pady=50, side=customtkinter.BOTTOM)
-
-    # # Pulsante nel Toplevel
-    # # pulsante_toplevel = customtkinter.CTkButton(toplevel, text="Premi", command=azione_pulsante)
-    # # pulsante_toplevel.pack(padx=20, pady=10)
-
-    # # Assegna la variabile di controllo alla proprietà 'var' del pulsante
-    # # okButton["variable"] = okVar
-
-    # # Blocca l'interazione con la finestra principale mentre il Toplevel è aperto
-    # toplevel.focus()
     app.wait_window(toplevel)
     print(toplevel)
 
     time.sleep(0.5)
-    # app.update()
-    
 
-    # Restituisce lo stato del pulsante
-    # time.sleep(1)
-    # global confirm_flag
-    # return confirm_flag
 
 
 def startMeasurement():
@@ -626,7 +542,7 @@ def startMeasurement():
         min_pos_entry.insert(0, "-")
 
 
-    global min_pos, max_pos, num_pos, step_pos, wait_time, percent, force, dev_force, force_ritorno, pos, pos_acquired,dev_pos_acquired, pos_acquired_ritorno, dev_pos_acquired_ritorno, pos_sorted, time_axis, creep_displ, creep_period, creep_duration, zero_p, zero_f
+    global min_pos, max_pos, num_pos, step_pos, wait_time, percent, force, dev_force, force_ritorno, pos, pos_acquired,dev_pos_acquired, pos_acquired_ritorno, dev_pos_acquired_ritorno, pos_sorted, time_axis, creep_displ, creep_period, creep_duration, zero_p, zero_f, t_rise, t_fall
 
     reverse_bool_tkvar.set(False)
 
@@ -653,6 +569,12 @@ def startMeasurement():
 
     zero_f = np.array([])
     zero_p = np.array([])
+
+    # t_rise = np.array([])
+    # t_fall = np.array([])
+
+    t_rise = np.empty((0,2))
+    t_fall = np.empty((0,2))
 
     populatePosArray()
     print(pos)
@@ -690,7 +612,7 @@ def prepareMsgSerialParameters():
 
 
 def serialListener():
-    global pos, pos_sorted, pos_acquired, dev_pos_acquired, pos_acquired_ritorno, dev_pos_acquired_ritorno, percent, force, dev_force, force_ritorno, dev_force_ritorno, time_axis, max_iter, meas_forward, panic_flag, zero_p, zero_f
+    global pos, pos_sorted, pos_acquired, dev_pos_acquired, pos_acquired_ritorno, dev_pos_acquired_ritorno, percent, force, dev_force, force_ritorno, dev_force_ritorno, time_axis, max_iter, meas_forward, panic_flag, zero_p, zero_f, t_rise, t_fall
     print(port)
     with serial.Serial(port, 38400) as ser:
         index = 0
@@ -787,7 +709,8 @@ def serialListener():
                     #     print(f"Chiusa porta {port}")
                     # except serial.SerialException as e:
                     #     print(f"Errore chiusura porta {port}: {e}")
-                    break
+                    # break
+                    return
                 time.sleep(1)
 
             if data == "send me\n":
@@ -866,7 +789,23 @@ def serialListener():
 
             if compare_strings(data, "time_ax"):
                 time_val = float(data.split()[1])
-                time_axis= np.append(time_axis, time_val) 
+                time_axis= np.append(time_axis, time_val)
+
+            if compare_strings(data, "t_r"):
+                time_val = float(data.split()[1])
+                pos_val = float(data.split()[2])
+
+                # t_rise = np.append(t_rise, [time_val, pos_val])
+                t_rise = np.vstack([t_rise, [time_val, pos_val]])
+
+                 
+
+            if compare_strings(data, "t_f"):
+                time_val = float(data.split()[1])
+                pos_val = float(data.split()[2])
+
+                # t_fall = np.append(t_fall, [time_val, pos_val])
+                t_fall = np.vstack([t_fall, [time_val, pos_val]])
                 
 
             if compare_strings(data, "Finished"):
@@ -1172,6 +1111,21 @@ def save_data(txt_path, json_path, zero_path):
         for i in range(0, len(zero_f)):
             zfl.write(f"{zero_p[i]:.5f}"+"\t\t\t"+f"{zero_f[i]:.5f}"+"\n")
         zfl.close()
+
+    time_path = os.path.split(txt_path)[0]
+    time_path = os.path.join(time_path, "times.txt")
+
+    with open(time_path, 'w') as tp:
+        tp.write("# t_rise ")
+        tp.write("\t\t\t pos ")
+        tp.write("\t\t\t t_fall")
+        tp.write("\t\t\t pos\n")
+        for i in range(0, len(t_rise)):
+            tp.write(f"{t_rise[i][0]:.5f}"+"\t\t\t"+f"{t_rise[i][1]:.5f}"+"\t\t\t")
+            tp.write(f"{t_fall[i][0]:.5f}"+"\t\t\t"+f"{t_fall[i][1]:.5f}"+"\n")
+        tp.close()
+        
+
 
 def save_as(): 
     global txt_path, json_path

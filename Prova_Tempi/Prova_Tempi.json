@@ -21,7 +21,7 @@
     "acc_max": 5.0,
     "time_flag": false,
     "time_max": 0.5,
-    "creep_displ": -2.0,
+    "creep_displ": -10.0,
     "creep_period": 100.0,
     "creep_duration": 300.0,
     "search_zero_flag": false

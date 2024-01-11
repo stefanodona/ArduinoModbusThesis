@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#line 1 "/home/stefano/Scrivania/ArduinoModbusThesis/SMD1204_noLoop/SMD1204_noLoop.ino"
+#line 1 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_noLoop.ino"
 // COMPILER DIRECTIVES
 
 #include <SPI.h>
@@ -91,7 +91,84 @@ float t1 = 0;
 float t2 = 0;
 float t3 = 0;
 
+void(* resetFunc)(void)=0;
+
 // SETUP
+#line 95 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_noLoop.ino"
+void setup();
+#line 244 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_noLoop.ino"
+void loop();
+#line 246 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_noLoop.ino"
+void flushSerial();
+#line 254 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_noLoop.ino"
+void checkModbusConnection();
+#line 1 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\HX711_Functions.ino"
+float getForce();
+#line 35 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\HX711_Functions.ino"
+float getForce1(float x);
+#line 45 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\HX711_Functions.ino"
+float getForce3(float x);
+#line 55 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\HX711_Functions.ino"
+float getForce10(float x);
+#line 65 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\HX711_Functions.ino"
+float getForce50(float x);
+#line 74 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\HX711_Functions.ino"
+float avg(int times);
+#line 3 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+uint16_t disableDrive();
+#line 10 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+uint16_t enableDrive();
+#line 17 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+uint16_t abortDrive();
+#line 24 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+uint16_t stop();
+#line 31 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+uint16_t go();
+#line 38 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+uint16_t gor();
+#line 45 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+uint16_t home();
+#line 53 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+void sendCommand(uint16_t cmd);
+#line 65 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+void driverSetup();
+#line 115 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+void homingRoutine();
+#line 278 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+void measureRoutine();
+#line 800 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+void creepRoutine();
+#line 885 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+void getStatus();
+#line 891 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+void printStatus();
+#line 933 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+void printAlarms();
+#line 974 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+void splitU32to16(uint32_t toSplit);
+#line 980 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+void split32to16(int32_t toSplit);
+#line 986 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+void awaitKeyPressed();
+#line 998 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+void sendPosTarget(int32_t pos);
+#line 1008 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+int32_t mm2int(float pos_mm);
+#line 1013 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+float int2mm(int32_t pos_step);
+#line 1018 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+int32_t getPosact();
+#line 1027 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+void printForce(uint8_t i, int32_t pos, float pos_mm, float force);
+#line 1041 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+int getAvgCnt(float val);
+#line 1058 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+void setAccVelocity(float disp);
+#line 1095 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+void checkPanic();
+#line 1108 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+void sendMessage(String msg, float val1, float val2, float val3);
+#line 95 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_noLoop.ino"
 void setup()
 {
     // Setting up Serial Port Communication
@@ -273,7 +350,7 @@ void checkModbusConnection()
     // t2=millis();
     Serial.println(time + (t2 - t1));
 }
-#line 1 "/home/stefano/Scrivania/ArduinoModbusThesis/SMD1204_noLoop/HX711_Functions.ino"
+#line 1 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\HX711_Functions.ino"
 float getForce()
 {
   float force = 0;
@@ -360,7 +437,7 @@ float avg(int times)
   }
   return sum / times;
 }
-#line 1 "/home/stefano/Scrivania/ArduinoModbusThesis/SMD1204_noLoop/SMD1204_Functions.ino"
+#line 1 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
 uint16_t splitted[2]; // utility array to split a 32 bit data into 2x16 bit data
 
 uint16_t disableDrive()
@@ -506,7 +583,9 @@ void homingRoutine()
   {
     flushSerial();
     Serial.flush();
-    return;
+    Serial.end();
+    // return;
+    resetFunc();
   }
   
 
@@ -519,7 +598,9 @@ void homingRoutine()
   {
     flushSerial();
     Serial.flush();
-    return;
+    Serial.end();
+    // return;
+    resetFunc();
   }
 
   float clamped = getForce();
@@ -626,7 +707,7 @@ void homingRoutine()
   // dtostrf(tare_force, 10, 6, num);
   // Serial.println(msg + num);
 
-  sendMessage("tare", tare_force, 0, 0);
+  sendMessage("tare", tare_force, NULL, NULL);
 
   split32to16(vel * 100);
   if (modbusTCPClient.holdingRegisterWrite(Rvel, splitted[0]) && modbusTCPClient.holdingRegisterWrite(Rvel + 1, splitted[1]))
@@ -675,6 +756,10 @@ void measureRoutine()
 
   Serial.write("Measuring\n");
 
+  unsigned long tik = millis();
+  unsigned long tok = 0;
+  unsigned long tiktok = 0;
+
   Serial.write("andata\n");
   for (int i = 0; i < num_pos; i = i + 2)
   {
@@ -712,8 +797,15 @@ void measureRoutine()
       sendCommand(disableDrive());
 
       delay(waitTime);
+
+      // Measure rise time
+      tok=millis();
+      tiktok = tok-tik;
+      String t_rise = "t_r";
+      sendMessage(t_rise, float(tiktok), pos[i], NULL);
+
+      // Measure position and force
       float x_p = int2mm(getPosact() - init_pos);
-      // unsigned long tik = millis();
       float y_p = getForce() - tare_force;
 
       if (j == 0)
@@ -749,6 +841,12 @@ void measureRoutine()
         sendCommand(enableDrive());
       }
 
+      // Measure fall time
+      tok=millis();
+      tiktok = tok-tik;
+      String t_fall = "t_f";
+      sendMessage(t_fall, float(tiktok), pos[i], NULL);
+
       sendPosTarget(init_pos);
       sendCommand(go());
       getStatus();
@@ -764,6 +862,14 @@ void measureRoutine()
         getStatus();
       sendCommand(disableDrive());
       delay(waitTime);
+
+      // Measure rise time
+      tok=millis();
+      tiktok = tok-tik;
+      // String t_rise = "t_r";
+      sendMessage(t_rise, float(tiktok), pos[i+1], NULL);
+
+      // measure position and force
       float x_m = int2mm(getPosact() - init_pos);
       float y_m = getForce() - tare_force;
 
@@ -795,6 +901,12 @@ void measureRoutine()
         getStatus();
         sendCommand(enableDrive());
       }
+
+      // Measure rise time
+      tok=millis();
+      tiktok = tok-tik;
+      // String t_fall = "t_f";
+      sendMessage(t_fall, float(tiktok), pos[i+1], NULL);
 
       sendPosTarget(init_pos);
       sendCommand(go());
@@ -1442,13 +1554,13 @@ void sendMessage(String msg, float val1, float val2, float val3)
   msg += " ";
   msg += buff1;
 
-  if (val2)
+  if (val2!=NULL)
   {
     dtostrf(val2, 10, 6, buff2);
     msg += " ";
     msg += buff2;
   }
-  if (val3)
+  if (val3!=NULL)
   {
     dtostrf(val3, 10, 6, buff3);
     msg += " ";
@@ -1457,3 +1569,4 @@ void sendMessage(String msg, float val1, float val2, float val3)
 
   Serial.println(msg);
 }
+
