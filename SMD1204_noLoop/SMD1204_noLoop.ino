@@ -89,6 +89,8 @@ float t1 = 0;
 float t2 = 0;
 float t3 = 0;
 
+void(* resetFunc)(void)=0;
+
 // SETUP
 void setup()
 {

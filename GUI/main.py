@@ -1119,7 +1119,7 @@ def save_data(txt_path, json_path, zero_path):
         tp.write("# t_rise ")
         tp.write("\t\t\t pos ")
         tp.write("\t\t\t t_fall")
-        tp.write("\t\t\t pos")
+        tp.write("\t\t\t pos\n")
         for i in range(0, len(t_rise)):
             tp.write(f"{t_rise[i][0]:.5f}"+"\t\t\t"+f"{t_rise[i][1]:.5f}"+"\t\t\t")
             tp.write(f"{t_fall[i][0]:.5f}"+"\t\t\t"+f"{t_fall[i][1]:.5f}"+"\n")
