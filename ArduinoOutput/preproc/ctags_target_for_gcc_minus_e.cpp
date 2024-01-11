@@ -681,6 +681,16 @@ void measureRoutine()
   unsigned long tok = 0;
   unsigned long tiktok = 0;
 
+  // TIMING DIAGRAM
+  // 
+  // pos              _____________
+  //                 /|            |  //                / |            |   //               /  |            |    //              /   |            |     // ____________/    |            |    \___________-> time
+
+
+
+
+  //            t_s  t_r          t_f  t_e
+
   Serial.write("andata\n");
   for (int i = 0; i < num_pos; i = i + 2)
   {
@@ -710,10 +720,21 @@ void measureRoutine()
       // positive movement (up)
       sendPosTarget(init_pos + mm2int(pos[i]));
       sendCommand(go());
+      // Measure start time
+      tok=millis();
+      tiktok = tok-tik;
+      String t_start = "t_s";
+      sendMessage(t_start, float(tiktok), pos[i], 
+# 366 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino" 3 4
+                                                 __null
+# 366 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+                                                     );
+
       getStatus();
       while ((((sts) >> (3)) & 0x01))
         // checkPanic();
         getStatus();
+
 
       sendCommand(disableDrive());
 
@@ -723,9 +744,9 @@ void measureRoutine()
       tiktok = tok-tik;
       String t_rise = "t_r";
       sendMessage(t_rise, float(tiktok), pos[i], 
-# 364 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino" 3 4
+# 381 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino" 3 4
                                                 __null
-# 364 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+# 381 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
                                                     );
 
       delay(waitTime);
@@ -771,9 +792,9 @@ void measureRoutine()
       tiktok = tok-tik;
       String t_fall = "t_f";
       sendMessage(t_fall, float(tiktok), pos[i], 
-# 408 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino" 3 4
+# 425 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino" 3 4
                                                 __null
-# 408 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+# 425 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
                                                     );
 
       sendPosTarget(init_pos);
@@ -782,13 +803,34 @@ void measureRoutine()
       while ((((sts) >> (3)) & 0x01))
         getStatus();
 
+      // Measure end time
+      tok=millis();
+      tiktok = tok-tik;
+      String t_end = "t_e";
+      sendMessage(t_end, float(tiktok), pos[i], 
+# 437 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino" 3 4
+                                               __null
+# 437 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+                                                   );
+
       // negative movement (down)
       sendPosTarget(init_pos + mm2int(pos[i + 1]));
       sendCommand(go());
+      // Measure start time
+      tok=millis();
+      tiktok = tok-tik;
+      sendMessage(t_start, float(tiktok), pos[i], 
+# 445 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino" 3 4
+                                                 __null
+# 445 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+                                                     );
+
       getStatus();
       while ((((sts) >> (3)) & 0x01))
         // checkPanic();
         getStatus();
+
+
       sendCommand(disableDrive());
 
       // Measure rise time
@@ -796,9 +838,9 @@ void measureRoutine()
       tiktok = tok-tik;
       // String t_rise = "t_r";
       sendMessage(t_rise, float(tiktok), pos[i+1], 
-# 429 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino" 3 4
+# 459 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino" 3 4
                                                   __null
-# 429 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+# 459 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
                                                       );
 
       delay(waitTime);
@@ -840,9 +882,9 @@ void measureRoutine()
       tiktok = tok-tik;
       // String t_fall = "t_f";
       sendMessage(t_fall, float(tiktok), pos[i+1], 
-# 469 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino" 3 4
+# 499 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino" 3 4
                                                   __null
-# 469 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+# 499 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
                                                       );
 
       sendPosTarget(init_pos);
@@ -850,6 +892,15 @@ void measureRoutine()
       getStatus();
       while ((((sts) >> (3)) & 0x01))
         getStatus();
+
+      // Measure end time
+      tok=millis();
+      tiktok = tok-tik;
+      sendMessage(t_end, float(tiktok), pos[i], 
+# 510 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino" 3 4
+                                               __null
+# 510 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+                                                   );
 
       // check to read consistent data
       if ((fabs(x_p) > 2 * prev_x_p || fabs(x_m) > 2 * prev_x_m))
@@ -1492,9 +1543,9 @@ void sendMessage(String msg, float val1, float val2, float val3)
   msg += buff1;
 
   if (val2!=
-# 1117 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino" 3 4
+# 1152 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino" 3 4
            __null
-# 1117 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+# 1152 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
                )
   {
     dtostrf(val2, 10, 6, buff2);
@@ -1502,9 +1553,9 @@ void sendMessage(String msg, float val1, float val2, float val3)
     msg += buff2;
   }
   if (val3!=
-# 1123 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino" 3 4
+# 1158 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino" 3 4
            __null
-# 1123 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+# 1158 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
                )
   {
     dtostrf(val3, 10, 6, buff3);

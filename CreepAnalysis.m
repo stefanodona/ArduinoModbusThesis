@@ -6,6 +6,8 @@ myFolders = dir("CREEP_2024/077*");
 
 idx=1;
 
+
+
 for idx=1:length(myFolders)
 % for idx=3:3
 
@@ -16,6 +18,23 @@ for idx=1:length(myFolders)
 %     data(idx).cnt.name = nm;
     
     spiFolder = dir(strcat(fd, "\", nm, "\Creep*"));
+    
+    start_values = [2, 0.2, 0.2, 0.2, 0.2, 0.1, 1, 10, 100];
+    
+
+    % ordering folders
+    for jj=1:length(spiFolder)
+        filename = spiFolder(jj).name;
+        filename_folder = spiFolder(jj).folder; 
+        meas_name = split(filename, '_');
+        displ_name = meas_name{2};
+        displ = str2num(displ_name(1:end-2));
+        spiFolder(jj).displ = displ;
+    end
+
+    T = struct2table(spiFolder);
+    sorted = sortrows(T, "displ");
+    spiFolder = table2struct(sorted);
 
     for jj=1:length(spiFolder)
 %     for jj=2:2
@@ -60,16 +79,16 @@ for idx=1:length(myFolders)
     
         
         coeff = fit(t, f, fit_func, ...
-            'StartPoint', [2, 0.2, 0.2, 0.2, 0.2, 0.1, 1, 10, 100], ...
+            'StartPoint', start_values, ...
             'Lower', [0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.1, 0.1, 0.1], ...
             'Upper', [80, 10, 10, 10, 10, 10, 25, 1000, 50000], ...
             'Robust', 'LAR', ...
             'Algorithm', 'Trust-Region', ...
-            'DiffMinChange', 1e-8, ...
+            'DiffMinChange', 1e-5, ...
             'DiffMaxChange', 0.1, ...
             'MaxFunEvals', 10000, ...
             'MaxIter', 10000, ...
-            'TolFun', 1e-10)
+            'TolFun', 1e-6)
 %             'StartPoint', [2, 0.2, 0.2, 0.2, 0.2, 0.1, 1, 10, 100], ...
         
         displ_name
@@ -80,6 +99,8 @@ for idx=1:length(myFolders)
         
         coeff_val = coeffvalues(coeff);
         coeff_names = coeffnames(coeff);
+        
+        start_values = coeff_val;
 
         forces = coeff_val(1:5);
         taus = coeff_val(6:9);
@@ -114,18 +135,18 @@ for idx=1:length(myFolders)
             data(idx).cnt(jj).params.model_coeff(kk).value_um   = um_lab(kk);
             data(idx).cnt(jj).params.model_coeff(kk).value      = values(kk);
         end
-
+        
     end
 
 end
 
 
 %% SORTING
-for cnt_index=1:length(myFolders)
-    T = struct2table(data(cnt_index).cnt)
-    sorted = sortrows(T, "displ_val")
-    data(cnt_index).cnt = table2struct(sorted)
-end
+% for cnt_index=1:length(myFolders)
+%     T = struct2table(data(cnt_index).cnt)
+%     sorted = sortrows(T, "displ_val")
+%     data(cnt_index).cnt = table2struct(sorted)
+% end
 %% SAVING
 save("MisureRilassamento_cnt077145.mat", "data")
 %% LAUNCH PLT SCRIPT
