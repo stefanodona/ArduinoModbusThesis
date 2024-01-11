@@ -419,6 +419,8 @@ zero_p = np.array([])
 
 t_rise = np.array([])
 t_fall = np.array([])
+t_start = np.array([])
+t_end = np.array([])
 
 # arrays for creep measurement
 time_axis = np.array([])
@@ -542,7 +544,7 @@ def startMeasurement():
         min_pos_entry.insert(0, "-")
 
 
-    global min_pos, max_pos, num_pos, step_pos, wait_time, percent, force, dev_force, force_ritorno, pos, pos_acquired,dev_pos_acquired, pos_acquired_ritorno, dev_pos_acquired_ritorno, pos_sorted, time_axis, creep_displ, creep_period, creep_duration, zero_p, zero_f, t_rise, t_fall
+    global min_pos, max_pos, num_pos, step_pos, wait_time, percent, force, dev_force, force_ritorno, pos, pos_acquired,dev_pos_acquired, pos_acquired_ritorno, dev_pos_acquired_ritorno, pos_sorted, time_axis, creep_displ, creep_period, creep_duration, zero_p, zero_f, t_rise, t_fall, t_start, t_end
 
     reverse_bool_tkvar.set(False)
 
@@ -575,6 +577,8 @@ def startMeasurement():
 
     t_rise = np.empty((0,2))
     t_fall = np.empty((0,2))
+    t_start = np.empty((0,2))
+    t_end = np.empty((0,2))
 
     populatePosArray()
     print(pos)
@@ -612,7 +616,7 @@ def prepareMsgSerialParameters():
 
 
 def serialListener():
-    global pos, pos_sorted, pos_acquired, dev_pos_acquired, pos_acquired_ritorno, dev_pos_acquired_ritorno, percent, force, dev_force, force_ritorno, dev_force_ritorno, time_axis, max_iter, meas_forward, panic_flag, zero_p, zero_f, t_rise, t_fall
+    global pos, pos_sorted, pos_acquired, dev_pos_acquired, pos_acquired_ritorno, dev_pos_acquired_ritorno, percent, force, dev_force, force_ritorno, dev_force_ritorno, time_axis, max_iter, meas_forward, panic_flag, zero_p, zero_f, t_rise, t_fall, t_start, t_end
     print(port)
     with serial.Serial(port, 38400) as ser:
         index = 0
@@ -794,18 +798,24 @@ def serialListener():
             if compare_strings(data, "t_r"):
                 time_val = float(data.split()[1])
                 pos_val = float(data.split()[2])
-
                 # t_rise = np.append(t_rise, [time_val, pos_val])
                 t_rise = np.vstack([t_rise, [time_val, pos_val]])
-
-                 
 
             if compare_strings(data, "t_f"):
                 time_val = float(data.split()[1])
                 pos_val = float(data.split()[2])
-
                 # t_fall = np.append(t_fall, [time_val, pos_val])
                 t_fall = np.vstack([t_fall, [time_val, pos_val]])
+
+            if compare_strings(data, "t_s"):
+                time_val = float(data.split()[1])
+                pos_val = float(data.split()[2])
+                t_start = np.vstack([t_start, [time_val, pos_val]])
+
+            if compare_strings(data, "t_e"):
+                time_val = float(data.split()[1])
+                pos_val = float(data.split()[2])
+                t_end = np.vstack([t_end, [time_val, pos_val]])
                 
 
             if compare_strings(data, "Finished"):
@@ -1116,13 +1126,19 @@ def save_data(txt_path, json_path, zero_path):
     time_path = os.path.join(time_path, "times.txt")
 
     with open(time_path, 'w') as tp:
-        tp.write("# t_rise ")
+        tp.write("# t_start ")
+        tp.write("\t\t\t pos ")
+        tp.write("\t\t\t t_rise ")
         tp.write("\t\t\t pos ")
         tp.write("\t\t\t t_fall")
+        tp.write("\t\t\t pos")
+        tp.write("\t\t\t t_end")
         tp.write("\t\t\t pos\n")
         for i in range(0, len(t_rise)):
+            tp.write(f"{t_start[i][0]:.5f}"+"\t\t\t"+f"{t_start[i][1]:.5f}"+"\t\t\t")
             tp.write(f"{t_rise[i][0]:.5f}"+"\t\t\t"+f"{t_rise[i][1]:.5f}"+"\t\t\t")
-            tp.write(f"{t_fall[i][0]:.5f}"+"\t\t\t"+f"{t_fall[i][1]:.5f}"+"\n")
+            tp.write(f"{t_fall[i][0]:.5f}"+"\t\t\t"+f"{t_fall[i][1]:.5f}"+"\t\t\t")
+            tp.write(f"{t_end[i][0]:.5f}"+"\t\t\t"+f"{t_end[i][1]:.5f}"+"\n")
         tp.close()
         
 
