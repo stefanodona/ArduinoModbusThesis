@@ -7,8 +7,8 @@ myFolders = dir("CREEP_2024/077*");
 idx=1;
 
 for idx=1:length(myFolders)
-% for idx=2:2
 % for idx=3:3
+
     nm = myFolders(idx).name
     fd = myFolders(idx).folder
     
@@ -18,6 +18,7 @@ for idx=1:length(myFolders)
     spiFolder = dir(strcat(fd, "\", nm, "\Creep*"));
 
     for jj=1:length(spiFolder)
+%     for jj=2:2
         filename = spiFolder(jj).name;
         filename_folder = spiFolder(jj).folder; 
         meas_name = split(filename, '_');
@@ -50,23 +51,32 @@ for idx=1:length(myFolders)
         f(ind_to_delete)=[];
 
          % plot data
-        figure(1)
-        plot(t, f);
+%         figure(1)
+%         plot(t, f);
         grid on
         title(strcat(nm, "   ", displ_name))
 
-        fit_func = @(f0,f1,f2,f3,f4,tau1,tau2,tau3,tau4, x) f0+f1*exp(-x/tau1)+f2*exp(-x/tau2)+f3*exp(-x/tau3)+f4*exp(-x/tau4);
+        fit_func = @(f0,f1,f2,f3,f4,tau1,tau2,tau3,tau4,x) f0+f1*exp(-x/tau1)+f2*exp(-x/tau2)+f3*exp(-x/tau3)+f4*exp(-x/tau4);
     
-        displ_name
+        
         coeff = fit(t, f, fit_func, ...
-            'StartPoint', [2, 0.2, 0.2, 0.2, 0.2, 0.5, 1, 50, 2500], ...
+            'StartPoint', [2, 0.2, 0.2, 0.2, 0.2, 0.1, 1, 10, 100], ...
             'Lower', [0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.1, 0.1, 0.1], ...
-            'Upper', [80, 5, 5, 5, 5, 10, 25, 1000, 50000], ...
+            'Upper', [80, 10, 10, 10, 10, 10, 25, 1000, 50000], ...
             'Robust', 'LAR', ...
             'Algorithm', 'Trust-Region', ...
-            'MaxFunEval', 10000, ...
+            'DiffMinChange', 1e-8, ...
+            'DiffMaxChange', 0.1, ...
+            'MaxFunEvals', 10000, ...
             'MaxIter', 10000, ...
             'TolFun', 1e-10)
+%             'StartPoint', [2, 0.2, 0.2, 0.2, 0.2, 0.1, 1, 10, 100], ...
+        
+        displ_name
+        figure(1)
+        plot(coeff, t, f)
+        grid on
+        title(strcat(nm, "   ", displ_name))
         
         coeff_val = coeffvalues(coeff);
         coeff_names = coeffnames(coeff);
@@ -116,7 +126,7 @@ for cnt_index=1:length(myFolders)
     sorted = sortrows(T, "displ_val")
     data(cnt_index).cnt = table2struct(sorted)
 end
-
+%% SAVING
 save("MisureRilassamento_cnt077145.mat", "data")
 %% LAUNCH PLT SCRIPT
 plot_creep_param

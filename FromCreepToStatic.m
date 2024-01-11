@@ -87,6 +87,8 @@ hold off
 grid on
 
 
+%% EXTRACT TIMING
+
 t = 0:0.1:300;
 
 % SORT DISPLACEMENT
@@ -94,10 +96,11 @@ t = 0:0.1:300;
 iii=flip(iii);
 
 
-folders = {"STATICA_2023-12-22"};
+folders = {"STATICA_2023-12-22", "STATICA_2024-01-11"};
+f_idx = 2;
 % fname = './STATICA_2023-12-22/Statica_07714532B-2/Statica_07714532B-2.json'; 
 filename = "Statica_07714532B-1"
-fname = strcat(folders{1},"/",filename,"/",filename,".json");
+fname = strcat(folders{f_idx},"/",filename,"/",filename,".json");
 fid = fopen(fname); 
 raw = fread(fid,inf); 
 str = char(raw'); 
@@ -243,13 +246,12 @@ hold on
 % folders = {"STATICA_2023-12-22"};
 % 
 % filename = "Statica_07714532B-1"
-file_name = strcat(folders{1},"/",filename,"/",filename,".txt");
+file_name = strcat(folders{f_idx},"/",filename,"/",filename,".txt");
 %     strcat(folders{1},"/",filename,"2/",filename,"2.txt")}
 % filenames = {"Prova74_ST_07714532C-1", "Prova75_ST_07714532C-1"};
 lab = {"ieri", "oggi"};
 
-for j=1:length(folders)
-%     filename = "Statica_07714532B-1"
+% for j=1:length(folders)
     
     FID = fopen(file_name);
     datacell = textscan(FID, '%f%f%f%f%f%f%f%f', CommentStyle='#'); 
@@ -322,7 +324,7 @@ for j=1:length(folders)
 %     hold on
     grid on
 
-end
+% end
 cnt = split(filename, '_');
 cnt = cnt(3)
 
