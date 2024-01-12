@@ -2,7 +2,9 @@ clear; close all; clc;
 load MisureRilassamento_cnt077145.mat
 
 
-for jj=2:2
+% for jj=3:3
+jj=3; % select spider
+
     figure()
     c0=[];c1=[];c2=[];c3=[];c4=[];
           r1=[];r2=[];r3=[];r4=[];
@@ -62,7 +64,7 @@ for jj=2:2
     subtitle(data(jj).name, Interpreter="latex")
 
     legend(["$R_1$", "$R_2$", "$R_3$", "$R_4$"], Interpreter="latex")
-end
+% end
 
 %% mesh spaziale 
 x = min(displ): 0.25e-3 : max(displ);
@@ -92,7 +94,7 @@ iii=flip(iii);
 
 % open static measurements values
 folders = {"STATICA_2023-12-22", "STATICA_2024-01-11"};
-filename = "Statica_07714532B-2"
+filename = "Statica_07714532C-1"
 
 f_idx = 2 % select static folder
 
@@ -102,8 +104,6 @@ raw = fread(fid,inf);
 str = char(raw'); 
 fclose(fid); 
 json = jsondecode(str);
-
-
 
 x_sort = x(iii)';
 

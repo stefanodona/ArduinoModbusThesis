@@ -2,14 +2,14 @@ clear; close all; clc;
 data = struct();
 data.cnt = struct();
 
-myFolders = dir("CREEP_2024/077*");
+myFolders = dir("CREEP_2024_bis/077*");
 
 idx=1;
 
 
 
-for idx=1:length(myFolders)
-% for idx=3:3
+% for idx=1:length(myFolders)
+for idx=4:4
 
     nm = myFolders(idx).name
     fd = myFolders(idx).folder
@@ -19,7 +19,7 @@ for idx=1:length(myFolders)
     
     spiFolder = dir(strcat(fd, "\", nm, "\Creep*"));
     
-    start_values = [2, 0.2, 0.2, 0.2, 0.2, 0.1, 1, 10, 100];
+    start_values = [0.2, 0.2, 0.2, 0.2, 0.1, 1, 10, 100];
     
 
     % ordering folders
@@ -36,8 +36,8 @@ for idx=1:length(myFolders)
     sorted = sortrows(T, "displ");
     spiFolder = table2struct(sorted);
 
-    for jj=1:length(spiFolder)
-%     for jj=2:2
+%     for jj=1:length(spiFolder)
+    for jj=6:6
         filename = spiFolder(jj).name;
         filename_folder = spiFolder(jj).folder; 
         meas_name = split(filename, '_');
@@ -58,8 +58,8 @@ for idx=1:length(myFolders)
         f = datacell{2};
 
         % cleaning data
-        t = t(4:end)/1000;
-        f = -sign(displ)*f(4:end);
+        t = t(5:end)/1000;
+        f = -sign(displ)*f(5:end);
     
         upper_bound = f(1) + 1;
         lower_bound = f(end) - 1;
@@ -79,9 +79,9 @@ for idx=1:length(myFolders)
     
         
         coeff = fit(t, f, fit_func, ...
-            'StartPoint', start_values, ...
+            'StartPoint', [f(1),start_values], ...
             'Lower', [0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.1, 0.1, 0.1], ...
-            'Upper', [80, 10, 10, 10, 10, 10, 25, 1000, 50000], ...
+            'Upper', [80, 10, 10, 10, 10, 10, 25, 100, 1000], ...
             'Robust', 'LAR', ...
             'Algorithm', 'Trust-Region', ...
             'DiffMinChange', 1e-5, ...
@@ -100,7 +100,7 @@ for idx=1:length(myFolders)
         coeff_val = coeffvalues(coeff);
         coeff_names = coeffnames(coeff);
         
-        start_values = coeff_val;
+        start_values = coeff_val(2:end);
 
         forces = coeff_val(1:5);
         taus = coeff_val(6:9);
