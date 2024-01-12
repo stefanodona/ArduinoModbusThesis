@@ -2,14 +2,14 @@ clear; close all; clc;
 data = struct();
 data.cnt = struct();
 
-myFolders = dir("CREEP_2024_bis/077*");
+myFolders = dir("CREEP_2024/077*");
 
 idx=1;
 
 
 
 % for idx=1:length(myFolders)
-for idx=4:4
+for idx=1:1
 
     nm = myFolders(idx).name
     fd = myFolders(idx).folder
@@ -19,7 +19,7 @@ for idx=4:4
     
     spiFolder = dir(strcat(fd, "\", nm, "\Creep*"));
     
-    start_values = [0.2, 0.2, 0.2, 0.2, 0.1, 1, 10, 100];
+    start_values = [2, 0.2, 0.2, 0.2, 0.2, 0.1, 1, 10, 100];
     
 
     % ordering folders
@@ -35,9 +35,15 @@ for idx=4:4
     T = struct2table(spiFolder);
     sorted = sortrows(T, "displ");
     spiFolder = table2struct(sorted);
+    
 
-%     for jj=1:length(spiFolder)
-    for jj=6:6
+    figure(idx+1)
+    compliances=[];
+    resistances=[];
+    displacements=[];
+
+    for jj=1:length(spiFolder)
+%     for jj=6:6
         filename = spiFolder(jj).name;
         filename_folder = spiFolder(jj).folder; 
         meas_name = split(filename, '_');
@@ -72,14 +78,14 @@ for idx=4:4
          % plot data
 %         figure(1)
 %         plot(t, f);
-        grid on
-        title(strcat(nm, "   ", displ_name))
+%         grid on
+%         title(strcat(nm, "   ", displ_name))
 
         fit_func = @(f0,f1,f2,f3,f4,tau1,tau2,tau3,tau4,x) f0+f1*exp(-x/tau1)+f2*exp(-x/tau2)+f3*exp(-x/tau3)+f4*exp(-x/tau4);
     
         
         coeff = fit(t, f, fit_func, ...
-            'StartPoint', [f(1),start_values], ...
+            'StartPoint', start_values, ...
             'Lower', [0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.1, 0.1, 0.1], ...
             'Upper', [80, 10, 10, 10, 10, 10, 25, 100, 1000], ...
             'Robust', 'LAR', ...
@@ -92,15 +98,12 @@ for idx=4:4
 %             'StartPoint', [2, 0.2, 0.2, 0.2, 0.2, 0.1, 1, 10, 100], ...
         
         displ_name
-        figure(1)
-        plot(coeff, t, f)
-        grid on
-        title(strcat(nm, "   ", displ_name))
+        
         
         coeff_val = coeffvalues(coeff);
         coeff_names = coeffnames(coeff);
         
-        start_values = coeff_val(2:end);
+        start_values = coeff_val;
 
         forces = coeff_val(1:5);
         taus = coeff_val(6:9);
@@ -108,6 +111,42 @@ for idx=4:4
         displ = displ*1e-3;
         C_ms = abs(displ)./forces;
         R_ms = taus./C_ms(2:end);
+
+        displacements = [displacements, displ];
+        compliances = [compliances, C_ms'];
+        resistances = [resistances, R_ms'];
+
+        figure(idx+1)
+        subplot 211
+        plot(displacements, 10*compliances(1,:))
+        hold on
+        plot(displacements, compliances(2,:))
+        hold on
+        plot(displacements, compliances(3,:))
+        hold on
+        plot(displacements, compliances(4,:))
+        hold on
+        plot(displacements, compliances(5,:))
+        hold off
+        title("Compliance")
+        legend("10C0", "C1", "C2", "C3", "C4")
+        grid on
+        xlim([-1e-2,1e-2])
+
+        subplot 212
+        semilogy(displacements, resistances(1,:))
+        hold on
+        semilogy(displacements, resistances(2,:))
+        hold on
+        semilogy(displacements, resistances(3,:))
+        hold on
+        semilogy(displacements, resistances(4,:))
+        hold off
+        title("Resistance")
+        legend("R1", "R2", "R3", "R4")
+        grid on
+        xlim([-1e-2,1e-2])
+
         
         x_lab = {'disp'};
         C_lab = {'C0','C1','C2','C3','C4'};
@@ -135,6 +174,14 @@ for idx=4:4
             data(idx).cnt(jj).params.model_coeff(kk).value_um   = um_lab(kk);
             data(idx).cnt(jj).params.model_coeff(kk).value      = values(kk);
         end
+
+        
+
+
+        figure(1)
+        plot(coeff, t, f)
+        grid on
+        title(strcat(nm, "   ", displ_name))
         
     end
 
@@ -150,4 +197,4 @@ end
 %% SAVING
 save("MisureRilassamento_cnt077145.mat", "data")
 %% LAUNCH PLT SCRIPT
-plot_creep_param
+% plot_creep_param
