@@ -7,9 +7,8 @@ myFolders = dir("CREEP_2024/077*");
 idx=1;
 
 
-
-% for idx=1:length(myFolders)
-for idx=1:1
+for idx=1:length(myFolders)
+% for idx=1:1
 
     nm = myFolders(idx).name
     fd = myFolders(idx).folder

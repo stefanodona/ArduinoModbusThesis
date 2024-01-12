@@ -8,6 +8,7 @@
     "wait_time": 1000,
     "avg_flag": true,
     "ar_flag": true,
+    "tracking_flag": false,
     "th1_val": 2.5,
     "th1_avg": 5,
     "th2_val": 5.0,

@@ -3,14 +3,9 @@ close all;
 clc;
 load MisureRilassamento_cnt077145.mat
 
-% open static measurements values
-folders = {"STATICA_2023-12-22", "STATICA_2024-01-11"};
-filename = "Statica_07714532B-1"
-
-f_idx = 2 % select static folder
 
 % for jj=3:3
-jj=1; % select spider
+jj=3; % select spider
 
     figure()
     c0=[];c1=[];c2=[];c3=[];c4=[];
@@ -101,7 +96,11 @@ t = 0:0.1:300;
 [x_sort, iii] = sort(abs(x), 'descend');
 iii=flip(iii);
 
+% open static measurements values
+folders = {"STATICA_2023-12-22", "STATICA_2024-01-11"};
+filename = "Statica_07714532C-1"
 
+f_idx = 2 % select static folder
 
 fname = strcat(folders{f_idx},"/",filename,"/",filename,".json");
 fid = fopen(fname); 
@@ -133,11 +132,11 @@ end
 % LOAD TIMES
 times_file = strcat(folders{f_idx},"/",filename,"/times.txt");
 FID = fopen(times_file);
-times = textscan(FID, '%f%f%f%f%f%f%f%f', CommentStyle='#'); 
+times = textscan(FID, '%f%f%f%f', CommentStyle='#'); 
 fclose(FID);
 
-t_x_rise = [0; times{3}/1000];
-t_x_fall = [0; times{5}/1000];
+t_x_rise = [0; times{1}/1000];
+t_x_fall = [0; times{3}/1000];
 x_measured = [0; times{2}/1000];
 
 
@@ -196,10 +195,7 @@ end
 figure()
 plot(time, sum(forces,1))
 grid
-xlabel("time [s]",Interpreter="latex")
-ylabel("force [N]",Interpreter="latex")
-title("Force evolution in time", Interpreter="latex")
-subtitle(cnt_name, Interpreter="latex")
+xlabel()
 
 %% stiffness computation
 % close all
@@ -310,10 +306,6 @@ lab = {"ieri", "oggi"};
 % end
 
 legend("Computed", "Measured")
-xlabel("displacement [mm]",Interpreter="latex")
-ylabel("stiffnes [N/mm]",Interpreter="latex")
-title("Stiffness", Interpreter="latex")
-subtitle(cnt_name, Interpreter="latex")
 
 %%
 

@@ -360,6 +360,8 @@ panic_flag = False
 last_params = None
 confirm_flag = False
 
+tracking_flag = False
+
 txt_path='' 
 json_path=''
 
@@ -377,6 +379,7 @@ step_pos = params["step_pos"]
 wait_time = params["wait_time"]
 avg_flag = bool(params["avg_flag"])
 ar_flag = bool(params["ar_flag"])
+tracking_flag = bool(params["tracking_flag"])
 th1_val = params["th1_val"]
 th1_avg = params["th1_avg"]
 th2_val = params["th2_val"]
@@ -422,6 +425,8 @@ t_fall = np.array([])
 t_start = np.array([])
 t_end = np.array([])
 
+t_track = np.array([])
+
 # arrays for creep measurement
 time_axis = np.array([])
 
@@ -444,6 +449,20 @@ def setAvgFlag():
 def setARFlag():
     global ar_flag
     ar_flag = checkbox_AR.get()
+
+def set_tracking():
+    track = checkbox_tracking.get()
+    global avg_flag
+    
+    if track:
+        # avg_flag_tkvar.set(False)
+        avg_flag=False
+        checkbox.configure(state="disable")
+    else:
+        checkbox.configure(state="normal")
+        setAvgFlag()
+    
+
 
 
 def setLoadCell(val):
@@ -544,7 +563,7 @@ def startMeasurement():
         min_pos_entry.insert(0, "-")
 
 
-    global min_pos, max_pos, num_pos, step_pos, wait_time, percent, force, dev_force, force_ritorno, pos, pos_acquired,dev_pos_acquired, pos_acquired_ritorno, dev_pos_acquired_ritorno, pos_sorted, time_axis, creep_displ, creep_period, creep_duration, zero_p, zero_f, t_rise, t_fall, t_start, t_end
+    global min_pos, max_pos, num_pos, step_pos, wait_time, percent, force, dev_force, force_ritorno, pos, pos_acquired,dev_pos_acquired, pos_acquired_ritorno, dev_pos_acquired_ritorno, pos_sorted, time_axis, creep_displ, creep_period, creep_duration, zero_p, zero_f, t_rise, t_fall, t_start, t_end, t_track, tracking_flag
 
     reverse_bool_tkvar.set(False)
 
@@ -580,6 +599,11 @@ def startMeasurement():
     t_start = np.empty((0,2))
     t_end = np.empty((0,2))
 
+    t_track = np.empty((0,3))
+
+    # get here the value in order to not have saving problems
+    tracking_flag = tracking_flag_tkvar.get()
+
     populatePosArray()
     print(pos)
     print(pos_sorted)
@@ -597,7 +621,7 @@ def prepareMsgSerialParameters():
                    loadcell_fullscale, 
                    min_pos, max_pos, 
                    num_pos, wait_time,
-                   avg_flag, ar_flag, 
+                   avg_flag, ar_flag, tracking_flag,
                    th1_val, th1_avg, 
                    th2_val, th2_avg, 
                    th3_val, th3_avg,
@@ -616,7 +640,7 @@ def prepareMsgSerialParameters():
 
 
 def serialListener():
-    global pos, pos_sorted, pos_acquired, dev_pos_acquired, pos_acquired_ritorno, dev_pos_acquired_ritorno, percent, force, dev_force, force_ritorno, dev_force_ritorno, time_axis, max_iter, meas_forward, panic_flag, zero_p, zero_f, t_rise, t_fall, t_start, t_end
+    global pos, pos_sorted, pos_acquired, dev_pos_acquired, pos_acquired_ritorno, dev_pos_acquired_ritorno, percent, force, dev_force, force_ritorno, dev_force_ritorno, time_axis, max_iter, meas_forward, panic_flag, zero_p, zero_f, t_rise, t_fall, t_start, t_end, t_track
     print(port)
     with serial.Serial(port, 38400) as ser:
         index = 0
@@ -816,6 +840,13 @@ def serialListener():
                 time_val = float(data.split()[1])
                 pos_val = float(data.split()[2])
                 t_end = np.vstack([t_end, [time_val, pos_val]])
+
+            if compare_strings(data, "t_track"):
+                x =  float(data.split()[1])
+                f =  float(data.split()[2])
+                t =  float(data.split()[3])
+
+                t_track = np.vstack([t_track, [x,f,t]])
                 
 
             if compare_strings(data, "Finished"):
@@ -897,7 +928,7 @@ def serialListener():
 
         Thread(target=playFinish).start()
         drawPlots()
-        return
+    return
 
 
 
@@ -1022,6 +1053,7 @@ def updateTkVars():
     wait_time_tkvar.set(str(wait_time))
     avg_flag_tkvar.set(avg_flag)
     ar_flag_tkvar.set(ar_flag)
+    tracking_flag_tkvar.set(tracking_flag)
     creep_displ_tkvar.set(str(creep_displ))
     creep_period_tkvar.set(str(creep_period))
     creep_duration_tkvar.set(str(creep_duration))
@@ -1077,28 +1109,38 @@ def save_data(txt_path, json_path, zero_path):
     with open(txt_path, 'w') as fl:
         fl.write("# Acquired on "+ datetime.now().strftime("%d/%m/%Y %H:%M:%S") +" \n")
         fl.write("# SPIDER: " + spider_name_tkvar.get() + "\n")
-        if np.any(force):
+        if np.any(force) or np.any(t_track):
             if(not stat_creep_flag):
                 fl.write("# STATIC MEASUREMENT\n\n")
-                # fl.write("# pos [mm]\t\tdev_pos [mm]\t\tforce_forw [N]\t\tdev_force_forw [N]\t\tforce_back [N]\n")
-                fl.write("# pos [mm]\t\t")          # 0
-                fl.write("dev_pos [mm]\t\t")        # 1    
-                fl.write("force_forw [N]\t\t")      # 2    
-                fl.write("dev_force_forw [N]\t\t")  # 3        
-                fl.write("pos_back [mm]\t\t")       # 4    
-                fl.write("dev_p_back [mm]\t\t")     # 5    
-                fl.write("f_forw_back [N]\t\t")     # 6    
-                fl.write("dev_f_forw_back [N]\t\t") # 7        
-                fl.write("\n")                      
-                for i in range(0,len(pos_acquired)):
-                    if (ar_flag):
-                        # andata e ritorno
-                        fl.write(f"{pos_acquired[i]:.5f}"+"\t\t\t"+f"{dev_pos_acquired[i]:.5f}"+"\t\t\t"+f"{force[i]:.5f}" +"\t\t\t" + f"{dev_force[i]:.5f}" +"\t\t\t"+f"{pos_acquired_ritorno[i]:.5f}"+"\t\t\t"+f"{dev_pos_acquired_ritorno[i]:.5f}"+"\t\t\t"+f"{force_ritorno[i]:.5f}"+"\t\t\t"+f"{dev_force_ritorno[i]:.5f}"+"\n")   
-                    else:
-                        #solo andata
-                        fl.write(f"{pos_acquired[i]:.5f}"+"\t\t\t"+f"{dev_pos_acquired[i]:.5f}"+"\t\t\t"+f"{force[i]:.5f}" +"\t\t\t" + f"{dev_force[i]:.5f}" +"\t\t\t"+f"{0:.5f}"+"\t\t\t"+f"{0:.5f}"+"\t\t\t"+f"{0:.5f}"+"\t\t\t"+f"{0:.5f}"+"\n")   
 
-                        # fl.write(f"{pos_acquired[i]:.5f}"+"\t\t\t"+f"{dev_pos_acquired[i]:.5f}"+"\t\t\t"+ f"{force[i]:.5f}"+"\t\t\t" + f"{dev_force[i]:.5f}" +"\t\t\t"+ f"{0:.5f}"+"\n")   
+                if (tracking_flag):
+                    fl.write("# pos [mm]\t\t")
+                    fl.write(" force [N]\t\t")
+                    fl.write(" time [ms]\n")
+                    for i in range(0, len(t_track)):
+                        fl.write(f"{t_track[i][0]:.5f}"+"\t\t\t")
+                        fl.write(f"{t_start[i][1]:.5f}"+"\t\t\t")
+                        fl.write(f"{t_start[i][2]:.5f}"+"\n")
+                else:
+                    # fl.write("# pos [mm]\t\tdev_pos [mm]\t\tforce_forw [N]\t\tdev_force_forw [N]\t\tforce_back [N]\n")
+                    fl.write("# pos [mm]\t\t")          # 0
+                    fl.write("dev_pos [mm]\t\t")        # 1    
+                    fl.write("force_forw [N]\t\t")      # 2    
+                    fl.write("dev_force_forw [N]\t\t")  # 3        
+                    fl.write("pos_back [mm]\t\t")       # 4    
+                    fl.write("dev_p_back [mm]\t\t")     # 5    
+                    fl.write("f_forw_back [N]\t\t")     # 6    
+                    fl.write("dev_f_forw_back [N]\t\t") # 7        
+                    fl.write("\n")                      
+                    for i in range(0,len(pos_acquired)):
+                        if (ar_flag):
+                            # andata e ritorno
+                            fl.write(f"{pos_acquired[i]:.5f}"+"\t\t\t"+f"{dev_pos_acquired[i]:.5f}"+"\t\t\t"+f"{force[i]:.5f}" +"\t\t\t" + f"{dev_force[i]:.5f}" +"\t\t\t"+f"{pos_acquired_ritorno[i]:.5f}"+"\t\t\t"+f"{dev_pos_acquired_ritorno[i]:.5f}"+"\t\t\t"+f"{force_ritorno[i]:.5f}"+"\t\t\t"+f"{dev_force_ritorno[i]:.5f}"+"\n")   
+                        else:
+                            #solo andata
+                            fl.write(f"{pos_acquired[i]:.5f}"+"\t\t\t"+f"{dev_pos_acquired[i]:.5f}"+"\t\t\t"+f"{force[i]:.5f}" +"\t\t\t" + f"{dev_force[i]:.5f}" +"\t\t\t"+f"{0:.5f}"+"\t\t\t"+f"{0:.5f}"+"\t\t\t"+f"{0:.5f}"+"\t\t\t"+f"{0:.5f}"+"\n")   
+
+                            # fl.write(f"{pos_acquired[i]:.5f}"+"\t\t\t"+f"{dev_pos_acquired[i]:.5f}"+"\t\t\t"+ f"{force[i]:.5f}"+"\t\t\t" + f"{dev_force[i]:.5f}" +"\t\t\t"+ f"{0:.5f}"+"\n")   
             else:
                 fl.write("# CREEP MEASUREMENT\n\n")
                 fl.write("# time [ms]\t\tforce [N]\t\tstiffness [N/mm]\n")
@@ -1115,31 +1157,32 @@ def save_data(txt_path, json_path, zero_path):
     app.title("MyApp - "+root_name)
     last_params = params
 
-    with open(zero_path, 'w') as zfl:
-        zfl.write("# zero pos")
-        zfl.write("\t\t\t zero force\n")
-        for i in range(0, len(zero_f)):
-            zfl.write(f"{zero_p[i]:.5f}"+"\t\t\t"+f"{zero_f[i]:.5f}"+"\n")
-        zfl.close()
+    if (not tracking_flag):
+        with open(zero_path, 'w') as zfl:
+            zfl.write("# zero pos")
+            zfl.write("\t\t\t zero force\n")
+            for i in range(0, len(zero_f)):
+                zfl.write(f"{zero_p[i]:.5f}"+"\t\t\t"+f"{zero_f[i]:.5f}"+"\n")
+            zfl.close()
 
-    time_path = os.path.split(txt_path)[0]
-    time_path = os.path.join(time_path, "times.txt")
+        time_path = os.path.split(txt_path)[0]
+        time_path = os.path.join(time_path, "times.txt")
 
-    with open(time_path, 'w') as tp:
-        tp.write("# t_start ")
-        tp.write("\t\t\t pos ")
-        tp.write("\t\t\t t_rise ")
-        tp.write("\t\t\t pos ")
-        tp.write("\t\t\t t_fall")
-        tp.write("\t\t\t pos")
-        tp.write("\t\t\t t_end")
-        tp.write("\t\t\t pos\n")
-        for i in range(0, len(t_rise)):
-            tp.write(f"{t_start[i][0]:.5f}"+"\t\t\t"+f"{t_start[i][1]:.5f}"+"\t\t\t")
-            tp.write(f"{t_rise[i][0]:.5f}"+"\t\t\t"+f"{t_rise[i][1]:.5f}"+"\t\t\t")
-            tp.write(f"{t_fall[i][0]:.5f}"+"\t\t\t"+f"{t_fall[i][1]:.5f}"+"\t\t\t")
-            tp.write(f"{t_end[i][0]:.5f}"+"\t\t\t"+f"{t_end[i][1]:.5f}"+"\n")
-        tp.close()
+        with open(time_path, 'w') as tp:
+            tp.write("# t_start ")
+            tp.write("\t\t\t pos ")
+            tp.write("\t\t\t t_rise ")
+            tp.write("\t\t\t pos ")
+            tp.write("\t\t\t t_fall")
+            tp.write("\t\t\t pos")
+            tp.write("\t\t\t t_end")
+            tp.write("\t\t\t pos\n")
+            for i in range(0, len(t_rise)):
+                tp.write(f"{t_start[i][0]:.5f}"+"\t\t\t"+f"{t_start[i][1]:.5f}"+"\t\t\t")
+                tp.write(f"{t_rise[i][0]:.5f}"+"\t\t\t"+f"{t_rise[i][1]:.5f}"+"\t\t\t")
+                tp.write(f"{t_fall[i][0]:.5f}"+"\t\t\t"+f"{t_fall[i][1]:.5f}"+"\t\t\t")
+                tp.write(f"{t_end[i][0]:.5f}"+"\t\t\t"+f"{t_end[i][1]:.5f}"+"\n")
+            tp.close()
         
 
 
@@ -1407,6 +1450,8 @@ creep_displ_tkvar = customtkinter.StringVar(app, str(creep_displ))
 creep_period_tkvar = customtkinter.StringVar(app, str(creep_period))
 creep_duration_tkvar = customtkinter.StringVar(app, str(creep_duration))
 
+tracking_flag_tkvar = customtkinter.BooleanVar(app, tracking_flag)
+
 spider_name_tkvar.trace_add('write', callback=lambda *args: tkvar_changed())
 loadcell_fullscale_tkvar.trace_add('write', callback=lambda *args: tkvar_changed())
 min_pos_tkvar.trace_add('write', callback=lambda *args: tkvar_changed())
@@ -1492,6 +1537,9 @@ checkbox.configure(variable=avg_flag_tkvar)
 
 checkbox_AR = customtkinter.CTkCheckBox(staticFrame, text="Andata e Ritorno", command=setARFlag)
 checkbox_AR.configure(variable=ar_flag_tkvar)
+
+checkbox_tracking = customtkinter.CTkCheckBox(staticFrame, text="Tracking", command=set_tracking)
+checkbox.configure(variable=tracking_flag_tkvar)
 
 
 
@@ -1651,6 +1699,8 @@ def showStaticFrame():
     wait_time_entry.grid(row=7, column=1, padx=20, sticky="w")
 
     checkbox.grid(row=8, column=0, padx=20, sticky="w", pady=10, columnspan=2)
+    checkbox_tracking.grid(row=8, column=1, padx=20, sticky="w", pady=10, columnspan=2)
+
     checkbox_AR.grid(row=9, column=0, padx=20, sticky="w", pady=10, columnspan=2)
     app.update()
 
