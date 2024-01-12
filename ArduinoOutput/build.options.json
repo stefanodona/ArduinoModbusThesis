@@ -4,8 +4,8 @@
   "compiler.optimization_flags": "",
   "customBuildProperties": "",
   "fqbn": "arduino:megaavr:uno2018:mode=off",
-  "hardwareFolders": "C:\\Users\\stefa\\AppData\\Local\\Arduino15\\packages",
-  "otherLibrariesFolders": "C:\\Users\\stefa\\Documents\\Arduino\\libraries",
+  "hardwareFolders": "/home/stefano/.arduino15/packages",
+  "otherLibrariesFolders": "/home/stefano/Arduino/libraries",
   "runtime.ide.version": "10607",
-  "sketchLocation": "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop"
+  "sketchLocation": "/home/stefano/Scrivania/ArduinoModbusThesis/SMD1204_noLoop"
 }
