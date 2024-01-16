@@ -1,9 +1,16 @@
-clear; close all; clc;
+clear; 
+close all; 
+clc;
 load MisureRilassamento_cnt077145.mat
 
+% open static measurements values
+folders = {"STATICA_2023-12-22", "STATICA_2024-01-11"};
+filename = "Statica_07714532C-2"
 
-% for jj=3:3
-jj=3; % select spider
+f_idx = 2 % select static folder
+
+
+jj=4; % select spider
 
     figure()
     c0=[];c1=[];c2=[];c3=[];c4=[];
@@ -66,11 +73,13 @@ jj=3; % select spider
     legend(["$R_1$", "$R_2$", "$R_3$", "$R_4$"], Interpreter="latex")
 % end
 
+cnt_name = data(jj).name
+
 %% mesh spaziale 
 x = min(displ): 0.25e-3 : max(displ);
 
 params = [c0;c1;c2;c3;c4;r1;r2;r3;r4];
-close all
+% close all
 figure()
 for i=1:size(params, 1)
     params_int(i,:) = interp1(displ, params(i,:), x);
@@ -92,11 +101,7 @@ t = 0:0.1:300;
 [x_sort, iii] = sort(abs(x), 'descend');
 iii=flip(iii);
 
-% open static measurements values
-folders = {"STATICA_2023-12-22", "STATICA_2024-01-11"};
-filename = "Statica_07714532C-1"
 
-f_idx = 2 % select static folder
 
 fname = strcat(folders{f_idx},"/",filename,"/",filename,".json");
 fid = fopen(fname); 
@@ -128,11 +133,11 @@ end
 % LOAD TIMES
 times_file = strcat(folders{f_idx},"/",filename,"/times.txt");
 FID = fopen(times_file);
-times = textscan(FID, '%f%f%f%f', CommentStyle='#'); 
+times = textscan(FID, '%f%f%f%f%f%f%f%f', CommentStyle='#'); 
 fclose(FID);
 
-t_x_rise = [0; times{1}/1000];
-t_x_fall = [0; times{3}/1000];
+t_x_rise = [0; times{3}/1000];
+t_x_fall = [0; times{5}/1000];
 x_measured = [0; times{2}/1000];
 
 
@@ -145,6 +150,7 @@ time = 0 : dt : t_final;
 
 %%
 forces = []
+force = []
 % x_long = -x_long;
 for ind = 1:length(x_long)
     ii = find(x_long(ind)==x);
@@ -191,9 +197,13 @@ end
 figure()
 plot(time, sum(forces,1))
 grid
+xlabel("time [s]",Interpreter="latex")
+ylabel("force [N]",Interpreter="latex")
+title("Force evolution in time", Interpreter="latex")
+subtitle(cnt_name, Interpreter="latex")
 
 %% stiffness computation
-close all
+% close all
 t_x_fall = round(t_x_fall,2);
 ind = t_x_fall/dt;
 forces_sum = sum(forces,1);
@@ -210,7 +220,7 @@ stiff(1)=[];
 [x_long_sorted, x_l_ind] = sort(x_to_plot, 'ascend');
 stiff = stiff(x_l_ind);
 
-figure(1)
+figure()
 plot(x_long_sorted*1000, stiff/1000, 'o')
 grid on
 hold on
@@ -290,18 +300,21 @@ lab = {"ieri", "oggi"};
     end
     
     
-    figure(1);
+%     figure(1);
     plot(x_vera(:,1), kms_vera(:,1))
     hold on
 %     plot(x_vera(:,2), kms_vera(:,2))
 %     hold on
     grid on
+    hold off
 
 % end
-cnt = split(filename, '_');
-cnt = cnt(3)
 
 legend("Computed", "Measured")
+xlabel("displacement [mm]",Interpreter="latex")
+ylabel("stiffnes [N/mm]",Interpreter="latex")
+title("Stiffness", Interpreter="latex")
+subtitle(cnt_name, Interpreter="latex")
 
 %%
 
@@ -317,7 +330,6 @@ function cnt = get_iter(val, json)
     if abs(round(val,3)) <= json.th1_val
         cnt = json.th1_avg;
     end
-%     disp(cnt)
 end
 
 % function t_1 = getTime(disp,acc,dec,v_max)

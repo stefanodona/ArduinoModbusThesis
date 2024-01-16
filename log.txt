@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Ready to read!
 Parameters
 0
@@ -3655,3 +3656,4264 @@ driver_pos   0.236816
 val   0.699137
 std   0.006458   0.000000
 driver_pos  -0.229492
+=======
+Ready to read!
+Parameters
+1
+Initializing...
+Connecting
+Cable connected!
+192.168.56.1
+Attempting to connect to Modbus TCP server
+Modbus TCP Client connected!
+time: 12.00
+Velocita' massima settata a: 10 rps
+Posizionare il centratore...
+Stringere il centratore...
+Taratura
+____
+____
+____
+____
+____
+____
+____
+____
+____
+____
+____
+____
+____
+____
+____
+____
+tare  -4.479110
+Measure Routine
+send me
+0.25
+-0.25
+0.50
+-0.50
+0.75
+-0.75
+1.00
+-1.00
+1.25
+-1.25
+1.50
+-1.50
+1.75
+-1.75
+2.00
+-2.00
+2.25
+-2.25
+2.50
+-2.50
+2.75
+-2.75
+3.00
+-3.00
+3.25
+-3.25
+3.50
+-3.50
+3.75
+-3.75
+4.00
+-4.00
+4.25
+-4.25
+4.50
+-4.50
+4.75
+-4.75
+5.00
+-5.00
+5.25
+-5.25
+5.50
+-5.50
+5.75
+-5.75
+6.00
+-6.00
+6.25
+-6.25
+6.50
+-6.50
+6.75
+-6.75
+7.00
+-7.00
+7.25
+-7.25
+7.50
+-7.50
+7.75
+-7.75
+8.00
+-8.00
+8.25
+-8.25
+8.50
+-8.50
+8.75
+-8.75
+9.00
+-9.00
+9.25
+-9.25
+9.50
+-9.50
+9.75
+-9.75
+10.00
+-10.00
+10.25
+-10.25
+10.50
+-10.50
+10.75
+-10.75
+11.00
+-11.00
+Measuring
+andata
+time: 0.00
+cnt 
+1
+measure time:
+1
+t_track   0.250000  -0.010657 176.000000
+measure time:
+1
+t_track   0.250000  -0.167801 276.000000
+measure time:
+1
+t_track   0.250000  -0.534119 377.000000
+measure time:
+1
+t_track   0.250000  -0.701593 476.000000
+measure time:
+0
+t_track   0.250000  -0.703680 576.000000
+measure time:
+0
+t_track   0.250000  -0.699533 677.000000
+measure time:
+0
+t_track   0.250000  -0.695963 776.000000
+measure time:
+0
+t_track   0.250000  -0.693173 876.000000
+measure time:
+1
+t_track   0.250000  -0.691339 977.000000
+measure time:
+1
+t_track   0.250000  -0.689680 1076.000000
+check percent
+measure time:
+1
+t_track  -0.250000  -0.273645 1766.000000
+measure time:
+1
+t_track  -0.250000   0.116803 1866.000000
+measure time:
+0
+t_track  -0.250000   0.505742 1967.000000
+measure time:
+0
+t_track  -0.250000   0.651877 2066.000000
+measure time:
+0
+t_track  -0.250000   0.643959 2166.000000
+measure time:
+0
+t_track  -0.250000   0.637751 2267.000000
+measure time:
+1
+t_track  -0.250000   0.634458 2366.000000
+measure time:
+2
+t_track  -0.250000   0.632020 2467.000000
+measure time:
+1
+t_track  -0.250000   0.628577 2566.000000
+measure time:
+0
+t_track  -0.250000   0.625510 2666.000000
+measure time:
+0
+t_track   0.000000   0.611259 3195.000000
+measure time:
+0
+t_track   0.000000   0.255447 3296.000000
+measure time:
+0
+t_track   0.000000   0.031142 3396.000000
+measure time:
+0
+t_track   0.000000  -0.000754 3497.000000
+measure time:
+0
+t_track   0.000000   0.002916 3596.000000
+measure time:
+0
+t_track   0.000000   0.007390 3696.000000
+measure time:
+0
+t_track   0.000000   0.009778 3797.000000
+measure time:
+1
+t_track   0.000000   0.010683 3896.000000
+measure time:
+1
+t_track   0.000000   0.010733 3996.000000
+measure time:
+1
+t_track   0.000000   0.013372 4097.000000
+time: 0.00
+cnt 
+1
+measure time:
+0
+t_track   0.500000  -0.042252 4433.000000
+measure time:
+1
+t_track   0.500000  -1.125018 4534.000000
+measure time:
+1
+t_track   0.500000  -1.406480 4634.000000
+measure time:
+1
+t_track   0.500000  -1.429202 4735.000000
+measure time:
+1
+t_track   0.500000  -1.416710 4834.000000
+measure time:
+0
+t_track   0.500000  -1.408667 4934.000000
+measure time:
+0
+t_track   0.500000  -1.402182 5035.000000
+measure time:
+0
+t_track   0.500000  -1.396904 5134.000000
+measure time:
+0
+t_track   0.500000  -1.388584 5234.000000
+measure time:
+1
+t_track   0.500000  -1.385592 5335.000000
+check percent
+measure time:
+1
+t_track  -0.500000   0.162850 6152.000000
+measure time:
+1
+t_track  -0.500000   0.785470 6252.000000
+measure time:
+1
+t_track  -0.500000   1.246923 6353.000000
+measure time:
+0
+t_track  -0.500000   1.344925 6452.000000
+measure time:
+0
+t_track  -0.500000   1.317301 6552.000000
+measure time:
+0
+t_track  -0.500000   1.307498 6653.000000
+measure time:
+0
+t_track  -0.500000   1.298877 6752.000000
+measure time:
+1
+t_track  -0.500000   1.293197 6852.000000
+measure time:
+1
+t_track  -0.500000   1.288346 6953.000000
+measure time:
+1
+t_track  -0.500000   1.283444 7052.000000
+measure time:
+0
+t_track   0.000000   1.104483 7647.000000
+measure time:
+0
+t_track   0.000000   0.546712 7747.000000
+measure time:
+0
+t_track   0.000000   0.062461 7848.000000
+measure time:
+1
+t_track   0.000000  -0.061455 7948.000000
+measure time:
+1
+t_track   0.000000  -0.054291 8048.000000
+measure time:
+1
+t_track   0.000000  -0.049013 8149.000000
+measure time:
+1
+t_track   0.000000  -0.044740 8248.000000
+measure time:
+1
+t_track   0.000000  -0.041598 8348.000000
+measure time:
+0
+t_track   0.000000  -0.039311 8449.000000
+measure time:
+0
+t_track   0.000000  -0.039839 8548.000000
+time: 0.00
+cnt 
+1
+measure time:
+0
+t_track   0.750000  -0.967195 8940.000000
+measure time:
+1
+t_track   0.750000  -1.781645 9042.000000
+measure time:
+1
+t_track   0.750000  -2.142257 9141.000000
+measure time:
+1
+t_track   0.750000  -2.192452 9241.000000
+measure time:
+1
+t_track   0.750000  -2.176617 9342.000000
+measure time:
+0
+t_track   0.750000  -2.164502 9441.000000
+measure time:
+0
+t_track   0.750000  -2.145877 9541.000000
+measure time:
+0
+t_track   0.750000  -2.139241 9642.000000
+measure time:
+1
+t_track   0.750000  -2.133234 9741.000000
+measure time:
+1
+t_track   0.750000  -2.128006 9841.000000
+check percent
+measure time:
+0
+t_track  -0.750000   0.347115 10763.000000
+measure time:
+0
+t_track  -0.750000   1.791046 10864.000000
+measure time:
+0
+t_track  -0.750000   1.979835 10965.000000
+measure time:
+0
+t_track  -0.750000   1.972847 11064.000000
+measure time:
+1
+t_track  -0.750000   1.953469 11164.000000
+measure time:
+1
+t_track  -0.750000   1.939594 11265.000000
+measure time:
+1
+t_track  -0.750000   1.927856 11364.000000
+measure time:
+0
+t_track  -0.750000   1.919662 11464.000000
+measure time:
+0
+t_track  -0.750000   1.905410 11565.000000
+measure time:
+0
+t_track  -0.750000   1.898750 11664.000000
+measure time:
+0
+t_track   0.000000   1.330045 12308.000000
+measure time:
+0
+t_track   0.000000   0.487041 12409.000000
+measure time:
+1
+t_track   0.000000  -0.012995 12509.000000
+measure time:
+1
+t_track   0.000000  -0.128264 12609.000000
+measure time:
+1
+t_track   0.000000  -0.113786 12710.000000
+measure time:
+1
+t_track   0.000000  -0.106321 12809.000000
+measure time:
+1
+t_track   0.000000  -0.101068 12909.000000
+measure time:
+0
+t_track   0.000000  -0.097348 13010.000000
+measure time:
+0
+t_track   0.000000  -0.093351 13109.000000
+measure time:
+0
+t_track   0.000000  -0.089983 13209.000000
+time: 0.00
+cnt 
+1
+measure time:
+0
+t_track   1.000000  -1.194592 13657.000000
+measure time:
+0
+t_track   1.000000  -2.229375 13758.000000
+measure time:
+0
+t_track   1.000000  -2.931371 13859.000000
+measure time:
+0
+t_track   1.000000  -2.918753 13958.000000
+measure time:
+1
+t_track   1.000000  -2.899349 14058.000000
+measure time:
+1
+t_track   1.000000  -2.884595 14159.000000
+measure time:
+0
+t_track   1.000000  -2.875094 14258.000000
+measure time:
+0
+t_track   1.000000  -2.866950 14358.000000
+measure time:
+0
+t_track   1.000000  -2.858479 14459.000000
+measure time:
+0
+t_track   1.000000  -2.844806 14558.000000
+check percent
+measure time:
+0
+t_track  -1.000000   1.196125 15577.000000
+measure time:
+0
+t_track  -1.000000   2.098221 15678.000000
+measure time:
+0
+t_track  -1.000000   2.542608 15779.000000
+measure time:
+0
+t_track  -1.000000   2.608889 15878.000000
+measure time:
+1
+t_track  -1.000000   2.587851 15978.000000
+measure time:
+1
+t_track  -1.000000   2.571237 16079.000000
+measure time:
+1
+t_track  -1.000000   2.559449 16178.000000
+measure time:
+0
+t_track  -1.000000   2.549219 16278.000000
+measure time:
+0
+t_track  -1.000000   2.539868 16379.000000
+measure time:
+0
+t_track  -1.000000   2.531724 16478.000000
+measure time:
+0
+t_track   0.000000   1.556310 17170.000000
+measure time:
+0
+t_track   0.000000   0.546486 17272.000000
+measure time:
+0
+t_track   0.000000  -0.019329 17371.000000
+measure time:
+0
+t_track   0.000000  -0.177352 17470.000000
+measure time:
+1
+t_track   0.000000  -0.162297 17572.000000
+measure time:
+1
+t_track   0.000000  -0.153876 17671.000000
+measure time:
+1
+t_track   0.000000  -0.145908 17771.000000
+measure time:
+1
+t_track   0.000000  -0.141384 17872.000000
+measure time:
+1
+t_track   0.000000  -0.138167 17971.000000
+measure time:
+0
+t_track   0.000000  -0.134296 18071.000000
+time: 0.00
+cnt 
+1
+measure time:
+1
+t_track   1.250000  -2.307972 18556.000000
+measure time:
+1
+t_track   1.250000  -3.228065 18656.000000
+measure time:
+1
+t_track   1.250000  -3.636961 18756.000000
+measure time:
+0
+t_track   1.250000  -3.707188 18857.000000
+measure time:
+0
+t_track   1.250000  -3.663504 18956.000000
+measure time:
+0
+t_track   1.250000  -3.649026 19056.000000
+measure time:
+0
+t_track   1.250000  -3.636811 19156.000000
+measure time:
+1
+t_track   1.250000  -3.627360 19256.000000
+measure time:
+1
+t_track   1.250000  -3.617482 19356.000000
+measure time:
+0
+t_track   1.250000  -3.609011 19457.000000
+check percent
+measure time:
+0
+t_track  -1.250000   2.288493 20561.000000
+measure time:
+0
+t_track  -1.250000   2.991193 20662.000000
+measure time:
+0
+t_track  -1.250000   3.248651 20762.000000
+measure time:
+0
+t_track  -1.250000   3.260112 20863.000000
+measure time:
+1
+t_track  -1.250000   3.232489 20962.000000
+measure time:
+1
+t_track  -1.250000   3.212481 21062.000000
+measure time:
+1
+t_track  -1.250000   3.183375 21163.000000
+measure time:
+1
+t_track  -1.250000   3.172165 21262.000000
+measure time:
+0
+t_track  -1.250000   3.161784 21362.000000
+measure time:
+0
+t_track  -1.250000   3.153565 21463.000000
+measure time:
+1
+t_track   0.000000   1.628774 22204.000000
+measure time:
+1
+t_track   0.000000  -0.031042 22304.000000
+measure time:
+1
+t_track   0.000000  -0.212491 22405.000000
+measure time:
+1
+t_track   0.000000  -0.219077 22504.000000
+measure time:
+0
+t_track   0.000000  -0.202035 22604.000000
+measure time:
+0
+t_track   0.000000  -0.190699 22705.000000
+measure time:
+0
+t_track   0.000000  -0.183762 22804.000000
+measure time:
+0
+t_track   0.000000  -0.176825 22905.000000
+measure time:
+0
+t_track   0.000000  -0.167047 23004.000000
+measure time:
+0
+t_track   0.000000  -0.163830 23104.000000
+time: 0.00
+cnt 
+1
+measure time:
+1
+t_track   1.500000  -2.305459 23618.000000
+measure time:
+0
+t_track   1.500000  -4.234294 23719.000000
+measure time:
+0
+t_track   1.500000  -4.456087 23818.000000
+measure time:
+0
+t_track   1.500000  -4.451437 23918.000000
+measure time:
+0
+t_track   1.500000  -4.425472 24019.000000
+measure time:
+1
+t_track   1.500000  -4.405715 24118.000000
+measure time:
+1
+t_track   1.500000  -4.388498 24218.000000
+measure time:
+1
+t_track   1.500000  -4.374573 24319.000000
+measure time:
+0
+t_track   1.500000  -4.353812 24418.000000
+measure time:
+0
+t_track   1.500000  -4.345115 24518.000000
+check percent
+measure time:
+1
+t_track  -1.500000   2.595542 25691.000000
+measure time:
+1
+t_track  -1.500000   3.456944 25791.000000
+measure time:
+1
+t_track  -1.500000   3.842038 25892.000000
+measure time:
+0
+t_track  -1.500000   3.901508 25991.000000
+measure time:
+0
+t_track  -1.500000   3.846889 26091.000000
+measure time:
+0
+t_track  -1.500000   3.828340 26192.000000
+measure time:
+0
+t_track  -1.500000   3.813133 26291.000000
+measure time:
+1
+t_track  -1.500000   3.799987 26391.000000
+measure time:
+1
+t_track  -1.500000   3.788877 26492.000000
+measure time:
+0
+t_track  -1.500000   3.779075 26591.000000
+measure time:
+0
+t_track   0.000000   1.160534 27363.000000
+measure time:
+0
+t_track   0.000000   0.253261 27464.000000
+measure time:
+0
+t_track   0.000000  -0.164081 27565.000000
+measure time:
+0
+t_track   0.000000  -0.257181 27664.000000
+measure time:
+1
+t_track   0.000000  -0.228804 27764.000000
+measure time:
+1
+t_track   0.000000  -0.217468 27865.000000
+measure time:
+1
+t_track   0.000000  -0.209048 27964.000000
+measure time:
+1
+t_track   0.000000  -0.202387 28064.000000
+measure time:
+1
+t_track   0.000000  -0.195927 28165.000000
+measure time:
+0
+t_track   0.000000  -0.192006 28264.000000
+time: 0.00
+cnt 
+1
+measure time:
+0
+t_track   1.750000  -4.278909 28809.000000
+measure time:
+0
+t_track   1.750000  -5.007046 28910.000000
+measure time:
+0
+t_track   1.750000  -5.259050 29011.000000
+measure time:
+1
+t_track   1.750000  -5.264227 29110.000000
+measure time:
+1
+t_track   1.750000  -5.232180 29210.000000
+measure time:
+1
+t_track   1.750000  -5.209433 29311.000000
+measure time:
+0
+t_track   1.750000  -5.191260 29410.000000
+measure time:
+0
+t_track   1.750000  -5.176029 29510.000000
+measure time:
+0
+t_track   1.750000  -5.152074 29611.000000
+measure time:
+1
+t_track   1.750000  -5.141618 29710.000000
+check percent
+measure time:
+0
+t_track  -1.750000   3.463555 30948.000000
+measure time:
+1
+t_track  -1.750000   4.216575 31049.000000
+measure time:
+1
+t_track  -1.750000   4.518723 31150.000000
+measure time:
+1
+t_track  -1.750000   4.539208 31249.000000
+measure time:
+0
+t_track  -1.750000   4.507136 31349.000000
+measure time:
+0
+t_track  -1.750000   4.462471 31450.000000
+measure time:
+0
+t_track  -1.750000   4.446862 31549.000000
+measure time:
+1
+t_track  -1.750000   4.432334 31649.000000
+measure time:
+1
+t_track  -1.750000   4.420068 31750.000000
+measure time:
+1
+t_track  -1.750000   4.409763 31849.000000
+measure time:
+1
+t_track   0.000000   1.243429 32658.000000
+measure time:
+1
+t_track   0.000000   0.298730 32758.000000
+measure time:
+0
+t_track   0.000000  -0.284528 32859.000000
+measure time:
+0
+t_track   0.000000  -0.274701 32958.000000
+measure time:
+0
+t_track   0.000000  -0.256603 33059.000000
+measure time:
+0
+t_track   0.000000  -0.243055 33158.000000
+measure time:
+0
+t_track   0.000000  -0.233730 33258.000000
+measure time:
+0
+t_track   0.000000  -0.226240 33359.000000
+measure time:
+0
+t_track   0.000000  -0.218851 33457.000000
+measure time:
+1
+t_track   0.000000  -0.213396 33558.000000
+time: 0.00
+cnt 
+1
+measure time:
+0
+t_track   2.000000  -4.546196 34145.000000
+measure time:
+1
+t_track   2.000000  -5.547097 34246.000000
+measure time:
+1
+t_track   2.000000  -6.006565 34347.000000
+measure time:
+1
+t_track   2.000000  -6.056432 34446.000000
+measure time:
+0
+t_track   2.000000  -6.027277 34546.000000
+measure time:
+0
+t_track   2.000000  -6.005132 34647.000000
+measure time:
+0
+t_track   2.000000  -5.985954 34746.000000
+measure time:
+1
+t_track   2.000000  -5.969641 34846.000000
+measure time:
+1
+t_track   2.000000  -5.956420 34947.000000
+measure time:
+1
+t_track   2.000000  -5.944858 35046.000000
+check percent
+measure time:
+0
+t_track  -2.000000   3.881525 36352.000000
+measure time:
+1
+t_track  -2.000000   4.742349 36453.000000
+measure time:
+1
+t_track  -2.000000   5.206266 36553.000000
+measure time:
+1
+t_track  -2.000000   5.171982 36654.000000
+measure time:
+0
+t_track  -2.000000   5.142674 36753.000000
+measure time:
+0
+t_track  -2.000000   5.120129 36853.000000
+measure time:
+0
+t_track  -2.000000   5.101906 36954.000000
+measure time:
+0
+t_track  -2.000000   5.085970 37053.000000
+measure time:
+1
+t_track  -2.000000   5.072071 37153.000000
+measure time:
+1
+t_track  -2.000000   5.060785 37254.000000
+measure time:
+0
+t_track   0.000000   0.876508 38091.000000
+measure time:
+1
+t_track   0.000000   0.089054 38193.000000
+measure time:
+1
+t_track   0.000000  -0.249842 38292.000000
+measure time:
+1
+t_track   0.000000  -0.313308 38393.000000
+measure time:
+1
+t_track   0.000000  -0.277867 38492.000000
+measure time:
+0
+t_track   0.000000  -0.265451 38592.000000
+measure time:
+0
+t_track   0.000000  -0.254442 38693.000000
+measure time:
+0
+t_track   0.000000  -0.245519 38792.000000
+measure time:
+0
+t_track   0.000000  -0.238380 38892.000000
+measure time:
+0
+t_track   0.000000  -0.234007 38993.000000
+time: 0.00
+cnt 
+1
+measure time:
+0
+t_track   2.250000  -5.268827 39592.000000
+measure time:
+0
+t_track   2.250000  -6.339126 39693.000000
+measure time:
+0
+t_track   2.250000  -6.844968 39793.000000
+measure time:
+1
+t_track   2.250000  -6.947670 39894.000000
+measure time:
+1
+t_track   2.250000  -6.881867 39993.000000
+measure time:
+1
+t_track   2.250000  -6.855650 40093.000000
+measure time:
+0
+t_track   2.250000  -6.834764 40194.000000
+measure time:
+0
+t_track   2.250000  -6.817144 40293.000000
+measure time:
+0
+t_track   2.250000  -6.802440 40393.000000
+measure time:
+1
+t_track   2.250000  -6.789219 40494.000000
+check percent
+measure time:
+1
+t_track  -2.250000   4.990482 41841.000000
+measure time:
+1
+t_track  -2.250000   5.636477 41942.000000
+measure time:
+0
+t_track  -2.250000   5.858319 42041.000000
+measure time:
+0
+t_track  -2.250000   5.853417 42141.000000
+measure time:
+0
+t_track  -2.250000   5.818078 42242.000000
+measure time:
+1
+t_track  -2.250000   5.790781 42341.000000
+measure time:
+1
+t_track  -2.250000   5.768285 42441.000000
+measure time:
+1
+t_track  -2.250000   5.734127 42542.000000
+measure time:
+0
+t_track  -2.250000   5.719775 42641.000000
+measure time:
+0
+t_track  -2.250000   5.707207 42741.000000
+measure time:
+1
+t_track   0.000000   0.535351 43600.000000
+measure time:
+1
+t_track   0.000000  -0.093401 43700.000000
+measure time:
+1
+t_track   0.000000  -0.319566 43800.000000
+measure time:
+0
+t_track   0.000000  -0.333139 43901.000000
+measure time:
+0
+t_track   0.000000  -0.309613 44000.000000
+measure time:
+0
+t_track   0.000000  -0.293501 44100.000000
+measure time:
+0
+t_track   0.000000  -0.279828 44201.000000
+measure time:
+0
+t_track   0.000000  -0.261705 44300.000000
+measure time:
+0
+t_track   0.000000  -0.254592 44399.000000
+measure time:
+1
+t_track   0.000000  -0.248359 44501.000000
+time: 0.00
+cnt 
+1
+measure time:
+0
+t_track   2.500000  -6.229110 45136.000000
+measure time:
+0
+t_track   2.500000  -7.269725 45237.000000
+measure time:
+0
+t_track   2.500000  -7.740353 45337.000000
+measure time:
+0
+t_track   2.500000  -7.827219 45438.000000
+measure time:
+1
+t_track   2.500000  -7.753700 45537.000000
+measure time:
+1
+t_track   2.500000  -7.726604 45637.000000
+measure time:
+0
+t_track   2.500000  -7.703882 45738.000000
+measure time:
+0
+t_track   2.500000  -7.684780 45837.000000
+measure time:
+0
+t_track   2.500000  -7.668643 45937.000000
+measure time:
+0
+t_track   2.500000  -7.653536 46038.000000
+check percent
+measure time:
+0
+t_track  -2.500000   5.022730 47452.000000
+measure time:
+0
+t_track  -2.500000   6.443713 47553.000000
+measure time:
+0
+t_track  -2.500000   6.563180 47654.000000
+measure time:
+1
+t_track  -2.500000   6.537970 47753.000000
+measure time:
+1
+t_track  -2.500000   6.503384 47853.000000
+measure time:
+0
+t_track  -2.500000   6.476163 47954.000000
+measure time:
+0
+t_track  -2.500000   6.453843 48053.000000
+measure time:
+0
+t_track  -2.500000   6.434765 48153.000000
+measure time:
+0
+t_track  -2.500000   6.418830 48254.000000
+measure time:
+1
+t_track  -2.500000   6.392438 48353.000000
+measure time:
+0
+t_track   0.000000   0.584817 49241.000000
+measure time:
+0
+t_track   0.000000  -0.076838 49342.000000
+measure time:
+0
+t_track   0.000000  -0.334019 49443.000000
+measure time:
+0
+t_track   0.000000  -0.360134 49542.000000
+measure time:
+0
+t_track   0.000000  -0.336910 49642.000000
+measure time:
+0
+t_track   0.000000  -0.317757 49742.000000
+measure time:
+1
+t_track   0.000000  -0.291164 49842.000000
+measure time:
+1
+t_track   0.000000  -0.281034 49942.000000
+measure time:
+1
+t_track   0.000000  -0.272564 50043.000000
+measure time:
+1
+t_track   0.000000  -0.265727 50142.000000
+time: 0.00
+cnt 
+1
+measure time:
+0
+t_track   2.750000  -6.495592 50796.000000
+measure time:
+0
+t_track   2.750000  -8.526501 50898.000000
+measure time:
+1
+t_track   2.750000  -8.743919 50997.000000
+measure time:
+1
+t_track   2.750000  -8.728033 51097.000000
+measure time:
+1
+t_track   2.750000  -8.686209 51198.000000
+measure time:
+0
+t_track   2.750000  -8.652880 51297.000000
+measure time:
+0
+t_track   2.750000  -8.625633 51397.000000
+measure time:
+0
+t_track   2.750000  -8.603086 51498.000000
+measure time:
+1
+t_track   2.750000  -8.584036 51597.000000
+measure time:
+1
+t_track   2.750000  -8.551685 51697.000000
+check percent
+measure time:
+0
+t_track  -2.750000   5.842635 53156.000000
+measure time:
+0
+t_track  -2.750000   6.752824 53257.000000
+measure time:
+0
+t_track  -2.750000   7.261858 53357.000000
+measure time:
+1
+t_track  -2.750000   7.223678 53458.000000
+measure time:
+1
+t_track  -2.750000   7.189319 53557.000000
+measure time:
+1
+t_track  -2.750000   7.161972 53657.000000
+measure time:
+0
+t_track  -2.750000   7.139777 53758.000000
+measure time:
+0
+t_track  -2.750000   7.119971 53857.000000
+measure time:
+0
+t_track  -2.750000   7.102804 53957.000000
+measure time:
+1
+t_track  -2.750000   7.087371 54058.000000
+measure time:
+1
+t_track   0.000000   0.631367 54969.000000
+measure time:
+1
+t_track   0.000000  -0.056604 55069.000000
+measure time:
+1
+t_track   0.000000  -0.339750 55170.000000
+measure time:
+0
+t_track   0.000000  -0.378709 55269.000000
+measure time:
+0
+t_track   0.000000  -0.353775 55369.000000
+measure time:
+0
+t_track   0.000000  -0.317606 55470.000000
+measure time:
+0
+t_track   0.000000  -0.304511 55569.000000
+measure time:
+0
+t_track   0.000000  -0.294180 55669.000000
+measure time:
+1
+t_track   0.000000  -0.286288 55770.000000
+measure time:
+1
+t_track   0.000000  -0.278646 55869.000000
+time: 0.00
+cnt 
+1
+measure time:
+1
+t_track   3.000000  -8.323309 56542.000000
+measure time:
+0
+t_track   3.000000  -9.282663 56642.000000
+measure time:
+0
+t_track   3.000000  -9.656370 56743.000000
+measure time:
+0
+t_track   3.000000  -9.677759 56842.000000
+measure time:
+0
+t_track   3.000000  -9.628168 56942.000000
+measure time:
+1
+t_track   3.000000  -9.589611 57043.000000
+measure time:
+1
+t_track   3.000000  -9.533310 57142.000000
+measure time:
+0
+t_track   3.000000  -9.510637 57242.000000
+measure time:
+0
+t_track   3.000000  -9.492062 57343.000000
+measure time:
+0
+t_track   3.000000  -9.474216 57442.000000
+check percent
+measure time:
+0
+t_track  -3.000000   6.722008 58943.000000
+measure time:
+0
+t_track  -3.000000   7.571974 59045.000000
+measure time:
+1
+t_track  -3.000000   7.941459 59144.000000
+measure time:
+1
+t_track  -3.000000   7.988788 59244.000000
+measure time:
+0
+t_track  -3.000000   7.911322 59345.000000
+measure time:
+0
+t_track  -3.000000   7.883271 59444.000000
+measure time:
+0
+t_track  -3.000000   7.860474 59544.000000
+measure time:
+0
+t_track  -3.000000   7.839586 59645.000000
+measure time:
+1
+t_track  -3.000000   7.821841 59744.000000
+measure time:
+1
+t_track  -3.000000   7.806107 59844.000000
+measure time:
+1
+t_track   0.000000   0.634659 60787.000000
+measure time:
+1
+t_track   0.000000  -0.062033 60888.000000
+measure time:
+1
+t_track   0.000000  -0.353021 60987.000000
+measure time:
+0
+t_track   0.000000  -0.400853 61087.000000
+measure time:
+0
+t_track   0.000000  -0.377754 61188.000000
+measure time:
+0
+t_track   0.000000  -0.338719 61287.000000
+measure time:
+0
+t_track   0.000000  -0.324895 61387.000000
+measure time:
+0
+t_track   0.000000  -0.314690 61488.000000
+measure time:
+0
+t_track   0.000000  -0.304284 61586.000000
+measure time:
+2
+t_track   0.000000  -0.297071 61688.000000
+time: 0.00
+cnt 
+1
+measure time:
+1
+t_track   3.250000  -8.756712 62396.000000
+measure time:
+1
+t_track   3.250000  -9.977972 62496.000000
+measure time:
+1
+t_track   3.250000 -10.566660 62597.000000
+measure time:
+0
+t_track   3.250000 -10.651012 62696.000000
+measure time:
+0
+t_track   3.250000 -10.604538 62796.000000
+measure time:
+0
+t_track   3.250000 -10.569977 62897.000000
+measure time:
+1
+t_track   3.250000 -10.541073 62996.000000
+measure time:
+1
+t_track   3.250000 -10.515133 63097.000000
+measure time:
+1
+t_track   3.250000 -10.491858 63196.000000
+measure time:
+0
+t_track   3.250000 -10.472679 63296.000000
+check percent
+measure time:
+1
+t_track  -3.250000   7.386327 64847.000000
+measure time:
+1
+t_track  -3.250000   8.277865 64947.000000
+measure time:
+0
+t_track  -3.250000   8.677462 65047.000000
+measure time:
+0
+t_track  -3.250000   8.734971 65148.000000
+measure time:
+0
+t_track  -3.250000   8.652529 65247.000000
+measure time:
+1
+t_track  -3.250000   8.622994 65347.000000
+measure time:
+1
+t_track  -3.250000   8.597080 65448.000000
+measure time:
+1
+t_track  -3.250000   8.575690 65547.000000
+measure time:
+0
+t_track  -3.250000   8.556664 65647.000000
+measure time:
+0
+t_track  -3.250000   8.539923 65748.000000
+measure time:
+0
+t_track   0.000000   0.927558 66708.000000
+measure time:
+0
+t_track   0.000000   0.091290 66810.000000
+measure time:
+0
+t_track   0.000000  -0.313258 66909.000000
+measure time:
+0
+t_track   0.000000  -0.401054 67009.000000
+measure time:
+0
+t_track   0.000000  -0.374712 67110.000000
+measure time:
+1
+t_track   0.000000  -0.354931 67209.000000
+measure time:
+1
+t_track   0.000000  -0.339524 67309.000000
+measure time:
+1
+t_track   0.000000  -0.328238 67410.000000
+measure time:
+1
+t_track   0.000000  -0.318762 67509.000000
+measure time:
+1
+t_track   0.000000  -0.309161 67609.000000
+time: 0.00
+cnt 
+1
+measure time:
+2
+t_track   3.500000 -10.387045 68344.000000
+measure time:
+1
+t_track   3.500000 -11.328552 68443.000000
+measure time:
+0
+t_track   3.500000 -11.675943 68543.000000
+measure time:
+0
+t_track   3.500000 -11.684589 68644.000000
+measure time:
+0
+t_track   3.500000 -11.627859 68743.000000
+measure time:
+1
+t_track   3.500000 -11.585884 68843.000000
+measure time:
+1
+t_track   3.500000 -11.519201 68944.000000
+measure time:
+1
+t_track   3.500000 -11.494343 69043.000000
+measure time:
+0
+t_track   3.500000 -11.471470 69143.000000
+measure time:
+0
+t_track   3.500000 -11.451160 69244.000000
+check percent
+measure time:
+0
+t_track  -3.500000   7.930902 70847.000000
+measure time:
+1
+t_track  -3.500000   8.924515 70949.000000
+measure time:
+1
+t_track  -3.500000   9.523079 71048.000000
+measure time:
+1
+t_track  -3.500000   9.488268 71148.000000
+measure time:
+0
+t_track  -3.500000   9.447046 71249.000000
+measure time:
+0
+t_track  -3.500000   9.415100 71348.000000
+measure time:
+0
+t_track  -3.500000   9.386847 71448.000000
+measure time:
+1
+t_track  -3.500000   9.362593 71549.000000
+measure time:
+1
+t_track  -3.500000   9.342585 71648.000000
+measure time:
+1
+t_track  -3.500000   9.323532 71748.000000
+measure time:
+1
+t_track   0.000000   0.369208 72734.000000
+measure time:
+1
+t_track   0.000000  -0.205730 72835.000000
+measure time:
+1
+t_track   0.000000  -0.415909 72934.000000
+measure time:
+1
+t_track   0.000000  -0.428326 73034.000000
+measure time:
+1
+t_track   0.000000  -0.399119 73135.000000
+measure time:
+0
+t_track   0.000000  -0.376849 73234.000000
+measure time:
+0
+t_track   0.000000  -0.344274 73334.000000
+measure time:
+0
+t_track   0.000000  -0.333516 73435.000000
+measure time:
+0
+t_track   0.000000  -0.324141 73534.000000
+measure time:
+0
+t_track   0.000000  -0.315419 73635.000000
+time: 0.00
+cnt 
+1
+measure time:
+0
+t_track   3.750000 -11.748936 74397.000000
+measure time:
+0
+t_track   3.750000 -12.530710 74499.000000
+measure time:
+0
+t_track   3.750000 -12.779949 74598.000000
+measure time:
+0
+t_track   3.750000 -12.765947 74698.000000
+measure time:
+1
+t_track   3.750000 -12.709948 74799.000000
+measure time:
+1
+t_track   3.750000 -12.665609 74898.000000
+measure time:
+0
+t_track   3.750000 -12.628611 74998.000000
+measure time:
+0
+t_track   3.750000 -12.571327 75099.000000
+measure time:
+0
+t_track   3.750000 -12.547047 75198.000000
+measure time:
+2
+t_track   3.750000 -12.524702 75299.000000
+check percent
+measure time:
+1
+t_track  -3.750000   9.486181 76951.000000
+measure time:
+1
+t_track  -3.750000  10.116090 77052.000000
+measure time:
+1
+t_track  -3.750000  10.316743 77151.000000
+measure time:
+0
+t_track  -3.750000  10.296534 77251.000000
+measure time:
+0
+t_track  -3.750000  10.249432 77352.000000
+measure time:
+0
+t_track  -3.750000  10.214268 77451.000000
+measure time:
+1
+t_track  -3.750000  10.183779 77551.000000
+measure time:
+1
+t_track  -3.750000  10.136977 77652.000000
+measure time:
+1
+t_track  -3.750000  10.116970 77751.000000
+measure time:
+0
+t_track  -3.750000  10.098923 77851.000000
+measure time:
+0
+t_track   0.000000   0.945705 78867.000000
+measure time:
+1
+t_track   0.000000  -0.320748 78969.000000
+measure time:
+1
+t_track   0.000000  -0.445819 79068.000000
+measure time:
+1
+t_track   0.000000  -0.435464 79168.000000
+measure time:
+1
+t_track   0.000000  -0.407288 79269.000000
+measure time:
+1
+t_track   0.000000  -0.383786 79368.000000
+measure time:
+0
+t_track   0.000000  -0.366921 79468.000000
+measure time:
+0
+t_track   0.000000  -0.354127 79569.000000
+measure time:
+0
+t_track   0.000000  -0.332637 79668.000000
+measure time:
+0
+t_track   0.000000  -0.323890 79768.000000
+time: 0.00
+cnt 
+1
+measure time:
+1
+t_track   4.000000 -11.354769 80539.000000
+measure time:
+0
+t_track   4.000000 -13.664450 80640.000000
+measure time:
+0
+t_track   4.000000 -13.889660 80739.000000
+measure time:
+0
+t_track   4.000000 -13.849745 80839.000000
+measure time:
+1
+t_track   4.000000 -13.790226 80940.000000
+measure time:
+1
+t_track   4.000000 -13.741865 81039.000000
+measure time:
+1
+t_track   4.000000 -13.702278 81139.000000
+measure time:
+0
+t_track   4.000000 -13.669954 81240.000000
+measure time:
+0
+t_track   4.000000 -13.640797 81339.000000
+measure time:
+0
+t_track   4.000000 -13.592262 81439.000000
+check percent
+measure time:
+0
+t_track  -4.000000   9.973499 83130.000000
+measure time:
+0
+t_track  -4.000000  10.796997 83231.000000
+measure time:
+0
+t_track  -4.000000  11.125939 83332.000000
+measure time:
+0
+t_track  -4.000000  11.148863 83431.000000
+measure time:
+1
+t_track  -4.000000  11.098166 83531.000000
+measure time:
+1
+t_track  -4.000000  11.022610 83632.000000
+measure time:
+1
+t_track  -4.000000  10.994106 83731.000000
+measure time:
+0
+t_track  -4.000000  10.970304 83832.000000
+measure time:
+0
+t_track  -4.000000  10.948210 83931.000000
+measure time:
+0
+t_track  -4.000000  10.928705 84031.000000
+measure time:
+1
+t_track   0.000000   0.373155 85072.000000
+measure time:
+1
+t_track   0.000000  -0.204574 85172.000000
+measure time:
+1
+t_track   0.000000  -0.432523 85272.000000
+measure time:
+1
+t_track   0.000000  -0.459217 85373.000000
+measure time:
+0
+t_track   0.000000  -0.431392 85472.000000
+measure time:
+0
+t_track   0.000000  -0.384339 85572.000000
+measure time:
+0
+t_track   0.000000  -0.368479 85673.000000
+measure time:
+0
+t_track   0.000000  -0.357470 85772.000000
+measure time:
+0
+t_track   0.000000  -0.346109 85872.000000
+measure time:
+0
+t_track   0.000000  -0.335804 85972.000000
+time: 0.00
+cnt 
+1
+measure time:
+1
+t_track   4.250000 -12.966501 86772.000000
+measure time:
+1
+t_track   4.250000 -14.303959 86873.000000
+measure time:
+0
+t_track   4.250000 -14.927509 86972.000000
+measure time:
+0
+t_track   4.250000 -15.014250 87072.000000
+measure time:
+0
+t_track   4.250000 -14.953901 87173.000000
+measure time:
+1
+t_track   4.250000 -14.904812 87272.000000
+measure time:
+1
+t_track   4.250000 -14.864370 87372.000000
+measure time:
+1
+t_track   4.250000 -14.830387 87473.000000
+measure time:
+0
+t_track   4.250000 -14.799170 87572.000000
+measure time:
+0
+t_track   4.250000 -14.771923 87673.000000
+check percent
+measure time:
+1
+t_track  -4.250000  10.404012 89417.000000
+measure time:
+1
+t_track  -4.250000  11.426956 89518.000000
+measure time:
+1
+t_track  -4.250000  12.008053 89617.000000
+measure time:
+0
+t_track  -4.250000  11.958285 89717.000000
+measure time:
+0
+t_track  -4.250000  11.911233 89818.000000
+measure time:
+0
+t_track  -4.250000  11.874234 89917.000000
+measure time:
+1
+t_track  -4.250000  11.843595 90017.000000
+measure time:
+1
+t_track  -4.250000  11.816097 90118.000000
+measure time:
+1
+t_track  -4.250000  11.792771 90217.000000
+measure time:
+0
+t_track  -4.250000  11.753033 90318.000000
+measure time:
+0
+t_track   0.000000   0.952291 91363.000000
+measure time:
+0
+t_track   0.000000  -0.346210 91464.000000
+measure time:
+0
+t_track   0.000000  -0.477238 91565.000000
+measure time:
+1
+t_track   0.000000  -0.465526 91664.000000
+measure time:
+1
+t_track   0.000000  -0.433227 91764.000000
+measure time:
+1
+t_track   0.000000  -0.408896 91865.000000
+measure time:
+1
+t_track   0.000000  -0.390799 91964.000000
+measure time:
+1
+t_track   0.000000  -0.376321 92064.000000
+measure time:
+0
+t_track   0.000000  -0.352041 92165.000000
+measure time:
+0
+t_track   0.000000  -0.342339 92264.000000
+time: 0.00
+cnt 
+1
+measure time:
+0
+t_track   4.500000 -14.579163 93071.000000
+measure time:
+0
+t_track   4.500000 -15.774685 93172.000000
+measure time:
+1
+t_track   4.500000 -16.235712 93273.000000
+measure time:
+1
+t_track   4.500000 -16.252199 93372.000000
+measure time:
+0
+t_track   4.500000 -16.176317 93472.000000
+measure time:
+0
+t_track   4.500000 -16.065548 93573.000000
+measure time:
+0
+t_track   4.500000 -16.024979 93672.000000
+measure time:
+0
+t_track   4.500000 -15.989061 93772.000000
+measure time:
+1
+t_track   4.500000 -15.956888 93872.000000
+measure time:
+1
+t_track   4.500000 -15.928762 93972.000000
+check percent
+measure time:
+2
+t_track  -4.500000  11.245833 95736.000000
+measure time:
+0
+t_track  -4.500000  12.333149 95835.000000
+measure time:
+0
+t_track  -4.500000  12.836628 95935.000000
+measure time:
+0
+t_track  -4.500000  12.917488 96036.000000
+measure time:
+1
+t_track  -4.500000  12.811569 96135.000000
+measure time:
+1
+t_track  -4.500000  12.773363 96235.000000
+measure time:
+1
+t_track  -4.500000  12.740562 96336.000000
+measure time:
+0
+t_track  -4.500000  12.712034 96435.000000
+measure time:
+0
+t_track  -4.500000  12.685793 96535.000000
+measure time:
+0
+t_track  -4.500000  12.663347 96636.000000
+measure time:
+0
+t_track   0.000000   0.084981 97711.000000
+measure time:
+0
+t_track   0.000000  -0.351614 97811.000000
+measure time:
+1
+t_track   0.000000  -0.487544 97913.000000
+measure time:
+1
+t_track   0.000000  -0.479425 98012.000000
+measure time:
+1
+t_track   0.000000  -0.447680 98112.000000
+measure time:
+1
+t_track   0.000000  -0.422343 98213.000000
+measure time:
+0
+t_track   0.000000  -0.403970 98312.000000
+measure time:
+0
+t_track   0.000000  -0.372576 98412.000000
+measure time:
+0
+t_track   0.000000  -0.360763 98513.000000
+measure time:
+0
+t_track   0.000000  -0.351488 98612.000000
+time: 0.00
+cnt 
+1
+measure time:
+0
+t_track   4.750000 -15.148497 99450.000000
+measure time:
+0
+t_track   4.750000 -16.651419 99551.000000
+measure time:
+1
+t_track   4.750000 -17.534338 99651.000000
+measure time:
+1
+t_track   4.750000 -17.472027 99752.000000
+measure time:
+1
+t_track   4.750000 -17.398432 99851.000000
+measure time:
+0
+t_track   4.750000 -17.340696 99951.000000
+measure time:
+0
+t_track   4.750000 -17.293619 100052.000000
+measure time:
+0
+t_track   4.750000 -17.252247 100151.000000
+measure time:
+1
+t_track   4.750000 -17.215549 100251.000000
+measure time:
+1
+t_track   4.750000 -17.156004 100352.000000
+check percent
+measure time:
+0
+t_track  -4.750000  12.222958 102168.000000
+measure time:
+1
+t_track  -4.750000  13.277321 102270.000000
+measure time:
+1
+t_track  -4.750000  13.756620 102369.000000
+measure time:
+0
+t_track  -4.750000  13.782711 102469.000000
+measure time:
+0
+t_track  -4.750000  13.731485 102570.000000
+measure time:
+0
+t_track  -4.750000  13.691545 102669.000000
+measure time:
+1
+t_track  -4.750000  13.656658 102769.000000
+measure time:
+1
+t_track  -4.750000  13.626974 102870.000000
+measure time:
+1
+t_track  -4.750000  13.601362 102969.000000
+measure time:
+0
+t_track  -4.750000  13.578112 103069.000000
+measure time:
+1
+t_track   0.000000   0.286590 104159.000000
+measure time:
+0
+t_track   0.000000  -0.272966 104259.000000
+measure time:
+0
+t_track   0.000000  -0.484678 104360.000000
+measure time:
+0
+t_track   0.000000  -0.499433 104459.000000
+measure time:
+0
+t_track   0.000000  -0.466430 104559.000000
+measure time:
+0
+t_track   0.000000  -0.416990 104660.000000
+measure time:
+1
+t_track   0.000000  -0.400577 104759.000000
+measure time:
+1
+t_track   0.000000  -0.386601 104859.000000
+measure time:
+1
+t_track   0.000000  -0.374260 104960.000000
+measure time:
+1
+t_track   0.000000  -0.362623 105059.000000
+time: 0.00
+cnt 
+1
+measure time:
+1
+t_track   5.000000 -17.314608 105909.000000
+measure time:
+1
+t_track   5.000000 -18.433718 106009.000000
+measure time:
+0
+t_track   5.000000 -18.819014 106110.000000
+measure time:
+0
+t_track   5.000000 -18.798704 106209.000000
+measure time:
+0
+t_track   5.000000 -18.712339 106309.000000
+measure time:
+1
+t_track   5.000000 -18.642817 106410.000000
+measure time:
+1
+t_track   5.000000 -18.540743 106509.000000
+measure time:
+1
+t_track   5.000000 -18.498039 106609.000000
+measure time:
+0
+t_track   5.000000 -18.460989 106710.000000
+measure time:
+0
+t_track   5.000000 -18.428892 106809.000000
+check percent
+measure time:
+1
+t_track  -5.000000  13.573210 108646.000000
+measure time:
+0
+t_track  -5.000000  14.472416 108746.000000
+measure time:
+0
+t_track  -5.000000  14.812819 108847.000000
+measure time:
+0
+t_track  -5.000000  14.816614 108946.000000
+measure time:
+0
+t_track  -5.000000  14.752821 109045.000000
+measure time:
+1
+t_track  -5.000000  14.662336 109147.000000
+measure time:
+1
+t_track  -5.000000  14.626921 109246.000000
+measure time:
+0
+t_track  -5.000000  14.596809 109347.000000
+measure time:
+0
+t_track  -5.000000  14.570166 109446.000000
+measure time:
+0
+t_track  -5.000000  14.546967 109546.000000
+measure time:
+0
+t_track   0.000000   0.120246 110647.000000
+measure time:
+0
+t_track   0.000000  -0.358551 110748.000000
+measure time:
+0
+t_track   0.000000  -0.515871 110849.000000
+measure time:
+0
+t_track   0.000000  -0.506546 110947.000000
+measure time:
+1
+t_track   0.000000  -0.470276 111048.000000
+measure time:
+1
+t_track   0.000000  -0.443809 111149.000000
+measure time:
+1
+t_track   0.000000  -0.422042 111248.000000
+measure time:
+1
+t_track   0.000000  -0.391729 111348.000000
+measure time:
+1
+t_track   0.000000  -0.377528 111449.000000
+measure time:
+0
+t_track   0.000000  -0.367323 111548.000000
+time: 0.00
+cnt 
+1
+measure time:
+1
+t_track   5.250000 -18.660763 112423.000000
+measure time:
+0
+t_track   5.250000 -19.775124 112523.000000
+measure time:
+0
+t_track   5.250000 -20.166576 112623.000000
+measure time:
+0
+t_track   5.250000 -20.158985 112724.000000
+measure time:
+0
+t_track   5.250000 -20.066338 112823.000000
+measure time:
+1
+t_track   5.250000 -19.992718 112923.000000
+measure time:
+1
+t_track   5.250000 -19.882299 113024.000000
+measure time:
+0
+t_track   5.250000 -19.837282 113123.000000
+measure time:
+0
+t_track   5.250000 -19.797720 113223.000000
+measure time:
+0
+t_track   5.250000 -19.761351 113324.000000
+check percent
+measure time:
+0
+t_track  -5.250000  13.662037 115214.000000
+measure time:
+1
+t_track  -5.250000  15.664570 115315.000000
+measure time:
+1
+t_track  -5.250000  15.842928 115416.000000
+measure time:
+0
+t_track  -5.250000  15.791954 115515.000000
+measure time:
+0
+t_track  -5.250000  15.730825 115615.000000
+measure time:
+0
+t_track  -5.250000  15.683294 115716.000000
+measure time:
+0
+t_track  -5.250000  15.642828 115815.000000
+measure time:
+1
+t_track  -5.250000  15.607639 115915.000000
+measure time:
+1
+t_track  -5.250000  15.551487 116016.000000
+measure time:
+0
+t_track  -5.250000  15.526979 116115.000000
+measure time:
+1
+t_track   0.000000   0.850720 117235.000000
+measure time:
+1
+t_track   0.000000  -0.403291 117336.000000
+measure time:
+1
+t_track   0.000000  -0.529494 117435.000000
+measure time:
+1
+t_track   0.000000  -0.512980 117535.000000
+measure time:
+0
+t_track   0.000000  -0.477490 117636.000000
+measure time:
+0
+t_track   0.000000  -0.449741 117735.000000
+measure time:
+0
+t_track   0.000000  -0.429658 117835.000000
+measure time:
+0
+t_track   0.000000  -0.412792 117936.000000
+measure time:
+0
+t_track   0.000000  -0.383912 118034.000000
+measure time:
+2
+t_track   0.000000  -0.372199 118136.000000
+time: 0.00
+cnt 
+1
+measure time:
+0
+t_track   5.500000 -19.916231 119026.000000
+measure time:
+0
+t_track   5.500000 -21.102253 119128.000000
+measure time:
+1
+t_track   5.500000 -21.535379 119227.000000
+measure time:
+1
+t_track   5.500000 -21.525375 119327.000000
+measure time:
+1
+t_track   5.500000 -21.424484 119428.000000
+measure time:
+0
+t_track   5.500000 -21.345182 119527.000000
+measure time:
+0
+t_track   5.500000 -21.223303 119627.000000
+measure time:
+0
+t_track   5.500000 -21.173712 119728.000000
+measure time:
+1
+t_track   5.500000 -21.130981 119827.000000
+measure time:
+2
+t_track   5.500000 -21.091345 119928.000000
+check percent
+measure time:
+1
+t_track  -5.500000  15.566492 121849.000000
+measure time:
+1
+t_track  -5.500000  16.513052 121949.000000
+measure time:
+0
+t_track  -5.500000  16.879671 122049.000000
+measure time:
+0
+t_track  -5.500000  16.890453 122150.000000
+measure time:
+0
+t_track  -5.500000  16.821032 122249.000000
+measure time:
+1
+t_track  -5.500000  16.719007 122349.000000
+measure time:
+1
+t_track  -5.500000  16.680853 122450.000000
+measure time:
+1
+t_track  -5.500000  16.647852 122549.000000
+measure time:
+0
+t_track  -5.500000  16.618494 122649.000000
+measure time:
+0
+t_track  -5.500000  16.591070 122750.000000
+measure time:
+1
+t_track   0.000000   0.470126 123900.000000
+measure time:
+1
+t_track   0.000000  -0.182028 124000.000000
+measure time:
+1
+t_track   0.000000  -0.476334 124100.000000
+measure time:
+1
+t_track   0.000000  -0.511749 124201.000000
+measure time:
+0
+t_track   0.000000  -0.478570 124300.000000
+measure time:
+0
+t_track   0.000000  -0.452581 124400.000000
+measure time:
+0
+t_track   0.000000  -0.431995 124501.000000
+measure time:
+0
+t_track   0.000000  -0.414954 124600.000000
+measure time:
+0
+t_track   0.000000  -0.399923 124700.000000
+measure time:
+0
+t_track   0.000000  -0.387305 124801.000000
+time: 0.00
+cnt 
+1
+measure time:
+1
+t_track   5.750000 -21.341488 125716.000000
+measure time:
+0
+t_track   5.750000 -22.542488 125817.000000
+measure time:
+0
+t_track   5.750000 -22.988686 125916.000000
+measure time:
+0
+t_track   5.750000 -23.003792 126016.000000
+measure time:
+1
+t_track   5.750000 -22.899557 126117.000000
+measure time:
+1
+t_track   5.750000 -22.740126 126216.000000
+measure time:
+1
+t_track   5.750000 -22.679375 126316.000000
+measure time:
+0
+t_track   5.750000 -22.627119 126417.000000
+measure time:
+0
+t_track   5.750000 -22.580744 126516.000000
+measure time:
+0
+t_track   5.750000 -22.538443 126616.000000
+check percent
+measure time:
+0
+t_track  -5.750000  16.047199 128574.000000
+measure time:
+0
+t_track  -5.750000  17.308073 128676.000000
+measure time:
+0
+t_track  -5.750000  18.026632 128775.000000
+measure time:
+1
+t_track  -5.750000  17.958843 128875.000000
+measure time:
+1
+t_track  -5.750000  17.893492 128976.000000
+measure time:
+0
+t_track  -5.750000  17.842443 129075.000000
+measure time:
+0
+t_track  -5.750000  17.799461 129175.000000
+measure time:
+0
+t_track  -5.750000  17.761082 129276.000000
+measure time:
+1
+t_track  -5.750000  17.727350 129375.000000
+measure time:
+1
+t_track  -5.750000  17.672958 129475.000000
+measure time:
+0
+t_track   0.000000   0.153952 130638.000000
+measure time:
+0
+t_track   0.000000  -0.344349 130739.000000
+measure time:
+0
+t_track   0.000000  -0.535300 130839.000000
+measure time:
+0
+t_track   0.000000  -0.546435 130940.000000
+measure time:
+0
+t_track   0.000000  -0.507978 131038.000000
+measure time:
+1
+t_track   0.000000  -0.476886 131139.000000
+measure time:
+1
+t_track   0.000000  -0.433227 131240.000000
+measure time:
+1
+t_track   0.000000  -0.416387 131339.000000
+measure time:
+1
+t_track   0.000000  -0.402411 131439.000000
+measure time:
+0
+t_track   0.000000  -0.390020 131540.000000
+time: 0.00
+cnt 
+1
+measure time:
+0
+t_track   6.000000 -23.200121 132461.000000
+measure time:
+1
+t_track   6.000000 -24.232769 132563.000000
+measure time:
+1
+t_track   6.000000 -24.512848 132662.000000
+measure time:
+1
+t_track   6.000000 -24.422689 132762.000000
+measure time:
+0
+t_track   6.000000 -24.310184 132863.000000
+measure time:
+0
+t_track   6.000000 -24.221910 132962.000000
+measure time:
+0
+t_track   6.000000 -24.148617 133062.000000
+measure time:
+1
+t_track   6.000000 -24.085402 133163.000000
+measure time:
+1
+t_track   6.000000 -23.982775 133262.000000
+measure time:
+0
+t_track   6.000000 -23.939041 133362.000000
+check percent
+measure time:
+0
+t_track  -6.000000  18.114832 135369.000000
+measure time:
+0
+t_track  -6.000000  18.959318 135471.000000
+measure time:
+1
+t_track  -6.000000  19.210014 135570.000000
+measure time:
+1
+t_track  -6.000000  19.157356 135670.000000
+measure time:
+0
+t_track  -6.000000  19.082127 135771.000000
+measure time:
+0
+t_track  -6.000000  19.024166 135870.000000
+measure time:
+0
+t_track  -6.000000  18.975403 135971.000000
+measure time:
+1
+t_track  -6.000000  18.897083 136071.000000
+measure time:
+1
+t_track  -6.000000  18.864105 136170.000000
+measure time:
+1
+t_track  -6.000000  18.835728 136271.000000
+measure time:
+0
+t_track   0.000000   0.456427 137469.000000
+measure time:
+0
+t_track   0.000000  -0.485457 137570.000000
+measure time:
+0
+t_track   0.000000  -0.558802 137670.000000
+measure time:
+0
+t_track   0.000000  -0.533189 137771.000000
+measure time:
+0
+t_track   0.000000  -0.497045 137870.000000
+measure time:
+0
+t_track   0.000000  -0.469748 137969.000000
+measure time:
+1
+t_track   0.000000  -0.448082 138071.000000
+measure time:
+1
+t_track   0.000000  -0.429331 138170.000000
+measure time:
+1
+t_track   0.000000  -0.399596 138270.000000
+measure time:
+1
+t_track   0.000000  -0.388034 138371.000000
+time: 0.00
+cnt 
+1
+measure time:
+0
+t_track   6.250000 -23.059616 139311.000000
+measure time:
+0
+t_track   6.250000 -25.887934 139412.000000
+measure time:
+1
+t_track   6.250000 -26.093187 139513.000000
+measure time:
+1
+t_track   6.250000 -25.990459 139612.000000
+measure time:
+1
+t_track   6.250000 -25.874813 139712.000000
+measure time:
+0
+t_track   6.250000 -25.782192 139813.000000
+measure time:
+0
+t_track   6.250000 -25.704498 139912.000000
+measure time:
+0
+t_track   6.250000 -25.637539 140012.000000
+measure time:
+1
+t_track   6.250000 -25.579277 140113.000000
+measure time:
+1
+t_track   6.250000 -25.479666 140212.000000
+check percent
+measure time:
+0
+t_track  -6.250000  19.243141 142237.000000
+measure time:
+0
+t_track  -6.250000  20.158911 142339.000000
+measure time:
+0
+t_track  -6.250000  20.440096 142438.000000
+measure time:
+1
+t_track  -6.250000  20.386936 142538.000000
+measure time:
+1
+t_track  -6.250000  20.305046 142639.000000
+measure time:
+1
+t_track  -6.250000  20.241379 142738.000000
+measure time:
+0
+t_track  -6.250000  20.189877 142838.000000
+measure time:
+0
+t_track  -6.250000  20.107410 142939.000000
+measure time:
+0
+t_track  -6.250000  20.073553 143038.000000
+measure time:
+2
+t_track  -6.250000  20.042812 143139.000000
+measure time:
+1
+t_track   0.000000  -0.092949 144343.000000
+measure time:
+1
+t_track   0.000000  -0.456301 144443.000000
+measure time:
+1
+t_track   0.000000  -0.567548 144543.000000
+measure time:
+0
+t_track   0.000000  -0.549778 144644.000000
+measure time:
+0
+t_track   0.000000  -0.512050 144743.000000
+measure time:
+0
+t_track   0.000000  -0.481260 144843.000000
+measure time:
+0
+t_track   0.000000  -0.458488 144944.000000
+measure time:
+0
+t_track   0.000000  -0.420559 145043.000000
+measure time:
+2
+t_track   0.000000  -0.406157 145144.000000
+measure time:
+1
+t_track   0.000000  -0.392810 145243.000000
+time: 0.00
+cnt 
+1
+measure time:
+1
+t_track   6.500000 -25.987972 146208.000000
+measure time:
+1
+t_track   6.500000 -27.227053 146309.000000
+measure time:
+0
+t_track   6.500000 -27.641304 146408.000000
+measure time:
+0
+t_track   6.500000 -27.582890 146508.000000
+measure time:
+0
+t_track   6.500000 -27.446682 146609.000000
+measure time:
+1
+t_track   6.500000 -27.341593 146708.000000
+measure time:
+1
+t_track   6.500000 -27.178919 146809.000000
+measure time:
+0
+t_track   6.500000 -27.113718 146908.000000
+measure time:
+0
+t_track   6.500000 -27.056688 147008.000000
+measure time:
+0
+t_track   6.500000 -27.003075 147109.000000
+check percent
+measure time:
+0
+t_track  -6.500000  19.301003 149169.000000
+measure time:
+1
+t_track  -6.500000  21.536989 149270.000000
+measure time:
+1
+t_track  -6.500000  21.712431 149371.000000
+measure time:
+1
+t_track  -6.500000  21.632578 149470.000000
+measure time:
+0
+t_track  -6.500000  21.552597 149570.000000
+measure time:
+0
+t_track  -6.500000  21.489635 149671.000000
+measure time:
+0
+t_track  -6.500000  21.437681 149770.000000
+measure time:
+1
+t_track  -6.500000  21.392864 149870.000000
+measure time:
+1
+t_track  -6.500000  21.317938 149971.000000
+measure time:
+0
+t_track  -6.500000  21.285715 150070.000000
+measure time:
+0
+t_track   0.000000   0.592005 151281.000000
+measure time:
+0
+t_track   0.000000  -0.483296 151383.000000
+measure time:
+0
+t_track   0.000000  -0.584716 151482.000000
+measure time:
+0
+t_track   0.000000  -0.558978 151582.000000
+measure time:
+0
+t_track   0.000000  -0.518762 151683.000000
+measure time:
+0
+t_track   0.000000  -0.487795 151781.000000
+measure time:
+1
+t_track   0.000000  -0.462811 151882.000000
+measure time:
+1
+t_track   0.000000  -0.443482 151983.000000
+measure time:
+1
+t_track   0.000000  -0.412138 152082.000000
+measure time:
+1
+t_track   0.000000  -0.398892 152182.000000
+time: 0.00
+cnt 
+1
+measure time:
+0
+t_track   6.750000 -27.509571 153160.000000
+measure time:
+0
+t_track   6.750000 -28.852913 153262.000000
+measure time:
+0
+t_track   6.750000 -29.337765 153361.000000
+measure time:
+0
+t_track   6.750000 -29.316502 153461.000000
+measure time:
+1
+t_track   6.750000 -29.173107 153562.000000
+measure time:
+1
+t_track   6.750000 -29.055801 153661.000000
+measure time:
+0
+t_track   6.750000 -28.877117 153761.000000
+measure time:
+0
+t_track   6.750000 -28.805733 153862.000000
+measure time:
+0
+t_track   6.750000 -28.743397 153961.000000
+measure time:
+2
+t_track   6.750000 -28.685814 154062.000000
+check percent
+measure time:
+0
+t_track  -6.750000  21.351316 156159.000000
+measure time:
+0
+t_track  -6.750000  22.545204 156260.000000
+measure time:
+1
+t_track  -6.750000  23.010580 156360.000000
+measure time:
+1
+t_track  -6.750000  23.014929 156461.000000
+measure time:
+0
+t_track  -6.750000  22.918861 156560.000000
+measure time:
+0
+t_track  -6.750000  22.783409 156660.000000
+measure time:
+0
+t_track  -6.750000  22.731857 156761.000000
+measure time:
+1
+t_track  -6.750000  22.687544 156860.000000
+measure time:
+1
+t_track  -6.750000  22.647781 156960.000000
+measure time:
+1
+t_track  -6.750000  22.611687 157061.000000
+measure time:
+1
+t_track   0.000000   0.245996 158283.000000
+measure time:
+1
+t_track   0.000000  -0.315872 158384.000000
+measure time:
+0
+t_track   0.000000  -0.554478 158483.000000
+measure time:
+0
+t_track   0.000000  -0.586174 158584.000000
+measure time:
+0
+t_track   0.000000  -0.510668 158683.000000
+measure time:
+0
+t_track   0.000000  -0.482441 158783.000000
+measure time:
+0
+t_track   0.000000  -0.458010 158883.000000
+measure time:
+1
+t_track   0.000000  -0.436771 158983.000000
+measure time:
+1
+t_track   0.000000  -0.420534 159083.000000
+measure time:
+1
+t_track   0.000000  -0.406860 159184.000000
+time: 0.00
+cnt 
+1
+measure time:
+1
+t_track   7.000000 -29.703579 160179.000000
+measure time:
+1
+t_track   7.000000 -30.811230 160279.000000
+measure time:
+0
+t_track   7.000000 -31.100231 160380.000000
+measure time:
+0
+t_track   7.000000 -30.973148 160479.000000
+measure time:
+0
+t_track   7.000000 -30.823093 160579.000000
+measure time:
+1
+t_track   7.000000 -30.705662 160680.000000
+measure time:
+1
+t_track   7.000000 -30.607159 160779.000000
+measure time:
+0
+t_track   7.000000 -30.522202 160879.000000
+measure time:
+0
+t_track   7.000000 -30.382225 160980.000000
+measure time:
+0
+t_track   7.000000 -30.323761 161079.000000
+check percent
+measure time:
+1
+t_track  -7.000000  22.674801 163209.000000
+measure time:
+1
+t_track  -7.000000  23.922253 163309.000000
+measure time:
+0
+t_track  -7.000000  24.421207 163410.000000
+measure time:
+0
+t_track  -7.000000  24.433422 163509.000000
+measure time:
+0
+t_track  -7.000000  24.246922 163609.000000
+measure time:
+1
+t_track  -7.000000  24.182274 163710.000000
+measure time:
+1
+t_track  -7.000000  24.127354 163809.000000
+measure time:
+1
+t_track  -7.000000  24.079220 163909.000000
+measure time:
+0
+t_track  -7.000000  24.036314 164010.000000
+measure time:
+0
+t_track  -7.000000  23.997631 164109.000000
+measure time:
+1
+t_track   0.000000  -0.182832 165370.000000
+measure time:
+0
+t_track   0.000000  -0.498327 165470.000000
+measure time:
+0
+t_track   0.000000  -0.591753 165570.000000
+measure time:
+0
+t_track   0.000000  -0.569308 165671.000000
+measure time:
+0
+t_track   0.000000  -0.527257 165770.000000
+measure time:
+0
+t_track   0.000000  -0.497120 165869.000000
+measure time:
+1
+t_track   0.000000  -0.471935 165971.000000
+measure time:
+1
+t_track   0.000000  -0.449892 166070.000000
+measure time:
+1
+t_track   0.000000  -0.418146 166170.000000
+measure time:
+1
+t_track   0.000000  -0.403944 166271.000000
+time: 0.00
+cnt 
+1
+measure time:
+1
+t_track   7.250000 -29.981121 167284.000000
+measure time:
+1
+t_track   7.250000 -31.920414 167385.000000
+measure time:
+0
+t_track   7.250000 -32.916161 167484.000000
+measure time:
+0
+t_track   7.250000 -32.762966 167584.000000
+measure time:
+0
+t_track   7.250000 -32.612907 167685.000000
+measure time:
+1
+t_track   7.250000 -32.491859 167784.000000
+measure time:
+1
+t_track   7.250000 -32.390991 167884.000000
+measure time:
+0
+t_track   7.250000 -32.303673 167985.000000
+measure time:
+0
+t_track   7.250000 -32.226406 168084.000000
+measure time:
+0
+t_track   7.250000 -32.095581 168185.000000
+check percent
+measure time:
+0
+t_track  -7.250000  23.724590 170355.000000
+measure time:
+1
+t_track  -7.250000  25.196873 170457.000000
+measure time:
+1
+t_track  -7.250000  25.838495 170556.000000
+measure time:
+0
+t_track  -7.250000  25.809565 170656.000000
+measure time:
+0
+t_track  -7.250000  25.720814 170757.000000
+measure time:
+0
+t_track  -7.250000  25.648224 170856.000000
+measure time:
+1
+t_track  -7.250000  25.588125 170956.000000
+measure time:
+1
+t_track  -7.250000  25.535040 171057.000000
+measure time:
+1
+t_track  -7.250000  25.489017 171156.000000
+measure time:
+0
+t_track  -7.250000  25.449053 171257.000000
+measure time:
+1
+t_track   0.000000  -0.024456 172516.000000
+measure time:
+1
+t_track   0.000000  -0.449162 172616.000000
+measure time:
+1
+t_track   0.000000  -0.599269 172717.000000
+measure time:
+0
+t_track   0.000000  -0.590949 172816.000000
+measure time:
+0
+t_track   0.000000  -0.548144 172916.000000
+measure time:
+0
+t_track   0.000000  -0.512251 173017.000000
+measure time:
+0
+t_track   0.000000  -0.458839 173116.000000
+measure time:
+0
+t_track   0.000000  -0.440667 173215.000000
+measure time:
+1
+t_track   0.000000  -0.422947 173317.000000
+measure time:
+1
+t_track   0.000000  -0.408745 173416.000000
+time: 0.00
+cnt 
+1
+measure time:
+0
+t_track   7.500000 -33.120838 174442.000000
+measure time:
+1
+t_track   7.500000 -34.428638 174544.000000
+measure time:
+1
+t_track   7.500000 -34.810940 174643.000000
+measure time:
+1
+t_track   7.500000 -34.678154 174743.000000
+measure time:
+0
+t_track   7.500000 -34.497959 174844.000000
+measure time:
+0
+t_track   7.500000 -34.358761 174943.000000
+measure time:
+0
+t_track   7.500000 -34.243969 175043.000000
+measure time:
+1
+t_track   7.500000 -34.056236 175144.000000
+measure time:
+1
+t_track   7.500000 -33.979450 175243.000000
+measure time:
+0
+t_track   7.500000 -33.909801 175343.000000
+check percent
+measure time:
+0
+t_track  -7.500000  25.963140 177528.000000
+measure time:
+0
+t_track  -7.500000  27.110880 177629.000000
+measure time:
+0
+t_track  -7.500000  27.505901 177729.000000
+measure time:
+1
+t_track  -7.500000  27.450378 177830.000000
+measure time:
+1
+t_track  -7.500000  27.334908 177929.000000
+measure time:
+1
+t_track  -7.500000  27.248796 178029.000000
+measure time:
+0
+t_track  -7.500000  27.117893 178130.000000
+measure time:
+0
+t_track  -7.500000  27.065060 178229.000000
+measure time:
+0
+t_track  -7.500000  27.016951 178329.000000
+measure time:
+1
+t_track  -7.500000  26.974699 178430.000000
+measure time:
+0
+t_track   0.000000   0.484779 179700.000000
+measure time:
+0
+t_track   0.000000  -0.521752 179802.000000
+measure time:
+0
+t_track   0.000000  -0.612490 179900.000000
+measure time:
+1
+t_track   0.000000  -0.582856 180001.000000
+measure time:
+1
+t_track   0.000000  -0.539950 180102.000000
+measure time:
+1
+t_track   0.000000  -0.506244 180201.000000
+measure time:
+2
+t_track   0.000000  -0.478847 180302.000000
+measure time:
+0
+t_track   0.000000  -0.456653 180401.000000
+measure time:
+0
+t_track   0.000000  -0.423475 180501.000000
+measure time:
+0
+t_track   0.000000  -0.408569 180602.000000
+time: 0.00
+cnt 
+1
+measure time:
+1
+t_track   7.750000 -32.894798 181640.000000
+measure time:
+1
+t_track   7.750000 -36.501396 181740.000000
+measure time:
+0
+t_track   7.750000 -36.806358 181841.000000
+measure time:
+0
+t_track   7.750000 -36.660751 181940.000000
+measure time:
+0
+t_track   7.750000 -36.477066 182040.000000
+measure time:
+1
+t_track   7.750000 -36.330929 182141.000000
+measure time:
+1
+t_track   7.750000 -36.209225 182240.000000
+measure time:
+0
+t_track   7.750000 -36.103985 182340.000000
+measure time:
+0
+t_track   7.750000 -35.929726 182441.000000
+measure time:
+0
+t_track   7.750000 -35.855751 182540.000000
+check percent
+measure time:
+0
+t_track  -7.750000  26.959215 184766.000000
+measure time:
+0
+t_track  -7.750000  28.460428 184868.000000
+measure time:
+0
+t_track  -7.750000  29.083727 184967.000000
+measure time:
+1
+t_track  -7.750000  29.112909 185067.000000
+measure time:
+1
+t_track  -7.750000  28.887650 185168.000000
+measure time:
+0
+t_track  -7.750000  28.807997 185267.000000
+measure time:
+0
+t_track  -7.750000  28.740358 185367.000000
+measure time:
+0
+t_track  -7.750000  28.680838 185468.000000
+measure time:
+1
+t_track  -7.750000  28.629461 185567.000000
+measure time:
+1
+t_track  -7.750000  28.582636 185667.000000
+measure time:
+0
+t_track   0.000000   0.028403 186958.000000
+measure time:
+0
+t_track   0.000000  -0.428452 187059.000000
+measure time:
+0
+t_track   0.000000  -0.605000 187158.000000
+measure time:
+1
+t_track   0.000000  -0.610102 187260.000000
+measure time:
+1
+t_track   0.000000  -0.565361 187359.000000
+measure time:
+1
+t_track   0.000000  -0.497648 187459.000000
+measure time:
+1
+t_track   0.000000  -0.471357 187560.000000
+measure time:
+0
+t_track   0.000000  -0.450696 187659.000000
+measure time:
+0
+t_track   0.000000  -0.432724 187759.000000
+measure time:
+0
+t_track   0.000000  -0.416060 187860.000000
+time: 0.00
+cnt 
+1
+measure time:
+1
+t_track   8.000000 -35.856003 188910.000000
+measure time:
+1
+t_track   8.000000 -37.905212 189011.000000
+measure time:
+0
+t_track   8.000000 -38.757767 189110.000000
+measure time:
+0
+t_track   8.000000 -38.550903 189210.000000
+measure time:
+0
+t_track   8.000000 -38.371693 189311.000000
+measure time:
+1
+t_track   8.000000 -38.226437 189410.000000
+measure time:
+1
+t_track   8.000000 -38.103527 189510.000000
+measure time:
+0
+t_track   8.000000 -37.996803 189611.000000
+measure time:
+0
+t_track   8.000000 -37.903252 189710.000000
+measure time:
+0
+t_track   8.000000 -37.820053 189810.000000
+check percent
+measure time:
+1
+t_track  -8.000000  28.612673 192067.000000
+measure time:
+0
+t_track  -8.000000  30.184690 192168.000000
+measure time:
+0
+t_track  -8.000000  30.831339 192267.000000
+measure time:
+0
+t_track  -8.000000  30.838127 192367.000000
+measure time:
+1
+t_track  -8.000000  30.590244 192468.000000
+measure time:
+1
+t_track  -8.000000  30.505262 192567.000000
+measure time:
+1
+t_track  -8.000000  30.433830 192667.000000
+measure time:
+0
+t_track  -8.000000  30.371193 192768.000000
+measure time:
+0
+t_track  -8.000000  30.315544 192867.000000
+measure time:
+0
+t_track  -8.000000  30.266279 192967.000000
+measure time:
+1
+t_track   0.000000   0.116752 194282.000000
+measure time:
+1
+t_track   0.000000  -0.375819 194383.000000
+measure time:
+1
+t_track   0.000000  -0.586827 194482.000000
+measure time:
+0
+t_track   0.000000  -0.574461 194582.000000
+measure time:
+0
+t_track   0.000000  -0.534822 194683.000000
+measure time:
+0
+t_track   0.000000  -0.502750 194782.000000
+measure time:
+0
+t_track   0.000000  -0.476534 194882.000000
+measure time:
+0
+t_track   0.000000  -0.454617 194982.000000
+measure time:
+1
+t_track   0.000000  -0.434082 195082.000000
+measure time:
+1
+t_track   0.000000  -0.417618 195182.000000
+time: 0.00
+cnt 
+1
+measure time:
+0
+t_track   8.250000 -39.354397 196264.000000
+measure time:
+0
+t_track   8.250000 -40.656517 196365.000000
+measure time:
+0
+t_track   8.250000 -41.016148 196465.000000
+measure time:
+0
+t_track   8.250000 -40.876724 196566.000000
+measure time:
+1
+t_track   8.250000 -40.663803 196665.000000
+measure time:
+1
+t_track   8.250000 -40.493263 196765.000000
+measure time:
+0
+t_track   8.250000 -40.230076 196866.000000
+measure time:
+0
+t_track   8.250000 -40.122948 196965.000000
+measure time:
+0
+t_track   8.250000 -40.027737 197065.000000
+measure time:
+1
+t_track   8.250000 -39.943336 197166.000000
+check percent
+measure time:
+1
+t_track  -8.250000  30.394142 199471.000000
+measure time:
+1
+t_track  -8.250000  31.988907 199571.000000
+measure time:
+0
+t_track  -8.250000  32.636311 199672.000000
+measure time:
+0
+t_track  -8.250000  32.522751 199771.000000
+measure time:
+0
+t_track  -8.250000  32.409843 199871.000000
+measure time:
+1
+t_track  -8.250000  32.319508 199972.000000
+measure time:
+1
+t_track  -8.250000  32.243702 200071.000000
+measure time:
+0
+t_track  -8.250000  32.176037 200171.000000
+measure time:
+0
+t_track  -8.250000  32.117119 200272.000000
+measure time:
+0
+t_track  -8.250000  32.064285 200371.000000
+measure time:
+0
+t_track   0.000000   0.305039 201692.000000
+measure time:
+1
+t_track   0.000000  -0.567523 201793.000000
+measure time:
+1
+t_track   0.000000  -0.629984 201894.000000
+measure time:
+1
+t_track   0.000000  -0.591980 201993.000000
+measure time:
+1
+t_track   0.000000  -0.548748 202093.000000
+measure time:
+0
+t_track   0.000000  -0.513533 202194.000000
+measure time:
+0
+t_track   0.000000  -0.484603 202293.000000
+measure time:
+0
+t_track   0.000000  -0.461378 202393.000000
+measure time:
+0
+t_track   0.000000  -0.442175 202494.000000
+measure time:
+0
+t_track   0.000000  -0.409374 202593.000000
+time: 0.00
+cnt 
+1
+measure time:
+1
+t_track   8.500000 -40.730789 203674.000000
+measure time:
+1
+t_track   8.500000 -42.609806 203775.000000
+measure time:
+0
+t_track   8.500000 -43.244667 203874.000000
+measure time:
+0
+t_track   8.500000 -43.093555 203974.000000
+measure time:
+0
+t_track   8.500000 -42.831978 204075.000000
+measure time:
+1
+t_track   8.500000 -42.480965 204174.000000
+measure time:
+1
+t_track   8.500000 -42.345741 204274.000000
+measure time:
+0
+t_track   8.500000 -42.228836 204375.000000
+measure time:
+0
+t_track   8.500000 -42.125004 204474.000000
+measure time:
+0
+t_track   8.500000 -42.031578 204574.000000
+check percent
+measure time:
+0
+t_track  -8.500000  31.089149 206887.000000
+measure time:
+1
+t_track  -8.500000  34.426376 206988.000000
+measure time:
+1
+t_track  -8.500000  34.658398 207088.000000
+measure time:
+1
+t_track  -8.500000  34.504971 207189.000000
+measure time:
+0
+t_track  -8.500000  34.368965 207288.000000
+measure time:
+0
+t_track  -8.500000  34.263325 207388.000000
+measure time:
+0
+t_track  -8.500000  34.174873 207489.000000
+measure time:
+1
+t_track  -8.500000  34.098892 207588.000000
+measure time:
+1
+t_track  -8.500000  33.974800 207688.000000
+measure time:
+0
+t_track  -8.500000  33.922142 207789.000000
+measure time:
+0
+t_track   0.000000  -0.066959 209139.000000
+measure time:
+0
+t_track   0.000000  -0.467009 209241.000000
+measure time:
+0
+t_track   0.000000  -0.615406 209340.000000
+measure time:
+0
+t_track   0.000000  -0.619402 209440.000000
+measure time:
+0
+t_track   0.000000  -0.533264 209541.000000
+measure time:
+0
+t_track   0.000000  -0.501242 209639.000000
+measure time:
+1
+t_track   0.000000  -0.475127 209740.000000
+measure time:
+1
+t_track   0.000000  -0.454039 209841.000000
+measure time:
+1
+t_track   0.000000  -0.433780 209940.000000
+measure time:
+1
+t_track   0.000000  -0.415080 210041.000000
+time: 0.00
+cnt 
+1
+measure time:
+0
+t_track   8.750000 -43.415585 211139.000000
+measure time:
+0
+t_track   8.750000 -45.097645 211241.000000
+measure time:
+0
+t_track   8.750000 -45.642673 211340.000000
+measure time:
+1
+t_track   8.750000 -45.521347 211440.000000
+measure time:
+1
+t_track   8.750000 -45.268112 211541.000000
+measure time:
+1
+t_track   8.750000 -45.065475 211640.000000
+measure time:
+0
+t_track   8.750000 -44.756187 211740.000000
+measure time:
+0
+t_track   8.750000 -44.632977 211841.000000
+measure time:
+0
+t_track   8.750000 -44.523388 211940.000000
+measure time:
+1
+t_track   8.750000 -44.425362 212040.000000
+check percent
+measure time:
+0
+t_track  -8.750000  34.945160 214382.000000
+measure time:
+1
+t_track  -8.750000  36.289104 214484.000000
+measure time:
+1
+t_track  -8.750000  36.698483 214583.000000
+measure time:
+0
+t_track  -8.750000  36.585148 214683.000000
+measure time:
+0
+t_track  -8.750000  36.429863 214784.000000
+measure time:
+0
+t_track  -8.750000  36.311802 214883.000000
+measure time:
+1
+t_track  -8.750000  36.214455 214983.000000
+measure time:
+1
+t_track  -8.750000  36.058140 215084.000000
+measure time:
+0
+t_track  -8.750000  35.993668 215183.000000
+measure time:
+0
+t_track  -8.750000  35.935455 215283.000000
+measure time:
+0
+t_track   0.000000   0.132889 216629.000000
+measure time:
+0
+t_track   0.000000  -0.382228 216730.000000
+measure time:
+0
+t_track   0.000000  -0.604849 216831.000000
+measure time:
+0
+t_track   0.000000  -0.591477 216929.000000
+measure time:
+1
+t_track   0.000000  -0.547642 217030.000000
+measure time:
+1
+t_track   0.000000  -0.512855 217131.000000
+measure time:
+1
+t_track   0.000000  -0.484025 217230.000000
+measure time:
+1
+t_track   0.000000  -0.461378 217330.000000
+measure time:
+0
+t_track   0.000000  -0.440315 217431.000000
+measure time:
+0
+t_track   0.000000  -0.422570 217530.000000
+time: 0.00
+cnt 
+1
+measure time:
+0
+t_track   9.000000 -44.927608 218636.000000
+measure time:
+0
+t_track   9.000000 -47.197754 218737.000000
+measure time:
+1
+t_track   9.000000 -48.076977 218838.000000
+measure time:
+1
+t_track   9.000000 -47.976311 218937.000000
+measure time:
+1
+t_track   9.000000 -47.441513 219037.000000
+measure time:
+0
+t_track   9.000000 -47.257072 219138.000000
+measure time:
+0
+t_track   9.000000 -47.099701 219237.000000
+measure time:
+0
+t_track   9.000000 -46.963844 219337.000000
+measure time:
+1
+t_track   9.000000 -46.844833 219438.000000
+measure time:
+1
+t_track   9.000000 -46.736801 219537.000000
+check percent
+measure time:
+0
+t_track  -9.000000  35.813679 221897.000000
+measure time:
+1
+t_track  -9.000000  37.885155 221999.000000
+measure time:
+1
+t_track  -9.000000  38.777699 222098.000000
+measure time:
+0
+t_track  -9.000000  38.809746 222198.000000
+measure time:
+0
+t_track  -9.000000  38.470020 222299.000000
+measure time:
+0
+t_track  -9.000000  38.355934 222398.000000
+measure time:
+2
+t_track  -9.000000  38.259842 222499.000000
+measure time:
+1
+t_track  -9.000000  38.176647 222598.000000
+measure time:
+0
+t_track  -9.000000  38.104660 222698.000000
+measure time:
+0
+t_track  -9.000000  38.039810 222799.000000
+measure time:
+0
+t_track   0.000000  -0.128616 224168.000000
+measure time:
+0
+t_track   0.000000  -0.498226 224269.000000
+measure time:
+0
+t_track   0.000000  -0.632497 224369.000000
+measure time:
+0
+t_track   0.000000  -0.625057 224470.000000
+measure time:
+0
+t_track   0.000000  -0.575868 224569.000000
+measure time:
+0
+t_track   0.000000  -0.500639 224668.000000
+measure time:
+1
+t_track   0.000000  -0.474675 224770.000000
+measure time:
+1
+t_track   0.000000  -0.451073 224869.000000
+measure time:
+1
+t_track   0.000000  -0.430714 224969.000000
+measure time:
+1
+t_track   0.000000  -0.413823 225070.000000
+time: 0.00
+cnt 
+1
+measure time:
+1
+t_track   9.250000 -47.770454 226205.000000
+measure time:
+1
+t_track   9.250000 -49.873650 226306.000000
+measure time:
+0
+t_track   9.250000 -50.694160 226405.000000
+measure time:
+0
+t_track   9.250000 -50.680611 226505.000000
+measure time:
+0
+t_track   9.250000 -50.148277 226606.000000
+measure time:
+1
+t_track   9.250000 -49.952801 226705.000000
+measure time:
+1
+t_track   9.250000 -49.786861 226805.000000
+measure time:
+0
+t_track   9.250000 -49.643867 226906.000000
+measure time:
+0
+t_track   9.250000 -49.516407 227005.000000
+measure time:
+0
+t_track   9.250000 -49.401413 227105.000000
+check percent
+measure time:
+1
+t_track  -9.250000  39.369404 229514.000000
+measure time:
+1
+t_track  -9.250000  40.728855 229614.000000
+measure time:
+0
+t_track  -9.250000  41.131668 229715.000000
+measure time:
+0
+t_track  -9.250000  40.981815 229814.000000
+measure time:
+0
+t_track  -9.250000  40.807327 229914.000000
+measure time:
+1
+t_track  -9.250000  40.675167 230015.000000
+measure time:
+1
+t_track  -9.250000  40.564095 230114.000000
+measure time:
+0
+t_track  -9.250000  40.387070 230214.000000
+measure time:
+0
+t_track  -9.250000  40.314507 230315.000000
+measure time:
+0
+t_track  -9.250000  40.248074 230414.000000
+measure time:
+0
+t_track   0.000000   0.291315 231783.000000
+measure time:
+0
+t_track   0.000000  -0.577804 231884.000000
+measure time:
+0
+t_track   0.000000  -0.647654 231985.000000
+measure time:
+1
+t_track   0.000000  -0.609474 232084.000000
+measure time:
+1
+t_track   0.000000  -0.561164 232185.000000
+measure time:
+1
+t_track   0.000000  -0.522934 232284.000000
+measure time:
+1
+t_track   0.000000  -0.492320 232384.000000
+measure time:
+0
+t_track   0.000000  -0.466405 232485.000000
+measure time:
+0
+t_track   0.000000  -0.424178 232584.000000
+measure time:
+0
+t_track   0.000000  -0.407740 232684.000000
+time: 0.00
+cnt 
+1
+measure time:
+0
+t_track   9.500000 -51.334976 233821.000000
+measure time:
+0
+t_track   9.500000 -53.090881 233922.000000
+measure time:
+0
+t_track   9.500000 -53.539719 234023.000000
+measure time:
+1
+t_track   9.500000 -53.234253 234122.000000
+measure time:
+1
+t_track   9.500000 -52.927280 234222.000000
+measure time:
+1
+t_track   9.500000 -52.693375 234323.000000
+measure time:
+0
+t_track   9.500000 -52.498802 234422.000000
+measure time:
+0
+t_track   9.500000 -52.185520 234522.000000
+measure time:
+0
+t_track   9.500000 -52.057182 234623.000000
+measure time:
+1
+t_track   9.500000 -51.941109 234722.000000
+check percent
+measure time:
+1
+t_track  -9.500000  39.177120 237150.000000
+measure time:
+0
+t_track  -9.500000  43.267845 237250.000000
+measure time:
+0
+t_track  -9.500000  43.544353 237351.000000
+measure time:
+0
+t_track  -9.500000  43.287476 237450.000000
+measure time:
+1
+t_track  -9.500000  43.096424 237550.000000
+measure time:
+1
+t_track  -9.500000  42.956169 237651.000000
+measure time:
+1
+t_track  -9.500000  42.839996 237750.000000
+measure time:
+0
+t_track  -9.500000  42.740234 237850.000000
+measure time:
+0
+t_track  -9.500000  42.576958 237951.000000
+measure time:
+0
+t_track  -9.500000  42.506855 238050.000000
+measure time:
+0
+t_track   0.000000   0.218549 239438.000000
+measure time:
+0
+t_track   0.000000  -0.587883 239539.000000
+measure time:
+0
+t_track   0.000000  -0.649664 239639.000000
+measure time:
+0
+t_track   0.000000  -0.609499 239739.000000
+measure time:
+1
+t_track   0.000000  -0.559907 239839.000000
+measure time:
+1
+t_track   0.000000  -0.520018 239939.000000
+measure time:
+1
+t_track   0.000000  -0.489152 240040.000000
+measure time:
+1
+t_track   0.000000  -0.462384 240139.000000
+measure time:
+0
+t_track   0.000000  -0.422268 240239.000000
+measure time:
+0
+t_track   0.000000  -0.405453 240340.000000
+time: 0.00
+cnt 
+1
+measure time:
+1
+t_track   9.750000 -53.839329 241500.000000
+measure time:
+1
+t_track   9.750000 -55.896103 241600.000000
+measure time:
+0
+t_track   9.750000 -56.536541 241701.000000
+measure time:
+0
+t_track   9.750000 -56.327419 241800.000000
+measure time:
+0
+t_track   9.750000 -55.990181 241900.000000
+measure time:
+1
+t_track   9.750000 -55.515156 242001.000000
+measure time:
+1
+t_track   9.750000 -55.332726 242100.000000
+measure time:
+0
+t_track   9.750000 -55.173546 242200.000000
+measure time:
+0
+t_track   9.750000 -55.032990 242301.000000
+measure time:
+0
+t_track   9.750000 -54.907215 242400.000000
+check percent
+measure time:
+0
+t_track  -9.750000  43.466511 244851.000000
+measure time:
+1
+t_track  -9.750000  45.437321 244953.000000
+measure time:
+1
+t_track  -9.750000  46.151760 245052.000000
+measure time:
+0
+t_track  -9.750000  46.056698 245152.000000
+measure time:
+0
+t_track  -9.750000  45.827545 245253.000000
+measure time:
+0
+t_track  -9.750000  45.529896 245352.000000
+measure time:
+1
+t_track  -9.750000  45.416386 245452.000000
+measure time:
+1
+t_track  -9.750000  45.318283 245553.000000
+measure time:
+1
+t_track  -9.750000  45.230888 245652.000000
+measure time:
+0
+t_track  -9.750000  45.152443 245753.000000
+measure time:
+1
+t_track   0.000000  -0.018424 247146.000000
+measure time:
+1
+t_track   0.000000  -0.459292 247247.000000
+measure time:
+0
+t_track   0.000000  -0.636720 247346.000000
+measure time:
+0
+t_track   0.000000  -0.645618 247446.000000
+measure time:
+0
+t_track   0.000000  -0.550180 247547.000000
+measure time:
+0
+t_track   0.000000  -0.513835 247646.000000
+measure time:
+0
+t_track   0.000000  -0.483673 247746.000000
+measure time:
+1
+t_track   0.000000  -0.458261 247847.000000
+measure time:
+1
+t_track   0.000000  -0.436268 247946.000000
+measure time:
+1
+t_track   0.000000  -0.417442 248046.000000
+time: 1.00
+cnt 
+1
+measure time:
+0
+t_track  10.000000 -57.507359 249225.000000
+measure time:
+0
+t_track  10.000000 -59.222569 249326.000000
+measure time:
+1
+t_track  10.000000 -59.612915 249427.000000
+measure time:
+1
+t_track  10.000000 -59.254490 249526.000000
+measure time:
+0
+t_track  10.000000 -58.911953 249626.000000
+measure time:
+0
+t_track  10.000000 -58.650322 249727.000000
+measure time:
+0
+t_track  10.000000 -58.432400 249826.000000
+measure time:
+1
+t_track  10.000000 -58.082397 249926.000000
+measure time:
+1
+t_track  10.000000 -57.937843 250027.000000
+measure time:
+0
+t_track  10.000000 -57.807293 250126.000000
+check percent
+measure time:
+2
+t_track -10.000000  45.226139 252622.000000
+measure time:
+1
+t_track -10.000000  47.704201 252721.000000
+measure time:
+0
+t_track -10.000000  48.780079 252821.000000
+measure time:
+0
+t_track -10.000000  48.464886 252922.000000
+measure time:
+0
+t_track -10.000000  48.274288 253021.000000
+measure time:
+1
+t_track -10.000000  48.125084 253121.000000
+measure time:
+1
+t_track -10.000000  47.999157 253222.000000
+measure time:
+1
+t_track -10.000000  47.889622 253321.000000
+measure time:
+0
+t_track -10.000000  47.795589 253421.000000
+measure time:
+0
+t_track -10.000000  47.709705 253522.000000
+measure time:
+1
+t_track   0.000000  -0.293099 254940.000000
+measure time:
+1
+t_track   0.000000  -0.576698 255040.000000
+measure time:
+1
+t_track   0.000000  -0.656099 255141.000000
+measure time:
+0
+t_track   0.000000  -0.620558 255240.000000
+measure time:
+0
+t_track   0.000000  -0.569434 255340.000000
+measure time:
+0
+t_track   0.000000  -0.528941 255441.000000
+measure time:
+0
+t_track   0.000000  -0.495286 255540.000000
+measure time:
+0
+t_track   0.000000  -0.442527 255639.000000
+measure time:
+1
+t_track   0.000000  -0.422947 255741.000000
+measure time:
+1
+t_track   0.000000  -0.405252 255840.000000
+time: 0.00
+cnt 
+1
+measure time:
+0
+t_track  10.250000 -58.192463 257012.000000
+measure time:
+0
+t_track  10.250000 -61.473763 257114.000000
+measure time:
+1
+t_track  10.250000 -62.862724 257213.000000
+measure time:
+1
+t_track  10.250000 -62.548462 257313.000000
+measure time:
+1
+t_track  10.250000 -62.216553 257414.000000
+measure time:
+0
+t_track  10.250000 -61.948837 257513.000000
+measure time:
+0
+t_track  10.250000 -61.724937 257614.000000
+measure time:
+0
+t_track  10.250000 -61.532852 257713.000000
+measure time:
+1
+t_track  10.250000 -61.363297 257813.000000
+measure time:
+1
+t_track  10.250000 -61.211830 257914.000000
+check percent
+measure time:
+1
+t_track -10.250000  49.326286 260402.000000
+measure time:
+1
+t_track -10.250000  51.285385 260502.000000
+measure time:
+0
+t_track -10.250000  51.839916 260603.000000
+measure time:
+0
+t_track -10.250000  51.591858 260702.000000
+measure time:
+0
+t_track -10.250000  51.340332 260802.000000
+measure time:
+0
+t_track -10.250000  51.160164 260902.000000
+measure time:
+1
+t_track -10.250000  51.010635 261002.000000
+measure time:
+1
+t_track -10.250000  50.772381 261102.000000
+measure time:
+0
+t_track -10.250000  50.673626 261203.000000
+measure time:
+0
+t_track -10.250000  50.584419 261302.000000
+measure time:
+0
+t_track   0.000000  -0.006032 262745.000000
+measure time:
+1
+t_track   0.000000  -0.440742 262846.000000
+measure time:
+2
+t_track   0.000000  -0.648257 262947.000000
+measure time:
+1
+t_track   0.000000  -0.600777 263046.000000
+measure time:
+1
+t_track   0.000000  -0.552995 263146.000000
+measure time:
+0
+t_track   0.000000  -0.514388 263247.000000
+measure time:
+0
+t_track   0.000000  -0.482517 263346.000000
+measure time:
+0
+t_track   0.000000  -0.457809 263446.000000
+measure time:
+0
+t_track   0.000000  -0.435414 263547.000000
+measure time:
+0
+t_track   0.000000  -0.396480 263646.000000
+time: 0.00
+cnt 
+1
+measure time:
+1
+t_track  10.500000 -62.030251 264837.000000
+measure time:
+0
+t_track  10.500000 -65.114395 264937.000000
+measure time:
+0
+t_track  10.500000 -66.352043 265038.000000
+measure time:
+0
+t_track  10.500000 -66.219177 265137.000000
+measure time:
+1
+t_track  10.500000 -65.411766 265237.000000
+measure time:
+1
+t_track  10.500000 -65.139580 265338.000000
+measure time:
+0
+t_track  10.500000 -64.909645 265437.000000
+measure time:
+0
+t_track  10.500000 -64.710449 265537.000000
+measure time:
+0
+t_track  10.500000 -64.532745 265638.000000
+measure time:
+0
+t_track  10.500000 -64.374397 265737.000000
+check percent
+measure time:
+0
+t_track -10.500000  50.918892 268268.000000
+measure time:
+0
+t_track -10.500000  53.653053 268370.000000
+measure time:
+0
+t_track -10.500000  54.804161 268469.000000
+measure time:
+0
+t_track -10.500000  54.709377 268569.000000
+measure time:
+1
+t_track -10.500000  54.140774 268670.000000
+measure time:
+1
+t_track -10.500000  53.970184 268769.000000
+measure time:
+0
+t_track -10.500000  53.824375 268869.000000
+measure time:
+0
+t_track -10.500000  53.699078 268970.000000
+measure time:
+0
+t_track -10.500000  53.589260 269069.000000
+measure time:
+1
+t_track -10.500000  53.491035 269169.000000
+measure time:
+1
+t_track   0.000000  -0.264420 270612.000000
+measure time:
+0
+t_track   0.000000  -0.563728 270713.000000
+measure time:
+0
+t_track   0.000000  -0.658638 270812.000000
+measure time:
+0
+t_track   0.000000  -0.629733 270912.000000
+measure time:
+0
+t_track   0.000000  -0.576899 271013.000000
+measure time:
+0
+t_track   0.000000  -0.532862 271112.000000
+measure time:
+1
+t_track   0.000000  -0.467888 271212.000000
+measure time:
+1
+t_track   0.000000  -0.443557 271313.000000
+measure time:
+1
+t_track   0.000000  -0.423424 271412.000000
+measure time:
+1
+t_track   0.000000  -0.404422 271512.000000
+time: 0.00
+cnt 
+1
+measure time:
+0
+t_track  10.750000 -67.206177 272728.000000
+measure time:
+0
+t_track  10.750000 -69.489296 272829.000000
+measure time:
+0
+t_track  10.750000 -70.142174 272929.000000
+measure time:
+1
+t_track  10.750000 -69.829498 273029.000000
+measure time:
+1
+t_track  10.750000 -69.397804 273129.000000
+measure time:
+0
+t_track  10.750000 -69.065666 273230.000000
+measure time:
+0
+t_track  10.750000 -68.556839 273329.000000
+measure time:
+0
+t_track  10.750000 -68.350952 273429.000000
+measure time:
+1
+t_track  10.750000 -68.170784 273530.000000
+measure time:
+1
+t_track  10.750000 -68.008842 273629.000000
+check percent
+measure time:
+1
+t_track -10.750000  54.294273 276191.000000
+measure time:
+0
+t_track -10.750000  57.027306 276291.000000
+measure time:
+0
+t_track -10.750000  58.125175 276392.000000
+measure time:
+0
+t_track -10.750000  57.705898 276491.000000
+measure time:
+1
+t_track -10.750000  57.475864 276591.000000
+measure time:
+1
+t_track -10.750000  57.291424 276692.000000
+measure time:
+0
+t_track -10.750000  57.136467 276791.000000
+measure time:
+0
+t_track -10.750000  57.001541 276891.000000
+measure time:
+0
+t_track -10.750000  56.882301 276992.000000
+measure time:
+1
+t_track -10.750000  56.775150 277091.000000
+measure time:
+1
+t_track   0.000000  -0.182706 278571.000000
+measure time:
+1
+t_track   0.000000  -0.511724 278671.000000
+measure time:
+1
+t_track   0.000000  -0.636670 278771.000000
+measure time:
+1
+t_track   0.000000  -0.586525 278872.000000
+measure time:
+0
+t_track   0.000000  -0.538442 278971.000000
+measure time:
+0
+t_track   0.000000  -0.500237 279071.000000
+measure time:
+0
+t_track   0.000000  -0.470150 279172.000000
+measure time:
+0
+t_track   0.000000  -0.444387 279271.000000
+measure time:
+0
+t_track   0.000000  -0.421665 279370.000000
+measure time:
+1
+t_track   0.000000  -0.401984 279472.000000
+time: 0.00
+cnt 
+1
+measure time:
+1
+t_track  11.000000 -68.532455 280692.000000
+measure time:
+0
+t_track  11.000000 -72.260658 280793.000000
+measure time:
+0
+t_track  11.000000 -73.746841 280892.000000
+measure time:
+0
+t_track  11.000000 -73.154579 280992.000000
+measure time:
+1
+t_track  11.000000 -72.752670 281093.000000
+measure time:
+1
+t_track  11.000000 -72.434563 281192.000000
+measure time:
+1
+t_track  11.000000 -72.165771 281292.000000
+measure time:
+0
+t_track  11.000000 -71.933197 281393.000000
+measure time:
+0
+t_track  11.000000 -71.730606 281492.000000
+measure time:
+0
+t_track  11.000000 -71.381508 281593.000000
+check percent
+measure time:
+1
+t_track -11.000000  58.937817 284160.000000
+measure time:
+1
+t_track -11.000000  61.126148 284260.000000
+measure time:
+0
+t_track -11.000000  61.647446 284360.000000
+measure time:
+0
+t_track -11.000000  61.182350 284461.000000
+measure time:
+0
+t_track -11.000000  60.847324 284560.000000
+measure time:
+1
+t_track -11.000000  60.626537 284660.000000
+measure time:
+1
+t_track -11.000000  60.285885 284761.000000
+measure time:
+1
+t_track -11.000000  60.148796 284860.000000
+measure time:
+0
+t_track -11.000000  60.027069 284960.000000
+measure time:
+0
+t_track -11.000000  59.917053 285061.000000
+measure time:
+0
+t_track   0.000000  -0.311749 286539.000000
+measure time:
+0
+t_track   0.000000  -0.572425 286641.000000
+measure time:
+0
+t_track   0.000000  -0.653058 286740.000000
+measure time:
+1
+t_track   0.000000  -0.623675 286841.000000
+measure time:
+1
+t_track   0.000000  -0.568780 286940.000000
+measure time:
+1
+t_track   0.000000  -0.524065 287040.000000
+measure time:
+1
+t_track   0.000000  -0.459820 287141.000000
+measure time:
+0
+t_track   0.000000  -0.435615 287240.000000
+measure time:
+0
+t_track   0.000000  -0.413169 287340.000000
+measure time:
+0
+t_track   0.000000  -0.392458 287441.000000
+>>>>>>> refs/remotes/origin/main

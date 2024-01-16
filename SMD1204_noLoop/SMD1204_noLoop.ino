@@ -72,6 +72,7 @@ bool ar_flag = false;
 bool vel_flag = true;
 bool time_flag = false;
 bool search_active = true;
+bool tracking_flag = false;
 
 // HX711 object
 HX711 loadcell;
@@ -89,7 +90,7 @@ float t1 = 0;
 float t2 = 0;
 float t3 = 0;
 
-void(* resetFunc)(void)=0;
+void (*resetFunc)(void) = 0;
 
 // SETUP
 void setup()
@@ -129,30 +130,6 @@ void setup()
     // flushSerial();
     Serial.write("Parameters\n");
 
-    // flushSerial();
-    // Serial.write("loadcell\n");
-    // FULLSCALE = Serial.parseInt();
-
-    // // flushSerial();
-    // Serial.write("min_pos\n");
-    // min_pos = Serial.parseFloat();
-
-    // // flushSerial();
-    // Serial.write("max_pos\n");
-    // max_pos = Serial.parseFloat();
-
-    // // flushSerial();
-    // Serial.write("num_pos\n");
-    // num_pos = Serial.parseInt();
-
-    // // flushSerial();
-    // Serial.write("media\n");
-    // mean_active = bool(Serial.parseInt());
-
-    // // flushSerial();
-    // Serial.write("a_r\n");
-    // ar_flag = bool(Serial.parseInt());
-    // Serial.println(ar_flag);
     stat_creep_flag = bool(Serial.parseInt(SKIP_WHITESPACE));
     FULLSCALE = Serial.parseInt(SKIP_WHITESPACE);
     min_pos = Serial.parseFloat(SKIP_WHITESPACE);
@@ -161,6 +138,7 @@ void setup()
     waitTime = (unsigned long)(Serial.parseInt(SKIP_WHITESPACE));
     mean_active = bool(Serial.parseInt(SKIP_WHITESPACE));
     ar_flag = bool(Serial.parseInt(SKIP_WHITESPACE));
+    tracking_flag = bool(Serial.parseInt(SKIP_WHITESPACE));
 
     th1 = Serial.parseFloat(SKIP_WHITESPACE);
     cnt_th1 = Serial.parseInt(SKIP_WHITESPACE);
@@ -180,12 +158,6 @@ void setup()
 
     search_active = bool(Serial.parseInt(SKIP_WHITESPACE));
 
-    Serial.println(stat_creep_flag);
-    Serial.println("zer0_approx");
-    Serial.println(zero_approx);
-    Serial.println("cnt_zer0");
-    Serial.println(cnt_zero);
-
     flushSerial();
 
     vel_max = constrain(vel_max, 0.1, 10);
@@ -201,6 +173,7 @@ void setup()
     // ----------------------------------------------
 
     // Init IP communication
+    Serial.println(tracking_flag);
     Serial.write("Initializing...\n");
     // Ethernet.begin(mac, server);
     Ethernet.begin(mac, server);
@@ -235,7 +208,12 @@ void setup()
     if (stat_creep_flag)
         creepRoutine();
     else
-        measureRoutine();
+    {
+        if (tracking_flag)
+            trackingRoutine();
+        else
+            measureRoutine();
+    }
 
     // FINISH MEASUREMENT
     Serial.write("Finished\n");
@@ -270,6 +248,5 @@ void checkModbusConnection()
         }
     }
     t2 = millis();
-    // t2=millis();
     Serial.println(time + (t2 - t1));
 }

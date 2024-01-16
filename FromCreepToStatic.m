@@ -2,7 +2,7 @@ clear; close all; clc;
 load MisureRilassamento_cnt077145.mat
 
 
-for jj=1:1
+for jj=3:3
 %     T = struct2table(data(jj).cnt); % convert the struct array to a table
 %     sortedT = sortrows(T, 'displ_val'); % sort the table by 'DOB'
 %     data(jj).cnt = table2struct(sortedT); % change it back to struct array if necessary
@@ -97,9 +97,9 @@ iii=flip(iii);
 
 
 folders = {"STATICA_2023-12-22", "STATICA_2024-01-11"};
-f_idx = 2;
+f_idx = 1;
 % fname = './STATICA_2023-12-22/Statica_07714532B-2/Statica_07714532B-2.json'; 
-filename = "Statica_07714532B-1"
+filename = "Statica_07714532C-1"
 fname = strcat(folders{f_idx},"/",filename,"/",filename,".json");
 fid = fopen(fname); 
 raw = fread(fid,inf); 
@@ -325,8 +325,8 @@ lab = {"ieri", "oggi"};
     grid on
 
 % end
-cnt = split(filename, '_');
-cnt = cnt(3)
+% cnt = split(filename, '_');
+% % cnt = cnt(3)
 
 legend("Computed", "Measured")
 

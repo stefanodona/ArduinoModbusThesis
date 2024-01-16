@@ -66,8 +66,6 @@ void driverSetup()
 {
   // reset all alarms
   modbusTCPClient.holdingRegisterWrite(Ralarm, 0);
-  // modbusTCPClient.holdingRegisterWrite(Rpostarg, int16_t(0));
-  // modbusTCPClient.holdingRegisterWrite(Rpostarg + 1, int16_t(0));
   sendPosTarget((int32_t)0);
 
   // check status
@@ -95,7 +93,7 @@ void driverSetup()
   split32to16(vel * 100);
   if (modbusTCPClient.holdingRegisterWrite(Rvel, splitted[0]) && modbusTCPClient.holdingRegisterWrite(Rvel + 1, splitted[1]))
   {
-    Serial.print("Velocita' massima settata a: ");
+    Serial.print(F("Velocita' massima settata a: "));
     Serial.print(vel);
     Serial.println(" rps");
   }
@@ -122,24 +120,10 @@ void homingRoutine()
   // seek the position in which the value of hx711 is equal to unclamped (in error band)
   sendCommand(home());
 
-  // Serial.write("Togliere il centratore dalla cella...\n");
-  // // Serial.write("Premere enter\n");
-  // awaitKeyPressed();
-
-  // float tare = getForce();
-  // // tare = getForce3(373950);
-  // delay(1000);
-  // sendPosTarget(mm2int(-10));
-  // sendCommand(gor());
-  // getStatus();
-  //     while (bitRead(sts, 3))
-  //       // checkPanic();
-  //       getStatus();
-
   Serial.write("Posizionare il centratore...\n");
   awaitKeyPressed();
   String inc_msg = Serial.readString();
-  if (inc_msg!="ok\n")
+  if (inc_msg != "ok\n")
   {
     flushSerial();
     Serial.flush();
@@ -147,14 +131,13 @@ void homingRoutine()
     // return;
     resetFunc();
   }
-  
 
   float tare = getForce();
 
   Serial.write("Stringere il centratore...\n");
   awaitKeyPressed();
   inc_msg = Serial.readString();
-  if (inc_msg!="ok\n")
+  if (inc_msg != "ok\n")
   {
     flushSerial();
     Serial.flush();
@@ -164,12 +147,6 @@ void homingRoutine()
   }
 
   float clamped = getForce();
-
-  Serial.println("Clamped");
-  Serial.println(clamped, 6);
-  Serial.println("T4re");
-  Serial.println(tare, 6);
-
   // assuming loadcell reads x<0 when extended and x>0 when compressed
   float pos;
   if (clamped > tare)
@@ -182,9 +159,8 @@ void homingRoutine()
 
   Serial.write("Taratura\n");
   float abs_tol = 0.1; // [N] tolerance
-  // bool search_active = true;
   // float disks_weight = (0.12995+0.1083+0.02543)*9.81;
-  float disks_weight = (0.12995+0.1083+0.02027)*9.81;
+  float disks_weight = (0.12995 + 0.1083 + 0.02027) * 9.81;
   // float disks_weight = (0.12995 + 0.1083) * 9.81;
   tare -= disks_weight;
 
@@ -215,19 +191,6 @@ void homingRoutine()
         pos = ((tare - post_moved) / diff);
         pos = constrain(pos, -1.0, 1.0);
 
-        // Serial.println("diff: ");
-        // Serial.println(diff, 5);
-        Serial.println("pos realtiva prossimo passo:");
-        Serial.println(pos, 5);
-        Serial.println("forza mancante: ");
-        Serial.println((tare - post_moved), 5);
-        Serial.println("post_moved: ");
-        Serial.println(post_moved, 5);
-        Serial.println("lowerbound: ");
-        Serial.println(lowerBound, 5);
-        Serial.println("upperbound: ");
-        Serial.println(upperBound, 5);
-
         sendPosTarget(mm2int(pos));
         clamped = post_moved;
         // delay(200);
@@ -241,13 +204,6 @@ void homingRoutine()
   // tare_force = clamped;
   tare_force = getForce();
 
-  // sendPosTarget(mm2int(1));
-  // sendCommand(go());
-  // getStatus();
-  // while (bitRead(sts, 3))
-  //   // checkPanic();
-  //   getStatus();
-
   sendCommand(home());
 
   getStatus();
@@ -257,17 +213,8 @@ void homingRoutine()
   }
 
   init_pos = getPosact();
-  Serial.println("init pos");
-  Serial.println(init_pos);
-
-  // Serial.println("Init Pos: ");
-  // Serial.println(init_pos);
   String msg = "tare ";
-  // char num[15];
-  // dtostrf(tare_force, 10, 6, num);
-  // Serial.println(msg + num);
-
-  sendMessage("tare", tare_force, NULL, NULL);
+  sendMessage("tare", &tare_force, NULL, NULL);
 
   split32to16(vel * 100);
   if (modbusTCPClient.holdingRegisterWrite(Rvel, splitted[0]) && modbusTCPClient.holdingRegisterWrite(Rvel + 1, splitted[1]))
@@ -304,10 +251,7 @@ void measureRoutine()
   String msg_std = "std ";
 
   String msg_zero = "zero ";
-  // String msg_zero_pos = "zero_p ";
 
-  // String msg_std_pos = "std_pos ";
-  // char buff[15];
   char num[15];
   char zero_buff_pos[15];
   char zero_buff_force[15];
@@ -318,10 +262,10 @@ void measureRoutine()
 
   unsigned long tik = millis();
   unsigned long tok = 0;
-  unsigned long tiktok = 0;
+  float tiktok = 0;
 
   // TIMING DIAGRAM
-  // 
+  //
   // pos              _____________
   //                 /|            |\
   //                / |            | \
@@ -360,25 +304,23 @@ void measureRoutine()
       sendPosTarget(init_pos + mm2int(pos[i]));
       sendCommand(go());
       // Measure start time
-      tok=millis();
-      tiktok = tok-tik;
+      tok = millis();
+      tiktok = float(tok - tik);
       String t_start = "t_s";
-      sendMessage(t_start, float(tiktok), pos[i], NULL);
+      sendMessage(t_start, &tiktok, &pos[i], NULL);
 
       getStatus();
       while (bitRead(sts, 3))
         // checkPanic();
         getStatus();
-      
 
       sendCommand(disableDrive());
 
-
       // Measure rise time
-      tok=millis();
-      tiktok = tok-tik;
+      tok = millis();
+      tiktok = float(tok - tik);
       String t_rise = "t_r";
-      sendMessage(t_rise, float(tiktok), pos[i], NULL);
+      sendMessage(t_rise, &tiktok, &pos[i], NULL);
 
       delay(waitTime);
       // Measure position and force
@@ -398,17 +340,6 @@ void measureRoutine()
       sum_sq_pos_p += pow(x_p - k_p_p, 2);
       sum_sq_p += pow(y_p - k_f_p, 2);
 
-      Serial.println("x_p: ");
-      Serial.println(x_p, 6);
-      Serial.println("Ex_p: ");
-      Serial.println(Ex_p, 6);
-      Serial.println("sum_sq_pos_p: ");
-      Serial.println(sum_sq_pos_p, 6);
-      // unsigned long tok = millis();
-      // long tikketokke = tok - tik;
-      // Serial.write("TikkeTokke\n");
-      // Serial.println(tikketokke);
-
       Serial.write("check percent\n");
 
       getStatus();
@@ -419,10 +350,10 @@ void measureRoutine()
       }
 
       // Measure fall time
-      tok=millis();
-      tiktok = tok-tik;
+      tok = millis();
+      tiktok = float(tok - tik);
       String t_fall = "t_f";
-      sendMessage(t_fall, float(tiktok), pos[i], NULL);
+      sendMessage(t_fall, &tiktok, &pos[i], NULL);
 
       sendPosTarget(init_pos);
       sendCommand(go());
@@ -431,32 +362,31 @@ void measureRoutine()
         getStatus();
 
       // Measure end time
-      tok=millis();
-      tiktok = tok-tik;
+      tok = millis();
+      tiktok = float(tok - tik);
       String t_end = "t_e";
-      sendMessage(t_end, float(tiktok), pos[i], NULL);
+      sendMessage(t_end, &tiktok, &pos[i], NULL);
 
       // negative movement (down)
       sendPosTarget(init_pos + mm2int(pos[i + 1]));
       sendCommand(go());
       // Measure start time
-      tok=millis();
-      tiktok = tok-tik;
-      sendMessage(t_start, float(tiktok), pos[i], NULL);
-     
+      tok = millis();
+      tiktok = float(tok - tik);
+      sendMessage(t_start, &tiktok, &pos[i], NULL);
+
       getStatus();
       while (bitRead(sts, 3))
         // checkPanic();
         getStatus();
-      
-      
+
       sendCommand(disableDrive());
 
       // Measure rise time
-      tok=millis();
-      tiktok = tok-tik;
+      tok = millis();
+      tiktok = float(tok - tik);
       // String t_rise = "t_r";
-      sendMessage(t_rise, float(tiktok), pos[i+1], NULL);
+      sendMessage(t_rise, &tiktok, &pos[i + 1], NULL);
 
       delay(waitTime);
       // measure position and force
@@ -476,13 +406,6 @@ void measureRoutine()
       sum_sq_pos_m += pow(x_m - k_p_m, 2);
       sum_sq_m += pow(y_m - k_f_m, 2);
 
-      Serial.println("x_m: ");
-      Serial.println(x_m, 6);
-      Serial.println("Ex_m: ");
-      Serial.println(Ex_m, 6);
-      Serial.println("sum_sq_pos_m: ");
-      Serial.println(sum_sq_pos_m, 6);
-
       Serial.write("check percent\n");
 
       getStatus();
@@ -493,21 +416,21 @@ void measureRoutine()
       }
 
       // Measure rise time
-      tok=millis();
-      tiktok = tok-tik;
+      tok = millis();
+      tiktok = float(tok - tik);
       // String t_fall = "t_f";
-      sendMessage(t_fall, float(tiktok), pos[i+1], NULL);
+      sendMessage(t_fall, &tiktok, &pos[i + 1], NULL);
 
       sendPosTarget(init_pos);
       sendCommand(go());
       getStatus();
       while (bitRead(sts, 3))
         getStatus();
-      
+
       // Measure end time
-      tok=millis();
-      tiktok = tok-tik;
-      sendMessage(t_end, float(tiktok), pos[i], NULL);
+      tok = millis();
+      tiktok = float(tok - tik);
+      sendMessage(t_end, &tiktok, &pos[i], NULL);
 
       // check to read consistent data
       if ((fabs(x_p) > 2 * prev_x_p || fabs(x_m) > 2 * prev_x_m))
@@ -602,14 +525,6 @@ void measureRoutine()
     sum_sq_pos_m = 0;
   }
 
-  // delay(waitTime);
-  // tare_force = getForce();
-  // float pos_0 = int2mm(getPosact());
-  // Serial.println("Ritorno T4re:");
-  // Serial.println(tare_force, 5);
-  // Serial.println("Pos prima del ritorno:");
-  // Serial.println(pos_0, 5);
-
   if (ar_flag)
   {
     Serial.write("ritorno\n");
@@ -666,13 +581,6 @@ void measureRoutine()
         sum_sq_pos_p += pow(x_p - k_p_p, 2);
         sum_sq_p += pow(y_p - k_f_p, 2);
 
-        Serial.println("x_p: ");
-        Serial.println(x_p, 6);
-        Serial.println("Ex_p: ");
-        Serial.println(Ex_p, 6);
-        Serial.println("sum_sq_pos_p: ");
-        Serial.println(sum_sq_pos_p, 6);
-
         Serial.write("check percent\n");
 
         getStatus();
@@ -712,13 +620,6 @@ void measureRoutine()
         Ey_m += y_m - k_f_m;
         sum_sq_pos_m += pow(x_m - k_p_m, 2);
         sum_sq_m += pow(y_m - k_f_m, 2);
-
-        Serial.println("x_m: ");
-        Serial.println(x_m, 6);
-        Serial.println("Ex_m: ");
-        Serial.println(Ex_m, 6);
-        Serial.println("sum_sq_pos_m: ");
-        Serial.println(sum_sq_pos_m, 6);
 
         Serial.write("check percent\n");
 
@@ -832,6 +733,260 @@ void measureRoutine()
   }
 }
 
+void trackingRoutine()
+{
+  Serial.write("Measure Routine\n");
+  // inizializziamo qua
+  float pos[num_pos];
+  flushSerial();
+  Serial.write("send me\n");
+
+  for (int i = 0; i < num_pos; i++)
+  {
+    pos[i] = Serial.parseFloat(SKIP_WHITESPACE);
+    Serial.println(pos[i]);
+  }
+
+  Serial.write("Measuring\n");
+
+  unsigned long tik = millis();
+  unsigned long tok = 0;
+  unsigned long tiktok = 0;
+  // unsigned long to_wait = 0;
+
+  int num_cyc = (int)(waitTime / 100); // stop time / min time of measurement
+
+  // String t_track = "t_track";
+
+  Serial.write("andata\n");
+  for (int i = 0; i < num_pos; i = i + 2)
+  {
+    int cnt = getAvgCnt(pos[i]);
+    checkModbusConnection();
+    setAccVelocity(pos[i]);
+
+    Serial.println("cnt ");
+    Serial.println(cnt);
+
+    // positive movement (up)
+    sendPosTarget(init_pos + mm2int(pos[i]));
+    sendCommand(go());
+
+    getStatus();
+    while (bitRead(sts, 3))
+      // checkPanic();
+      getStatus();
+
+    sendCommand(disableDrive());
+
+    // Measure rise time
+
+    // for (int j = 0; j < num_cyc; j++)
+    // {
+    //   tok = millis();
+    //   tiktok = tok - tik;
+    //   // Measure position and force
+    //   float x_p = int2mm(getPosact() - init_pos);
+    //   float y_p = getForce() - tare_force;
+
+    //   sendMessage(t_track, x_p, y_p, float(tiktok));
+
+    //   to_wait = (unsigned long)(100) - ((millis() - tok) % (int)100);
+    //   delay(to_wait);
+    // }
+
+    measurePosForceTime(tik, num_cyc, pos[i]);
+
+    Serial.write("check percent\n");
+
+    getStatus();
+    while (!bitRead(sts, 0))
+    {
+      getStatus();
+      sendCommand(enableDrive());
+    }
+
+    sendPosTarget(init_pos);
+    sendCommand(go());
+    getStatus();
+    while (bitRead(sts, 3))
+      getStatus();
+
+    // negative movement (down)
+    sendPosTarget(init_pos + mm2int(pos[i + 1]));
+    sendCommand(go());
+
+    getStatus();
+    while (bitRead(sts, 3))
+      // checkPanic();
+      getStatus();
+
+    sendCommand(disableDrive());
+
+    measurePosForceTime(tik, num_cyc, pos[i+1]);
+    // for (int j = 0; j < num_cyc; j++)
+    // {
+    //   tok = millis();
+    //   tiktok = tok - tik;
+    //   // Measure position and force
+    //   float x_p = int2mm(getPosact() - init_pos);
+    //   float y_p = getForce() - tare_force;
+
+    //   sendMessage(t_track, x_p, y_p, float(tiktok));
+
+    //   to_wait = (unsigned long)(100) - ((millis() - tok) % (int)100);
+    //   delay(to_wait);
+    // }
+
+    getStatus();
+    while (!bitRead(sts, 0))
+    {
+      getStatus();
+      sendCommand(enableDrive());
+    }
+
+    sendPosTarget(init_pos);
+    sendCommand(go());
+    getStatus();
+    while (bitRead(sts, 3))
+      getStatus();
+
+    measurePosForceTime(tik, num_cyc, int2mm(init_pos));
+    // for (int j = 0; j < num_cyc; j++)
+    // {
+    //   tok = millis();
+    //   tiktok = tok - tik;
+    //   // Measure position and force
+    //   float x_p = int2mm(getPosact() - init_pos);
+    //   float y_p = getForce() - tare_force;
+
+    //   sendMessage(t_track, x_p, y_p, float(tiktok));
+
+    //   to_wait = (unsigned long)(100) - ((millis() - tok) % (int)100);
+    //   delay(to_wait);
+    // }
+  }
+
+  if (ar_flag)
+  {
+    Serial.write("ritorno\n");
+    for (int i = num_pos - 1; i >= 0; i = i - 2)
+    {
+      int cnt = getAvgCnt(pos[i]);
+      checkModbusConnection();
+      setAccVelocity(pos[i]);
+
+      Serial.println("cnt ");
+      Serial.println(cnt);
+
+      // positive movement (up)
+      sendPosTarget(init_pos + mm2int(pos[i - 1]));
+      sendCommand(go());
+      // Measure start time
+      tok = millis();
+      tiktok = tok - tik;
+
+      getStatus();
+      while (bitRead(sts, 3))
+        // checkPanic();
+        getStatus();
+
+      sendCommand(disableDrive());
+
+      // Measure rise time
+
+      measurePosForceTime(tik, num_cyc, pos[i-1]);
+
+      // for (int j = 0; j < num_cyc; j++)
+      // {
+      //   tok = millis();
+      //   tiktok = tok - tik;
+      //   // Measure position and force
+      //   float x_p = int2mm(getPosact() - init_pos);
+      //   float y_p = getForce() - tare_force;
+
+      //   sendMessage(t_track, x_p, y_p, float(tiktok));
+
+      //   to_wait = (unsigned long)(100) - ((millis() - tok) % (int)100);
+      //   delay(to_wait);
+      // }
+
+      Serial.write("check percent\n");
+
+      getStatus();
+      while (!bitRead(sts, 0))
+      {
+        getStatus();
+        sendCommand(enableDrive());
+      }
+
+      sendPosTarget(init_pos);
+      sendCommand(go());
+      getStatus();
+      while (bitRead(sts, 3))
+        getStatus();
+
+      // negative movement (down)
+      sendPosTarget(init_pos + mm2int(pos[i]));
+      sendCommand(go());
+
+      getStatus();
+      while (bitRead(sts, 3))
+        // checkPanic();
+        getStatus();
+
+      sendCommand(disableDrive());
+
+      measurePosForceTime(tik, num_cyc, pos[i]);
+
+      // for (int j = 0; j < num_cyc; j++)
+      // {
+      //   tok = millis();
+      //   tiktok = tok - tik;
+      //   // Measure position and force
+      //   float x_p = int2mm(getPosact() - init_pos);
+      //   float y_p = getForce() - tare_force;
+
+      //   sendMessage(t_track, x_p, y_p, float(tiktok));
+
+      //   to_wait = (unsigned long)(100) - ((millis() - tok) % (int)100);
+      //   delay(to_wait);
+      // }
+
+      getStatus();
+      while (!bitRead(sts, 0))
+      {
+        getStatus();
+        sendCommand(enableDrive());
+      }
+
+      sendPosTarget(init_pos);
+      sendCommand(go());
+      getStatus();
+      while (bitRead(sts, 3))
+        getStatus();
+
+      measurePosForceTime(tik, num_cyc, int2mm(init_pos));
+
+      // for (int j = 0; j < num_cyc; j++)
+      // {
+      //   tok = millis();
+      //   tiktok = tok - tik;
+      //   // Measure position and force
+      //   float x_p = int2mm(getPosact() - init_pos);
+      //   float y_p = getForce() - tare_force;
+
+      //   sendMessage(t_track, x_p, y_p, float(tiktok));
+
+      //   to_wait = (unsigned long)(100) - ((millis() - tok) % (int)100);
+      //   delay(to_wait);
+      // }
+    }
+    sendPosTarget(init_pos);
+    sendCommand(go());
+  }
+}
+
 void creepRoutine()
 {
   String msg = "val ";
@@ -868,9 +1023,6 @@ void creepRoutine()
 
   sendCommand(disableDrive());
 
-  // float acquisitions[num_creep];
-  // float time_axis[num_creep];
-
   float acquisitions;
   float time_axis;
 
@@ -890,18 +1042,7 @@ void creepRoutine()
     delay(to_wait);
 
     Serial.write("check percent\n");
-    // Serial.println(acquisitions[i]);
-    // Serial.println(time_axis[i]);
   }
-
-  // for(int i=0; i<num_creep; i++){
-  //   dtostrf(acquisitions[i], 10, 6, num);
-  //   Serial.println(msg + num);
-  //   delay(50);
-  //   dtostrf(time_axis[i], 10, 6, time_val);
-  //   Serial.println(time_msg + time_val);
-  //   delay(50);
-  // }
 
   getStatus();
   while (!bitRead(sts, 0))
@@ -921,89 +1062,6 @@ void getStatus()
 {
   sts = modbusTCPClient.holdingRegisterRead(Rstsflg);
   sts_cllp = modbusTCPClient.holdingRegisterRead(Rstscllp);
-}
-
-void printStatus()
-{
-  if (modbusTCPClient.holdingRegisterRead(Rstsflg) != -1)
-  {
-    Serial.println("\n\t Status: ");
-    uint16_t this_sts = modbusTCPClient.holdingRegisterRead(Rstsflg);
-    if (bitRead(this_sts, 0))
-      Serial.println("Azionamento abilitato");
-    if (bitRead(this_sts, 1))
-      Serial.println("Azionamento in allarme");
-    if (bitRead(this_sts, 2))
-      Serial.println("Quota motore sincronizzata");
-    if (bitRead(this_sts, 3))
-      Serial.println("Motore in movimento teorico");
-    if (bitRead(this_sts, 4))
-      Serial.println("Motore in accelerazione");
-    if (bitRead(this_sts, 5))
-      Serial.println("Motore a velocita' costante");
-    if (bitRead(this_sts, 6))
-      Serial.println("Motore in decelerazione");
-    if (bitRead(this_sts, 7))
-      Serial.println("Segnalazioni da registro Rstscllp");
-    if (bitRead(this_sts, 8))
-      Serial.println("Home terminato con errore");
-    if (bitRead(this_sts, 9))
-      Serial.println("Stato corrente: 1=CurON");
-    if (bitRead(this_sts, 10))
-      Serial.println("Motore in posizione");
-    if (bitRead(this_sts, 11))
-      Serial.println("Errore di inseguimento");
-    if (bitRead(this_sts, 12))
-      Serial.println("Motore mosso durante lo stato disable");
-    if (bitRead(this_sts, 13))
-      Serial.println("Verso rotazione antioraria");
-    if (bitRead(this_sts, 14))
-      Serial.println("Quota attuale fuori dai limiti software");
-    if (bitRead(this_sts, 15))
-      Serial.println("Home in corso");
-    Serial.println("");
-  }
-}
-
-void printAlarms()
-{
-  if (modbusTCPClient.holdingRegisterRead(Ralarm) != -1)
-  {
-    Serial.println("\n---------------");
-    Serial.println("\t ALARMS: ");
-    uint16_t alarm = modbusTCPClient.holdingRegisterRead(Ralarm);
-    if (bitRead(alarm, 0))
-      Serial.println("Overcurrent HW");
-    if (bitRead(alarm, 1))
-      Serial.println("Overcurrent SW");
-    if (bitRead(alarm, 2))
-      Serial.println("I2T");
-    if (bitRead(alarm, 3))
-      Serial.println("Errore di posizione");
-    if (bitRead(alarm, 4))
-      Serial.println("Errore di inseguimento");
-    if (bitRead(alarm, 5))
-      Serial.println("Overload digital output");
-    if (bitRead(alarm, 6))
-      Serial.println("Sovratemperatura");
-    if (bitRead(alarm, 7))
-      Serial.println("Sovratensione");
-    if (bitRead(alarm, 8))
-      Serial.println("Sottotensione");
-    if (bitRead(alarm, 9))
-      Serial.println("Errore fasatura encoder");
-    if (bitRead(alarm, 10))
-      Serial.println("Fase A motore disconessa");
-    if (bitRead(alarm, 11))
-      Serial.println("Fase B motore disconessa");
-    if (bitRead(alarm, 12))
-      Serial.println("Timeout Posizionamento");
-    if (bitRead(alarm, 13))
-      Serial.println("Homing Error");
-    if (!alarm)
-      Serial.println("No alarm");
-    Serial.println("");
-  }
 }
 
 void splitU32to16(uint32_t toSplit)
@@ -1059,20 +1117,6 @@ int32_t getPosact()
   return data;
 }
 
-void printForce(uint8_t i, int32_t pos, float pos_mm, float force)
-{
-  Serial.print("IDX: ");
-  Serial.print(i);
-  Serial.print(" Force at ");
-  Serial.print(pos);
-  Serial.print(" pos ");
-  Serial.print(pos_mm);
-  Serial.print(" mm is ");
-  Serial.print(force);
-  Serial.println(" N");
-}
-
-// TODO: cnt threshold function
 int getAvgCnt(float val)
 {
   int cnt = 1;
@@ -1127,40 +1171,56 @@ void setAccVelocity(float disp)
   }
 }
 
-void checkPanic()
-{
-  String panic_msg = "";
-  if (Serial.available())
-    panic_msg = Serial.readStringUntil("\n");
-  Serial.println(panic_msg);
-  if (panic_msg == "PANIC\n")
-  {
-    Serial.println("OPS");
-    sendCommand(disableDrive());
-  }
-}
-
-void sendMessage(String msg, float val1, float val2, float val3)
+void sendMessage(String msg, float *val1, float *val2, float *val3)
 {
   char buff1[15];
   char buff2[15];
   char buff3[15];
-  dtostrf(val1, 10, 6, buff1);
+  dtostrf(*val1, 10, 6, buff1);
   msg += " ";
   msg += buff1;
 
-  if (val2!=NULL)
+  if (val2 != NULL)
   {
-    dtostrf(val2, 10, 6, buff2);
+    dtostrf(*val2, 10, 6, buff2);
     msg += " ";
     msg += buff2;
   }
-  if (val3!=NULL)
+  if (val3 != NULL)
   {
-    dtostrf(val3, 10, 6, buff3);
+    dtostrf(*val3, 10, 6, buff3);
     msg += " ";
     msg += buff3;
   }
 
   Serial.println(msg);
+}
+
+void measurePosForceTime(unsigned long tik, int num_cyc, float x_p)
+{
+  String t_track = "t_track";
+  unsigned long tok;
+  float tiktok;
+  int period = 100;
+  // unsigned long to_wait = 0;
+  unsigned long tak = millis();
+  for (int j = 0; j < num_cyc; j++)
+  {
+    // Measure position and force
+    unsigned long tek = millis();
+    // float x_p = int2mm(getPosact() - init_pos);
+
+    float y_p = getForce() - tare_force;
+    tok = millis();
+    tiktok = float(tok - tik);
+
+    Serial.println("measure time:");
+    Serial.println(tok-tek);
+
+    unsigned long to_wait = (unsigned long)(period) - ((millis() - tak) % period);
+    // Serial.println("towait:");
+    // Serial.println(to_wait);
+    delay(to_wait);
+    sendMessage(t_track, &x_p, &y_p, &tiktok);
+  }
 }
