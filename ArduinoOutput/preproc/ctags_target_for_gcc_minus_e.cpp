@@ -247,10 +247,10 @@ float getForce()
   // while (!loadcell.is_ready())
   // {
   // }
-  float val=0;
-  if (stat_creep_flag || tracking_flag) val = loadcell.read();
-  else val = loadcell.read_average(5);
-  // float val = loadcell.read();
+  // float val=0;
+  // if (stat_creep_flag || tracking_flag) val = loadcell.read();
+  // else val = loadcell.read_average(5);
+  float val = loadcell.read();
   // float val = avg(5);
   switch (FULLSCALE)
   {
@@ -735,11 +735,11 @@ void measureRoutine()
       // Measure start time
       tok = millis();
       tiktok = float(tok - tik);
-      sendMessage(t_start, &tiktok, &pos[i], 
+      sendMessage(t_start, &tiktok, &pos[i+1], 
 # 376 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino" 3 4
-                                            __null
+                                              __null
 # 376 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
-                                                );
+                                                  );
 
       getStatus();
       while ((((sts) >> (3)) & 0x01))
@@ -804,11 +804,11 @@ void measureRoutine()
       // Measure end time
       tok = millis();
       tiktok = float(tok - tik);
-      sendMessage(t_end, &tiktok, &pos[i], 
+      sendMessage(t_end, &tiktok, &pos[i+1], 
 # 433 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino" 3 4
-                                          __null
+                                            __null
 # 433 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
-                                              );
+                                                );
 
       // check to read consistent data
       if ((fabs(x_p) > 2 * prev_x_p || fabs(x_m) > 2 * prev_x_m))

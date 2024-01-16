@@ -4,10 +4,10 @@ float getForce()
   // while (!loadcell.is_ready())
   // {
   // }
-  float val=0;
-  if (stat_creep_flag || tracking_flag) val = loadcell.read();
-  else val = loadcell.read_average(5);
-  // float val = loadcell.read();
+  // float val=0;
+  // if (stat_creep_flag || tracking_flag) val = loadcell.read();
+  // else val = loadcell.read_average(5);
+  float val = loadcell.read();
   // float val = avg(5);
   switch (FULLSCALE)
   {

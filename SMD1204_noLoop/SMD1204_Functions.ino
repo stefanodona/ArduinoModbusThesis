@@ -373,7 +373,7 @@ void measureRoutine()
       // Measure start time
       tok = millis();
       tiktok = float(tok - tik);
-      sendMessage(t_start, &tiktok, &pos[i], NULL);
+      sendMessage(t_start, &tiktok, &pos[i+1], NULL);
 
       getStatus();
       while (bitRead(sts, 3))
@@ -430,7 +430,7 @@ void measureRoutine()
       // Measure end time
       tok = millis();
       tiktok = float(tok - tik);
-      sendMessage(t_end, &tiktok, &pos[i], NULL);
+      sendMessage(t_end, &tiktok, &pos[i+1], NULL);
 
       // check to read consistent data
       if ((fabs(x_p) > 2 * prev_x_p || fabs(x_m) > 2 * prev_x_m))

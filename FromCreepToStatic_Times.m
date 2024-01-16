@@ -5,7 +5,7 @@ load MisureRilassamento_cnt077145.mat
 
 % open static measurements values
 folders = {"STATICA_2023-12-22", "STATICA_2024-01-11"};
-filename = "Statica_07714532C-2"
+filename = "Statica_07714532B-1"
 
 f_idx = 2 % select static folder
 

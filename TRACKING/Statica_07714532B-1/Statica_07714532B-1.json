@@ -5,7 +5,7 @@
     "max_pos": 11.0,
     "num_pos": 88,
     "step_pos": 0.25,
-    "wait_time": 2000,
+    "wait_time": 1000,
     "avg_flag": false,
     "ar_flag": false,
     "tracking_flag": false,
