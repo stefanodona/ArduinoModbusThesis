@@ -399,6 +399,8 @@ creep_duration = params["creep_duration"]
 search_zero_flag =  params["search_zero_flag"]
 
 
+
+
 tare = 0
 percent = 0
 max_iter = 0
@@ -425,7 +427,7 @@ t_fall = np.array([])
 t_start = np.array([])
 t_end = np.array([])
 
-t_track = np.array([])
+t_track = np.empty((0,3))
 
 # arrays for creep measurement
 time_axis = np.array([])
@@ -444,7 +446,8 @@ def compare_strings(string1, string2):
 
 def setAvgFlag():
     global avg_flag
-    avg_flag = checkbox.get()
+    avg_flag = bool(avg_flag_tkvar.get())
+    print("SetAvgFlag: ", avg_flag)
 
 def setARFlag():
     global ar_flag
@@ -457,10 +460,12 @@ def set_tracking():
     if track:
         # avg_flag_tkvar.set(False)
         avg_flag=False
-        checkbox.configure(state="disable")
+        checkbox.configure(state="disabled")
     else:
         checkbox.configure(state="normal")
         setAvgFlag()
+
+    
     
 
 
@@ -497,7 +502,7 @@ def populatePosArray():
     pos = np.arange(min_pos, max_pos+step_pos, step_pos)
 
     if not pos[-1]==max_pos:
-        pass
+        pass    
     # pos = np.array([-10, -9.5, -9, -8.5, -8, -7.5, -7, -6.5, -6, -5.5, 5, -4.5, -4, -3.5, -3, -2.75, -2.5, -2.25, -2, -1.75, -1.5, -1.25, -1, -0.95, -0.9,  -0.85, -0.8, -0.75, -0.7, -0.65, -0.6, -0.55, -0.5, -0.45, -0.4, -0.35, -0.3, -0.25, -0.2, -0.15, -0.1, -0.05, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1, 1.25, 1.5, 1.75, 2, 2.25, 2.5, 2.75, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10])
 
     pos = pos[abs(pos)>0.0025]
@@ -555,6 +560,10 @@ def pressOk(the_msg):
 
     time.sleep(0.5)
 
+def check_avg_checkbox():
+    if tracking_flag:
+        checkbox.configure(state="disabled")
+
 
 
 def startMeasurement():
@@ -602,7 +611,8 @@ def startMeasurement():
     t_track = np.empty((0,3))
 
     # get here the value in order to not have saving problems
-    tracking_flag = tracking_flag_tkvar.get()
+    tracking_flag = bool(checkbox_tracking.get())
+    print("tracking flag: ", tracking_flag)
 
     populatePosArray()
     print(pos)
@@ -662,6 +672,7 @@ def serialListener():
         startButton.configure(state="disabled")
         checkbox.configure(state="disabled")
         checkbox_AR.configure(state="disabled")
+        checkbox_tracking.configure(state="disabled")
 
         displ_entry.configure(state="disabled")
         period_entry.configure(state="disabled")
@@ -874,6 +885,7 @@ def serialListener():
     step_pos_entry.configure(state="normal")
     checkbox.configure(state="normal")
     checkbox_AR.configure(state="normal")
+    checkbox_tracking.configure(state="normal")
     startButton.configure(state="normal")
 
     displ_entry.configure(state="normal")
@@ -881,6 +893,8 @@ def serialListener():
     duration_entry.configure(state="normal")    
 
     startButton.configure(text="START")
+
+    check_avg_checkbox()
 
 
     print("pos: ",pos)
@@ -896,7 +910,7 @@ def serialListener():
 
     print("Time: ",time_axis)
 
-    if np.any(pos_acquired) or np.any(force):
+    if np.any(pos_acquired) or np.any(force) or np.any(t_track):
         if (not stat_creep_flag):
             sort = np.argsort(pos_acquired)
             pos_acquired = pos_acquired[sort]  
@@ -918,13 +932,18 @@ def serialListener():
             #     force_ritorno = np.flip(-force_ritorno)
         # else:
         #     force = force
-        
+        # t_track = np.transpose(t_track)
+
+
         print("pos: ",pos)
         print("pos_ac: ",pos_acquired)
         print("pos_ac_ret: ",pos_acquired_ritorno)
         print("force: ",force)  
         print("Force_ret: ",force_ritorno)
         print("Time: ",time_axis)
+
+        print("Time Track", np.transpose(t_track)[2])
+        print("Force Track", np.transpose(t_track)[1])
 
         Thread(target=playFinish).start()
         drawPlots()
@@ -940,42 +959,62 @@ def drawPlots():
     # global pos, force, force_ritorno, time_axis
 
     if not creep_bool_tkvar.get():
-        sign = (-1)**int(not reverse_bool_tkvar.get())
+        if not tracking_flag:
+            sign = (-1)**int(not reverse_bool_tkvar.get())
 
-        ax_force.plot(pos_acquired, force)
-        if(ar_flag):
-            ax_force.plot(pos_acquired_ritorno, force_ritorno)
-            ax_force.legend(["Andata", "Ritorno"])
-        ax_force.set_xlabel("displacement [mm]")
-        ax_force.set_ylabel("force [N]")
-        ax_force.set_title("Force vs Displacement")
-        ax_force.grid(visible=True, which="both", axis="both")
+            ax_force.plot(pos_acquired, force)
+            if(ar_flag):
+                ax_force.plot(pos_acquired_ritorno, force_ritorno)
+                ax_force.legend(["Andata", "Ritorno"])
+            ax_force.set_xlabel("displacement [mm]")
+            ax_force.set_ylabel("force [N]")
+            ax_force.set_title("Force vs Displacement")
+            ax_force.grid(visible=True, which="both", axis="both")
 
-        ax_stiff.plot(pos_acquired, sign*force/pos_acquired)
-        if (ar_flag):
-            # ax_stiff.plot(pos, np.nan_to_num(force_ritorno/pos))
-            ax_stiff.plot(pos_acquired_ritorno, sign*force_ritorno/pos_acquired_ritorno)
-            ax_stiff.legend(["Andata", "Ritorno"])
-        ax_stiff.set_xlabel("displacement [mm]")
-        ax_stiff.set_ylabel("stiffness [N/mm]")
-        ax_stiff.set_title("Stiffness vs Displacement")
-        ax_stiff.grid(visible=True, which="both", axis="both")
+            ax_stiff.plot(pos_acquired, sign*force/pos_acquired)
+            if (ar_flag):
+                # ax_stiff.plot(pos, np.nan_to_num(force_ritorno/pos))
+                ax_stiff.plot(pos_acquired_ritorno, sign*force_ritorno/pos_acquired_ritorno)
+                ax_stiff.legend(["Andata", "Ritorno"])
+            ax_stiff.set_xlabel("displacement [mm]")
+            ax_stiff.set_ylabel("stiffness [N/mm]")
+            ax_stiff.set_title("Stiffness vs Displacement")
+            ax_stiff.grid(visible=True, which="both", axis="both")
 
 
-        # gradient = np.gradient(force/pos_acquired, pos_acquired)
-        # gradient = np.diff(force)/np.diff(pos_acquired)
-        gradient = np.gradient(sign*force, pos_acquired)
-        # ax_inc_stiff.plot(pos_acquired[:-1], gradient)
-        ax_inc_stiff.plot(pos_acquired, gradient)
-        if (ar_flag):
-            gradient_ritorno = np.gradient(sign*force_ritorno, pos_acquired_ritorno)
-            # ax_stiff.plot(pos, np.nan_to_num(force_ritorno/pos))
-            ax_inc_stiff.plot(pos_acquired_ritorno, gradient_ritorno)
-            ax_inc_stiff.legend(["Andata", "Ritorno"])
-        ax_inc_stiff.set_xlabel("displacement [mm]")
-        ax_inc_stiff.set_ylabel("incremental stiffness [N/mm]")
-        ax_inc_stiff.set_title("Incremental Stiffness vs Displacement")
-        ax_inc_stiff.grid(visible=True, which="both", axis="both")
+            # gradient = np.gradient(force/pos_acquired, pos_acquired)
+            # gradient = np.diff(force)/np.diff(pos_acquired)
+            gradient = np.gradient(sign*force, pos_acquired)
+            # ax_inc_stiff.plot(pos_acquired[:-1], gradient)
+            ax_inc_stiff.plot(pos_acquired, gradient)
+            if (ar_flag):
+                gradient_ritorno = np.gradient(sign*force_ritorno, pos_acquired_ritorno)
+                # ax_stiff.plot(pos, np.nan_to_num(force_ritorno/pos))
+                ax_inc_stiff.plot(pos_acquired_ritorno, gradient_ritorno)
+                ax_inc_stiff.legend(["Andata", "Ritorno"])
+            ax_inc_stiff.set_xlabel("displacement [mm]")
+            ax_inc_stiff.set_ylabel("incremental stiffness [N/mm]")
+            ax_inc_stiff.set_title("Incremental Stiffness vs Displacement")
+            ax_inc_stiff.grid(visible=True, which="both", axis="both")
+        else:
+            ax_force.stem(np.transpose(t_track)[2], np.transpose(t_track)[1])
+            # if(ar_flag):
+            #     ax_force.plot(pos_acquired_ritorno, force_ritorno)
+            #     ax_force.legend(["Andata", "Ritorno"])
+            ax_force.set_xlabel("time [ms]")
+            ax_force.set_ylabel("force [N]")
+            ax_force.set_title("Force vs Time")
+            ax_force.grid(visible=True, which="both", axis="both")
+
+            # ax_stiff.plot(pos_acquired, sign*force/pos_acquired)
+            # if (ar_flag):
+            #     # ax_stiff.plot(pos, np.nan_to_num(force_ritorno/pos))
+            #     ax_stiff.plot(pos_acquired_ritorno, sign*force_ritorno/pos_acquired_ritorno)
+            #     ax_stiff.legend(["Andata", "Ritorno"])
+            # ax_stiff.set_xlabel("displacement [mm]")
+            # ax_stiff.set_ylabel("stiffness [N/mm]")
+            # ax_stiff.set_title("Stiffness vs Displacement")
+            # ax_stiff.grid(visible=True, which="both", axis="both")
 
     else:
         ax_force.plot(time_axis, force)
@@ -1119,8 +1158,8 @@ def save_data(txt_path, json_path, zero_path):
                     fl.write(" time [ms]\n")
                     for i in range(0, len(t_track)):
                         fl.write(f"{t_track[i][0]:.5f}"+"\t\t\t")
-                        fl.write(f"{t_start[i][1]:.5f}"+"\t\t\t")
-                        fl.write(f"{t_start[i][2]:.5f}"+"\n")
+                        fl.write(f"{t_track[i][1]:.5f}"+"\t\t\t")
+                        fl.write(f"{t_track[i][2]:.5f}"+"\n")
                 else:
                     # fl.write("# pos [mm]\t\tdev_pos [mm]\t\tforce_forw [N]\t\tdev_force_forw [N]\t\tforce_back [N]\n")
                     fl.write("# pos [mm]\t\t")          # 0
@@ -1460,6 +1499,7 @@ num_pos_tkvar.trace_add('write', callback=lambda *args: tkvar_changed())
 step_pos_tkvar.trace_add('write', callback=lambda *args: tkvar_changed())
 avg_flag_tkvar.trace_add('write', callback=lambda *args: tkvar_changed())
 ar_flag_tkvar.trace_add('write', callback=lambda *args: tkvar_changed())
+tracking_flag_tkvar.trace_add('write', callback=lambda *args: tkvar_changed())
 creep_displ_tkvar.trace_add('write', callback=lambda *args: tkvar_changed())
 creep_period_tkvar.trace_add('write', callback=lambda *args: tkvar_changed())
 creep_duration_tkvar.trace_add('write', callback=lambda *args: tkvar_changed())
@@ -1539,7 +1579,7 @@ checkbox_AR = customtkinter.CTkCheckBox(staticFrame, text="Andata e Ritorno", co
 checkbox_AR.configure(variable=ar_flag_tkvar)
 
 checkbox_tracking = customtkinter.CTkCheckBox(staticFrame, text="Tracking", command=set_tracking)
-checkbox.configure(variable=tracking_flag_tkvar)
+checkbox_tracking.configure(variable=tracking_flag_tkvar)
 
 
 
@@ -1726,6 +1766,7 @@ def showCreepFrame():
 startButton.pack(padx=20, pady=20, side=customtkinter.BOTTOM)
 
 showFrame()
+check_avg_checkbox()
 app.config(menu=menubar)
 
 # savedialog = simpledialog.Dialog(app)

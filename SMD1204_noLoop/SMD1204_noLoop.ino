@@ -158,12 +158,6 @@ void setup()
 
     search_active = bool(Serial.parseInt(SKIP_WHITESPACE));
 
-    // Serial.println(stat_creep_flag);
-    // Serial.println("zer0_approx");
-    // Serial.println(zero_approx);
-    // Serial.println("cnt_zer0");
-    // Serial.println(cnt_zero);
-
     flushSerial();
 
     vel_max = constrain(vel_max, 0.1, 10);
@@ -179,6 +173,7 @@ void setup()
     // ----------------------------------------------
 
     // Init IP communication
+    Serial.println(tracking_flag);
     Serial.write("Initializing...\n");
     // Ethernet.begin(mac, server);
     Ethernet.begin(mac, server);
@@ -253,6 +248,5 @@ void checkModbusConnection()
         }
     }
     t2 = millis();
-    // t2=millis();
     Serial.println(time + (t2 - t1));
 }

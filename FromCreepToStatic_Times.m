@@ -5,12 +5,12 @@ load MisureRilassamento_cnt077145.mat
 
 % open static measurements values
 folders = {"STATICA_2023-12-22", "STATICA_2024-01-11"};
-filename = "Statica_07714532B-1"
+filename = "Statica_07714532C-2"
 
 f_idx = 2 % select static folder
 
-% for jj=3:3
-jj=1; % select spider
+
+jj=4; % select spider
 
     figure()
     c0=[];c1=[];c2=[];c3=[];c4=[];
@@ -150,6 +150,7 @@ time = 0 : dt : t_final;
 
 %%
 forces = []
+force = []
 % x_long = -x_long;
 for ind = 1:length(x_long)
     ii = find(x_long(ind)==x);
@@ -329,7 +330,6 @@ function cnt = get_iter(val, json)
     if abs(round(val,3)) <= json.th1_val
         cnt = json.th1_avg;
     end
-%     disp(cnt)
 end
 
 % function t_1 = getTime(disp,acc,dec,v_max)
