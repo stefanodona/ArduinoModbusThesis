@@ -1224,3 +1224,9 @@ void measurePosForceTime(unsigned long tik, int num_cyc, float x_p)
     sendMessage(t_track, &x_p, &y_p, &tiktok);
   }
 }
+
+void checkArrival(){
+  getStatus();
+  while (bitRead(sts, 3))
+    getStatus();
+}

@@ -16,9 +16,14 @@ to_ignore = 1/0.25*3*10;
 tracking_time(end-to_ignore+1:end)=[];
 tracking_force(end-to_ignore+1:end)=[];
 
-figure(1)
-% plot(tracking_time, tracking_force, '.')
-% grid on
+figure(3)
+plot(tracking_time, tracking_force, '.-')
+grid on
+title("Force vs Time", Interpreter="latex", FontSize=20)
+subtitle("07714532B-1", Interpreter="latex")
+xlabel("Time [s]", Interpreter="latex", FontSize=14)
+ylabel("Force [N]", Interpreter="latex", FontSize=14)
+
 
 %%
 load MisureRilassamento_cnt077145.mat
@@ -57,41 +62,41 @@ jj=1; % select spider
     end
 
     subplot 211
-    plot(displ, 10*c0);
+    plot(displ, 10*c0,LineWidth=1);
 %     plot(displ, c0);
     hold on
-    plot(displ, c1);
+    plot(displ, c1,LineWidth=1);
     hold on
-    plot(displ, c2);
+    plot(displ, c2,LineWidth=1);
     hold on
-    plot(displ, c3);
+    plot(displ, c3,LineWidth=1);
     hold on
-    plot(displ, c4);
+    plot(displ, c4,LineWidth=1);
     hold off
     grid on
-    xlabel("Displacement [m]", Interpreter="latex")
-    ylabel("Compliance [m/N]", Interpreter="latex")
-    title("Compliance curve", Interpreter="latex", FontSize=14)
+    xlabel("Displacement [m]", Interpreter="latex", FontSize=14)
+    ylabel("Compliance [m/N]", Interpreter="latex", FontSize=14)
+    title("Compliance curve", Interpreter="latex", FontSize=20)
     subtitle(data(jj).name, Interpreter="latex")
 
-    legend(["$10C_0$", "$C_1$", "$C_2$", "$C_3$", "$C_4$"], Interpreter="latex")
+    legend(["$10C_0$", "$C_1$", "$C_2$", "$C_3$", "$C_4$"], Interpreter="latex", Location="eastoutside", FontSize=12)
 
     subplot 212
-    semilogy(displ, r1);
+    semilogy(displ, r1,LineWidth=1);
     hold on
-    semilogy(displ, r2);
+    semilogy(displ, r2,LineWidth=1);
     hold on
-    semilogy(displ, r3);
+    semilogy(displ, r3,LineWidth=1);
     hold on
-    semilogy(displ, r4);
+    semilogy(displ, r4,LineWidth=1);
     hold off
     grid on
-    xlabel("Displacement [m]", Interpreter="latex")
-    ylabel("Resistance [N*s/m]", Interpreter="latex")
-    title("Resistance curve", Interpreter="latex", FontSize=14)
+    xlabel("Displacement [m]", Interpreter="latex", FontSize=14)
+    ylabel("Resistance [N*s/m]", Interpreter="latex", FontSize=14)
+    title("Resistance curve", Interpreter="latex", FontSize=20)
     subtitle(data(jj).name, Interpreter="latex")
 
-    legend(["$R_1$", "$R_2$", "$R_3$", "$R_4$"], Interpreter="latex")
+    legend(["$R_1$", "$R_2$", "$R_3$", "$R_4$"], Interpreter="latex", Location="eastoutside", FontSize=12)
 % end
 % close 
 cnt_name = data(jj).name
@@ -113,7 +118,6 @@ t = 0:0.1:300;
 % SORT DISPLACEMENT
 [x_sort, iii] = sort(abs(x), 'descend');
 iii=flip(iii);
-
 
 
 fname = strcat(folders{f_idx},"/",filename,"/",filename,".json");
@@ -165,6 +169,7 @@ time = 0 : dt : t_final;
 %%
 forces = []
 force = []
+deformations=[]
 
 for ind = 1:length(x_long)
     ii = find(x_long(ind)==x);
@@ -182,6 +187,9 @@ for ind = 1:length(x_long)
 
     force_neg = -force;
 
+    deformation = ones(length(time),1)'*x(ii);
+    deformation_neg = -ones(length(time),1)'*x(ii);
+
 
     num_of_zeros_rise = round(t_x_rise(ind),2)/dt;
     num_of_zeros_fall = round(t_x_fall(ind),2)/dt;
@@ -191,7 +199,13 @@ for ind = 1:length(x_long)
     force_neg = circshift(force_neg, int64(num_of_zeros_fall));
     force_neg(1:int64(num_of_zeros_fall)) = 0;
 
+    deformation = circshift(deformation , int64(num_of_zeros_rise));
+    deformation (1:int64(num_of_zeros_rise)) = 0;
+    deformation_neg = circshift(deformation_neg, int64(num_of_zeros_fall));
+    deformation_neg(1:int64(num_of_zeros_fall)) = 0;
+
     forces = [forces; force; force_neg];
+    deformations = [deformations;deformation;deformation_neg];
 
 end
 %% Time alignment
@@ -211,8 +225,21 @@ end
 
 
 %% PLOTTING
-figure(1)
+figure()
 plot(tracking_t_delay, tracking_force, '.') 
+hold on
+plot(time, sum(forces,1))
+grid on
+hold off
+xlabel("time [s]",Interpreter="latex")
+ylabel("force [N]",Interpreter="latex")
+title("Force evolution in time fixed", Interpreter="latex")
+subtitle(cnt_name, Interpreter="latex")
+xlim([0, 275])
+% ylim([-200, 200])
+
+figure()
+plot(tracking_time, tracking_force, '.') 
 hold on
 plot(time, sum(forces,1))
 grid on
@@ -222,7 +249,12 @@ ylabel("force [N]",Interpreter="latex")
 title("Force evolution in time", Interpreter="latex")
 subtitle(cnt_name, Interpreter="latex")
 xlim([0, 275])
-% ylim([-200, 200])
+
+% figure()
+% plot(time, sum(deformations,1))
+% xlabel("time [s]",Interpreter="latex")
+% ylabel("force [N]",Interpreter="latex")
+% title("Force evolution in time", Interpreter="latex")
 
 %% FUNCTIONS
 

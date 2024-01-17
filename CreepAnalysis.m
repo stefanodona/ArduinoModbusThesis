@@ -42,7 +42,7 @@ for idx=1:length(myFolders)
     displacements=[];
 
     for jj=1:length(spiFolder)
-%     for jj=6:6
+%     for jj=1:1
         filename = spiFolder(jj).name;
         filename_folder = spiFolder(jj).folder; 
         meas_name = split(filename, '_');
@@ -180,7 +180,10 @@ for idx=1:length(myFolders)
         figure(1)
         plot(coeff, t, f)
         grid on
-        title(strcat(nm, "   ", displ_name))
+        ylabel("Force [N]", Interpreter="latex", FontSize=14)
+        xlabel("Time [s]", Interpreter="latex", FontSize=14)
+        title(nm, Interpreter="latex", FontSize=20)
+        subtitle(strcat("at x=", displ_name), Interpreter="latex", FontSize=12)
         
     end
 
@@ -194,6 +197,10 @@ end
 %     data(cnt_index).cnt = table2struct(sorted)
 % end
 %% SAVING
-save("MisureRilassamento_cnt077145.mat", "data")
+
+saving = 1;
+if saving
+    save("MisureRilassamento_cnt077145.mat", "data")
+end
 %% LAUNCH PLT SCRIPT
 % plot_creep_param
