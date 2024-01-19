@@ -14,8 +14,9 @@ displ2 = displ';
 %%
 close all
 coeff={}
-for ii=1:size(params2,2)
-    coeff{ii} = fit(displ2, params2(:,ii), 'poly2', ...
+% for ii=1:size(params2,2)
+for ii=1:1
+    coeff{ii} = fit(displ2, params2(:,ii), 'poly4', ...
         'Robust', 'Off')
     coeff{ii}
     figure()

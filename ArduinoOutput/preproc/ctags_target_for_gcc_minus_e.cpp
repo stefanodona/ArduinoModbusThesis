@@ -247,16 +247,19 @@ float getForce()
   // while (!loadcell.is_ready())
   // {
   // }
-  // float val=0;
+  float val=0;
   // if (stat_creep_flag || tracking_flag) val = loadcell.read();
   // else val = loadcell.read_average(5);
-  float val = loadcell.read();
+  if (!search_active)
+    val = loadcell.read();
+  else
+    val = loadcell.read_average(5);
   // float val = avg(5);
   switch (FULLSCALE)
   {
-  case 1:
-    force = getForce1(val);
-    break;
+  // case 1:
+  //   force = getForce1(val);
+  //   break;
   case 3:
     force = getForce3(val);
     break;
@@ -275,21 +278,21 @@ float getForce()
 
 // insert poynomials coefficients computed for each load cell
 // x is the number read from the loadcell
-float getForce1(float x)
-{
-  // FIXME: insert the right ones
-  float a = 2.35491e-08;
-  float b = 0.0237357;
-  float c = -0.442871;
-  float force = a * x * x + b * x + c;
-  return force;
-}
+// float getForce1(float x)
+// {
+//   // FIXME: insert the right ones
+//   float a = 2.35491e-08;
+//   float b = 0.0237357;
+//   float c = -0.442871;
+//   float force = a * x * x + b * x + c;
+//   return force;
+// }
 
 float getForce3(float x)
 {
   float a = 0;
-  float b = 7.540505*pow(10, -6);
-  float c = -2.664501*pow(10, -3);
+  float b = 7.540505 * pow(10, -6);
+  float c = -2.664501 * pow(10, -3);
   float force = a * x * x + b * x + c;
   return force;
   // return x;
@@ -298,7 +301,7 @@ float getForce3(float x)
 float getForce10(float x)
 {
   float a = 0;
-  float b = 7.540505*pow(10, -6)*10/3; // vecchio
+  float b = 7.540505 * pow(10, -6) * 10 / 3; // vecchio
   // float b = 2.708316*pow(10, -5);
   float c = 0;
   float force = a * x * x + b * x + c;
@@ -517,10 +520,7 @@ void homingRoutine()
         sendCommand(gor());
         getStatus();
 
-        while ((((sts) >> (3)) & 0x01))
-        {
-          getStatus();
-        }
+        checkArrival();
         delay(500);
 
         float post_moved = getForce();
@@ -553,19 +553,21 @@ void homingRoutine()
   init_pos = getPosact();
   String msg = "tare ";
   sendMessage("tare", &tare_force, 
-# 217 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino" 3 4
+# 214 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino" 3 4
                                   __null
-# 217 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+# 214 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
                                       , 
-# 217 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino" 3 4
+# 214 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino" 3 4
                                         __null
-# 217 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+# 214 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
                                             );
 
   split32to16(vel * 100);
   if (modbusTCPClient.holdingRegisterWrite(63 /* traslation speed*/, splitted[0]) && modbusTCPClient.holdingRegisterWrite(63 /* traslation speed*/ + 1, splitted[1]))
   {
   }
+
+  search_active = false;
 }
 
 void measureRoutine()
@@ -654,15 +656,12 @@ void measureRoutine()
       tiktok = float(tok - tik);
       String t_start = "t_s";
       sendMessage(t_start, &tiktok, &pos[i], 
-# 310 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino" 3 4
+# 309 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino" 3 4
                                             __null
-# 310 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+# 309 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
                                                 );
 
-      getStatus();
-      while ((((sts) >> (3)) & 0x01))
-        // checkPanic();
-        getStatus();
+      checkArrival();
 
       sendCommand(disableDrive());
 
@@ -671,9 +670,9 @@ void measureRoutine()
       tiktok = float(tok - tik);
       String t_rise = "t_r";
       sendMessage(t_rise, &tiktok, &pos[i], 
-# 323 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino" 3 4
+# 319 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino" 3 4
                                            __null
-# 323 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+# 319 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
                                                );
 
       delay(waitTime);
@@ -708,25 +707,24 @@ void measureRoutine()
       tiktok = float(tok - tik);
       String t_fall = "t_f";
       sendMessage(t_fall, &tiktok, &pos[i], 
-# 356 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino" 3 4
+# 352 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino" 3 4
                                            __null
-# 356 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+# 352 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
                                                );
 
       sendPosTarget(init_pos);
       sendCommand(go());
-      getStatus();
-      while ((((sts) >> (3)) & 0x01))
-        getStatus();
+
+      checkArrival();
 
       // Measure end time
       tok = millis();
       tiktok = float(tok - tik);
       String t_end = "t_e";
       sendMessage(t_end, &tiktok, &pos[i], 
-# 368 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino" 3 4
+# 363 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino" 3 4
                                           __null
-# 368 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+# 363 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
                                               );
 
       // negative movement (down)
@@ -735,16 +733,13 @@ void measureRoutine()
       // Measure start time
       tok = millis();
       tiktok = float(tok - tik);
-      sendMessage(t_start, &tiktok, &pos[i+1], 
-# 376 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino" 3 4
-                                              __null
-# 376 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
-                                                  );
+      sendMessage(t_start, &tiktok, &pos[i + 1], 
+# 371 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino" 3 4
+                                                __null
+# 371 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+                                                    );
 
-      getStatus();
-      while ((((sts) >> (3)) & 0x01))
-        // checkPanic();
-        getStatus();
+      checkArrival();
 
       sendCommand(disableDrive());
 
@@ -753,9 +748,9 @@ void measureRoutine()
       tiktok = float(tok - tik);
       // String t_rise = "t_r";
       sendMessage(t_rise, &tiktok, &pos[i + 1], 
-# 389 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino" 3 4
+# 381 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino" 3 4
                                                __null
-# 389 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+# 381 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
                                                    );
 
       delay(waitTime);
@@ -785,30 +780,29 @@ void measureRoutine()
         sendCommand(enableDrive());
       }
 
-      // Measure rise time
+      // Measure fall time
       tok = millis();
       tiktok = float(tok - tik);
       // String t_fall = "t_f";
       sendMessage(t_fall, &tiktok, &pos[i + 1], 
-# 422 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino" 3 4
+# 414 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino" 3 4
                                                __null
-# 422 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+# 414 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
                                                    );
 
       sendPosTarget(init_pos);
       sendCommand(go());
-      getStatus();
-      while ((((sts) >> (3)) & 0x01))
-        getStatus();
+
+      checkArrival();
 
       // Measure end time
       tok = millis();
       tiktok = float(tok - tik);
-      sendMessage(t_end, &tiktok, &pos[i+1], 
-# 433 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino" 3 4
-                                            __null
-# 433 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
-                                                );
+      sendMessage(t_end, &tiktok, &pos[i + 1], 
+# 424 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino" 3 4
+                                              __null
+# 424 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+                                                  );
 
       // check to read consistent data
       if ((fabs(x_p) > 2 * prev_x_p || fabs(x_m) > 2 * prev_x_m))
@@ -934,12 +928,29 @@ void measureRoutine()
         // positive movement (up)
         sendPosTarget(init_pos + mm2int(pos[i - 1]));
         sendCommand(go());
-        getStatus();
-        while ((((sts) >> (3)) & 0x01))
-          // checkPanic();
-          getStatus();
+        // Measure start time
+        tok = millis();
+        tiktok = float(tok - tik);
+        String t_start = "t_s";
+        sendMessage(t_start, &tiktok, &pos[i - 1], 
+# 554 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino" 3 4
+                                                  __null
+# 554 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+                                                      );
+
+        checkArrival();
 
         sendCommand(disableDrive());
+
+        // Measure rise time
+        tok = millis();
+        tiktok = float(tok - tik);
+        String t_rise = "t_r";
+        sendMessage(t_rise, &tiktok, &pos[i - 1], 
+# 564 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino" 3 4
+                                                 __null
+# 564 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+                                                     );
 
         delay(waitTime);
         float x_p = int2mm(getPosact() - init_pos);
@@ -968,20 +979,57 @@ void measureRoutine()
           sendCommand(enableDrive());
         }
 
+        // Measure fall time
+        tok = millis();
+        tiktok = float(tok - tik);
+        String t_fall = "t_f";
+        sendMessage(t_fall, &tiktok, &pos[i - 1], 
+# 597 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino" 3 4
+                                                 __null
+# 597 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+                                                     );
+
         sendPosTarget(init_pos);
         sendCommand(go());
-        getStatus();
-        while ((((sts) >> (3)) & 0x01))
-          getStatus();
+
+        checkArrival();
+
+        // Measure end time
+        tok = millis();
+        tiktok = float(tok - tik);
+        String t_end = "t_e";
+        sendMessage(t_end, &tiktok, &pos[i - 1], 
+# 608 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino" 3 4
+                                                __null
+# 608 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+                                                    );
 
         // negative movement (down)
         sendPosTarget(init_pos + mm2int(pos[i]));
         sendCommand(go());
-        getStatus();
-        while ((((sts) >> (3)) & 0x01))
-          // checkPanic();
-          getStatus();
+        // Measure start time
+        tok = millis();
+        tiktok = float(tok - tik);
+        sendMessage(t_start, &tiktok, &pos[i], 
+# 616 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino" 3 4
+                                              __null
+# 616 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+                                                  );
+
+        checkArrival();
+
         sendCommand(disableDrive());
+
+        // Measure rise time
+        tok = millis();
+        tiktok = float(tok - tik);
+        // String t_rise = "t_r";
+        sendMessage(t_rise, &tiktok, &pos[i], 
+# 626 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino" 3 4
+                                             __null
+# 626 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+                                                 );
+
         delay(waitTime);
         float x_m = int2mm(getPosact() - init_pos);
         float y_m = getForce() - tare_force;
@@ -1008,11 +1056,29 @@ void measureRoutine()
           sendCommand(enableDrive());
         }
 
+        // Measure fall time
+        tok = millis();
+        tiktok = float(tok - tik);
+        // String t_fall = "t_f";
+        sendMessage(t_fall, &tiktok, &pos[i], 
+# 658 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino" 3 4
+                                             __null
+# 658 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+                                                 );
+
         sendPosTarget(init_pos);
         sendCommand(go());
-        getStatus();
-        while ((((sts) >> (3)) & 0x01))
-          getStatus();
+
+        checkArrival();
+
+        // Measure end time
+        tok = millis();
+        tiktok = float(tok - tik);
+        sendMessage(t_end, &tiktok, &pos[i], 
+# 668 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino" 3 4
+                                            __null
+# 668 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+                                                );
 
         // check to read consistent data
         if ((fabs(x_p) > 2 * prev_x_p || fabs(x_m) > 2 * prev_x_m))
@@ -1150,10 +1216,7 @@ void trackingRoutine()
     sendPosTarget(init_pos + mm2int(pos[i]));
     sendCommand(go());
 
-    getStatus();
-    while ((((sts) >> (3)) & 0x01))
-      // checkPanic();
-      getStatus();
+    checkArrival();
 
     sendCommand(disableDrive());
 
@@ -1186,22 +1249,18 @@ void trackingRoutine()
 
     sendPosTarget(init_pos);
     sendCommand(go());
-    getStatus();
-    while ((((sts) >> (3)) & 0x01))
-      getStatus();
+
+    checkArrival();
 
     // negative movement (down)
     sendPosTarget(init_pos + mm2int(pos[i + 1]));
     sendCommand(go());
 
-    getStatus();
-    while ((((sts) >> (3)) & 0x01))
-      // checkPanic();
-      getStatus();
+    checkArrival();
 
     sendCommand(disableDrive());
 
-    measurePosForceTime(tik, num_cyc, pos[i+1]);
+    measurePosForceTime(tik, num_cyc, pos[i + 1]);
     // for (int j = 0; j < num_cyc; j++)
     // {
     //   tok = millis();
@@ -1225,9 +1284,8 @@ void trackingRoutine()
 
     sendPosTarget(init_pos);
     sendCommand(go());
-    getStatus();
-    while ((((sts) >> (3)) & 0x01))
-      getStatus();
+
+    checkArrival();
 
     measurePosForceTime(tik, num_cyc, int2mm(init_pos));
     // for (int j = 0; j < num_cyc; j++)
@@ -1264,16 +1322,13 @@ void trackingRoutine()
       tok = millis();
       tiktok = tok - tik;
 
-      getStatus();
-      while ((((sts) >> (3)) & 0x01))
-        // checkPanic();
-        getStatus();
+      checkArrival();
 
       sendCommand(disableDrive());
 
       // Measure rise time
 
-      measurePosForceTime(tik, num_cyc, pos[i-1]);
+      measurePosForceTime(tik, num_cyc, pos[i - 1]);
 
       // for (int j = 0; j < num_cyc; j++)
       // {
@@ -1300,18 +1355,14 @@ void trackingRoutine()
 
       sendPosTarget(init_pos);
       sendCommand(go());
-      getStatus();
-      while ((((sts) >> (3)) & 0x01))
-        getStatus();
+
+      checkArrival();
 
       // negative movement (down)
       sendPosTarget(init_pos + mm2int(pos[i]));
       sendCommand(go());
 
-      getStatus();
-      while ((((sts) >> (3)) & 0x01))
-        // checkPanic();
-        getStatus();
+      checkArrival();
 
       sendCommand(disableDrive());
 
@@ -1340,9 +1391,8 @@ void trackingRoutine()
 
       sendPosTarget(init_pos);
       sendCommand(go());
-      getStatus();
-      while ((((sts) >> (3)) & 0x01))
-        getStatus();
+
+      checkArrival();
 
       measurePosForceTime(tik, num_cyc, int2mm(init_pos));
 
@@ -1394,10 +1444,8 @@ void creepRoutine()
 
   sendPosTarget(init_pos + mm2int(creep_displ));
   sendCommand(go());
-  getStatus();
-  while ((((sts) >> (3)) & 0x01))
-    // while (bitRead(sts_cllp, 2))
-    getStatus();
+
+  checkArrival();
 
   sendCommand(disableDrive());
 
@@ -1431,9 +1479,8 @@ void creepRoutine()
 
   sendPosTarget(init_pos);
   sendCommand(go());
-  getStatus();
-  while ((((sts) >> (3)) & 0x01))
-    getStatus();
+
+  checkArrival();
 }
 
 void getStatus()
@@ -1559,9 +1606,9 @@ void sendMessage(String msg, float *val1, float *val2, float *val3)
   msg += buff1;
 
   if (val2 != 
-# 1183 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino" 3 4
+# 1195 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino" 3 4
              __null
-# 1183 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+# 1195 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
                  )
   {
     dtostrf(*val2, 10, 6, buff2);
@@ -1569,9 +1616,9 @@ void sendMessage(String msg, float *val1, float *val2, float *val3)
     msg += buff2;
   }
   if (val3 != 
-# 1189 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino" 3 4
+# 1201 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino" 3 4
              __null
-# 1189 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+# 1201 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
                  )
   {
     dtostrf(*val3, 10, 6, buff3);
@@ -1601,7 +1648,7 @@ void measurePosForceTime(unsigned long tik, int num_cyc, float x_p)
     tiktok = float(tok - tik);
 
     Serial.println("measure time:");
-    Serial.println(tok-tek);
+    Serial.println(tok - tek);
 
     unsigned long to_wait = (unsigned long)(period) - ((millis() - tak) % period);
     // Serial.println("towait:");
@@ -1609,4 +1656,11 @@ void measurePosForceTime(unsigned long tik, int num_cyc, float x_p)
     delay(to_wait);
     sendMessage(t_track, &x_p, &y_p, &tiktok);
   }
+}
+
+void checkArrival()
+{
+  getStatus();
+  while (!(((sts) >> (10)) & 0x01))
+    getStatus();
 }

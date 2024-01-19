@@ -4,15 +4,15 @@ clc;
 load MisureRilassamento_cnt077145.mat
 
 % open static measurements values
-folders = {"STATICA_2023-12-22", "STATICA_2024-01-11"};
+folders = {"STATICA_2023-12-22", "STATICA_2024-01-11", "TRACKING"};
 filename = "Statica_07714532B-1"
 
-f_idx = 2 % select static folder
+f_idx = 3 % select static folder
 
 
-jj=4; % select spider
+jj=1; % select spider
 
-    figure()
+    figure('Renderer', 'painters', 'Position', [100 100 1000 600]);
     c0=[];c1=[];c2=[];c3=[];c4=[];
           r1=[];r2=[];r3=[];r4=[];
     displ = [];
@@ -69,6 +69,7 @@ jj=4; % select spider
     ylabel("Resistance [N*s/m]", Interpreter="latex")
     title("Resistance curve", Interpreter="latex", FontSize=14)
     subtitle(data(jj).name, Interpreter="latex")
+    ylim([10,1e5])
 
     legend(["$R_1$", "$R_2$", "$R_3$", "$R_4$"], Interpreter="latex")
 % end
@@ -140,8 +141,6 @@ t_x_rise = [0; times{3}/1000];
 t_x_fall = [0; times{5}/1000];
 x_measured = [0; times{2}/1000];
 
-
-
 t_final = t(end)+t_x_fall(end);
 
 dt = 0.01;
@@ -151,6 +150,7 @@ time = 0 : dt : t_final;
 %%
 forces = []
 force = []
+deformations=[]
 % x_long = -x_long;
 for ind = 1:length(x_long)
     ii = find(x_long(ind)==x);
@@ -180,7 +180,9 @@ for ind = 1:length(x_long)
 %     force_neg = F_0 + F_1*exp(-time./tau_1) + F_2*exp(-time./tau_2) + F_3*exp(-time./tau_3) + F_4*exp(-time./tau_4);
 %     force_neg = -force_neg;
     force_neg = -force;
-
+    
+    deformation = ones(length(time),1)'*x(ii);
+    deformation_neg = -deformation;
 
     num_of_zeros_rise = round(t_x_rise(ind),2)/dt;
     num_of_zeros_fall = round(t_x_fall(ind),2)/dt;
@@ -190,18 +192,35 @@ for ind = 1:length(x_long)
     force_neg = circshift(force_neg, int64(num_of_zeros_fall));
     force_neg(1:int64(num_of_zeros_fall)) = 0;
 
+    deformation = circshift(deformation , int64(num_of_zeros_rise));
+    deformation (1:int64(num_of_zeros_rise)) = 0;
+    deformation_neg = circshift(deformation_neg, int64(num_of_zeros_fall));
+    deformation_neg(1:int64(num_of_zeros_fall)) = 0;
+
     forces = [forces; force; force_neg];
+    deformations = [deformations;deformation;deformation_neg];
 
 end
 %%
-figure()
-plot(time, sum(forces,1))
+close all
+figure('Renderer', 'painters', 'Position', [100 100 1000 500]);
+plot(time, sum(forces,1), LineWidth=1)
 grid
-xlabel("time [s]",Interpreter="latex")
-ylabel("force [N]",Interpreter="latex")
-title("Force evolution in time", Interpreter="latex")
+xlabel("time [s]",Interpreter="latex", FontSize=14)
+ylabel("force [N]",Interpreter="latex", FontSize=14)
+title("Computed force vs time", Interpreter="latex", FontSize=20)
 subtitle(cnt_name, Interpreter="latex")
+xlim([0,50])
 
+figure('Renderer', 'painters', 'Position', [100 100 1000 500]);
+plot(time, sum(deformations, 1), LineWidth=1)
+grid on
+xlabel("time [s]",Interpreter="latex", FontSize=14)
+ylabel("disp [m]",Interpreter="latex", FontSize=14)
+title("Simulated input displacement", Interpreter="latex", FontSize=20)
+xlim([0,50])
+
+% subtitle(cnt_name, Interpreter="latex")
 %% stiffness computation
 % close all
 t_x_fall = round(t_x_fall,2);
@@ -312,7 +331,7 @@ lab = {"ieri", "oggi"};
 
 legend("Computed", "Measured")
 xlabel("displacement [mm]",Interpreter="latex")
-ylabel("stiffnes [N/mm]",Interpreter="latex")
+ylabel("stiffness [N/mm]",Interpreter="latex")
 title("Stiffness", Interpreter="latex")
 subtitle(cnt_name, Interpreter="latex")
 
@@ -320,7 +339,8 @@ subtitle(cnt_name, Interpreter="latex")
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FUNCTIONS
 function cnt = get_iter(val, json)
-    cnt = 1;
+cnt = 1;
+if json.avg_flag
     if abs(round(val,3)) <= json.th3_val
         cnt = json.th3_avg;
     end
@@ -330,6 +350,7 @@ function cnt = get_iter(val, json)
     if abs(round(val,3)) <= json.th1_val
         cnt = json.th1_avg;
     end
+end
 end
 
 % function t_1 = getTime(disp,acc,dec,v_max)
