@@ -12,7 +12,7 @@ f_idx = 3 % select static folder
 
 jj=1; % select spider
 
-    figure()
+    figure('Renderer', 'painters', 'Position', [100 100 1000 600]);
     c0=[];c1=[];c2=[];c3=[];c4=[];
           r1=[];r2=[];r3=[];r4=[];
     displ = [];
@@ -69,6 +69,7 @@ jj=1; % select spider
     ylabel("Resistance [N*s/m]", Interpreter="latex")
     title("Resistance curve", Interpreter="latex", FontSize=14)
     subtitle(data(jj).name, Interpreter="latex")
+    ylim([10,1e5])
 
     legend(["$R_1$", "$R_2$", "$R_3$", "$R_4$"], Interpreter="latex")
 % end
@@ -330,7 +331,7 @@ lab = {"ieri", "oggi"};
 
 legend("Computed", "Measured")
 xlabel("displacement [mm]",Interpreter="latex")
-ylabel("stiffnes [N/mm]",Interpreter="latex")
+ylabel("stiffness [N/mm]",Interpreter="latex")
 title("Stiffness", Interpreter="latex")
 subtitle(cnt_name, Interpreter="latex")
 

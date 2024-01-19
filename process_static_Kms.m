@@ -82,14 +82,15 @@ if json.ar_flag
 end
 grid on
 hold off
+legend(["Andata", "Ritorno"], Interpreter="latex", FontSize=12)
 
 
 % legend("Computed", "Measured")
 xlabel("displacement [mm]",Interpreter="latex", FontSize=14)
-ylabel("stiffnes [N/mm]",Interpreter="latex", FontSize=14)
+ylabel("stiffness [N/mm]",Interpreter="latex", FontSize=14)
 title("Stiffness", Interpreter="latex", FontSize=20)
 % subtitle(spider_name, Interpreter="latex")
-subtitle(spider_name)
+subtitle(strcat("CNT",spider_name), Interpreter="latex")
 
 
 Kms_a = kms_vera(:,1);

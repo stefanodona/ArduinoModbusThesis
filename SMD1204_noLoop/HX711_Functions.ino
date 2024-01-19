@@ -7,7 +7,7 @@ float getForce()
   float val=0;
   // if (stat_creep_flag || tracking_flag) val = loadcell.read();
   // else val = loadcell.read_average(5);
-  if (search_active)
+  if (!search_active)
     val = loadcell.read();
   else
     val = loadcell.read_average(5);

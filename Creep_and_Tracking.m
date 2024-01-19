@@ -17,13 +17,13 @@ tracking_time(end-to_ignore+1:end)=[];
 tracking_force(end-to_ignore+1:end)=[];
 
 figure(3)
-plot(tracking_time, tracking_force, '.-')
+plot(tracking_time, tracking_force, '.-', LineWidth=1, MarkerSize=10)
 grid on
 title("Force vs Time", Interpreter="latex", FontSize=20)
-subtitle("07714532B-1", Interpreter="latex")
+subtitle("CNT07714532B-1", Interpreter="latex")
 xlabel("Time [s]", Interpreter="latex", FontSize=14)
 ylabel("Force [N]", Interpreter="latex", FontSize=14)
-
+xlim([202.5,225])
 
 %%
 load MisureRilassamento_cnt077145.mat
@@ -38,7 +38,7 @@ f_idx = 3 % select static folder
 
 jj=1; % select spider
 
-    figure()
+    figure('Renderer', 'painters', 'Position', [100 100 1000 650]);
     c0=[];c1=[];c2=[];c3=[];c4=[];
           r1=[];r2=[];r3=[];r4=[];
     displ = [];
@@ -61,7 +61,8 @@ jj=1; % select spider
         r4 = [r4, data(jj).cnt(ii).params.model_coeff(10).value];
     end
 
-    subplot 211
+%     subplot 211
+    figure('Renderer', 'painters', 'Position', [100 100 1000 650]);
     plot(displ, 10*c0,LineWidth=1);
 %     plot(displ, c0);
     hold on
@@ -77,26 +78,52 @@ jj=1; % select spider
     xlabel("Displacement [m]", Interpreter="latex", FontSize=14)
     ylabel("Compliance [m/N]", Interpreter="latex", FontSize=14)
     title("Compliance curve", Interpreter="latex", FontSize=20)
-    subtitle(data(jj).name, Interpreter="latex")
+    subtitle(strcat("CNT",data(jj).name), Interpreter="latex")
 
     legend(["$10C_0$", "$C_1$", "$C_2$", "$C_3$", "$C_4$"], Interpreter="latex", Location="eastoutside", FontSize=12)
 
-    subplot 212
-    semilogy(displ, r1,LineWidth=1);
-    hold on
-    semilogy(displ, r2,LineWidth=1);
-    hold on
-    semilogy(displ, r3,LineWidth=1);
-    hold on
-    semilogy(displ, r4,LineWidth=1);
-    hold off
+%     subplot 212
+    figure('Renderer', 'painters', 'Position', [100 100 1000 650]);
+    subplot 141
+    plot(displ, r1,LineWidth=1);
+    title("$R_1$", Interpreter="latex", FontSize=14)
+    xlabel("Displacement [m]", Interpreter="latex", FontSize=14)
+    ylabel("Resistance [N*s/m]", Interpreter="latex", FontSize=14)
+    grid on
+    ylim([0, 3000])
+    xlim([-0.011, 0.011])
+%     hold on
+    subplot 142
+    plot(displ, r2,LineWidth=1);
+    title("$R_2$", Interpreter="latex", FontSize=14)
+    xlabel("Displacement [m]", Interpreter="latex", FontSize=14)
+    ylabel("Resistance [N*s/m]", Interpreter="latex", FontSize=14)
+    grid on
+    ylim([0, 1000])
+    xlim([-0.011, 0.011])
+%     hold on
+    subplot 143
+    plot(displ, r3,LineWidth=1);
+    title("$R_3$", Interpreter="latex", FontSize=14)
+    xlabel("Displacement [m]", Interpreter="latex", FontSize=14)
+    ylabel("Resistance [N*s/m]", Interpreter="latex", FontSize=14)
+    grid on
+    ylim([0, 10000])
+    xlim([-0.011, 0.011])
+%     hold on
+    subplot 144
+    plot(displ, r4,LineWidth=1);
+    title("$R_4$", Interpreter="latex", FontSize=14)
+%     hold off
     grid on
     xlabel("Displacement [m]", Interpreter="latex", FontSize=14)
     ylabel("Resistance [N*s/m]", Interpreter="latex", FontSize=14)
-    title("Resistance curve", Interpreter="latex", FontSize=20)
-    subtitle(data(jj).name, Interpreter="latex")
+    sgtitle({"Resistance curve", strcat("CNT",data(jj).name)}, Interpreter="latex", FontSize=20)
+%     subtitle(strcat("CNT",data(jj).name), Interpreter="latex")
+    ylim([0,2e5])
+    xlim([-0.011, 0.011])
 
-    legend(["$R_1$", "$R_2$", "$R_3$", "$R_4$"], Interpreter="latex", Location="eastoutside", FontSize=12)
+%     legend(["$R_1$", "$R_2$", "$R_3$", "$R_4$"], Interpreter="latex", Location="eastoutside", FontSize=12)
 % end
 % close 
 cnt_name = data(jj).name
