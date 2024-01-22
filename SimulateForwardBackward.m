@@ -36,22 +36,58 @@ end
 %     c(ii, :) = 1./c(ii,:);
 % end
 
-x = -0.015:0.0001:0.015;
-labels = {"c_0",
-    "c_1",
-    "c_2",
-    "c_3",
-    "c_4",
-    "r_1",
-    "r_2",
-    "r_3",
-    "r_4"}
-for ii=1:length(coeff)
-    c_i = polyval(c(ii,:), x);
-%     if ii<=5
-%         c_i=1./c_i;
-%     end
-    figure()
-    plot(x, c_i)
-    title(labels{ii})
+% x = -0.015:0.0001:0.015;
+% labels = {"c_0",
+%     "c_1",
+%     "c_2",
+%     "c_3",
+%     "c_4",
+%     "r_1",
+%     "r_2",
+%     "r_3",
+%     "r_4"}
+% for ii=1:length(coeff)
+%     c_i = polyval(c(ii,:), x);
+% %     if ii<=5
+% %         c_i=1./c_i;
+% %     end
+%     figure()
+%     plot(x, c_i)
+%     title(labels{ii})
+% end
+
+k0 = c(1,:);
+k1 = c(2,:);
+k2 = c(3,:);
+k3 = c(4,:);
+k4 = c(5,:);
+
+r1 = c(6,:);
+r2 = c(7,:);
+r3 = c(8,:);
+r4 = c(9,:);
+
+%%
+x = displ;
+[x_sort, iii] = sort(abs(x), 'descend');
+iii=flip(iii);
+x_sort = x(iii)';
+x_sort = [x_sort,flip(-x_sort)];
+
+
+folder = "STATICA_10mm/Statica_07714532B-1"
+spidername = "07714532B-1"
+times_file = strcat(folder, "/times.txt");
+FID = fopen(times_file);
+times = textscan(FID, '%f%f%f%f%f%f%f%f', CommentStyle='#');
+fclose(FID);
+
+x_prova = [];
+for ii=1:2:length(x_sort)
+    x_prova = [x_prova, x_sort(ii), x_sort(ii+1), 0];
 end
+
+t_x_rise = [0; times{3}/1000];
+t_x_fall = [0; times{5}/1000];
+
+t_seq=t_x_fall-t_x_rise;

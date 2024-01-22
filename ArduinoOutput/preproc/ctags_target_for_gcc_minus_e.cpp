@@ -1431,7 +1431,12 @@ void creepRoutine()
   float creep_displ = Serial.parseFloat(SKIP_WHITESPACE);
   float creep_period = Serial.parseFloat(SKIP_WHITESPACE);
   float creep_duration = Serial.parseFloat(SKIP_WHITESPACE);
-  int num_creep = (int)(creep_duration * 1000 / creep_period);
+  uint64_t num_creep = (uint64_t)(creep_duration * 1000 / creep_period);
+
+  // Serial.println("Num creep");
+  // Serial.println(num_creep);
+
+  // return;
 
   Serial.println(creep_displ);
   Serial.println(creep_period);
@@ -1606,9 +1611,9 @@ void sendMessage(String msg, float *val1, float *val2, float *val3)
   msg += buff1;
 
   if (val2 != 
-# 1195 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino" 3 4
+# 1200 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino" 3 4
              __null
-# 1195 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+# 1200 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
                  )
   {
     dtostrf(*val2, 10, 6, buff2);
@@ -1616,9 +1621,9 @@ void sendMessage(String msg, float *val1, float *val2, float *val3)
     msg += buff2;
   }
   if (val3 != 
-# 1201 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino" 3 4
+# 1206 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino" 3 4
              __null
-# 1201 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
+# 1206 "C:\\Users\\stefa\\Documents\\Arduino\\ArduinoModbusThesis\\SMD1204_noLoop\\SMD1204_Functions.ino"
                  )
   {
     dtostrf(*val3, 10, 6, buff3);
