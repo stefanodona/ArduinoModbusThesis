@@ -1018,7 +1018,12 @@ void creepRoutine()
   float creep_displ = Serial.parseFloat(SKIP_WHITESPACE);
   float creep_period = Serial.parseFloat(SKIP_WHITESPACE);
   float creep_duration = Serial.parseFloat(SKIP_WHITESPACE);
-  int num_creep = (int)(creep_duration * 1000 / creep_period);
+  uint64_t num_creep = (uint64_t)(creep_duration * 1000 / creep_period);
+
+  // Serial.println("Num creep");
+  // Serial.println(num_creep);
+
+  // return;
 
   Serial.println(creep_displ);
   Serial.println(creep_period);
