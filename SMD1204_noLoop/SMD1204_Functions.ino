@@ -1060,6 +1060,7 @@ void creepRoutine()
     delay(to_wait);
 
     Serial.write("check percent\n");
+    Serial.flush();
   }
 
   getStatus();
