@@ -2,5 +2,5 @@
 CreepAnalysis.asv
 ArduinoOutput/
 log.txt
-GUI/config.json
+config.json
 *.mat
