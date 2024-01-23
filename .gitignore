@@ -5,3 +5,4 @@ log.txt
 config.json
 *.mat
 *.asv
+~*
