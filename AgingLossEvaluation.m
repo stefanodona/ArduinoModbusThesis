@@ -5,20 +5,26 @@ close all; clc; clear;
 % 07714532B-1/C-1 
 
 % si prende in esame per primo il C-1
+spider = "07714532C-2";
 
 % caricamento file acquisito in data 10/01/2024
-file_c1_2024_01_10 = "C:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\CREEP_2024_bis\07714532C-1\Creep_5mm_07714532C-1\Creep_5mm_07714532C-1.txt";
+file_2024_01_10 =    "CREEP_2024_bis" + ...
+                        "\" + spider + ...
+                        "\Creep_5mm_" + spider +...
+                        "\Creep_5mm_"+ spider + ".txt";
 
 % caricamento file acquisito in data 22/01/2024
-file_c1_2024_01_22 = "C:\Users\stefa\Documents\Arduino\ArduinoModbusThesis\CREEP_1h_2024-01-22\Creep_5mm_07714532C-1_1h\Creep_5mm_07714532C-1_1h.txt";
+file_2024_01_22 =    "CREEP_1h_2024-01-22" + ...
+                        "\Creep_5mm_" + spider + "_1h" + ...
+                        "\Creep_5mm_" + spider + "_1h.txt";
 
 
 % lettura dei file
-FID = fopen(file_c1_2024_01_10);
+FID = fopen(file_2024_01_10);
 datacell_01_10 = textscan(FID, '%f%f%f', CommentStyle='#');
 fclose(FID);
 
-FID = fopen(file_c1_2024_01_22);
+FID = fopen(file_2024_01_22);
 datacell_01_22 = textscan(FID, '%f%f%f', CommentStyle='#');
 fclose(FID);
 
@@ -72,6 +78,7 @@ grid on
 xlabel("time [s]", Interpreter="latex", FontSize=14)
 ylabel("force [N]", Interpreter="latex", FontSize=14)
 title("Force time trend", Interpreter="latex", FontSize=20)
+subtitle("CNT"+spider, Interpreter="latex", FontSize=11)
 legend(["10/01/24", "22/01/24"], Interpreter="latex", FontSize=12)
 
 %% FIT 
@@ -120,7 +127,7 @@ grid on
 xlabel("time [s]", Interpreter="latex", FontSize=14)
 ylabel("force [N]", Interpreter="latex", FontSize=14)
 title("Fit Misura", Interpreter="latex", FontSize=20)
-subtitle("CNT07714532C-1  10/01/24", Interpreter="latex", FontSize=11)
+subtitle("CNT"+spider+"  10/01/24", Interpreter="latex", FontSize=11)
 
 
 figure()
@@ -129,7 +136,7 @@ grid on
 xlabel("time [s]", Interpreter="latex", FontSize=14)
 ylabel("force [N]", Interpreter="latex", FontSize=14)
 title("Fit Misura", Interpreter="latex", FontSize=20)
-subtitle("CNT07714532C-1  22/01/24", Interpreter="latex", FontSize=11)
+subtitle("CNT"+spider+"  22/01/24", Interpreter="latex", FontSize=11)
 
 %% VALUTAZIONE COEFFICIENTI
 
@@ -138,23 +145,41 @@ x_spost = 5e-3; % [m]
 coeff_array_10 = coeffvalues(coeffs_10)';
 coeff_array_22 = coeffvalues(coeffs_22)';
 
+force_fit_10 = coeff_array_10(1:5);
+force_fit_22 = coeff_array_22(1:5);
+
+tau_fit_10 = coeff_array_10(6:end);
+tau_fit_22 = coeff_array_22(6:end);
+
+% ordino gli array in modo che siano disposti in ordine crescente i tempi
+% di rilassamento
+
+[tau_10_sort, ii_10_sort] = sort(tau_fit_10, 'ascend');
+[tau_22_sort, ii_22_sort] = sort(tau_fit_22, 'ascend');
+
+force_10_sort = [force_fit_10(1);force_fit_10(ii_10_sort+1)];
+force_22_sort = [force_fit_22(1);force_fit_22(ii_22_sort+1)];
+
 % trovo le stiffness come k=F/x
-k_10 = coeff_array_10(1:5)./x_spost;
-k_22 = coeff_array_22(1:5)./x_spost;
+k_10 = force_10_sort./x_spost;
+k_22 = force_22_sort./x_spost;
 
 % trovo infine le resistenze come R=τ*k 
 r_10 = coeff_array_10(6:end).*k_10(2:end);
 r_22 = coeff_array_22(6:end).*k_22(2:end);
+
+
 
 % valutazione della perdita percentuale
 loss_k = (1-(k_22./k_10))*100;
 loss_r = (1-(r_22./r_10))*100;
 
 clc
+disp("Spider: "+spider)
 disp(sprintf(strcat("k_0 ha perso il ",num2str(loss_k(1)),"%%, \tpassando da ", num2str(k_10(1)), " \t->\t ", num2str(k_22(1)), "\t [N/m]")));
 disp(sprintf(strcat("k_1 ha perso il ",num2str(loss_k(2)),"%%, \tpassando da ", num2str(k_10(2)), " \t->\t ", num2str(k_22(2)), "\t [N/m]")));
 disp(sprintf(strcat("k_2 ha perso il ",num2str(loss_k(3)),"%%, \tpassando da ", num2str(k_10(3)), " \t->\t ", num2str(k_22(3)), "\t [N/m]")));
-disp(sprintf(strcat("k_3 ha perso il ",num2str(loss_k(4)),"%%, \tpassando da ", num2str(k_10(4)), " \t\t->\t ", num2str(k_22(4)), "\t\t [N/m]")));
+disp(sprintf(strcat("k_3 ha perso il ",num2str(loss_k(4)),"%%, \tpassando da ", num2str(k_10(4)), " \t->\t ", num2str(k_22(4)), "\t [N/m]")));
 disp(sprintf(strcat("k_4 ha perso il ",num2str(loss_k(5)),"%%, \tpassando da ", num2str(k_10(5)), " \t->\t ", num2str(k_22(5)), "\t [N/m]")));
 disp(" ")
 disp(sprintf(strcat("r_1 ha perso il ",num2str(loss_r(1)),"%%, \tpassando da ", num2str(r_10(1)), " \t->\t ", num2str(r_22(1)), "\t [N*s/m]")));

@@ -1063,6 +1063,8 @@ void creepRoutine()
     Serial.flush();
   }
 
+  checkModbusConnection();
+  sendCommand(enableDrive());
   getStatus();
   while (!bitRead(sts, 0))
   {

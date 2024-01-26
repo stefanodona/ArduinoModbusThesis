@@ -1,0 +1,443 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>AgingLossEvaluation</title><meta name="generator" content="MATLAB 9.11"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2024-01-24"><meta name="DC.source" content="AgingLossEvaluation.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#2">PULIZIA DEI DATI</a></li><li><a href="#3">PLOTTING</a></li><li><a href="#4">FIT</a></li><li><a href="#5">VALUTAZIONE COEFFICIENTI</a></li></ul></div><pre class="codeinput">close <span class="string">all</span>; clc; clear;
+
+<span class="comment">% IN QUESTO SCRIPT SI VUOLE CONFRONTARE VISIVAMENTE E NUMERICAMENTE LE</span>
+<span class="comment">% PERDITE DOVUTE (SI SUPPONE) ALL'INVECCHIAMENTO DEI CENTRATORI</span>
+<span class="comment">% 07714532B-1/C-1</span>
+
+<span class="comment">% si prende in esame per primo il C-1</span>
+spider = <span class="string">"07714532C-2"</span>;
+
+<span class="comment">% caricamento file acquisito in data 10/01/2024</span>
+file_2024_01_10 =    <span class="string">"CREEP_2024_bis"</span> + <span class="keyword">...</span>
+                        <span class="string">"\"</span> + spider + <span class="keyword">...</span>
+                        <span class="string">"\Creep_5mm_"</span> + spider +<span class="keyword">...</span>
+                        <span class="string">"\Creep_5mm_"</span>+ spider + <span class="string">".txt"</span>;
+
+<span class="comment">% caricamento file acquisito in data 22/01/2024</span>
+file_2024_01_22 =    <span class="string">"CREEP_1h_2024-01-22"</span> + <span class="keyword">...</span>
+                        <span class="string">"\Creep_5mm_"</span> + spider + <span class="string">"_1h"</span> + <span class="keyword">...</span>
+                        <span class="string">"\Creep_5mm_"</span> + spider + <span class="string">"_1h.txt"</span>;
+
+
+<span class="comment">% lettura dei file</span>
+FID = fopen(file_2024_01_10);
+datacell_01_10 = textscan(FID, <span class="string">'%f%f%f'</span>, CommentStyle=<span class="string">'#'</span>);
+fclose(FID);
+
+FID = fopen(file_2024_01_22);
+datacell_01_22 = textscan(FID, <span class="string">'%f%f%f'</span>, CommentStyle=<span class="string">'#'</span>);
+fclose(FID);
+
+<span class="comment">% estrazione asse dei tempi e valori di forza registrata</span>
+time_ax_10  = datacell_01_10{1}/1000;
+force_ax_10 = -datacell_01_10{2};
+
+time_ax_22  = datacell_01_22{1}/1000;
+force_ax_22 = -datacell_01_22{2};
+
+<span class="comment">% limitazione dell'asse temporale a 5 minuti</span>
+time_ax_22  = time_ax_22(1:3000);
+force_ax_22 = force_ax_22(1:3000);
+</pre><h2 id="2">PULIZIA DEI DATI</h2><p>si comincia elidendo i primi 4 campioni, che rappresentano il transitorio, dovuto si pensa all'inerzia del sistema. Una volta fatto quello si procede poi con l'eliminazione dei campioni che rappresentano un errore di lettura e sono inverosimilmente grandi o piccoli.</p><pre class="codeinput">time_ax_10    = time_ax_10(4:end);
+force_ax_10   = force_ax_10(4:end);
+
+upper_bound_10 = force_ax_10(1)   + 1;
+lower_bound_10 = force_ax_10(end) - 1;
+
+ind_to_delete_10 = find(force_ax_10&gt;upper_bound_10 | force_ax_10&lt;lower_bound_10);
+
+time_ax_10(ind_to_delete_10)  =  [];
+force_ax_10(ind_to_delete_10) =  [];
+
+<span class="comment">% si ripete la procedura</span>
+time_ax_22    = time_ax_22(4:end);
+force_ax_22   = force_ax_22(4:end);
+
+upper_bound_22 = force_ax_22(1)   + 1;
+lower_bound_22 = force_ax_22(end) - 1;
+
+ind_to_delete_22 = find(force_ax_22&gt;upper_bound_22 | force_ax_22&lt;lower_bound_22);
+
+time_ax_22(ind_to_delete_22)  =  [];
+force_ax_22(ind_to_delete_22) =  [];
+</pre><h2 id="3">PLOTTING</h2><pre class="codeinput">figure()
+plot(time_ax_10, force_ax_10, LineWidth=1);
+hold <span class="string">on</span>
+plot(time_ax_22, force_ax_22, LineWidth=1);
+grid <span class="string">on</span>
+xlabel(<span class="string">"time [s]"</span>, Interpreter=<span class="string">"latex"</span>, FontSize=14)
+ylabel(<span class="string">"force [N]"</span>, Interpreter=<span class="string">"latex"</span>, FontSize=14)
+title(<span class="string">"Force time trend"</span>, Interpreter=<span class="string">"latex"</span>, FontSize=20)
+subtitle(<span class="string">"CNT"</span>+spider, Interpreter=<span class="string">"latex"</span>, FontSize=11)
+legend([<span class="string">"10/01/24"</span>, <span class="string">"22/01/24"</span>], Interpreter=<span class="string">"latex"</span>, FontSize=12)
+</pre><img vspace="5" hspace="5" src="AgingLossEvaluation_01.png" alt=""> <h2 id="4">FIT</h2><p>ora l'idea &egrave; di provare a fittare con 4 tempi di rilassamento le curve trovate e valutare in termini percentuali le perdite di ogni coefficiente del modello.</p><pre class="codeinput">start_values = [2, 0.2, 0.2, 0.2, 0.2, 0.1, 1, 10, 100];
+
+fit_func =  @(f0,f1,f2,f3,f4,tau1,tau2,tau3,tau4,x)<span class="keyword">...</span>
+            f0+<span class="keyword">...</span>
+            f1*exp(-x/tau1)+<span class="keyword">...</span>
+            f2*exp(-x/tau2)+<span class="keyword">...</span>
+            f3*exp(-x/tau3)+<span class="keyword">...</span>
+            f4*exp(-x/tau4);
+
+coeffs_10 = fit(time_ax_10, force_ax_10, fit_func, <span class="keyword">...</span>
+            <span class="string">'StartPoint'</span>, start_values, <span class="keyword">...</span>
+            <span class="string">'Lower'</span>, [0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.1, 0.1, 0.1], <span class="keyword">...</span>
+            <span class="string">'Upper'</span>, [80, 10, 10, 10, 10, 10, 25, 100, 1000], <span class="keyword">...</span>
+            <span class="string">'Robust'</span>, <span class="string">'Off'</span>, <span class="keyword">...</span>
+            <span class="string">'Algorithm'</span>, <span class="string">'Trust-Region'</span>, <span class="keyword">...</span>
+            <span class="string">'DiffMinChange'</span>, 1e-5, <span class="keyword">...</span>
+            <span class="string">'DiffMaxChange'</span>, 0.1, <span class="keyword">...</span>
+            <span class="string">'MaxFunEvals'</span>, 1e4, <span class="keyword">...</span>
+            <span class="string">'MaxIter'</span>, 1e4, <span class="keyword">...</span>
+            <span class="string">'TolFun'</span>, 1e-6);
+
+coeffs_22 = fit(time_ax_22, force_ax_22, fit_func, <span class="keyword">...</span>
+            <span class="string">'StartPoint'</span>, start_values, <span class="keyword">...</span>
+            <span class="string">'Lower'</span>, [0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.1, 0.1, 0.1], <span class="keyword">...</span>
+            <span class="string">'Upper'</span>, [80, 10, 10, 10, 10, 10, 25, 100, 1000], <span class="keyword">...</span>
+            <span class="string">'Robust'</span>, <span class="string">'Off'</span>, <span class="keyword">...</span>
+            <span class="string">'Algorithm'</span>, <span class="string">'Trust-Region'</span>, <span class="keyword">...</span>
+            <span class="string">'DiffMinChange'</span>, 1e-5, <span class="keyword">...</span>
+            <span class="string">'DiffMaxChange'</span>, 0.1, <span class="keyword">...</span>
+            <span class="string">'MaxFunEvals'</span>, 1e4, <span class="keyword">...</span>
+            <span class="string">'MaxIter'</span>, 1e4, <span class="keyword">...</span>
+            <span class="string">'TolFun'</span>, 1e-6);
+
+<span class="comment">% plot ora dei fit per una valutazione visiva</span>
+
+figure()
+plot(coeffs_10, time_ax_10, force_ax_10)
+grid <span class="string">on</span>
+xlabel(<span class="string">"time [s]"</span>, Interpreter=<span class="string">"latex"</span>, FontSize=14)
+ylabel(<span class="string">"force [N]"</span>, Interpreter=<span class="string">"latex"</span>, FontSize=14)
+title(<span class="string">"Fit Misura"</span>, Interpreter=<span class="string">"latex"</span>, FontSize=20)
+subtitle(<span class="string">"CNT"</span>+spider+<span class="string">"  10/01/24"</span>, Interpreter=<span class="string">"latex"</span>, FontSize=11)
+
+
+figure()
+plot(coeffs_22, time_ax_22, force_ax_22)
+grid <span class="string">on</span>
+xlabel(<span class="string">"time [s]"</span>, Interpreter=<span class="string">"latex"</span>, FontSize=14)
+ylabel(<span class="string">"force [N]"</span>, Interpreter=<span class="string">"latex"</span>, FontSize=14)
+title(<span class="string">"Fit Misura"</span>, Interpreter=<span class="string">"latex"</span>, FontSize=20)
+subtitle(<span class="string">"CNT"</span>+spider+<span class="string">"  22/01/24"</span>, Interpreter=<span class="string">"latex"</span>, FontSize=11)
+</pre><img vspace="5" hspace="5" src="AgingLossEvaluation_02.png" alt=""> <img vspace="5" hspace="5" src="AgingLossEvaluation_03.png" alt=""> <h2 id="5">VALUTAZIONE COEFFICIENTI</h2><pre class="codeinput">x_spost = 5e-3; <span class="comment">% [m]</span>
+
+coeff_array_10 = coeffvalues(coeffs_10)';
+coeff_array_22 = coeffvalues(coeffs_22)';
+
+force_fit_10 = coeff_array_10(1:5);
+force_fit_22 = coeff_array_22(1:5);
+
+tau_fit_10 = coeff_array_10(6:end);
+tau_fit_22 = coeff_array_22(6:end);
+
+<span class="comment">% ordino gli array in modo che siano disposti in ordine crescente i tempi</span>
+<span class="comment">% di rilassamento</span>
+
+[tau_10_sort, ii_10_sort] = sort(tau_fit_10, <span class="string">'ascend'</span>);
+[tau_22_sort, ii_22_sort] = sort(tau_fit_22, <span class="string">'ascend'</span>);
+
+force_10_sort = [force_fit_10(1);force_fit_10(ii_10_sort+1)];
+force_22_sort = [force_fit_22(1);force_fit_22(ii_22_sort+1)];
+
+<span class="comment">% trovo le stiffness come k=F/x</span>
+k_10 = force_10_sort./x_spost;
+k_22 = force_22_sort./x_spost;
+
+<span class="comment">% trovo infine le resistenze come R=&#964;*k</span>
+r_10 = coeff_array_10(6:end).*k_10(2:end);
+r_22 = coeff_array_22(6:end).*k_22(2:end);
+
+
+
+<span class="comment">% valutazione della perdita percentuale</span>
+loss_k = (1-(k_22./k_10))*100;
+loss_r = (1-(r_22./r_10))*100;
+
+clc
+disp(<span class="string">"Spider: "</span>+spider)
+disp(sprintf(strcat(<span class="string">"k_0 ha perso il "</span>,num2str(loss_k(1)),<span class="string">"%%, \tpassando da "</span>, num2str(k_10(1)), <span class="string">" \t-&gt;\t "</span>, num2str(k_22(1)), <span class="string">"\t [N/m]"</span>)));
+disp(sprintf(strcat(<span class="string">"k_1 ha perso il "</span>,num2str(loss_k(2)),<span class="string">"%%, \tpassando da "</span>, num2str(k_10(2)), <span class="string">" \t-&gt;\t "</span>, num2str(k_22(2)), <span class="string">"\t [N/m]"</span>)));
+disp(sprintf(strcat(<span class="string">"k_2 ha perso il "</span>,num2str(loss_k(3)),<span class="string">"%%, \tpassando da "</span>, num2str(k_10(3)), <span class="string">" \t-&gt;\t "</span>, num2str(k_22(3)), <span class="string">"\t [N/m]"</span>)));
+disp(sprintf(strcat(<span class="string">"k_3 ha perso il "</span>,num2str(loss_k(4)),<span class="string">"%%, \tpassando da "</span>, num2str(k_10(4)), <span class="string">" \t-&gt;\t "</span>, num2str(k_22(4)), <span class="string">"\t [N/m]"</span>)));
+disp(sprintf(strcat(<span class="string">"k_4 ha perso il "</span>,num2str(loss_k(5)),<span class="string">"%%, \tpassando da "</span>, num2str(k_10(5)), <span class="string">" \t-&gt;\t "</span>, num2str(k_22(5)), <span class="string">"\t [N/m]"</span>)));
+disp(<span class="string">" "</span>)
+disp(sprintf(strcat(<span class="string">"r_1 ha perso il "</span>,num2str(loss_r(1)),<span class="string">"%%, \tpassando da "</span>, num2str(r_10(1)), <span class="string">" \t-&gt;\t "</span>, num2str(r_22(1)), <span class="string">"\t [N*s/m]"</span>)));
+disp(sprintf(strcat(<span class="string">"r_2 ha perso il "</span>,num2str(loss_r(2)),<span class="string">"%%, \tpassando da "</span>, num2str(r_10(2)), <span class="string">" \t-&gt;\t "</span>, num2str(r_22(2)), <span class="string">"\t [N*s/m]"</span>)));
+disp(sprintf(strcat(<span class="string">"r_3 ha perso il "</span>,num2str(loss_r(3)),<span class="string">"%%, \tpassando da "</span>, num2str(r_10(3)), <span class="string">" \t-&gt;\t "</span>, num2str(r_22(3)), <span class="string">"\t [N*s/m]"</span>)));
+disp(sprintf(strcat(<span class="string">"r_4 ha perso il "</span>,num2str(loss_r(4)),<span class="string">"%%, \tpassando da "</span>, num2str(r_10(4)), <span class="string">" \t-&gt;\t "</span>, num2str(r_22(4)), <span class="string">"\t [N*s/m]"</span>)));
+</pre><pre class="codeoutput">Spider: 07714532C-2
+k_0 ha perso il -4.1961%, 	passando da 1806.2118 	-&gt;	 1882.0017	 [N/m]
+k_1 ha perso il 7.4681%, 	passando da 67.9829 	-&gt;	 62.9059	 [N/m]
+k_2 ha perso il 4.9473%, 	passando da 64.9398 	-&gt;	 61.727	 [N/m]
+k_3 ha perso il -4.8525%, 	passando da 61.646 	-&gt;	 64.6373	 [N/m]
+k_4 ha perso il -0.56295%, 	passando da 123.3407 	-&gt;	 124.035	 [N/m]
+ 
+r_1 ha perso il 18.4626%, 	passando da 63.3573 	-&gt;	 51.6598	 [N*s/m]
+r_2 ha perso il 15.8175%, 	passando da 417.6106 	-&gt;	 351.5549	 [N*s/m]
+r_3 ha perso il 4.4509%, 	passando da 1978.6099 	-&gt;	 1890.544	 [N*s/m]
+r_4 ha perso il 6.0039%, 	passando da 28375.4631 	-&gt;	 26671.8366	 [N*s/m]
+</pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2021b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+close all; clc; clear;
+
+% IN QUESTO SCRIPT SI VUOLE CONFRONTARE VISIVAMENTE E NUMERICAMENTE LE
+% PERDITE DOVUTE (SI SUPPONE) ALL'INVECCHIAMENTO DEI CENTRATORI
+% 07714532B-1/C-1 
+
+% si prende in esame per primo il C-1
+spider = "07714532C-2";
+
+% caricamento file acquisito in data 10/01/2024
+file_2024_01_10 =    "CREEP_2024_bis" + ...
+                        "\" + spider + ...
+                        "\Creep_5mm_" + spider +...
+                        "\Creep_5mm_"+ spider + ".txt";
+
+% caricamento file acquisito in data 22/01/2024
+file_2024_01_22 =    "CREEP_1h_2024-01-22" + ...
+                        "\Creep_5mm_" + spider + "_1h" + ...
+                        "\Creep_5mm_" + spider + "_1h.txt";
+
+
+% lettura dei file
+FID = fopen(file_2024_01_10);
+datacell_01_10 = textscan(FID, '%f%f%f', CommentStyle='#');
+fclose(FID);
+
+FID = fopen(file_2024_01_22);
+datacell_01_22 = textscan(FID, '%f%f%f', CommentStyle='#');
+fclose(FID);
+
+% estrazione asse dei tempi e valori di forza registrata
+time_ax_10  = datacell_01_10{1}/1000;
+force_ax_10 = -datacell_01_10{2};
+
+time_ax_22  = datacell_01_22{1}/1000;
+force_ax_22 = -datacell_01_22{2};
+
+% limitazione dell'asse temporale a 5 minuti 
+time_ax_22  = time_ax_22(1:3000);
+force_ax_22 = force_ax_22(1:3000);
+
+%% PULIZIA DEI DATI 
+% si comincia elidendo i primi 4 campioni, che rappresentano il
+% transitorio, dovuto si pensa all'inerzia del sistema. Una volta fatto
+% quello si procede poi con l'eliminazione dei campioni che rappresentano
+% un errore di lettura e sono inverosimilmente grandi o piccoli. 
+
+time_ax_10    = time_ax_10(4:end);
+force_ax_10   = force_ax_10(4:end);
+
+upper_bound_10 = force_ax_10(1)   + 1;
+lower_bound_10 = force_ax_10(end) - 1;
+
+ind_to_delete_10 = find(force_ax_10>upper_bound_10 | force_ax_10<lower_bound_10);
+
+time_ax_10(ind_to_delete_10)  =  [];
+force_ax_10(ind_to_delete_10) =  [];
+
+% si ripete la procedura
+time_ax_22    = time_ax_22(4:end);
+force_ax_22   = force_ax_22(4:end);
+
+upper_bound_22 = force_ax_22(1)   + 1;
+lower_bound_22 = force_ax_22(end) - 1;
+
+ind_to_delete_22 = find(force_ax_22>upper_bound_22 | force_ax_22<lower_bound_22);
+
+time_ax_22(ind_to_delete_22)  =  [];
+force_ax_22(ind_to_delete_22) =  [];
+
+
+%% PLOTTING
+figure()
+plot(time_ax_10, force_ax_10, LineWidth=1);
+hold on
+plot(time_ax_22, force_ax_22, LineWidth=1);
+grid on
+xlabel("time [s]", Interpreter="latex", FontSize=14)
+ylabel("force [N]", Interpreter="latex", FontSize=14)
+title("Force time trend", Interpreter="latex", FontSize=20)
+subtitle("CNT"+spider, Interpreter="latex", FontSize=11)
+legend(["10/01/24", "22/01/24"], Interpreter="latex", FontSize=12)
+
+%% FIT 
+% ora l'idea è di provare a fittare con 4 tempi di rilassamento le curve
+% trovate e valutare in termini percentuali le perdite di ogni coefficiente
+% del modello.
+
+start_values = [2, 0.2, 0.2, 0.2, 0.2, 0.1, 1, 10, 100];
+
+fit_func =  @(f0,f1,f2,f3,f4,tau1,tau2,tau3,tau4,x)...
+            f0+...
+            f1*exp(-x/tau1)+...
+            f2*exp(-x/tau2)+...
+            f3*exp(-x/tau3)+...
+            f4*exp(-x/tau4);
+
+coeffs_10 = fit(time_ax_10, force_ax_10, fit_func, ...
+            'StartPoint', start_values, ...
+            'Lower', [0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.1, 0.1, 0.1], ...
+            'Upper', [80, 10, 10, 10, 10, 10, 25, 100, 1000], ...
+            'Robust', 'Off', ...
+            'Algorithm', 'Trust-Region', ...
+            'DiffMinChange', 1e-5, ...
+            'DiffMaxChange', 0.1, ...
+            'MaxFunEvals', 1e4, ...
+            'MaxIter', 1e4, ...
+            'TolFun', 1e-6);
+
+coeffs_22 = fit(time_ax_22, force_ax_22, fit_func, ...
+            'StartPoint', start_values, ...
+            'Lower', [0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.1, 0.1, 0.1], ...
+            'Upper', [80, 10, 10, 10, 10, 10, 25, 100, 1000], ...
+            'Robust', 'Off', ...
+            'Algorithm', 'Trust-Region', ...
+            'DiffMinChange', 1e-5, ...
+            'DiffMaxChange', 0.1, ...
+            'MaxFunEvals', 1e4, ...
+            'MaxIter', 1e4, ...
+            'TolFun', 1e-6);
+
+% plot ora dei fit per una valutazione visiva
+
+figure()
+plot(coeffs_10, time_ax_10, force_ax_10)
+grid on
+xlabel("time [s]", Interpreter="latex", FontSize=14)
+ylabel("force [N]", Interpreter="latex", FontSize=14)
+title("Fit Misura", Interpreter="latex", FontSize=20)
+subtitle("CNT"+spider+"  10/01/24", Interpreter="latex", FontSize=11)
+
+
+figure()
+plot(coeffs_22, time_ax_22, force_ax_22)
+grid on
+xlabel("time [s]", Interpreter="latex", FontSize=14)
+ylabel("force [N]", Interpreter="latex", FontSize=14)
+title("Fit Misura", Interpreter="latex", FontSize=20)
+subtitle("CNT"+spider+"  22/01/24", Interpreter="latex", FontSize=11)
+
+%% VALUTAZIONE COEFFICIENTI
+
+x_spost = 5e-3; % [m]
+
+coeff_array_10 = coeffvalues(coeffs_10)';
+coeff_array_22 = coeffvalues(coeffs_22)';
+
+force_fit_10 = coeff_array_10(1:5);
+force_fit_22 = coeff_array_22(1:5);
+
+tau_fit_10 = coeff_array_10(6:end);
+tau_fit_22 = coeff_array_22(6:end);
+
+% ordino gli array in modo che siano disposti in ordine crescente i tempi
+% di rilassamento
+
+[tau_10_sort, ii_10_sort] = sort(tau_fit_10, 'ascend');
+[tau_22_sort, ii_22_sort] = sort(tau_fit_22, 'ascend');
+
+force_10_sort = [force_fit_10(1);force_fit_10(ii_10_sort+1)];
+force_22_sort = [force_fit_22(1);force_fit_22(ii_22_sort+1)];
+
+% trovo le stiffness come k=F/x
+k_10 = force_10_sort./x_spost;
+k_22 = force_22_sort./x_spost;
+
+% trovo infine le resistenze come R=τ*k 
+r_10 = coeff_array_10(6:end).*k_10(2:end);
+r_22 = coeff_array_22(6:end).*k_22(2:end);
+
+
+
+% valutazione della perdita percentuale
+loss_k = (1-(k_22./k_10))*100;
+loss_r = (1-(r_22./r_10))*100;
+
+clc
+disp("Spider: "+spider)
+disp(sprintf(strcat("k_0 ha perso il ",num2str(loss_k(1)),"%%, \tpassando da ", num2str(k_10(1)), " \t->\t ", num2str(k_22(1)), "\t [N/m]")));
+disp(sprintf(strcat("k_1 ha perso il ",num2str(loss_k(2)),"%%, \tpassando da ", num2str(k_10(2)), " \t->\t ", num2str(k_22(2)), "\t [N/m]")));
+disp(sprintf(strcat("k_2 ha perso il ",num2str(loss_k(3)),"%%, \tpassando da ", num2str(k_10(3)), " \t->\t ", num2str(k_22(3)), "\t [N/m]")));
+disp(sprintf(strcat("k_3 ha perso il ",num2str(loss_k(4)),"%%, \tpassando da ", num2str(k_10(4)), " \t->\t ", num2str(k_22(4)), "\t [N/m]")));
+disp(sprintf(strcat("k_4 ha perso il ",num2str(loss_k(5)),"%%, \tpassando da ", num2str(k_10(5)), " \t->\t ", num2str(k_22(5)), "\t [N/m]")));
+disp(" ")
+disp(sprintf(strcat("r_1 ha perso il ",num2str(loss_r(1)),"%%, \tpassando da ", num2str(r_10(1)), " \t->\t ", num2str(r_22(1)), "\t [N*s/m]")));
+disp(sprintf(strcat("r_2 ha perso il ",num2str(loss_r(2)),"%%, \tpassando da ", num2str(r_10(2)), " \t->\t ", num2str(r_22(2)), "\t [N*s/m]")));
+disp(sprintf(strcat("r_3 ha perso il ",num2str(loss_r(3)),"%%, \tpassando da ", num2str(r_10(3)), " \t->\t ", num2str(r_22(3)), "\t [N*s/m]")));
+disp(sprintf(strcat("r_4 ha perso il ",num2str(loss_r(4)),"%%, \tpassando da ", num2str(r_10(4)), " \t->\t ", num2str(r_22(4)), "\t [N*s/m]")));
+
+
+##### SOURCE END #####
+--></body></html>
