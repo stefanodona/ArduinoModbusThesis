@@ -8,7 +8,6 @@
     "wait_time": 1000,
     "avg_flag": true,
     "ar_flag": true,
-    "tracking_flag": false,
     "th1_val": 2.5,
     "th1_avg": 5,
     "th2_val": 5.0,
@@ -22,7 +21,7 @@
     "acc_max": 5.0,
     "time_flag": false,
     "time_max": 0.5,
-    "creep_displ": -9.0,
+    "creep_displ": 5.0,
     "creep_period": 100.0,
     "creep_duration": 300.0,
     "search_zero_flag": true
