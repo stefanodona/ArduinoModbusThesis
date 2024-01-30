@@ -2,13 +2,15 @@ clear; close all; clc;
 data = struct();
 data.cnt = struct();
 
-myFolders = dir("CREEP_2024/077*");
+% myFolders = dir("CREEP_2024/077*");
+myFolders = dir("CREEP_2024_bis/HM*");
+% myFolders = dir("CREEP_2024_bis/GRP*");
 
 idx=1;
 
 
-% for idx=1:length(myFolders)
-for idx=1:1
+for idx=1:length(myFolders)
+% for idx=1:1
 
     nm = myFolders(idx).name
     fd = myFolders(idx).folder
@@ -41,8 +43,8 @@ for idx=1:1
     resistances=[];
     displacements=[];
 
-%     for jj=1:length(spiFolder)
-    for jj=6:6
+    for jj=1:length(spiFolder)
+%     for jj=6:6
         filename = spiFolder(jj).name;
         filename_folder = spiFolder(jj).folder; 
         meas_name = split(filename, '_');
@@ -87,7 +89,7 @@ for idx=1:1
             'StartPoint', start_values, ...
             'Lower', [0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.1, 0.1, 0.1], ...
             'Upper', [80, 10, 10, 10, 10, 10, 25, 100, 1000], ...
-            'Robust', 'LAR', ...
+            'Robust', 'Off', ... % prima era LAR ma abbiamo visto che non prende bene i primi punti
             'Algorithm', 'Trust-Region', ...
             'DiffMinChange', 1e-5, ...
             'DiffMaxChange', 0.1, ...
@@ -182,7 +184,8 @@ for idx=1:1
         grid on
         ylabel("Force [N]", Interpreter="latex", FontSize=14)
         xlabel("Time [s]", Interpreter="latex", FontSize=14)
-        title(strcat("CNT",nm), Interpreter="latex", FontSize=20)
+%         title(strcat("CNT",nm), Interpreter="latex", FontSize=20)
+        title(nm, Interpreter="latex", FontSize=20)
         subtitle(strcat("at x=", displ_name), Interpreter="latex", FontSize=12)
         
     end
@@ -200,7 +203,9 @@ end
 
 saving = 0;
 if saving
-    save("MisureRilassamento_cnt077145.mat", "data")
+%     save("MisureRilassamento_cnt077145.mat", "data")
+    save("MisureRilassamento_GRPCNT145.mat", "data")
+%     save("MisureRilassamento_HM077x145x38.mat", "data")
 end
 %% LAUNCH PLT SCRIPT
 % plot_creep_param
