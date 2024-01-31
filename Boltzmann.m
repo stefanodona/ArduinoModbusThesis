@@ -10,30 +10,38 @@ K_ms = @(x,t)   polyval(k0,x) + ... % k0(x)
                 polyval(k3,x).*exp(-t.*polyval(k3,x)./polyval(r3,x))+... % k3(x)*exp(-t*r3(x)/k3(x)) 
                 polyval(k4,x).*exp(-t.*polyval(k4,x)./polyval(r4,x));    % k4(x)*exp(-t*r4(x)/k4(x))
 
-% syms x t eps z
-% 
-% K_ms_sym(x,t) = poly2sym(k0,x) + ... % k0(x)
-%                 poly2sym(k1,x).*exp(-t.*poly2sym(k1,x)./poly2sym(r1,x))+... % k1(x)*exp(-t*r1(x)/k1(x))
-%                 poly2sym(k2,x).*exp(-t.*poly2sym(k2,x)./poly2sym(r2,x))+... % k2(x)*exp(-t*r2(x)/k2(x))
-%                 poly2sym(k3,x).*exp(-t.*poly2sym(k3,x)./poly2sym(r3,x))+... % k3(x)*exp(-t*r3(x)/k3(x)) 
-%                 poly2sym(k4,x).*exp(-t.*poly2sym(k4,x)./poly2sym(r4,x));    % k4(x)*exp(-t*r4(x)/k4(x))
 
+f_zz = [10,1,0.1,0.01,0.001,0.0001];
+f_lab = {"10 Hz",...
+        "1 Hz",...
+        "0.1 Hz",...
+        "10 mHz", ...
+        "1 mHz",...
+        "0.1 mHz"};
 
-
-f_s = 1000; % [Hz]
-
-f = 10;
+% f=f_zz(zz);
+f = 0.01;
 A = 11e-3;
-t_end = 1;
+t_end = 10/f;
 
-time = 0 : 1/f_s : t_end;
+f_s = 100*f; % [Hz]
+
+time = 0 : 1/f_s : t_end-1/f_s;
 displ = A*sin(2*pi*f*time);
 
-a = 20;
-b = 0.1;
+a = 1;
+b = 0.01;
 exp_1   = b*exp(time(time<=t_end/2)/a);
 exp_2   = b*exp(-(time(time>t_end/2)-time(end))/a);
 exp_fun = [exp_1,exp_2];
+
+% figure()
+% plot(time, displ.*exp_fun)
+% grid on
+
+% displ = displ.*exp_fun;
+
+%%
 
 % displ = displ.*exp_fun;
 % 
@@ -112,15 +120,17 @@ resp = zeros(1,numel(time));
 
 for ii = 1:length(time)
 
+    gr = gradient(displ(1:ii));
     for jj = 1:ii
-        resp(ii) = resp(ii) + K_ms(displ(jj), time(ii)-time(jj))*(displ(jj)-displ(jj-1));
+%         resp(ii) = resp(ii) + K_ms(displ(jj), time(ii)-time(jj))*(displ(jj)-displ(jj-1));
+        resp(ii) = resp(ii) + K_ms(displ(jj), time(ii)-time(jj))*gr(jj);
     end
 
 end
 
 %%
 
-close all
+% close all
 % figure()
 % plot(time, fun)
 
@@ -135,12 +145,28 @@ ylabel("force [N]", Interpreter="latex")
 grid on
 % ylim([-20,20])
 
-num=2;
 
-figure()
-plot(displ(end-f_s*num/f:end), resp(end-f_s*num/f:end))
-title("force vs displ response", Interpreter="latex")
-xlabel("displacment [m]", Interpreter="latex")
-ylabel("force [N]", Interpreter="latex")
-grid on
-% ylim([0, 10000])
+% last mumber of cycles to plot
+num=10;
+
+figure(4)
+
+% for ii=1:t_end*f-1
+    num=1;
+    displ_to_plot = displ(end-f_s*num/f+1:end);
+    resp_to_plot = resp(end-f_s*num/f+1:end);
+    
+%     displ_to_plot = displ(f_s*num/f:f_s*(num+1)/f);
+%     resp_to_plot = resp(f_s*num/f:f_s*(num+1)/f);
+    
+    plot(displ_to_plot, resp_to_plot)
+    hold on
+    title("force vs displ response", Interpreter="latex")
+    xlabel("displacment [m]", Interpreter="latex")
+    ylabel("force [N]", Interpreter="latex")
+    grid on
+    ylim([-100, 100])
+%     ylim([0, 7000])
+    xlim([-1.5e-2, 1.5e-2])
+%     pause(0.2);
+% end
