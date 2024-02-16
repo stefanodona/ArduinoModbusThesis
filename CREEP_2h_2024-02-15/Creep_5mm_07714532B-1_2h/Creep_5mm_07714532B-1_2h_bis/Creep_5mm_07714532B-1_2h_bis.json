@@ -24,6 +24,6 @@
     "time_max": 0.5,
     "creep_displ": 5.0,
     "creep_period": 100.0,
-    "creep_duration": 21600.0,
+    "creep_duration": 7200.0,
     "search_zero_flag": true
 }
