@@ -13,7 +13,8 @@ close all; clear; clc;
 
 
 % file loading
-filename = "CREEP_1h_2024-01-22/Creep_5mm_07714532B-1_1h/Creep_5mm_07714532B-1_1h.txt";
+% filename = "CREEP_1h_2024-01-22/Creep_5mm_07714532B-1_1h/Creep_5mm_07714532B-1_1h.txt";
+filename = "CREEP_2h_2024-02-15/Creep_5mm_07714532B-1_2h/Creep_5mm_07714532B-1_2h.txt";
 
 FID = fopen(filename);
 datacell = textscan(FID, '%f%f%f', CommentStyle='#');
@@ -22,9 +23,12 @@ fclose(FID);
 % recupero dei dati e pulizia degli errori
 time    = datacell{1};
 force   = -datacell{2};
+% 
+% time    = time(4:end)/1000;
+% force   = force(4:end);
 
-time    = time(4:end)/1000;
-force   = force(4:end);
+time    = time/1000;
+% force   = force(4:end);
 
 upper_bound = force(1)   + 1;
 lower_bound = force(end) - 1;
