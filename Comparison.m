@@ -1,7 +1,7 @@
 close all; clear; clc;
 
 load MisureRilassamento_cnt077145.mat;
-comsol = load("Kms_CNT07714532A_sim_100MPa.txt");
+comsol = load("Kms_CNT07714532A_sim_100MPa_2.txt");
 
 kms_comsol = comsol(:,2);
 x_comsol = comsol(:,1);
@@ -50,6 +50,7 @@ end
 
 a = b/mean([kms1_com,kms2_com]);
 
+% CNT07714532B-1
 k0_c = 1./0.52829;      % [N/mm]
 k1_c = -0.048785;
 k2_c = 0.026573;

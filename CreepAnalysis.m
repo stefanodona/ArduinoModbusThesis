@@ -3,14 +3,14 @@ data = struct();
 data.cnt = struct();
 
 % myFolders = dir("CREEP_2024/077*");
-% myFolders = dir("CREEP_2024_bis/HM*");
-myFolders = dir("CREEP_2024_bis/GRP*");
+myFolders = dir("CREEP_2024_bis/HM*");
+% myFolders = dir("CREEP_2024_bis/GRP*");
 
 idx=1;
 
 
 % for idx=1:length(myFolders)
-for idx=2:2
+for idx=3:3
 
     nm = myFolders(idx).name
     fd = myFolders(idx).folder
@@ -82,9 +82,9 @@ for idx=2:2
 %         grid on
 %         title(strcat(nm, "   ", displ_name))
 
-        ind_to_keep =  find(t<60);
-        t = t(ind_to_keep);
-        f = f(ind_to_keep);
+%         ind_to_keep =  find(t<60);
+%         t = t(ind_to_keep);
+%         f = f(ind_to_keep);
 
         fit_func = @(f0,f1,f2,f3,f4,tau1,tau2,tau3,tau4,x) f0+f1*exp(-x/tau1)+f2*exp(-x/tau2)+f3*exp(-x/tau3)+f4*exp(-x/tau4);
     
@@ -136,7 +136,7 @@ for idx=2:2
         plot(displacements, compliances(5,:))
         hold off
         title("Compliance")
-        legend("10C05", "C1", "C2", "C3", "C4")
+        legend("10C0", "C1", "C2", "C3", "C4")
         grid on
         xlim([-1.1e-2,1.1e-2])
 
@@ -183,8 +183,6 @@ for idx=2:2
             data(idx).cnt(jj).params.model_coeff(kk).value      = values(kk);
         end
 
-        
-
 
         figure(1)
         plot(coeff, t, f)
@@ -211,7 +209,7 @@ end
 saving = 0;
 if saving
 %     save("MisureRilassamento_cnt077145.mat", "data")
-    save("MisureRilassamento_GRPCNT145.mat", "data")
+%     save("MisureRilassamento_GRPCNT145.mat", "data")
 %     save("MisureRilassamento_HM077x145x38.mat", "data")
 end
 %% LAUNCH PLT SCRIPT

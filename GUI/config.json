@@ -1,5 +1,5 @@
 {
-    "stat_creep_flag": false,
+    "stat_creep_flag": true,
     "loadcell_fullscale": 10,
     "min_pos": -11.0,
     "max_pos": 11.0,

@@ -4,7 +4,7 @@ clc;
 
 load 07714532B-1_polycoeff.mat
 
-static_folder = "STATICA_2024-01-18/Statica_07714532B-1"
+static_folder = "STATICA_2024-01-18/Statica_07714532B-1";
 spidername = "07714532B-1";
 
 
