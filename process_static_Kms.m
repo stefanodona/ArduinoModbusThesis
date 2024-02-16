@@ -1,4 +1,4 @@
-function [displ, Kms_a, Kms_r] = process_static_Kms(static_folder, spider_name)
+function [displ, Kms_a, Kms_r] = process_static_Kms(static_folder, spider_name, post_process, plotting)
 
 Kms_a = [];
 Kms_r = [];
@@ -37,61 +37,64 @@ else
     iii=1;
 end
 
-for i=1:iii
-    x = x_mis(:,i);
-    force = force_mis(:,i);
-
-    x_pos = x(x>0);
-    x_neg = x(x<0);
-
-    x_p = x_pos(1)
-    x_n = x_neg(end)
-
-    f_p = force(x==x_p)
-    f_n = force(x==x_n)
-
-    f_0 = f_p - ((f_p-f_n)./(x_p-x_n))*(x_p)
-    f_vera = force-f_0;
-
-    forza_che_passa_per_0(:,i) = force-f_0;
-    x_che_passa_per_0(:,i) = x;
-    kms_vera_aux = -f_vera./x;
-
-    idx = find(x==x_n);
-    f_vera(idx)
-    f_vera(idx+1)
-    f_vera(idx) = 0;
-    f_vera(idx+1) = [];
-
-    x(idx) = 0;
-    x(idx+1) = [];
-
-    kms_vera_aux(idx+1) = [];
-    force_vera(:,i) = f_vera;
-    kms_vera(:,i) = kms_vera_aux;
-    x_vera(:,i) = x;
+if post_process
+    for i=1:iii
+        x = x_mis(:,i);
+        force = force_mis(:,i);
+    
+        x_pos = x(x>0);
+        x_neg = x(x<0);
+    
+        x_p = x_pos(1)
+        x_n = x_neg(end)
+    
+        f_p = force(x==x_p)
+        f_n = force(x==x_n)
+    
+        f_0 = f_p - ((f_p-f_n)./(x_p-x_n))*(x_p)
+        f_vera = force-f_0;
+    
+        forza_che_passa_per_0(:,i) = force-f_0;
+        x_che_passa_per_0(:,i) = x;
+        kms_vera_aux = -f_vera./x;
+    
+        idx = find(x==x_n);
+        f_vera(idx)
+        f_vera(idx+1)
+        f_vera(idx) = 0;
+        f_vera(idx+1) = [];
+    
+        x(idx) = 0;
+        x(idx+1) = [];
+    
+        kms_vera_aux(idx+1) = [];
+        force_vera(:,i) = f_vera;
+        kms_vera(:,i) = kms_vera_aux;
+        x_vera(:,i) = x;
+    end
+else
+    x_vera   = x_mis;
+    kms_vera = -force_mis./ x_mis;
 end
 
-
-%     figure(1);
-plot(x_vera(:,1), kms_vera(:,1), LineWidth=1)
-hold on
-if json.ar_flag
-    plot(x_vera(:,2), kms_vera(:,2), LineWidth=1)
+if plotting
+    figure(1);
+    plot(x_vera(:,1), kms_vera(:,1), LineWidth=1)
     hold on
+    if json.ar_flag
+        plot(x_vera(:,2), kms_vera(:,2), LineWidth=1)
+        hold on
+    end
+    grid on
+    hold off
+    legend(["Andata", "Ritorno"], Interpreter="latex", FontSize=12)
+    
+    xlabel("displacement [mm]",Interpreter="latex", FontSize=14)
+    ylabel("stiffness [N/mm]",Interpreter="latex", FontSize=14)
+    title("Stiffness", Interpreter="latex", FontSize=20)
+    % subtitle(spider_name, Interpreter="latex")
+    subtitle(strcat("CNT",spider_name), Interpreter="latex")
 end
-grid on
-hold off
-legend(["Andata", "Ritorno"], Interpreter="latex", FontSize=12)
-
-
-% legend("Computed", "Measured")
-xlabel("displacement [mm]",Interpreter="latex", FontSize=14)
-ylabel("stiffness [N/mm]",Interpreter="latex", FontSize=14)
-title("Stiffness", Interpreter="latex", FontSize=20)
-% subtitle(spider_name, Interpreter="latex")
-subtitle(strcat("CNT",spider_name), Interpreter="latex")
-
 
 Kms_a = kms_vera(:,1);
 if json.ar_flag

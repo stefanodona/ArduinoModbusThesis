@@ -9,6 +9,7 @@ folder = "STATICA_10mm/Statica_07714532B-1"
 spidername = "07714532B-1"
 
 [displ, K_ms_a, K_ms_r, coeff] = simulate_Kms(folder, spidername, data, true);
+[displ_1, K_ms_a1, K_ms_r1] = process_static_Kms(folder, spidername, false);
 
 %%
 close all
@@ -17,8 +18,11 @@ figure('Renderer', 'painters', 'Position', [100 100 1000 650]);
 plot(displ, K_ms_a, LineWidth=1)
 hold on
 plot(displ, K_ms_r, LineWidth=1)
+% plot(displ_1*1e-3, K_ms_a1*1e3, LineWidth=1)
+% plot(displ_1*1e-3, K_ms_r1*1e3, LineWidth=1)
 grid on
-legend(["Forward", "Backward"], Interpreter="latex", FontSize=12)
+% legend(["Forward Sim", "Backward Sim", "Forward Mis", "Backward Mis"], Interpreter="latex", FontSize=12)
+legend(["Forward Sim", "Backward Sim"], Interpreter="latex", FontSize=12)
 
 xlabel("displacement [mm]", Interpreter="latex", FontSize=14)
 ylabel("Stiffness [N/mm]", Interpreter="latex", FontSize=14)
@@ -27,7 +31,7 @@ title("Stiffness simulation", Interpreter="latex", FontSize=20)
 
 
 %%
-close all
+% close all
 for ii=1:length(coeff)
     c(ii, :) = coeffvalues(coeff{ii});
 end

@@ -1007,8 +1007,8 @@ void creepRoutine()
   String msg = "val ";
   String time_msg = "time_ax ";
 
-  char num[15];
-  char time_val[15];
+  char num[20];
+  char time_val[20];
 
   Serial.write("Creep Routine\n");
   flushSerial();
@@ -1018,16 +1018,17 @@ void creepRoutine()
   float creep_displ = Serial.parseFloat(SKIP_WHITESPACE);
   float creep_period = Serial.parseFloat(SKIP_WHITESPACE);
   float creep_duration = Serial.parseFloat(SKIP_WHITESPACE);
-  uint64_t num_creep = (uint64_t)(creep_duration * 1000 / creep_period);
+  // uint64_t num_creep = (uint64_t)round(creep_duration * 1000 / creep_period);
+  unsigned long num_creep = round(creep_duration * 1000 / creep_period);
 
   // Serial.println("Num creep");
   // Serial.println(num_creep);
 
   // return;
 
-  Serial.println(creep_displ);
-  Serial.println(creep_period);
-  Serial.println(creep_duration);
+  // Serial.println(creep_displ);
+  // Serial.println(creep_period);
+  // Serial.println(creep_duration);
 
   Serial.write("Measuring\n");
 
@@ -1046,7 +1047,7 @@ void creepRoutine()
 
   unsigned long tik = millis();
   // two separate loops, in order to obtain the measured value as istant as possible
-  for (int i = 0; i < num_creep; i++)
+  for (unsigned long i = 0; i < num_creep; i++)
   {
     acquisitions = getForce() - tare_force;
     unsigned long tok = millis();

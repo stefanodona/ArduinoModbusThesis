@@ -68,27 +68,35 @@ parameters = {
 # root.bind('<Escape>', root.destroy)
 # root.mainloop()
 
-path = os.getcwd()
-path = os.path.abspath(sys.argv[0])
+# path = os.getcwd()
+# path = os.path.abspath(sys.argv[0])
 
 # path = os.path.splitext(path)[0] + ".txt"
-path = os.path.split(path)[0]
-path = os.path.join(path, "ciao.txt")
+# path = os.path.split(path)[0]
+# path = os.path.join(path, "ciao.txt")
 
 # c = np.array([])
 # c = np.empty((1,2))
-c = np.empty((0,2))
-x = [[1,2]]
-c=np.vstack([c,x])#, axis=0)
-c=np.vstack([c,[3,4]])#, axis=0)
-c=np.vstack([c,[5,6]])#, axis=0)
+# c = np.empty((0,2))
+# x = [[1,2]]
+# c=np.vstack([c,x])#, axis=0)
+# c=np.vstack([c,[3,4]])#, axis=0)
+# c=np.vstack([c,[5,6]])#, axis=0)
 # c=np.append(c, [(1,2)], axis=0)
 
 
-print(c)
-print()
+# print(c)
+# print()
 
-for i in range(0,len(c)):
-     print(f"{c[i][0]:.5f}"+"\t"+f"{c[i][1]:.5f}"+"\t")
-     print(f"{c[i][0]:.5f}"+"\t"+f"{c[i][1]:.5f}"+"\n")
+# for i in range(0,len(c)):
+#      print(f"{c[i][0]:.5f}"+"\t"+f"{c[i][1]:.5f}"+"\t")
+#      print(f"{c[i][0]:.5f}"+"\t"+f"{c[i][1]:.5f}"+"\n")
 # print(np.array([]))
+
+from deep_translator import GoogleTranslator
+from deep_translator import DeeplTranslator
+
+text_it = "Impostazioni\nSoglie e Medie"
+translated = GoogleTranslator(source='italian', target='english').translate(text_it)
+
+print(translated)

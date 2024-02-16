@@ -1078,7 +1078,8 @@ def showFrame():
         creep_switch.configure(text="Statica")
     else:
         showCreepFrame()
-        creep_switch.configure(text="Creep")
+        # creep_switch.configure(text="Creep")
+        creep_switch.configure(text="Rilassamento")
     saveState()
 
 def updateTkVars():
@@ -1470,9 +1471,9 @@ settingmenu.add_cascade(label="Serial Ports", menu=COM_menu)
 #############################################################################
 
 
-# ========================== #
-# -----  T K - V A R S ----- #
-# ========================== #
+# ========================= #
+# ----- T K - V A R S ----- #
+# ========================= #
 
 spider_name_tkvar = customtkinter.StringVar(app, spider_name)
 loadcell_fullscale_tkvar = customtkinter.StringVar(app, str(loadcell_fullscale)+" kg")
