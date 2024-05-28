@@ -6,7 +6,7 @@ clear; clc
 % che f. Poi viene sempre applicato il metodo differenziale
 
 filename = "Prova47_ST_07714532B";
-FID=fopen(strcat(filename,"/",filename,".txt"));
+FID=fopen(strcat("Prove_Preliminari/",filename,"/",filename,".txt"));
 datacell = textscan(FID, '%f%f%f', CommentStyle='#'); 
 fclose(FID);
 

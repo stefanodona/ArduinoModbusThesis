@@ -1,27 +1,29 @@
 close all; 
 clear; clc
 
-filename = "Prova72_ST_07714532B-2";
+% filename = "Prova72_ST_07714532B-2";
+filename = "Prova2_ST_07714532B";
 % filename = "ST01_07714532B-1";
 % FID = fopen(strcat("Measures/",filename,"/",filename,".txt"));
-FID = fopen(strcat(filename,"/",filename,".txt"));
+FID = fopen(strcat("Prove_Preliminari/",filename,"/",filename,".txt"));
 datacell = textscan(FID, '%f%f%f%f%f%f%f%f', CommentStyle='#'); 
 fclose(FID);
 
 x_pres = datacell{1};
-force_forw_pres = datacell{3};
-std_force = datacell{4};
-x_pres_back = datacell{5};
-force_back_pres = datacell{7};
+force_forw_pres = datacell{2};
+% force_forw_pres = datacell{3};
+% std_force = datacell{4};
+% x_pres_back = datacell{5};
+% force_back_pres = datacell{7};
 
 kms_presunta = -force_forw_pres./x_pres;
-kms_presunta_back = -force_back_pres./x_pres_back;
+% kms_presunta_back = -force_back_pres./x_pres_back;
 
 figure()
 % plot(x_pres, force_forw_pres)
 plot(x_pres, force_forw_pres)
 hold on
-plot(x_pres_back, force_back_pres)
+% plot(x_pres_back, force_back_pres)
 grid on
 title("Forza elastica F_{el}")
 subtitle("misurata")
@@ -29,7 +31,7 @@ xlabel("x [mm]", Interpreter="latex")
 ylabel("$F_{el}(x)$ [N]", Interpreter="latex")
 
 
-
+%%
 f_pos = force_forw_pres(force_forw_pres>0);
 f_neg = force_forw_pres(force_forw_pres<0);
 

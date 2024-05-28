@@ -1,8 +1,8 @@
 clear; close all; clc;
 
-myFolders = dir("CREEP/07714532C-1/Creep*");
+myFolders = dir("CREEP_2023/07714532C-1/Creep*");
 length(myFolders)
-idx=2;
+idx=4;
 
 
 Kms = [];

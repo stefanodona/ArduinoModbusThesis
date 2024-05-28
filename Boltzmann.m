@@ -88,14 +88,15 @@ K_ms = @(x,t)   polyval(k0,x) + ... % k0(x)
 
 
 
-% f = 0.01;
-% A = 11e-3;
-% t_end = 10/f;
-% 
-% f_s = 100*f; % [Hz]
-% 
-% time = 0 : 1/f_s : t_end-1/f_s;
-% displ = A*sin(2*pi*f*time);
+f = 0.01;
+A = 11e-3;
+t_end = 20/f;
+
+f_s = 100*f; % [Hz]
+
+time = 0 : 1/f_s : t_end-1/f_s;
+displ = A*sin(2*pi*f*time);
+
 % 
 % a = 1;
 % b = 0.01;
@@ -104,7 +105,7 @@ K_ms = @(x,t)   polyval(k0,x) + ... % k0(x)
 % exp_fun = [exp_1,exp_2];
 
 
-displ = x_sum;
+% displ = x_sum;
 resp = zeros(1,numel(time));
 
 for ii = 1:length(time)
@@ -118,6 +119,9 @@ for ii = 1:length(time)
 
 end
 
+%%
+figure()
+plot(time, resp)
 %%
 close all
 figure()
@@ -171,43 +175,43 @@ grid on
 
 %%
 
-% close all
-% figure()
-% plot(time, fun)
+close all
+figure()
+plot(time, fun)
 
 
-% figure()
-% plot(time, resp)
-% hold on
-% plot(time, displ*1e3)
-% title("Total force response", Interpreter="latex")
-% xlabel("time [s]", Interpreter="latex")
-% ylabel("force [N]", Interpreter="latex")
-% grid on
-% % ylim([-20,20])
-% 
-% 
-% % last mumber of cycles to plot
-% num=10;
-% 
-% figure(4)
-% 
-% % for ii=1:t_end*f-1
+figure()
+plot(time, resp)
+hold on
+plot(time, displ*1e3)
+title("Total force response", Interpreter="latex")
+xlabel("time [s]", Interpreter="latex")
+ylabel("force [N]", Interpreter="latex")
+grid on
+% ylim([-20,20])
+
+%%
+% last mumber of cycles to plot
+num=5;
+
+figure(4)
+
+for ii=1:t_end*f-1
 %     num=1;
-%     displ_to_plot = displ(end-f_s*num/f+1:end);
-%     resp_to_plot = resp(end-f_s*num/f+1:end);
-%     
-% %     displ_to_plot = displ(f_s*num/f:f_s*(num+1)/f);
-% %     resp_to_plot = resp(f_s*num/f:f_s*(num+1)/f);
-%     
-%     plot(displ_to_plot, resp_to_plot)
-%     hold on
-%     title("force vs displ response", Interpreter="latex")
-%     xlabel("displacment [m]", Interpreter="latex")
-%     ylabel("force [N]", Interpreter="latex")
-%     grid on
-%     ylim([-100, 100])
-% %     ylim([0, 7000])
-%     xlim([-1.5e-2, 1.5e-2])
-% %     pause(0.2);
-% % end
+    displ_to_plot = displ(end-f_s*num/f+1:end);
+    resp_to_plot = resp(end-f_s*num/f+1:end);
+    
+%     displ_to_plot = displ(f_s*num/f:f_s*(num+1)/f);
+%     resp_to_plot = resp(f_s*num/f:f_s*(num+1)/f);
+    
+    plot(displ_to_plot, resp_to_plot)
+    hold on
+    title("force vs displ response", Interpreter="latex")
+    xlabel("displacment [m]", Interpreter="latex")
+    ylabel("force [N]", Interpreter="latex")
+    grid on
+    ylim([-100, 100])
+%     ylim([0, 7000])
+    xlim([-1.5e-2, 1.5e-2])
+%     pause(0.2);
+end

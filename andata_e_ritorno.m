@@ -1,5 +1,5 @@
 % close all; 
-% clear; clc; close all;
+clear; clc; close all;
 
 % filename = "Prova63_ST_07714532C";
 folders = {"STATICA_2023-12-21", "STATICA_2023-12-22"};
@@ -10,7 +10,8 @@ filenames = {strcat(folders{1},"/",filename,"1/",filename,"1.txt"),
 % filenames = {"Prova74_ST_07714532C-1", "Prova75_ST_07714532C-1"};
 lab = {"ieri", "oggi"};
 
-for j=1:length(folders)
+% for j=1:length(folders)
+for j=1:length(filenames)
     filename = filenames{j};
     % filename = "ProvaZeri";
     % filename = "ST01_07714532B-1";
@@ -134,21 +135,21 @@ fig.Name = cnt;
 hold off
 title("Forza Elastica")
 subtitle("postprocessata")
-legend("1 andata", "1 ritorno", "2 andata", "2 ritorno")
+legend("B-1 andata", "B-1 ritorno", "B-2 andata", "B-2 ritorno")
 
 figure(3)
 fig = figure(3);
 fig.Name = cnt;
 hold off
 title("Forza Elastica Misurata")
-legend("1 andata", "1 ritorno", "2 andata", "2 ritorno")
+legend("B-1 andata", "B-1 ritorno", "B-2 andata", "B-2 ritorno")
 
 figure(4)
 fig = figure(4);
 fig.Name = cnt;
 hold off
 title("K_{ms} incrementale")
-legend("1 andata", "1 ritorno", "2 andata", "2 ritorno")
+legend("B-1 andata", "B-1 ritorno", "B-2 andata", "B-2 ritorno")
 grid minor
 
 figure(2)
@@ -156,7 +157,7 @@ fig = figure(2);
 fig.Name = cnt;
 hold off
 title("K_{ms}")
-legend("1 andata", "1 ritorno", "2 andata", " 2 ritorno")
+legend("B-1 andata", "B-1 ritorno", "B-2 andata", "B-2 ritorno")
 
 
 figure(5)

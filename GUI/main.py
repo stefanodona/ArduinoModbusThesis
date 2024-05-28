@@ -1075,11 +1075,13 @@ def showFrame():
     print(stat_creep_flag)
     if(not stat_creep_flag):
         showStaticFrame()
-        creep_switch.configure(text="Statica")
+        # creep_switch.configure(text="Statica")
+        creep_switch.configure(text="Static")
     else:
         showCreepFrame()
         # creep_switch.configure(text="Creep")
-        creep_switch.configure(text="Rilassamento")
+        # creep_switch.configure(text="Rilassamento")
+        creep_switch.configure(text="Relaxation")
     saveState()
 
 def updateTkVars():
@@ -1451,7 +1453,8 @@ settingmenu.add_command(label="Medie & Soglie", command=thr_and_avg_setting_func
 search_zero_flag_tkvar = tk.BooleanVar(app, search_zero_flag)
 settingmenu.add_checkbutton(label="Ricerca dello zero", variable=search_zero_flag_tkvar, command=setZeroSearch)
 
-menubar.add_cascade(label="Impostazioni", menu=settingmenu)
+# menubar.add_cascade(label="Impostazioni", menu=settingmenu)
+menubar.add_cascade(label="Settings", menu=settingmenu)
 
 COM_menu = Menu(settingmenu, tearoff=0)
 COM_list = serial.tools.list_ports.comports()
@@ -1511,7 +1514,8 @@ creep_duration_tkvar.trace_add('write', callback=lambda *args: tkvar_changed())
 spider_entry = customtkinter.CTkEntry(leftFrame, textvariable=spider_name_tkvar, placeholder_text="Culo")
 
 loadcell_label = customtkinter.CTkLabel(
-    leftFrame, text="Selezionare cella di carico", anchor="s"
+    # leftFrame, text="Selezionare cella di carico", anchor="s"
+    leftFrame, text="Select load cell", anchor="s"
 )
 
 
@@ -1523,7 +1527,8 @@ load_cell_menu = customtkinter.CTkOptionMenu(
 
 
 min_pos_label = customtkinter.CTkLabel(
-    staticFrame, text="Posizione negativa massima [mm]", anchor="s"
+    # staticFrame, text="Posizione negativa massima [mm]", anchor="s"
+    staticFrame, text="Maximum Negative Position [mm]", anchor="s"
 )
 
 min_pos_entry = customtkinter.CTkEntry(
@@ -1534,7 +1539,8 @@ if float(min_pos_entry.get()) > 0:
 
 
 max_pos_label = customtkinter.CTkLabel(
-    staticFrame, text="Posizione positiva massima [mm]", anchor="s"
+    # staticFrame, text="Posizione positiva massima [mm]", anchor="s"
+    staticFrame, text="Maximum Positive Position [mm]", anchor="s"
 )
 
 max_pos_entry = customtkinter.CTkEntry(
@@ -1547,11 +1553,13 @@ num_pos_label = customtkinter.CTkLabel(
 )
 
 step_pos_label = customtkinter.CTkLabel(
-    staticFrame, text="Intervallo [mm]", anchor="s", width=80
+    # staticFrame, text="Intervallo [mm]", anchor="s", width=80
+    staticFrame, text="Step [mm]", anchor="s", width=80
 )
 
 wait_time_label = customtkinter.CTkLabel(
-    staticFrame, text="Tempo [ms]", anchor="s", width=80
+    # staticFrame, text="Tempo [ms]", anchor="s", width=80
+    staticFrame, text="Time [ms]", anchor="s", width=80
 )
 
 num_pos_entry = customtkinter.CTkEntry(
@@ -1573,10 +1581,12 @@ mesh_label = customtkinter.CTkLabel(
     text_color="red"
 )
 
-checkbox = customtkinter.CTkCheckBox(staticFrame, text="Media", command=setAvgFlag)
+# checkbox = customtkinter.CTkCheckBox(staticFrame, text="Media", command=setAvgFlag)
+checkbox = customtkinter.CTkCheckBox(staticFrame, text="Average", command=setAvgFlag)
 checkbox.configure(variable=avg_flag_tkvar)
 
-checkbox_AR = customtkinter.CTkCheckBox(staticFrame, text="Andata e Ritorno", command=setARFlag)
+# checkbox_AR = customtkinter.CTkCheckBox(staticFrame, text="Andata e Ritorno", command=setARFlag)
+checkbox_AR = customtkinter.CTkCheckBox(staticFrame, text="Forw & Back", command=setARFlag)
 checkbox_AR.configure(variable=ar_flag_tkvar)
 
 checkbox_tracking = customtkinter.CTkCheckBox(staticFrame, text="Tracking", command=set_tracking)

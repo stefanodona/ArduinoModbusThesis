@@ -2,7 +2,7 @@ close all;
 clear; clc
 
 filename = "Prova53_ST_07714532C";
-FID=fopen(strcat(filename,"/",filename,".txt"));
+FID=fopen(strcat("Prove_Preliminari/",filename,"/",filename,".txt"));
 datacell = textscan(FID, '%f%f%f%f%f', CommentStyle='#'); 
 fclose(FID);
 

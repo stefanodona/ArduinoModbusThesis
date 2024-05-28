@@ -1224,12 +1224,12 @@ void measurePosForceTime(unsigned long tik, int num_cyc, float x_p)
   float tiktok;
   int period = 100;
   // unsigned long to_wait = 0;
+  float x_p_acq = int2mm(getPosact() - init_pos);
   unsigned long tak = millis();
   for (int j = 0; j < num_cyc; j++)
   {
     // Measure position and force
     unsigned long tek = millis();
-    // float x_p = int2mm(getPosact() - init_pos);
 
     float y_p = getForce() - tare_force;
     tok = millis();
@@ -1242,7 +1242,7 @@ void measurePosForceTime(unsigned long tik, int num_cyc, float x_p)
     // Serial.println("towait:");
     // Serial.println(to_wait);
     delay(to_wait);
-    sendMessage(t_track, &x_p, &y_p, &tiktok);
+    sendMessage(t_track, &x_p_acq, &y_p, &tiktok);
   }
 }
 

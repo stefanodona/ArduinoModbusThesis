@@ -28,7 +28,8 @@ force   = -datacell{2};
 % force   = force(4:end);
 
 time    = time/1000;
-% force   = force(4:end);
+time    = time(3:end);
+force   = force(3:end);
 
 upper_bound = force(1)   + 1;
 lower_bound = force(end) - 1;
