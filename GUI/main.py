@@ -23,6 +23,7 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 import serial.tools.list_ports
 from playsound import playsound
+from PIL import ImageTk
 
 
 #############################################################################
@@ -351,6 +352,7 @@ this_path = os.getcwd()
 print(this_path)
 # config_path = os.path.join(this_path, "GUI\config.txt")
 config_path = os.path.join(this_path, "GUI/config.json")
+default_path = os.path.join(this_path, "GUI/default_state.json")
 print(config_path)
 
 port = "COM9"
@@ -925,6 +927,13 @@ def serialListener():
                 force_ritorno = force_ritorno[sort]
                 dev_pos_acquired_ritorno = dev_pos_acquired_ritorno[sort]
                 dev_force_ritorno = dev_force_ritorno[sort]
+            else:
+                l = len(pos_acquired)
+                pos_acquired_ritorno = np.zeros(l)
+                force_ritorno = np.zeros(l)
+                dev_pos_acquired_ritorno = np.zeros(l)
+                dev_force_ritorno = np.zeros(l)
+
             # mirror = True
             # if mirror:
             #     pos = np.flip(-pos)
@@ -949,6 +958,29 @@ def serialListener():
         drawPlots()
     return
 
+def resetPlots():
+    ax_force.clear()
+    ax_stiff.clear()
+    ax_inc_stiff.clear()
+
+    ax_force.set_xlabel("displacement [mm]")
+    ax_force.set_ylabel("force [N]")
+    ax_force.set_title("Force vs Displacement")
+    ax_force.grid(visible=True, which="both", axis="both")
+
+    ax_stiff.set_xlabel("displacement [mm]")
+    ax_stiff.set_ylabel("stiffness [N/mm]")
+    ax_stiff.set_title("Stiffness vs Displacement")
+    ax_stiff.grid(visible=True, which="both", axis="both")
+    
+    ax_inc_stiff.set_xlabel("displacement [mm]")
+    ax_inc_stiff.set_ylabel("incremental stiffness [N/mm]")
+    ax_inc_stiff.set_title("Incremental Stiffness vs Displacement")
+    ax_inc_stiff.grid(visible=True, which="both", axis="both")
+
+    chart_type_force.draw()
+    chart_type_stiff.draw()
+    chart_type_inc_stiff.draw()
 
 
 def drawPlots():
@@ -958,24 +990,53 @@ def drawPlots():
     ax_inc_stiff.clear()
     # global pos, force, force_ritorno, time_axis
 
+    BF_legend = ["Forw", "Back"]
+    BF_fit_legend = ["Forw", "Back", "Forw Fit", "Back Fit"]
+    F_fit_legend = ["Forw", "Forw Fit"]
+
+    global pos_forw_to_plot, pos_back_to_plot, time_to_plot, force_forw_to_plot, force_back_to_plot, stiffness_forw, stiffness_back, force_forw_fitted, force_back_fitted
+
+    pos_forw_to_plot   = pos_acquired
+    pos_back_to_plot   = pos_acquired_ritorno
+    force_forw_to_plot = force 
+    force_back_to_plot = force_ritorno 
+
     if not creep_bool_tkvar.get():
         if not tracking_flag:
             sign = (-1)**int(not reverse_bool_tkvar.get())
 
-            ax_force.plot(pos_acquired, force)
+            if postprocessing_flag_tkvar.get():
+                f_forw_DC = np.interp(0, pos_forw_to_plot, force_forw_to_plot)
+                f_back_DC = np.interp(0, pos_back_to_plot, force_back_to_plot)
+                force_forw_to_plot = force_forw_to_plot - f_forw_DC
+                force_back_to_plot = force_back_to_plot - f_back_DC
+
+            stiffness_forw = force_forw_to_plot/pos_forw_to_plot
             if(ar_flag):
-                ax_force.plot(pos_acquired_ritorno, force_ritorno)
-                ax_force.legend(["Andata", "Ritorno"])
+                stiffness_back = force_back_to_plot/pos_back_to_plot 
+            
+            
+
+            # ax_force.plot(pos_acquired, force)
+            ax_force.plot(pos_forw_to_plot, force_forw_to_plot)
+            if(ar_flag):
+                # ax_force.plot(pos_acquired_ritorno, force_ritorno)
+                ax_force.plot(pos_back_to_plot, force_back_to_plot)
+                ax_force.legend(BF_legend)
             ax_force.set_xlabel("displacement [mm]")
             ax_force.set_ylabel("force [N]")
             ax_force.set_title("Force vs Displacement")
             ax_force.grid(visible=True, which="both", axis="both")
 
-            ax_stiff.plot(pos_acquired, sign*force/pos_acquired)
+            # ax_stiff.plot(pos_acquired, sign*force/pos_acquired)
+            # ax_stiff.plot(pos_forw_to_plot, sign*force_forw_to_plot/pos_forw_to_plot)
+            ax_stiff.plot(pos_forw_to_plot, sign*stiffness_forw)
             if (ar_flag):
                 # ax_stiff.plot(pos, np.nan_to_num(force_ritorno/pos))
-                ax_stiff.plot(pos_acquired_ritorno, sign*force_ritorno/pos_acquired_ritorno)
-                ax_stiff.legend(["Andata", "Ritorno"])
+                # ax_stiff.plot(pos_acquired_ritorno, sign*force_ritorno/pos_acquired_ritorno)
+                # ax_stiff.plot(pos_back_to_plot, sign*force_back_to_plot/pos_back_to_plot)
+                ax_stiff.plot(pos_back_to_plot, sign*stiffness_back)
+                ax_stiff.legend(BF_legend)
             ax_stiff.set_xlabel("displacement [mm]")
             ax_stiff.set_ylabel("stiffness [N/mm]")
             ax_stiff.set_title("Stiffness vs Displacement")
@@ -984,18 +1045,58 @@ def drawPlots():
 
             # gradient = np.gradient(force/pos_acquired, pos_acquired)
             # gradient = np.diff(force)/np.diff(pos_acquired)
-            gradient = np.gradient(sign*force, pos_acquired)
+
+            # gradient = np.gradient(sign*force, pos_acquired)
+            gradient = np.gradient(sign*force_forw_to_plot, pos_forw_to_plot)
             # ax_inc_stiff.plot(pos_acquired[:-1], gradient)
             ax_inc_stiff.plot(pos_acquired, gradient)
             if (ar_flag):
-                gradient_ritorno = np.gradient(sign*force_ritorno, pos_acquired_ritorno)
+                # gradient_ritorno = np.gradient(sign*force_ritorno, pos_acquired_ritorno)
+                gradient_ritorno = np.gradient(sign*force_back_to_plot, pos_back_to_plot)
                 # ax_stiff.plot(pos, np.nan_to_num(force_ritorno/pos))
                 ax_inc_stiff.plot(pos_acquired_ritorno, gradient_ritorno)
-                ax_inc_stiff.legend(["Andata", "Ritorno"])
+                ax_inc_stiff.legend(BF_legend)
             ax_inc_stiff.set_xlabel("displacement [mm]")
             ax_inc_stiff.set_ylabel("incremental stiffness [N/mm]")
             ax_inc_stiff.set_title("Incremental Stiffness vs Displacement")
             ax_inc_stiff.grid(visible=True, which="both", axis="both")
+
+            if postprocessing_flag_tkvar.get():
+                degree = fit_order.get()[0]
+                if degree != "N":
+                    degree = int(degree)
+                    print(degree)
+
+                    # FORW STIFF FIT
+                    coeff = np.polyfit(pos_forw_to_plot, stiffness_forw, degree, w=np.abs(pos_forw_to_plot))
+                    stiff_forw_fitted = np.polyval(coeff, pos_forw_to_plot)
+                    ax_stiff.plot(pos_forw_to_plot, sign*stiff_forw_fitted)
+
+                    # FORW FORCE FIT
+                    force_forw_fitted = stiff_forw_fitted*pos_forw_to_plot
+                    ax_force.plot(pos_forw_to_plot, force_forw_fitted)
+                    
+                    ax_force.legend(F_fit_legend)
+                    ax_stiff.legend(F_fit_legend)
+                    
+                    if ar_flag:
+                        # BACK FORCE FIT
+                        coeff = np.polyfit(pos_back_to_plot, force_back_to_plot, degree+1, w=np.abs(pos_back_to_plot))
+
+                        # BACK STIFF FIT
+                        coeff = np.polyfit(pos_back_to_plot, stiffness_back, degree, w=np.abs(pos_back_to_plot))
+                        stiff_back_fitted = np.polyval(coeff, pos_back_to_plot)
+                        ax_stiff.plot(pos_back_to_plot, sign*stiff_back_fitted)
+                        
+                        force_back_fitted = stiff_back_fitted*pos_back_to_plot
+                        ax_force.plot(pos_back_to_plot, force_back_fitted)
+
+                        ax_force.legend(BF_fit_legend)
+                        ax_stiff.legend(BF_fit_legend)
+                    else:
+                        pos_back_to_plot  = np.zeros(len(pos_forw_to_plot))
+                        force_back_fitted = np.zeros(len(pos_forw_to_plot)) 
+
         else:
             ax_force.stem(np.transpose(t_track)[2], np.transpose(t_track)[1])
             # if(ar_flag):
@@ -1043,7 +1144,7 @@ def drawPlots():
 
 def panic():
     global panic_flag
-    panic_flag=True
+    panic_flag = True
     # return
 
 def thr_and_avg_setting_func():
@@ -1173,14 +1274,28 @@ def save_data(txt_path, json_path, zero_path):
                     fl.write("dev_p_back [mm]\t\t")     # 5    
                     fl.write("f_forw_back [N]\t\t")     # 6    
                     fl.write("dev_f_forw_back [N]\t\t") # 7        
-                    fl.write("\n")                      
-                    for i in range(0,len(pos_acquired)):
-                        if (ar_flag):
-                            # andata e ritorno
-                            fl.write(f"{pos_acquired[i]:.5f}"+"\t\t\t"+f"{dev_pos_acquired[i]:.5f}"+"\t\t\t"+f"{force[i]:.5f}" +"\t\t\t" + f"{dev_force[i]:.5f}" +"\t\t\t"+f"{pos_acquired_ritorno[i]:.5f}"+"\t\t\t"+f"{dev_pos_acquired_ritorno[i]:.5f}"+"\t\t\t"+f"{force_ritorno[i]:.5f}"+"\t\t\t"+f"{dev_force_ritorno[i]:.5f}"+"\n")   
-                        else:
-                            #solo andata
-                            fl.write(f"{pos_acquired[i]:.5f}"+"\t\t\t"+f"{dev_pos_acquired[i]:.5f}"+"\t\t\t"+f"{force[i]:.5f}" +"\t\t\t" + f"{dev_force[i]:.5f}" +"\t\t\t"+f"{0:.5f}"+"\t\t\t"+f"{0:.5f}"+"\t\t\t"+f"{0:.5f}"+"\t\t\t"+f"{0:.5f}"+"\n")   
+                    fl.write("\n")
+
+                    if save_fit_data_flag_tkvar.get():
+                        pos_forw_to_save = pos_forw_to_plot
+                        pos_back_to_save = pos_back_to_plot
+                        for_forw_to_save = force_forw_fitted
+                        for_back_to_save = force_back_fitted
+                    else:
+                        pos_forw_to_save = pos_acquired
+                        pos_back_to_save = pos_acquired_ritorno
+                        for_forw_to_save = force
+                        for_back_to_save = force_ritorno
+
+                    for i in range(0,len(pos_forw_to_save)):
+                        # if (ar_flag):
+                        #     # andata e ritorno
+                        #     fl.write(f"{pos_forw_to_save[i]:.5f}"+"\t\t\t"+f"{dev_pos_acquired[i]:.5f}"+"\t\t\t"+f"{for_forw_to_save[i]:.5f}" +"\t\t\t" + f"{dev_force[i]:.5f}" +"\t\t\t"+f"{pos_back_to_save[i]:.5f}"+"\t\t\t"+f"{dev_pos_acquired_ritorno[i]:.5f}"+"\t\t\t"+f"{for_back_to_save[i]:.5f}"+"\t\t\t"+f"{dev_force_ritorno[i]:.5f}"+"\n")   
+                        # else:
+                        #     #solo andata
+                        #     fl.write(f"{pos_forw_to_save[i]:.5f}"+"\t\t\t"+f"{dev_pos_acquired[i]:.5f}"+"\t\t\t"+f"{for_forw_to_save[i]:.5f}" +"\t\t\t" + f"{dev_force[i]:.5f}" +"\t\t\t"+f"{0:.5f}"+"\t\t\t"+f"{0:.5f}"+"\t\t\t"+f"{0:.5f}"+"\t\t\t"+f"{0:.5f}"+"\n")  x
+
+                        fl.write(f"{pos_forw_to_save[i]:.5f}"+"\t\t\t"+f"{dev_pos_acquired[i]:.5f}"+"\t\t\t"+f"{for_forw_to_save[i]:.5f}" +"\t\t\t" + f"{dev_force[i]:.5f}" +"\t\t\t"+f"{pos_back_to_save[i]:.5f}"+"\t\t\t"+f"{dev_pos_acquired_ritorno[i]:.5f}"+"\t\t\t"+f"{for_back_to_save[i]:.5f}"+"\t\t\t"+f"{dev_force_ritorno[i]:.5f}"+"\n") 
 
                             # fl.write(f"{pos_acquired[i]:.5f}"+"\t\t\t"+f"{dev_pos_acquired[i]:.5f}"+"\t\t\t"+ f"{force[i]:.5f}"+"\t\t\t" + f"{dev_force[i]:.5f}" +"\t\t\t"+ f"{0:.5f}"+"\n")   
             else:
@@ -1195,9 +1310,7 @@ def save_data(txt_path, json_path, zero_path):
     with open(json_path, 'w') as js:
         js.write(json.dumps(params, indent=4))
         js.close()
-    saved_flag=True
-    app.title("MyApp - "+root_name)
-    last_params = params
+    
 
     if (not tracking_flag):
         with open(zero_path, 'w') as zfl:
@@ -1225,23 +1338,29 @@ def save_data(txt_path, json_path, zero_path):
                 tp.write(f"{t_fall[i][0]:.5f}"+"\t\t\t"+f"{t_fall[i][1]:.5f}"+"\t\t\t")
                 tp.write(f"{t_end[i][0]:.5f}"+"\t\t\t"+f"{t_end[i][1]:.5f}"+"\n")
             tp.close()
-        
+    
+    saved_flag = True
+    app.title("MyApp - "+root_name)
+    last_params = params
 
 
 def save_as(): 
     global txt_path, json_path
-    files = [('All Files', '*.*'),  
-             ('Python Files', '*.py'), 
-             ('Text Document', '*.txt')] 
-    file_path = asksaveasfilename(initialfile = spider_name_tkvar.get()+'.txt',
+    files = [('Static Stiffness Test', '*.stiff'),
+             ('Text Files', '*.txt'), 
+             ('All Files', '*.*')]
+    # files = [('All Files', '*.*'),  
+    #          ('Python Files', '*.py'), 
+    #          ('Text Document', '*.txt')] 
+    file_path = asksaveasfilename(initialfile = spider_name_tkvar.get()+'.stiff',
                          filetypes = files, 
-                         defaultextension = ".txt") 
+                         defaultextension = ".stiff") 
     
     if file_path:
         folder = os.path.splitext(file_path)[0]
         name = folder.split('/')[-1]
         os.makedirs(folder, exist_ok=True)
-        txt_path = os.path.join(folder,name+".txt")
+        txt_path = os.path.join(folder,name+".stiff")
         json_path = os.path.join(folder,name+".json")
         zero_path = os.path.join(folder,"zero_"+name+".txt")
         print(file_path)
@@ -1260,10 +1379,10 @@ def save():
 
 def load():
     global time_axis, pos, pos_acquired, dev_pos_acquired, pos_acquired_ritorno, dev_pos_acquired_ritorno, force, dev_force, force_ritorno, dev_force_ritorno, params, saved_flag, last_params
-    files = [('All Files', '*.*'),  
-             ('Python Files', '*.py'), 
-             ('Text Document', '*.txt')] 
-    file_path = askopenfilename(defaultextension=".txt", filetypes=files)
+    files = [('Static Stiffness Test', '*.stiff'),
+             ('Text Files', '*.txt'), 
+             ('All Files', '*.*')] 
+    file_path = askopenfilename(defaultextension=".stiff", filetypes=files)
 
     name = os.path.splitext(file_path)[0]
 
@@ -1346,14 +1465,29 @@ def load():
         
         showFrame()
         drawPlots()    
-        app.title("MyApp - "+ name)
+        app.title(apptitle+" - "+ name)
         last_params = params
         saved_flag=True
 
+def new_test():
+    global params 
+    with open(default_path, 'r') as js:
+        params = json.loads(js.read())
+        for key in params:
+            globals()[key]=params[key]
+        js.close()
+        app.title(apptitle)
+        updateTkVars()
+        saveState()
+        resetPlots()
+        showFrame()
+        globals()["saved_flag"]=True
 
 def check_save_before_closing():
-    if (not saved_flag):
-        savedialog = SaveDialog(app)
+    if saved_flag:
+        closeAll()
+    if globals()["last_params"] != globals()["params"]:
+        SaveDialog(app)
     else:
         closeAll()
 
@@ -1370,8 +1504,6 @@ def playFinish():
     print(file_path)
     playsound(file_path)
     return
-    
-#playFinish()
 
 #############################################################################
 # ---------------------------C R E A T E   A P P-----------------------------
@@ -1389,7 +1521,12 @@ w,h = app.winfo_screenwidth(), app.winfo_screenheight()
 app.geometry("900x700")
 # app.geometry(f"{w}x{h}+0+0")
 # app.geometry(f"{appWidth}x{appHeight}")
-app.title("MyApp")
+apptitle = "Static Stiffness Test" 
+app.title(apptitle)
+iconpath = ImageTk.PhotoImage(file=os.path.join(this_path, "GUI/App Icon.png"))
+print(iconpath)
+app.wm_iconbitmap()
+app.iconphoto(False, iconpath)
 
 tkt = tkthread.TkThread(app)
 
@@ -1435,7 +1572,7 @@ def donothing():
 menubar = Menu(app)
 
 filemenu = Menu(menubar, tearoff=0)
-filemenu.add_command(label="New", command=donothing)
+filemenu.add_command(label="New", command=new_test)
 filemenu.add_command(label="Open", command=load)
 filemenu.add_command(label="Save", command=save)
 filemenu.add_command(label="Save as...", command=save_as)
@@ -1448,10 +1585,10 @@ menubar.add_cascade(label="File", menu=filemenu)
 velacc_window = None
 settingmenu = Menu(menubar, tearoff=0)
 settingmenu.add_command(label="Vel & Acc", command=vel_and_acc_setting_func)
-settingmenu.add_command(label="Medie & Soglie", command=thr_and_avg_setting_func)
+settingmenu.add_command(label="Avg & Thresholds", command=thr_and_avg_setting_func)
 
 search_zero_flag_tkvar = tk.BooleanVar(app, search_zero_flag)
-settingmenu.add_checkbutton(label="Ricerca dello zero", variable=search_zero_flag_tkvar, command=setZeroSearch)
+settingmenu.add_checkbutton(label="Zero Calibration", variable=search_zero_flag_tkvar, command=setZeroSearch)
 
 # menubar.add_cascade(label="Impostazioni", menu=settingmenu)
 menubar.add_cascade(label="Settings", menu=settingmenu)
@@ -1461,12 +1598,35 @@ COM_list = serial.tools.list_ports.comports()
 COM_option = tk.StringVar(app, port)
 COM_option.trace_add('write', callback=lambda *args:setCOMPort())
 
+
 for COM_port in COM_list:
     # COM_menu.add_command(label=str(COM_port))
     COM_menu.add_radiobutton(label=str(COM_port), variable=COM_option, value=COM_port[0])
     # print(COM_port[0])
 
 settingmenu.add_cascade(label="Serial Ports", menu=COM_menu)
+
+mathsmenu = Menu(menubar, tearoff=0)
+menubar.add_cascade(label="Maths", menu=mathsmenu)
+
+postprocessing_flag_tkvar = tk.BooleanVar(app, False)
+
+mathsmenu.add_checkbutton(label="Post-processing Static", variable=postprocessing_flag_tkvar, command=drawPlots)
+
+fitting_curve_menu = Menu(mathsmenu, tearoff=0)
+mathsmenu.add_cascade(label="Stiffness Fit Order", menu=fitting_curve_menu)
+
+fit_order = tk.StringVar(app,"None")
+
+fitting_curve_menu.add_radiobutton(label = "None", variable = fit_order, command=drawPlots)
+fitting_curve_menu.add_radiobutton(label = "2nd" , variable = fit_order, command=drawPlots)
+fitting_curve_menu.add_radiobutton(label = "3rd" , variable = fit_order, command=drawPlots)
+fitting_curve_menu.add_radiobutton(label = "4th" , variable = fit_order, command=drawPlots)
+fitting_curve_menu.add_radiobutton(label = "5th" , variable = fit_order, command=drawPlots)
+fitting_curve_menu.add_radiobutton(label = "6th" , variable = fit_order, command=drawPlots)
+
+save_fit_data_flag_tkvar = tk.BooleanVar(app, False) 
+mathsmenu.add_checkbutton(label="Save Fitted Data", variable=save_fit_data_flag_tkvar)
 
 
 #############################################################################
