@@ -7,7 +7,7 @@
     "step_pos": 0.25,
     "wait_time": 1000,
     "avg_flag": false,
-    "ar_flag": false,
+    "ar_flag": 1,
     "tracking_flag": false,
     "th1_val": 2.5,
     "th1_avg": 5,
@@ -18,15 +18,12 @@
     "zero_approx": 0.02,
     "zero_avg": 5,
     "vel_flag": true,
-    "vel_max": 30.0,
-    "acc_max": 10.0,
+    "vel_max": 10.0,
+    "acc_max": 5.0,
     "time_flag": false,
     "time_max": 0.5,
     "creep_displ": 5.0,
     "creep_period": 100.0,
     "creep_duration": 21600.0,
-    "search_zero_flag": true,
-    "up_disk_weight": 21.0,
-    "dw_disk_weight": 0.0,
-    "vc_coil_weight": 0.0
+    "search_zero_flag": true
 }

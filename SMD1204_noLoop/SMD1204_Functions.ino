@@ -62,6 +62,15 @@ void sendCommand(uint16_t cmd)
   }
 }
 
+void resetPiston(){
+    modbusTCPClient.holdingRegisterWrite(Rhmode, (int16_t)(-9));
+    sendCommand(home());
+    checkArrival();
+    sendPosTarget((int32_t)20480);
+    sendCommand(go());
+    checkArrival();
+}
+
 void driverSetup()
 {
   // reset all alarms

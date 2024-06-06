@@ -224,6 +224,74 @@ class VelAccWindows(customtkinter.CTkToplevel):
 
         saveState()
 
+class MovePistWindow(customtkinter.CTkToplevel):
+    def __init__(self, *args, fg_color: str | Tuple[str, str] | None = None, **kwargs):
+        super().__init__(*args, fg_color=fg_color, **kwargs)
+        self.title("Move Piston")
+
+        self.reset_button = customtkinter.CTkButton(self, text="Reset Piston", height=50, font=('Helvetica', 18, 'bold'), command=self.resetPiston)
+        self.reset_button.grid(row=0, column=0, columnspan=2, padx=50, pady=20, sticky="ew")
+
+        self.up_button = customtkinter.CTkButton(self, text="˄", font=('Helvetica', 20, 'bold'))
+        self.up_button.grid(row=1, column=0, padx=[50, 25], pady=20)
+
+        self.down_button = customtkinter.CTkButton(self, text="˅", font=('Helvetica', 20, 'bold'))
+        self.down_button.grid(row=1, column=1, padx=[25, 50], pady=20)
+
+        self.stop_button = customtkinter.CTkButton(self, text="STOP", fg_color="red", hover_color="dark red", height=50, font=('Helvetica', 18, 'bold'))
+        self.stop_button.grid(row=2, column=0, columnspan=2, padx=50, pady=20, sticky="ew")
+    
+    def resetPiston(self, *args):
+        with serial.Serial(port, 38400) as ser:
+            while True:
+                try:
+                    data = ser.readline()
+                except:
+                    print("DATO NON LETTO!")
+
+                data = data.decode()
+                print(data)
+
+                if compare_strings(data, "Ready"):
+                    time.sleep(1)
+                    ser.write("GO HOME\n".encode())
+
+                if compare_strings(data, "HOMED"):
+                    break
+
+
+class WeightsWindows(customtkinter.CTkToplevel):
+    def __init__(self, *args, fg_color: str | Tuple[str, str] | None = None, **kwargs):
+        super().__init__(*args, fg_color=fg_color, **kwargs)
+        self.title("Supports Weights")
+
+        self.up_disk_w_tkvar = customtkinter.StringVar(self, str(up_disk_weight))
+        self.dw_disk_w_tkvar = customtkinter.StringVar(self, str(dw_disk_weight))
+        self.vc_coil_w_tkvar = customtkinter.StringVar(self, str(vc_coil_weight))
+
+        self.label_1 = customtkinter.CTkLabel(self, text="Upper disk weight [g]: ")
+        self.label_2 = customtkinter.CTkLabel(self, text="Lower disk weight [g]: ")
+        self.label_3 = customtkinter.CTkLabel(self, text="Voice coil weight [g]: ")
+
+        self.entry_1 = customtkinter.CTkEntry(self, textvariable=self.up_disk_w_tkvar)
+        self.entry_2 = customtkinter.CTkEntry(self, textvariable=self.dw_disk_w_tkvar)
+        self.entry_3 = customtkinter.CTkEntry(self, textvariable=self.vc_coil_w_tkvar)
+
+        self.label_1.pack(padx=30, pady=[20,0])
+        self.entry_1.pack(padx=30, pady=[0,10])
+        self.label_2.pack(padx=30, pady=[20,0])
+        self.entry_2.pack(padx=30, pady=[0,10])
+        self.label_3.pack(padx=30, pady=[20,0])
+        self.entry_3.pack(padx=30, pady=[0,20])
+
+        self.okButton = customtkinter.CTkButton(self, text="OK", height=50, command=self.update_state).pack(padx=30, pady=20)
+
+    def update_state(self, *args):
+        globals()["up_disk_weight"] = float(self.up_disk_w_tkvar.get())
+        globals()["dw_disk_weight"] = float(self.dw_disk_w_tkvar.get())
+        globals()["vc_coil_weight"] = float(self.vc_coil_w_tkvar.get())
+        saveState()
+
 class SaveDialog(simpledialog.Dialog):
     # def __init__(self, parent: Misc | None, title: str | None = None) -> None:
         # super().__init__(parent, title)
@@ -357,7 +425,7 @@ print(config_path)
 
 port = "COM9"
 spider_name = ''
-saved_flag = False
+saved_flag = True
 panic_flag = False
 last_params = None
 confirm_flag = False
@@ -399,8 +467,9 @@ creep_displ = params["creep_displ"]
 creep_period = params["creep_period"]
 creep_duration = params["creep_duration"]
 search_zero_flag =  params["search_zero_flag"]
-
-
+up_disk_weight =  params["up_disk_weight"]
+dw_disk_weight =  params["dw_disk_weight"]
+vc_coil_weight =  params["vc_coil_weight"]
 
 
 tare = 0
@@ -436,6 +505,8 @@ time_axis = np.array([])
 
 thr_avg_window = None
 vel_acc_window = None
+move_piston_window = None
+weights_window = None
 
 #############################################################################
 # ----------------------------F U N C T I O N S------------------------------
@@ -455,17 +526,17 @@ def setARFlag():
     global ar_flag
     ar_flag = checkbox_AR.get()
 
-def set_tracking():
-    track = checkbox_tracking.get()
-    global avg_flag
+# def set_tracking():
+#     track = checkbox_tracking.get()
+#     global avg_flag
     
-    if track:
-        # avg_flag_tkvar.set(False)
-        avg_flag=False
-        checkbox.configure(state="disabled")
-    else:
-        checkbox.configure(state="normal")
-        setAvgFlag()
+#     if track:
+#         # avg_flag_tkvar.set(False)
+#         avg_flag=False
+#         checkbox.configure(state="disabled")
+#     else:
+#         checkbox.configure(state="normal")
+#         setAvgFlag()
 
     
     
@@ -562,9 +633,9 @@ def pressOk(the_msg):
 
     time.sleep(0.5)
 
-def check_avg_checkbox():
-    if tracking_flag:
-        checkbox.configure(state="disabled")
+# def check_avg_checkbox():
+#     if tracking_flag:
+#         checkbox.configure(state="disabled")
 
 
 
@@ -574,7 +645,7 @@ def startMeasurement():
         min_pos_entry.insert(0, "-")
 
 
-    global min_pos, max_pos, num_pos, step_pos, wait_time, percent, force, dev_force, force_ritorno, pos, pos_acquired,dev_pos_acquired, pos_acquired_ritorno, dev_pos_acquired_ritorno, pos_sorted, time_axis, creep_displ, creep_period, creep_duration, zero_p, zero_f, t_rise, t_fall, t_start, t_end, t_track, tracking_flag
+    global min_pos, max_pos, num_pos, step_pos, wait_time, percent, force, dev_force, force_ritorno, pos, pos_acquired, dev_pos_acquired, pos_acquired_ritorno, dev_pos_acquired_ritorno, pos_sorted, time_axis, creep_displ, creep_period, creep_duration, zero_p, zero_f, t_rise, t_fall, t_start, t_end, t_track, tracking_flag 
 
     reverse_bool_tkvar.set(False)
 
@@ -672,13 +743,14 @@ def serialListener():
         step_pos_entry.configure(state="disabled")
 
         startButton.configure(state="disabled")
-        checkbox.configure(state="disabled")
+        # checkbox.configure(state="disabled")
         checkbox_AR.configure(state="disabled")
         checkbox_tracking.configure(state="disabled")
 
         displ_entry.configure(state="disabled")
         period_entry.configure(state="disabled")
         duration_entry.configure(state="disabled")
+        reverse_switch.configure(state="disabled")
 
 
         startButton.configure(text="Inizializzazione...")
@@ -722,18 +794,18 @@ def serialListener():
 
             if data == "Connecting\n":
                 print(data)
-                startButton.configure(text="Connessione...")
+                startButton.configure(text="Connecting...")
 
             if data == "Taratura\n":
                 print(data)
-                startButton.configure(text="Taratura...")
+                startButton.configure(text="Calibrating...")
 
             if data == "Measure Routine\n":
-                startButton.configure(text="Acquisendo i Dati...")
+                startButton.configure(text="Data Acquisition...")
 
             if data == "Measuring\n":
                 print(data)
-                startButton.configure(text="Misurazione...")
+                startButton.configure(text="Measuring...")
 
             if compare_strings(data, "centratore"):
                 # flag = pressOk(data)
@@ -885,18 +957,21 @@ def serialListener():
     max_pos_entry.configure(state="normal")
     num_pos_entry.configure(state="normal")
     step_pos_entry.configure(state="normal")
-    checkbox.configure(state="normal")
+    # checkbox.configure(state="normal")
     checkbox_AR.configure(state="normal")
     checkbox_tracking.configure(state="normal")
     startButton.configure(state="normal")
 
     displ_entry.configure(state="normal")
     period_entry.configure(state="normal")
-    duration_entry.configure(state="normal")    
+    duration_entry.configure(state="normal")  
+
+    reverse_switch.configure(state="normal")
+
 
     startButton.configure(text="START")
 
-    check_avg_checkbox()
+    # check_avg_checkbox()
 
 
     print("pos: ",pos)
@@ -1147,14 +1222,14 @@ def panic():
     panic_flag = True
     # return
 
-def thr_and_avg_setting_func():
-    global thr_avg_window 
-    if (thr_avg_window==None or not thr_avg_window.winfo_exists()):
-        thr_avg_window = ThrAvgWindows(app)
+# def thr_and_avg_setting_func():
+#     global thr_avg_window 
+#     if (thr_avg_window==None or not thr_avg_window.winfo_exists()):
+#         thr_avg_window = ThrAvgWindows(app)
     
-    thr_avg_window.focus()
-    # topWindow.grab_set()
-    app.update()
+#     thr_avg_window.focus()
+#     # topWindow.grab_set()
+#     app.update()
 
 def vel_and_acc_setting_func():
     global vel_acc_window 
@@ -1162,6 +1237,24 @@ def vel_and_acc_setting_func():
         vel_acc_window = VelAccWindows(app)
     
     vel_acc_window.focus()
+    # topWindow.grab_set()
+    app.update()
+
+def support_weights_func():
+    global weights_window 
+    if (weights_window==None or not weights_window.winfo_exists()):
+        weights_window = WeightsWindows(app)
+    
+    weights_window.focus()
+    # topWindow.grab_set()
+    app.update()
+
+def move_piston_func():
+    global move_piston_window 
+    if (move_piston_window==None or not move_piston_window.winfo_exists()):
+        move_piston_window = MovePistWindow(app)
+    
+    move_piston_window.focus()
     # topWindow.grab_set()
     app.update()
 
@@ -1267,13 +1360,13 @@ def save_data(txt_path, json_path, zero_path):
                 else:
                     # fl.write("# pos [mm]\t\tdev_pos [mm]\t\tforce_forw [N]\t\tdev_force_forw [N]\t\tforce_back [N]\n")
                     fl.write("# pos [mm]\t\t")          # 0
-                    fl.write("dev_pos [mm]\t\t")        # 1    
+                    # fl.write("dev_pos [mm]\t\t")        # 1    
                     fl.write("force_forw [N]\t\t")      # 2    
-                    fl.write("dev_force_forw [N]\t\t")  # 3        
+                    # fl.write("dev_force_forw [N]\t\t")  # 3        
                     fl.write("pos_back [mm]\t\t")       # 4    
-                    fl.write("dev_p_back [mm]\t\t")     # 5    
+                    # fl.write("dev_p_back [mm]\t\t")     # 5    
                     fl.write("f_forw_back [N]\t\t")     # 6    
-                    fl.write("dev_f_forw_back [N]\t\t") # 7        
+                    # fl.write("dev_f_forw_back [N]\t\t") # 7  
                     fl.write("\n")
 
                     if save_fit_data_flag_tkvar.get():
@@ -1295,7 +1388,11 @@ def save_data(txt_path, json_path, zero_path):
                         #     #solo andata
                         #     fl.write(f"{pos_forw_to_save[i]:.5f}"+"\t\t\t"+f"{dev_pos_acquired[i]:.5f}"+"\t\t\t"+f"{for_forw_to_save[i]:.5f}" +"\t\t\t" + f"{dev_force[i]:.5f}" +"\t\t\t"+f"{0:.5f}"+"\t\t\t"+f"{0:.5f}"+"\t\t\t"+f"{0:.5f}"+"\t\t\t"+f"{0:.5f}"+"\n")  x
 
-                        fl.write(f"{pos_forw_to_save[i]:.5f}"+"\t\t\t"+f"{dev_pos_acquired[i]:.5f}"+"\t\t\t"+f"{for_forw_to_save[i]:.5f}" +"\t\t\t" + f"{dev_force[i]:.5f}" +"\t\t\t"+f"{pos_back_to_save[i]:.5f}"+"\t\t\t"+f"{dev_pos_acquired_ritorno[i]:.5f}"+"\t\t\t"+f"{for_back_to_save[i]:.5f}"+"\t\t\t"+f"{dev_force_ritorno[i]:.5f}"+"\n") 
+                        # with devs
+                        # fl.write(f"{pos_forw_to_save[i]:.5f}"+"\t\t\t"+f"{dev_pos_acquired[i]:.5f}"+"\t\t\t"+f"{for_forw_to_save[i]:.5f}" +"\t\t\t" + f"{dev_force[i]:.5f}" +"\t\t\t"+f"{pos_back_to_save[i]:.5f}"+"\t\t\t"+f"{dev_pos_acquired_ritorno[i]:.5f}"+"\t\t\t"+f"{for_back_to_save[i]:.5f}"+"\t\t\t"+f"{dev_force_ritorno[i]:.5f}"+"\n") 
+
+                        # no devs
+                        fl.write(f"{pos_forw_to_save[i]:.5f}"+"\t\t\t"+f"{for_forw_to_save[i]:.5f}" +"\t\t\t"+f"{pos_back_to_save[i]:.5f}"+"\t\t\t"+f"{for_back_to_save[i]:.5f}"+"\n")
 
                             # fl.write(f"{pos_acquired[i]:.5f}"+"\t\t\t"+f"{dev_pos_acquired[i]:.5f}"+"\t\t\t"+ f"{force[i]:.5f}"+"\t\t\t" + f"{dev_force[i]:.5f}" +"\t\t\t"+ f"{0:.5f}"+"\n")   
             else:
@@ -1340,7 +1437,7 @@ def save_data(txt_path, json_path, zero_path):
             tp.close()
     
     saved_flag = True
-    app.title("MyApp - "+root_name)
+    app.title(apptitle+" - "+root_name)
     last_params = params
 
 
@@ -1405,14 +1502,14 @@ def load():
 
             if stat_creep=="STATIC":
                 p = []
-                dev_p = []
+                # dev_p = []
                 f = []
-                dev_f = []
+                # dev_f = []
 
                 p_r = []
-                dev_p_r = []
+                # dev_p_r = []
                 f_r = []
-                dev_f_r = []
+                # dev_f_r = []
                 while True:
                     line = fl.readline()
                     data = line.split("\t\t\t")
@@ -1420,25 +1517,25 @@ def load():
                         break
                     if not data[0]=="":
                         p.append(float(data[0]))
-                        dev_p.append(float(data[1]))
-                        f.append(float(data[2]))
-                        dev_f.append(float(data[3]))
+                        # dev_p.append(float(data[1]))
+                        f.append(float(data[1]))
+                        # dev_f.append(float(data[3]))
 
-                        p_r.append(float(data[4]))
-                        dev_p_r.append(float(data[5]))
-                        f_r.append(float(data[6]))
-                        dev_f_r.append(float(data[7]))
+                        p_r.append(float(data[2]))
+                        # dev_p_r.append(float(data[5]))
+                        f_r.append(float(data[3]))
+                        # dev_f_r.append(float(data[7]))
 
                 # pos = np.array(p)
                 pos_acquired = np.array(p)
-                dev_pos_acquired = np.array(dev_p)
+                # dev_pos_acquired = np.array(dev_p)
                 force = np.array(f)
-                dev_force = np.array(dev_f)
+                # dev_force = np.array(dev_f)
 
                 pos_acquired_ritorno = np.array(p_r)
-                dev_pos_acquired_ritorno = np.array(dev_p_r)
+                # dev_pos_acquired_ritorno = np.array(dev_p_r)
                 force_ritorno = np.array(f_r)
-                dev_force_ritorno = np.array(dev_f_r)
+                # dev_force_ritorno = np.array(dev_f_r)
 
 
             elif stat_creep=="CREEP":
@@ -1584,8 +1681,11 @@ menubar.add_cascade(label="File", menu=filemenu)
 
 velacc_window = None
 settingmenu = Menu(menubar, tearoff=0)
+
+settingmenu.add_command(label="Move Piston", command=move_piston_func)
 settingmenu.add_command(label="Vel & Acc", command=vel_and_acc_setting_func)
-settingmenu.add_command(label="Avg & Thresholds", command=thr_and_avg_setting_func)
+settingmenu.add_command(label="Support Weights", command=support_weights_func)
+# settingmenu.add_command(label="Avg & Thresholds", command=thr_and_avg_setting_func)
 
 search_zero_flag_tkvar = tk.BooleanVar(app, search_zero_flag)
 settingmenu.add_checkbutton(label="Zero Calibration", variable=search_zero_flag_tkvar, command=setZeroSearch)
@@ -1742,16 +1842,16 @@ mesh_label = customtkinter.CTkLabel(
 )
 
 # checkbox = customtkinter.CTkCheckBox(staticFrame, text="Media", command=setAvgFlag)
-checkbox = customtkinter.CTkCheckBox(staticFrame, text="Average", command=setAvgFlag)
-checkbox.configure(variable=avg_flag_tkvar)
+
+# checkbox = customtkinter.CTkCheckBox(staticFrame, text="Average", command=setAvgFlag)
+# checkbox.configure(variable=avg_flag_tkvar)
 
 # checkbox_AR = customtkinter.CTkCheckBox(staticFrame, text="Andata e Ritorno", command=setARFlag)
 checkbox_AR = customtkinter.CTkCheckBox(staticFrame, text="Forw & Back", command=setARFlag)
 checkbox_AR.configure(variable=ar_flag_tkvar)
 
-checkbox_tracking = customtkinter.CTkCheckBox(staticFrame, text="Tracking", command=set_tracking)
+checkbox_tracking = customtkinter.CTkCheckBox(staticFrame, text="Tracking")#, command=set_tracking)
 checkbox_tracking.configure(variable=tracking_flag_tkvar)
-
 
 
 displ_entry_label = customtkinter.CTkLabel(creepFrame, text="Spostamento desiderato [mm]", anchor="s")
@@ -1909,8 +2009,8 @@ def showStaticFrame():
     wait_time_label.grid(row=6, column=1, pady=10, padx=10, sticky="w")
     wait_time_entry.grid(row=7, column=1, padx=20, sticky="w")
 
-    checkbox.grid(row=8, column=0, padx=20, sticky="w", pady=10, columnspan=2)
-    checkbox_tracking.grid(row=8, column=1, padx=20, sticky="w", pady=10, columnspan=2)
+    # checkbox.grid(row=8, column=0, padx=20, sticky="w", pady=10, columnspan=2)
+    checkbox_tracking.grid(row=8, column=0, padx=20, sticky="w", pady=10, columnspan=2)
 
     checkbox_AR.grid(row=9, column=0, padx=20, sticky="w", pady=10, columnspan=2)
     app.update()
@@ -1937,7 +2037,7 @@ def showCreepFrame():
 startButton.pack(padx=20, pady=20, side=customtkinter.BOTTOM)
 
 showFrame()
-check_avg_checkbox()
+# check_avg_checkbox()
 app.config(menu=menubar)
 
 # savedialog = simpledialog.Dialog(app)

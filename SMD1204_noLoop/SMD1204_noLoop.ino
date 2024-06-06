@@ -74,6 +74,8 @@ bool time_flag = false;
 bool search_active = true;
 bool tracking_flag = false;
 
+bool resetting_piston = false;
+
 // HX711 object
 HX711 loadcell;
 
@@ -105,13 +107,6 @@ void setup()
     // read parameters from gui
     Serial.write("Ready to read!\n");
     delay(100);
-    // while (Serial.readStringUntil("\n") != "Ready to write\n")
-    // {
-    //     if (Serial.available()){
-    //         Serial.println(Serial.readString());
-    //     }
-    //     // Serial.println("oi");
-    // }
 
     while (true)
     {
@@ -122,8 +117,13 @@ void setup()
             {
                 break;
             }
+            else if (msg=="GO HOME\n"){
+                resetting_piston = true;
+                goto skip_parameters;
+            }
         }
     }
+
 
     delay(100);
 
@@ -165,7 +165,7 @@ void setup()
     // flushSerial();
 
     // ----------------------------------------------
-
+    skip_parameters:
     // initialize loadcell
     loadcell.begin(DT_PIN, SCK_PIN);
     // loadcell.set_gain((uint32_t)128, true);
@@ -199,6 +199,12 @@ void setup()
 
     // DRIVER SETUP
     driverSetup();
+
+    if (resetting_piston){
+        resetPiston();
+        Serial.println("HOMED");
+        resetFunc();
+    }
 
     // HOMING ROUTINE
     homingRoutine();
@@ -250,3 +256,4 @@ void checkModbusConnection()
     t2 = millis();
     Serial.println(time + (t2 - t1));
 }
+
