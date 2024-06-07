@@ -711,7 +711,8 @@ def prepareMsgSerialParameters():
                    zero_approx, zero_avg,
                    vel_flag, vel_max, acc_max,
                    time_flag, time_max,
-                   search_zero_flag]
+                   search_zero_flag,
+                   up_disk_weight, dw_disk_weight, vc_coil_weight]
     msg = ''
     for param in param_array:
         if isinstance(param, bool):
@@ -1365,7 +1366,7 @@ def save_data(txt_path, json_path, zero_path):
                     # fl.write("dev_force_forw [N]\t\t")  # 3        
                     fl.write("pos_back [mm]\t\t")       # 4    
                     # fl.write("dev_p_back [mm]\t\t")     # 5    
-                    fl.write("f_forw_back [N]\t\t")     # 6    
+                    fl.write("force_back [N]\t\t")     # 6    
                     # fl.write("dev_f_forw_back [N]\t\t") # 7  
                     fl.write("\n")
 

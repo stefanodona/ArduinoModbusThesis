@@ -26,7 +26,7 @@
     "creep_period": 100.0,
     "creep_duration": 21600.0,
     "search_zero_flag": true,
-    "up_disk_weight": 21.0,
-    "dw_disk_weight": 0.0,
-    "vc_coil_weight": 0.0
+    "up_disk_weight": 129.3,
+    "dw_disk_weight": 107.7,
+    "vc_coil_weight": 20.27
 }

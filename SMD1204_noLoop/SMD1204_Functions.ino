@@ -169,7 +169,9 @@ void homingRoutine()
   Serial.write("Taratura\n");
   float abs_tol = 0.1; // [N] tolerance
   // float disks_weight = (0.12995+0.1083+0.02543)*9.81;
-  float disks_weight = (0.12995 + 0.1083 + 0.02027) * 9.81;
+
+  // float disks_weight = (0.12995 + 0.1083 + 0.02027) * 9.81;
+  float disks_weight = 0.001 * (up_disk_weight + dw_disk_weight + vc_coil_weight) * 9.81;
   // float disks_weight = (0.12995 + 0.1083) * 9.81;
   tare -= disks_weight;
 

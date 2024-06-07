@@ -56,6 +56,11 @@ float th2 = 0;
 float th3 = 0;
 float zero_approx = 0;
 
+// weight of supports [in grams]
+float up_disk_weight = 0;
+float dw_disk_weight = 0;
+float vc_coil_weight = 0;
+
 int cnt_th1 = 0; // measures to take for each average
 int cnt_th2 = 0;
 int cnt_th3 = 0;
@@ -157,6 +162,14 @@ void setup()
     time_max = Serial.parseFloat(SKIP_WHITESPACE);
 
     search_active = bool(Serial.parseInt(SKIP_WHITESPACE));
+
+    up_disk_weight = Serial.parseFloat(SKIP_WHITESPACE);
+    dw_disk_weight = Serial.parseFloat(SKIP_WHITESPACE);
+    vc_coil_weight = Serial.parseFloat(SKIP_WHITESPACE);
+
+    Serial.println(up_disk_weight);
+    Serial.println(dw_disk_weight);
+    Serial.println(vc_coil_weight);
 
     flushSerial();
 
