@@ -330,9 +330,6 @@ class MovePistWindow(customtkinter.CTkToplevel):
         time.sleep(1)
         return
 
-    # def movePiston(self, *args):
-    #     with serial.Serial(port, 38400) as ser:
-
 
 
 class WeightsWindows(customtkinter.CTkToplevel):
@@ -522,6 +519,9 @@ dev_pos_acquired = np.array([])
 pos_acquired_ritorno = np.array([])
 dev_pos_acquired_ritorno = np.array([])
 
+# stiff_forw = np.array([])
+# stiff_back = np.array([])
+
 zero_f = np.array([])
 zero_p = np.array([])
 
@@ -531,6 +531,18 @@ t_start = np.array([])
 t_end = np.array([])
 
 t_track = np.empty((0,3))
+
+# ax_name: 
+#   - pos_forw
+#   - force_forw
+#   - pos_back
+#   - force_back
+#   - t_track
+#   - t_creep
+#   - force_creep
+
+main_data_dict = {"ax_name":[],
+                  "val":[]}
 
 # arrays for creep measurement
 time_axis = np.array([])
@@ -778,32 +790,18 @@ def serialListener():
         duration_entry.configure(state="disabled")
         reverse_switch.configure(state="disabled")
 
-
-        # startButton.configure(text="Inizializzazione...")
         startButton.configure(text="Initializing...")
         logfile = open("./log.txt", "w")
-
-        # bounds = []
-        # lo_bound = 0        
-        # up_bound = 0        
+    
         while True:
-            # pdb.set_trace()
+            
             if panic_flag:
                 print("ER PANICO!")
                 ser.write("PANIC\n".encode())
                 time.sleep(0.1)
-                # try:
-                #     ser.close()
-                #     print(f"Chiusa porta {port}")
-                # except serial.SerialException as e:
-                #     print(f"Errore chiusura porta {port}: {e}")
                 panic_flag = False
                 break
 
-            # if keyboard.is_pressed("q"):
-            #     print("Exiting")
-            #     ser.close()
-            #     break
 
             try:
                 data = ser.readline()
@@ -865,22 +863,13 @@ def serialListener():
                 startButton.configure(text="Measuring...")
 
             if compare_strings(data, "centratore"):
-                # flag = pressOk(data)
                 time.sleep(0.5)
-                #app.after(0, lambda:pressOk(data))
                 pressOk(data)                
                 
                 if confirm_flag:
                     ser.write("ok\n".encode())
                 else:
                     ser.write("nope\n".encode())
-                    # try:
-                    #     ser.close()
-                    #     print(f"Chiusa porta {port}")
-                    # except serial.SerialException as e:
-                    #     print(f"Errore chiusura porta {port}: {e}")
-                    # break
-                    # return
                     time.sleep(1)
                     break
 
@@ -1131,7 +1120,7 @@ def drawPlots():
     BF_fit_legend = ["Forw", "Back", "Forw Fit", "Back Fit"]
     F_fit_legend = ["Forw", "Forw Fit"]
 
-    global pos_forw_to_plot, pos_back_to_plot, time_to_plot, force_forw_to_plot, force_back_to_plot, stiffness_forw, stiffness_back, force_forw_fitted, force_back_fitted
+    global pos_forw_to_plot, pos_back_to_plot, time_to_plot, force_forw_to_plot, force_back_to_plot, stiffness_forw, stiffness_back, force_forw_fitted, force_back_fitted, stiff_forw_fitted, stiff_back_fitted
 
     pos_forw_to_plot   = pos_acquired
     pos_back_to_plot   = pos_acquired_ritorno
@@ -1151,7 +1140,8 @@ def drawPlots():
             stiffness_forw = force_forw_to_plot/pos_forw_to_plot
             if(ar_flag):
                 stiffness_back = force_back_to_plot/pos_back_to_plot 
-            
+            else:
+                stiffness_back = np.zeros(len(stiffness_forw))
             
 
             # ax_force.plot(pos_acquired, force)
@@ -1233,6 +1223,7 @@ def drawPlots():
                     else:
                         pos_back_to_plot  = np.zeros(len(pos_forw_to_plot))
                         force_back_fitted = np.zeros(len(pos_forw_to_plot)) 
+                        stiff_back_fitted = np.zeros(len(pos_forw_to_plot)) 
 
         else:
             ax_force.stem(np.transpose(t_track)[2], np.transpose(t_track)[1])
@@ -1398,7 +1389,8 @@ def save_data(txt_path, json_path, zero_path):
                     # fl.write("force_back [N]\t\t")     # 6    
                     # # fl.write("dev_f_forw_back [N]\t\t") # 7  
                     # fl.write("\n")
-                    headers = ["# x_forw [mm]", "f_forw [N]", "x_back [mm]", "f_back [N]"]
+                    headers_forw = ["# x_forw [mm]", "f_forw [N]", "kms_forw [N/mm]"]
+                    headers_back = ["# x_back [mm]", "f_back [N]", "kms_back [N/mm]"]
 
 
                     if save_fit_data_flag_tkvar.get():
@@ -1406,20 +1398,19 @@ def save_data(txt_path, json_path, zero_path):
                         pos_back_to_save = pos_back_to_plot
                         for_forw_to_save = force_forw_fitted
                         for_back_to_save = force_back_fitted
+                        kms_forw_to_save = -stiff_forw_fitted
+                        kms_back_to_save = -stiff_back_fitted
                     else:
                         pos_forw_to_save = pos_acquired
                         pos_back_to_save = pos_acquired_ritorno
                         for_forw_to_save = force
                         for_back_to_save = force_ritorno
+                        kms_forw_to_save = -stiffness_forw
+                        kms_back_to_save = -stiffness_back
                     
-                    table=[]
+                    table_forw = []
+                    table_back = []
                     for i in range(0,len(pos_forw_to_save)):
-                        # if (ar_flag):
-                        #     # andata e ritorno
-                        #     fl.write(f"{pos_forw_to_save[i]:.5f}"+"\t\t\t"+f"{dev_pos_acquired[i]:.5f}"+"\t\t\t"+f"{for_forw_to_save[i]:.5f}" +"\t\t\t" + f"{dev_force[i]:.5f}" +"\t\t\t"+f"{pos_back_to_save[i]:.5f}"+"\t\t\t"+f"{dev_pos_acquired_ritorno[i]:.5f}"+"\t\t\t"+f"{for_back_to_save[i]:.5f}"+"\t\t\t"+f"{dev_force_ritorno[i]:.5f}"+"\n")   
-                        # else:
-                        #     #solo andata
-                        #     fl.write(f"{pos_forw_to_save[i]:.5f}"+"\t\t\t"+f"{dev_pos_acquired[i]:.5f}"+"\t\t\t"+f"{for_forw_to_save[i]:.5f}" +"\t\t\t" + f"{dev_force[i]:.5f}" +"\t\t\t"+f"{0:.5f}"+"\t\t\t"+f"{0:.5f}"+"\t\t\t"+f"{0:.5f}"+"\t\t\t"+f"{0:.5f}"+"\n")  x
 
                         # with devs
                         # fl.write(f"{pos_forw_to_save[i]:.5f}"+"\t\t\t"+f"{dev_pos_acquired[i]:.5f}"+"\t\t\t"+f"{for_forw_to_save[i]:.5f}" +"\t\t\t" + f"{dev_force[i]:.5f}" +"\t\t\t"+f"{pos_back_to_save[i]:.5f}"+"\t\t\t"+f"{dev_pos_acquired_ritorno[i]:.5f}"+"\t\t\t"+f"{for_back_to_save[i]:.5f}"+"\t\t\t"+f"{dev_force_ritorno[i]:.5f}"+"\n") 
@@ -1427,10 +1418,16 @@ def save_data(txt_path, json_path, zero_path):
                         # no devs
                         # fl.write(f"{pos_forw_to_save[i]:.5f}"+"\t\t\t"+f"{for_forw_to_save[i]:.5f}" +"\t\t\t"+f"{pos_back_to_save[i]:.5f}"+"\t\t\t"+f"{for_back_to_save[i]:.5f}"+"\n")
                         
-                        table.append([pos_forw_to_save[i], for_forw_to_save[i], pos_back_to_save[i], for_back_to_save[i]])
+                        table_forw.append([pos_forw_to_save[i], for_forw_to_save[i], kms_forw_to_save[i]])
+                        table_back.append([pos_back_to_save[i], for_back_to_save[i], kms_back_to_save[i]])
                             # fl.write(f"{pos_acquired[i]:.5f}"+"\t\t\t"+f"{dev_pos_acquired[i]:.5f}"+"\t\t\t"+ f"{force[i]:.5f}"+"\t\t\t" + f"{dev_force[i]:.5f}" +"\t\t\t"+ f"{0:.5f}"+"\n")   
-                    print(tabulate(table, headers, tablefmt="plain",floatfmt=".5f"))
-                    fl.write(tabulate(table, headers, tablefmt="plain",floatfmt=".5f"))
+                    print(tabulate(table_forw, headers_forw, tablefmt="plain",floatfmt=".5f"))
+                    fl.write(tabulate(table_forw, headers_forw, tablefmt="plain",floatfmt=".5f"))
+
+                    fl.write("\n\n")
+
+                    print(tabulate(table_back , headers_back, tablefmt="plain",floatfmt=".5f"))
+                    fl.write(tabulate(table_back, headers_back, tablefmt="plain",floatfmt=".5f"))
             else:
                 fl.write("# CREEP MEASUREMENT\n\n")
                 fl.write("# time [ms]\t\tforce [N]\t\tstiffness [N/mm]\n")
@@ -1453,7 +1450,7 @@ def save_data(txt_path, json_path, zero_path):
                 zfl.write(f"{zero_p[i]:.5f}"+"\t\t\t"+f"{zero_f[i]:.5f}"+"\n")
             zfl.close()
 
-        time_path = os.path.split(txt_path)[0]
+        time_path = os.path.split(json_path)[0]
         time_path = os.path.join(time_path, "times.txt")
 
         with open(time_path, 'w') as tp:
@@ -1490,12 +1487,21 @@ def save_as():
                          defaultextension = ".stiff") 
     
     if file_path:
-        folder = os.path.splitext(file_path)[0]
+        folder = os.path.split(file_path)[0]
+        utils = os.path.join(folder,"util")
+
+
+        if not os.path.exists(file_path):
+            folder = os.path.splitext(file_path)[0]
+            utils = os.path.join(folder,"util")
+            os.makedirs(folder, exist_ok=True)
+            os.makedirs(utils, exist_ok=True)
+
         name = folder.split('/')[-1]
-        os.makedirs(folder, exist_ok=True)
+        
         txt_path = os.path.join(folder,name+".stiff")
-        json_path = os.path.join(folder,name+".json")
-        zero_path = os.path.join(folder,"zero_"+name+".txt")
+        json_path = os.path.join(utils,name+".json")
+        zero_path = os.path.join(utils,"zero_"+name+".txt")
         print(file_path)
 
         save_data(txt_path, json_path, zero_path)
@@ -1516,12 +1522,17 @@ def load():
              ('Text Files', '*.txt'), 
              ('All Files', '*.*')] 
     file_path = askopenfilename(defaultextension=".stiff", filetypes=files)
-
+    folder = os.path.split(file_path)[0]
     name = os.path.splitext(file_path)[0]
+    name = name.split("/")[-1]
 
+    json_path = os.path.join(folder,"util",name+'.json')
+
+    print("name: "+name)
     if file_path:
         #apri json
-        with open(name+'.json', 'r') as js:
+        # with open(name+'.json', 'r') as js:
+        with open(json_path, 'r') as js:
             params = json.loads(js.read())
             for key in params:
                 globals()[key] = params[key]
@@ -1534,49 +1545,53 @@ def load():
             spider_name_tkvar.set(fl.readline().split()[2])
             stat_creep = fl.readline().split()[1]
             fl.readline() # empty line
-            fl.readline() # axis specification
+            # fl.readline() # axis specification
+
+            
 
             if stat_creep=="STATIC":
                 p = []
-                # dev_p = []
                 f = []
-                # dev_f = []
 
                 p_r = []
-                # dev_p_r = []
                 f_r = []
-                # dev_f_r = []
+                
+                idx = 0
 
-                while True:
-                    line = fl.readline()
-                    # data = line.split("\t\t\t")
-                    data = line.split()
-                    print(data)
+                for line in fl:
+                    line = line.strip()
+                    # print(len(line.split()))
+                    print(line)
                     if not line:
-                        break
-                    if not data[0]=="":
-                        p.append(float(data[0]))
-                        # dev_p.append(float(data[1]))
-                        f.append(float(data[1]))
-                        # dev_f.append(float(data[3]))
+                        idx +=1 
+                        print("idx = "+str(idx))
+                    else:
+                        if not line.split()[0]=="#":
+                            # 2 COLUMNS FILE
+                            if len(line.split())==2 or len(line.split())==3:
+                                if idx < 1:
+                                    p.append(float(line.split()[0]))
+                                    f.append(float(line.split()[1]))
+                                elif idx < 2:
+                                    p_r.append(float(line.split()[0]))
+                                    f_r.append(float(line.split()[1]))
+                                else:
+                                    break
+                            # 4 COLUMNS FILE
+                            if len(line.split())==4:
+                                if idx < 1:
+                                    p.append(float(line.split()[0]))
+                                    f.append(float(line.split()[1]))
+                                    p_r.append(float(line.split()[2]))
+                                    f_r.append(float(line.split()[3]))
+                                else:
+                                    break
 
-                        p_r.append(float(data[2]))
-                        # dev_p_r.append(float(data[5]))
-                        f_r.append(float(data[3]))
-
-                        # table.append([float(data[0]), float(data[1]), float(data[2]), float(data[3])])
-                        # dev_f_r.append(float(data[7]))
-
-                # pos = np.array(p)
                 pos_acquired = np.array(p)
-                # dev_pos_acquired = np.array(dev_p)
                 force = np.array(f)
-                # dev_force = np.array(dev_f)
 
                 pos_acquired_ritorno = np.array(p_r)
-                # dev_pos_acquired_ritorno = np.array(dev_p_r)
                 force_ritorno = np.array(f_r)
-                # dev_force_ritorno = np.array(dev_f_r)
 
 
             elif stat_creep=="CREEP":
