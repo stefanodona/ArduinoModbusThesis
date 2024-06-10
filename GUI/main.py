@@ -1,4 +1,5 @@
 import tkthread; tkthread.patch()
+# import tkthread; tkthread.tkinstall()
 
 from tkinter import *
 from tkinter import ttk
@@ -10,7 +11,7 @@ from typing import Optional, Tuple, Union
 import customtkinter
 import serial
 import json
-from math import floor
+from math import floor, pi, cos, sin
 import struct
 import numpy as np
 import re  # used to compare strings
@@ -24,11 +25,76 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolb
 import serial.tools.list_ports
 from playsound import playsound
 from PIL import ImageTk
+from tabulate import tabulate
 
 
 #############################################################################
 # ------------------------------C L A S S E S--------------------------------
 #############################################################################
+# class Meter(customtkinter.CTkToplevel):
+#     def __init__(self, master, bounds, *args, fg_color: str | Tuple[str, str] | None = None, **kwargs):
+#         super().__init__(master, *args, fg_color=fg_color, **kwargs)
+
+#         self.frame = customtkinter.CTkFrame(self)
+#         self.frame.pack()
+#         self.var = tk.IntVar(self, 0)
+
+#         self.canvas = customtkinter.CTkCanvas(self.frame, width=400, height=220,
+#                                 borderwidth=2, relief='sunken',
+#                                 bg='white')
+#         # self.scale = tk.Scale(self, orient='horizontal', from_=-50, to=50, variable=self.var)
+        
+        
+        
+#         self.angle = 90
+#         span = 140 # degrees
+#         self.bounds = bounds
+
+
+
+#         col = ["light gray","red","yellow","green"]
+#         for i in range(int(len(bounds)/2)):
+#             span_i = span/(bounds[1]-bounds[0])*(bounds[i*2+1]-bounds[i*2])
+#             print(i)
+#             print(span_i)
+#             print("____")
+#             start_angle_i = (180-span_i)/2
+#             self.canvas.create_arc(10, 10, 390, 390, extent=span_i, start=start_angle_i,
+#                                    style='pieslice', fill=col[i])
+            
+#         self.center = self.canvas.create_line(200, 10, 200, 40,
+#                                             fill='white',
+#                                             width=3)
+        
+#         self.meter = self.canvas.create_line(200, 200, 20, 200,
+#                                              fill='black',
+#                                              width=8,
+#                                              arrow='last')
+
+#         self.canvas.pack(fill='both')
+#         # self.scale.pack()
+
+#         self.var.trace_add('write', self.updateMeter)  # if this line raises an error, change it to the old way of adding a trace: self.var.trace('w', self.updateMeter)
+
+#     def updateMeterLine(self, a):
+#         """Draw a meter line"""
+#         self.angle = a
+
+#         x = 200 - 190 * cos(a * pi / 180)
+#         y = 200 - 190 * sin(a * pi / 180)
+#         self.canvas.coords(self.meter, 200, 200, x, y)
+
+#     def updateMeter(self, op):
+#         """Convert variable to angle on trace"""
+#         # mini = self.scale.cget('from')
+#         # maxi = self.scale.cget('to')
+#         mini = self.bounds[0]
+#         maxi = self.bounds[1]
+#         pos = (op - mini) / (maxi - mini)
+#         # self.updateMeterLine(pos * 0.6 + 0.2)
+#         self.updateMeterLine(20+pos*140)
+
+
 class ThrAvgFrame(customtkinter.CTkFrame):
     def __init__(self, master: any, width: int = 200, height: int = 200, corner_radius: int | str | None = None, border_width: int | str | None = None, bg_color: str | Tuple[str, str] = "transparent", fg_color: str | Tuple[str, str] | None = None, border_color: str | Tuple[str, str] | None = None, background_corner_colors: Tuple[str | Tuple[str, str]] | None = None, overwrite_preferred_drawing_method: str | None = None, name: str | None=None, slider_val: float | None=None, avg_num: int | None=None, **kwargs):
         super().__init__(master, width, height, corner_radius, border_width, bg_color, fg_color, border_color, background_corner_colors, overwrite_preferred_drawing_method, **kwargs)
@@ -232,16 +298,19 @@ class MovePistWindow(customtkinter.CTkToplevel):
         self.reset_button = customtkinter.CTkButton(self, text="Reset Piston", height=50, font=('Helvetica', 18, 'bold'), command=self.resetPiston)
         self.reset_button.grid(row=0, column=0, columnspan=2, padx=50, pady=20, sticky="ew")
 
-        self.up_button = customtkinter.CTkButton(self, text="˄", font=('Helvetica', 20, 'bold'))
-        self.up_button.grid(row=1, column=0, padx=[50, 25], pady=20)
+        # self.up_button = customtkinter.CTkButton(self, text="˄", font=('Helvetica', 20, 'bold'))
+        # self.up_button.grid(row=1, column=0, padx=[50, 25], pady=20)
 
-        self.down_button = customtkinter.CTkButton(self, text="˅", font=('Helvetica', 20, 'bold'))
-        self.down_button.grid(row=1, column=1, padx=[25, 50], pady=20)
+        # self.down_button = customtkinter.CTkButton(self, text="˅", font=('Helvetica', 20, 'bold'))
+        # self.down_button.grid(row=1, column=1, padx=[25, 50], pady=20)
 
-        self.stop_button = customtkinter.CTkButton(self, text="STOP", fg_color="red", hover_color="dark red", height=50, font=('Helvetica', 18, 'bold'))
-        self.stop_button.grid(row=2, column=0, columnspan=2, padx=50, pady=20, sticky="ew")
+        # self.stop_button = customtkinter.CTkButton(self, text="STOP", fg_color="red", hover_color="dark red", height=50, font=('Helvetica', 18, 'bold'))
+        # self.stop_button.grid(row=2, column=0, columnspan=2, padx=50, pady=20, sticky="ew")
     
-    def resetPiston(self, *args):
+    def resetPiston(self,*args):
+        Thread(target=tkt(self.serialResetPiston)).start()
+    
+    def serialResetPiston(self, *args):
         with serial.Serial(port, 38400) as ser:
             while True:
                 try:
@@ -258,6 +327,12 @@ class MovePistWindow(customtkinter.CTkToplevel):
 
                 if compare_strings(data, "HOMED"):
                     break
+        time.sleep(1)
+        return
+
+    # def movePiston(self, *args):
+    #     with serial.Serial(port, 38400) as ser:
+
 
 
 class WeightsWindows(customtkinter.CTkToplevel):
@@ -352,7 +427,7 @@ class ConfirmTopLevel(customtkinter.CTkToplevel):
     def okPressed(self, *args):
         # self.okVar.set(True)
         global confirm_flag
-        confirm_flag= True
+        confirm_flag = True
         self.destroy()
         self.update()
 
@@ -360,58 +435,15 @@ class ConfirmTopLevel(customtkinter.CTkToplevel):
     def cancelPressed(self, *args):
         # self.okVar.set(False)
         global confirm_flag
-        confirm_flag= False
+        confirm_flag = False
+        # globals()["serial_thread"].interrupt()
+        # globals()["serial_thread"].join()
         self.destroy()
         self.update()
 
     def setMessage(self, msg, *args):
         self.labelText.set(str(msg)+"\n e premere ok")
 
-
-# class ConfirmTopLevel(tk.Toplevel):
-#     def __init__(self, *args, fg_color: str | Tuple[str, str] | None = None, **kwargs):
-#         global confirm_flag
-#         confirm_flag = False
-#         super().__init__(*args, **kwargs)
-#         # self.okVar = customtkinter.BooleanVar(self, False)
-
-#         self.title("Conferma Azione")
-
-#         self.labelText = tk.StringVar(self, "Test")    
-
-#         self.okButton = tk.Button(self, text="OK", command=self.okPressed)
-#         self.cancelButton = tk.Button(self, text="Annulla", command=self.cancelPressed)
-         
-#         # okButton.pack(side=customtkinter.LEFT, pady=20)
-#         self.cancelButton.pack(side = tk.BOTTOM, expand=True, padx = 10, pady = 20)
-#         self.okButton.pack(side = tk.BOTTOM, expand=True, padx = 10)
-        
-#         # cancelButton.pack(side=customtkinter.BOTTOM, pady=50)
-        
-#         self.label = tk.Label(self, textvariable=self.labelText)
-#         self.label.pack(padx=50, pady=50, side=tk.BOTTOM)
-#         # self.focus()
-#         # self.wait_variable(self.okVar)
-#         # app.wait_window(self)
-
-
-#     def okPressed(self, *args):
-#         # self.okVar.set(True)
-#         global confirm_flag
-#         confirm_flag= True
-#         self.destroy()
-#         # self.update()
-
-
-#     def cancelPressed(self, *args):
-#         # self.okVar.set(False)
-#         global confirm_flag
-#         confirm_flag= False
-#         self.destroy()
-#         # self.update()
-
-#     def setMessage(self, msg, *args):
-#         self.labelText.set(str(msg)+"\n e premere ok")
 
 #############################################################################
 # ----------------------------V A R I A B L E S------------------------------
@@ -507,6 +539,7 @@ thr_avg_window = None
 vel_acc_window = None
 move_piston_window = None
 weights_window = None
+gauge_window = None
 
 #############################################################################
 # ----------------------------F U N C T I O N S------------------------------
@@ -525,22 +558,6 @@ def setAvgFlag():
 def setARFlag():
     global ar_flag
     ar_flag = checkbox_AR.get()
-
-# def set_tracking():
-#     track = checkbox_tracking.get()
-#     global avg_flag
-    
-#     if track:
-#         # avg_flag_tkvar.set(False)
-#         avg_flag=False
-#         checkbox.configure(state="disabled")
-#     else:
-#         checkbox.configure(state="normal")
-#         setAvgFlag()
-
-    
-    
-
 
 
 def setLoadCell(val):
@@ -659,6 +676,7 @@ def startMeasurement():
     creep_period = float(creep_period_tkvar.get())
     creep_duration = float(creep_duration_tkvar.get())
 
+    # RESETTING ALL ARRAYS
     force = np.array([])
     dev_force = np.array([])
     force_ritorno = np.array([])
@@ -695,7 +713,11 @@ def startMeasurement():
 
     # Thread(target=saveState).start()
     saveState()
-    Thread(target=tkt(serialListener)).start()
+    serial_thread = Thread(target=tkt(serialListener))
+    serial_thread.start()
+    app.update()
+    time.sleep(2)
+    # pdb.set_trace()
     # return
 
 def prepareMsgSerialParameters():
@@ -724,12 +746,15 @@ def prepareMsgSerialParameters():
 
 
 def serialListener():
-    global pos, pos_sorted, pos_acquired, dev_pos_acquired, pos_acquired_ritorno, dev_pos_acquired_ritorno, percent, force, dev_force, force_ritorno, dev_force_ritorno, time_axis, max_iter, meas_forward, panic_flag, zero_p, zero_f, t_rise, t_fall, t_start, t_end, t_track
+    global pos, pos_sorted, pos_acquired, dev_pos_acquired, pos_acquired_ritorno, dev_pos_acquired_ritorno, percent, force, dev_force, force_ritorno, dev_force_ritorno, time_axis, max_iter, meas_forward, panic_flag, zero_p, zero_f, t_rise, t_fall, t_start, t_end, t_track, gauge_window
     print(port)
     with serial.Serial(port, 38400) as ser:
+        # pdb.set_trace()
+
         index = 0
         iter_count = 0
         meas_index = 0
+        cal_index = 0
 
         pPercent.configure(text="0%")
         pProgress.set(0)
@@ -754,10 +779,15 @@ def serialListener():
         reverse_switch.configure(state="disabled")
 
 
-        startButton.configure(text="Inizializzazione...")
+        # startButton.configure(text="Inizializzazione...")
+        startButton.configure(text="Initializing...")
         logfile = open("./log.txt", "w")
-        
+
+        # bounds = []
+        # lo_bound = 0        
+        # up_bound = 0        
         while True:
+            # pdb.set_trace()
             if panic_flag:
                 print("ER PANICO!")
                 ser.write("PANIC\n".encode())
@@ -800,9 +830,35 @@ def serialListener():
             if data == "Taratura\n":
                 print(data)
                 startButton.configure(text="Calibrating...")
+            
+            if compare_strings(data, "cal_info"):
+                print(data)
+                cal_index = data.split()[1]
+                cal_index = cal_index[0]
+                startButton.configure(text="Calibrating..."+cal_index+"/3")
+            # T A R A T U R A 
+
+            # if compare_strings(data, "tare"):
+            #     abs_tol = 0.1 
+            #     # up_bound = data.split()[1]+abs_tol/0.5
+            #     # lo_bound = data.split()[1]-abs_tol/0.5
+            #     bounds_frac = [0.5,1,5,20]
+            #     for i in range(4):
+            #         bounds.append(float(data.split()[1])-abs_tol/bounds_frac[i])
+            #         bounds.append(float(data.split()[1])+abs_tol/bounds_frac[i])
+            #     lo_bound = bounds[0]
+            #     up_bound = bounds[1]
+            #     gauge_window = Meter(app, bounds)
+
+
+            # if compare_strings(data, "cal_info"):
+            #     val = float(data.split()[3])
+            #     val = np.clip(val, lo_bound, up_bound)
+            #     gauge_window.updateMeter(val)
 
             if data == "Measure Routine\n":
                 startButton.configure(text="Data Acquisition...")
+                # gauge_window.destroy()
 
             if data == "Measuring\n":
                 print(data)
@@ -811,7 +867,7 @@ def serialListener():
             if compare_strings(data, "centratore"):
                 # flag = pressOk(data)
                 time.sleep(0.5)
-#                app.after(0, lambda:pressOk(data))
+                #app.after(0, lambda:pressOk(data))
                 pressOk(data)                
                 
                 if confirm_flag:
@@ -824,7 +880,10 @@ def serialListener():
                     # except serial.SerialException as e:
                     #     print(f"Errore chiusura porta {port}: {e}")
                     # break
-                    return
+                    # return
+                    time.sleep(1)
+                    break
+
                 time.sleep(1)
 
             if data == "send me\n":
@@ -1032,7 +1091,9 @@ def serialListener():
 
         Thread(target=playFinish).start()
         drawPlots()
+
     return
+    # sys.exit()
 
 def resetPlots():
     ax_force.clear()
@@ -1183,16 +1244,6 @@ def drawPlots():
             ax_force.set_title("Force vs Time")
             ax_force.grid(visible=True, which="both", axis="both")
 
-            # ax_stiff.plot(pos_acquired, sign*force/pos_acquired)
-            # if (ar_flag):
-            #     # ax_stiff.plot(pos, np.nan_to_num(force_ritorno/pos))
-            #     ax_stiff.plot(pos_acquired_ritorno, sign*force_ritorno/pos_acquired_ritorno)
-            #     ax_stiff.legend(["Andata", "Ritorno"])
-            # ax_stiff.set_xlabel("displacement [mm]")
-            # ax_stiff.set_ylabel("stiffness [N/mm]")
-            # ax_stiff.set_title("Stiffness vs Displacement")
-            # ax_stiff.grid(visible=True, which="both", axis="both")
-
     else:
         ax_force.plot(time_axis, force)
         # if(ar_flag):
@@ -1222,15 +1273,6 @@ def panic():
     global panic_flag
     panic_flag = True
     # return
-
-# def thr_and_avg_setting_func():
-#     global thr_avg_window 
-#     if (thr_avg_window==None or not thr_avg_window.winfo_exists()):
-#         thr_avg_window = ThrAvgWindows(app)
-    
-#     thr_avg_window.focus()
-#     # topWindow.grab_set()
-#     app.update()
 
 def vel_and_acc_setting_func():
     global vel_acc_window 
@@ -1296,19 +1338,6 @@ def updateTkVars():
     creep_duration_tkvar.set(str(creep_duration))
     search_zero_flag_tkvar.set(search_zero_flag)
 
-# def get_and_saveTkVars():
-#     global params, saved_flag
-#     for key in params:
-#         name = key+"_tkvar"
-#         if name in globals():
-#             var = globals()[name].get()
-#             if (key=="loadcell_fullscale"):
-#                 globals()[key] = int(var.split()[0])
-#             else:     
-#                 if isinstance(var, str) and not var=='':
-#                     globals()[key] = float(var)
-#     saved_flag=False
-#     saveState()
 
 def reverse_plot():
     global pos_acquired, pos_acquired_ritorno, force, force_ritorno
@@ -1360,15 +1389,17 @@ def save_data(txt_path, json_path, zero_path):
                         fl.write(f"{t_track[i][2]:.5f}"+"\n")
                 else:
                     # fl.write("# pos [mm]\t\tdev_pos [mm]\t\tforce_forw [N]\t\tdev_force_forw [N]\t\tforce_back [N]\n")
-                    fl.write("# pos [mm]\t\t")          # 0
-                    # fl.write("dev_pos [mm]\t\t")        # 1    
-                    fl.write("force_forw [N]\t\t")      # 2    
-                    # fl.write("dev_force_forw [N]\t\t")  # 3        
-                    fl.write("pos_back [mm]\t\t")       # 4    
-                    # fl.write("dev_p_back [mm]\t\t")     # 5    
-                    fl.write("force_back [N]\t\t")     # 6    
-                    # fl.write("dev_f_forw_back [N]\t\t") # 7  
-                    fl.write("\n")
+                    # fl.write("# pos_forw [mm]\t\t")          # 0
+                    # # fl.write("dev_pos [mm]\t\t")        # 1    
+                    # fl.write("force_forw [N]\t\t")      # 2    
+                    # # fl.write("dev_force_forw [N]\t\t")  # 3        
+                    # fl.write("pos_back [mm]\t\t")       # 4    
+                    # # fl.write("dev_p_back [mm]\t\t")     # 5    
+                    # fl.write("force_back [N]\t\t")     # 6    
+                    # # fl.write("dev_f_forw_back [N]\t\t") # 7  
+                    # fl.write("\n")
+                    headers = ["# x_forw [mm]", "f_forw [N]", "x_back [mm]", "f_back [N]"]
+
 
                     if save_fit_data_flag_tkvar.get():
                         pos_forw_to_save = pos_forw_to_plot
@@ -1380,7 +1411,8 @@ def save_data(txt_path, json_path, zero_path):
                         pos_back_to_save = pos_acquired_ritorno
                         for_forw_to_save = force
                         for_back_to_save = force_ritorno
-
+                    
+                    table=[]
                     for i in range(0,len(pos_forw_to_save)):
                         # if (ar_flag):
                         #     # andata e ritorno
@@ -1393,9 +1425,12 @@ def save_data(txt_path, json_path, zero_path):
                         # fl.write(f"{pos_forw_to_save[i]:.5f}"+"\t\t\t"+f"{dev_pos_acquired[i]:.5f}"+"\t\t\t"+f"{for_forw_to_save[i]:.5f}" +"\t\t\t" + f"{dev_force[i]:.5f}" +"\t\t\t"+f"{pos_back_to_save[i]:.5f}"+"\t\t\t"+f"{dev_pos_acquired_ritorno[i]:.5f}"+"\t\t\t"+f"{for_back_to_save[i]:.5f}"+"\t\t\t"+f"{dev_force_ritorno[i]:.5f}"+"\n") 
 
                         # no devs
-                        fl.write(f"{pos_forw_to_save[i]:.5f}"+"\t\t\t"+f"{for_forw_to_save[i]:.5f}" +"\t\t\t"+f"{pos_back_to_save[i]:.5f}"+"\t\t\t"+f"{for_back_to_save[i]:.5f}"+"\n")
-
+                        # fl.write(f"{pos_forw_to_save[i]:.5f}"+"\t\t\t"+f"{for_forw_to_save[i]:.5f}" +"\t\t\t"+f"{pos_back_to_save[i]:.5f}"+"\t\t\t"+f"{for_back_to_save[i]:.5f}"+"\n")
+                        
+                        table.append([pos_forw_to_save[i], for_forw_to_save[i], pos_back_to_save[i], for_back_to_save[i]])
                             # fl.write(f"{pos_acquired[i]:.5f}"+"\t\t\t"+f"{dev_pos_acquired[i]:.5f}"+"\t\t\t"+ f"{force[i]:.5f}"+"\t\t\t" + f"{dev_force[i]:.5f}" +"\t\t\t"+ f"{0:.5f}"+"\n")   
+                    print(tabulate(table, headers, tablefmt="plain",floatfmt=".5f"))
+                    fl.write(tabulate(table, headers, tablefmt="plain",floatfmt=".5f"))
             else:
                 fl.write("# CREEP MEASUREMENT\n\n")
                 fl.write("# time [ms]\t\tforce [N]\t\tstiffness [N/mm]\n")
@@ -1511,9 +1546,12 @@ def load():
                 # dev_p_r = []
                 f_r = []
                 # dev_f_r = []
+
                 while True:
                     line = fl.readline()
-                    data = line.split("\t\t\t")
+                    # data = line.split("\t\t\t")
+                    data = line.split()
+                    print(data)
                     if not line:
                         break
                     if not data[0]=="":
@@ -1525,6 +1563,8 @@ def load():
                         p_r.append(float(data[2]))
                         # dev_p_r.append(float(data[5]))
                         f_r.append(float(data[3]))
+
+                        # table.append([float(data[0]), float(data[1]), float(data[2]), float(data[3])])
                         # dev_f_r.append(float(data[7]))
 
                 # pos = np.array(p)
@@ -1627,6 +1667,7 @@ app.wm_iconbitmap()
 app.iconphoto(False, iconpath)
 
 tkt = tkthread.TkThread(app)
+
 
 app.update_idletasks()
 

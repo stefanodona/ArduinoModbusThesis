@@ -166,7 +166,6 @@ void homingRoutine()
   // sendPosTarget(mm2int(pos*4));
   sendPosTarget(mm2int(pos));
 
-  Serial.write("Taratura\n");
   float abs_tol = 0.1; // [N] tolerance
   // float disks_weight = (0.12995+0.1083+0.02543)*9.81;
 
@@ -176,14 +175,18 @@ void homingRoutine()
   tare -= disks_weight;
 
   // tare += disks_weight;
+  sendMessage("tare: ", &tare, NULL, NULL);
 
+  Serial.write("Taratura\n");
   if (search_active)
   {
     float div[] = {1, 5, 20}; // 3 cycles of refinement 1, 1/5, 1/20 of abs_tol
-    for (int i = 0; i < 3; i++)
+    for (int i = 1; i < 4; i++)
     {
-      float upperBound = tare + abs_tol / div[i];
-      float lowerBound = tare - abs_tol / div[i];
+      float upperBound = tare + abs_tol / div[i-1];
+      float lowerBound = tare - abs_tol / div[i-1];
+      float index = float(i);
+      sendMessage("cal_info ", &index, NULL, NULL);
 
       do
       {

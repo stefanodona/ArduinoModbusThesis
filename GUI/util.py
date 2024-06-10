@@ -52,7 +52,7 @@ def saveState():
 
 
 def startMeasurement():
-    print("Pezzo di merda")
+    # print("Pezzo di merda")
     if float(min_pos_entry.get()) > 0:
         min_pos_entry.insert(0, "-")
 
