@@ -1,5 +1,5 @@
-import tkthread; tkthread.patch()
-# import tkthread; tkthread.tkinstall()
+# import tkthread; tkthread.patch()
+import tkthread; tkthread.tkinstall()
 
 from tkinter import *
 from tkinter import ttk
@@ -26,6 +26,10 @@ import serial.tools.list_ports
 from playsound import playsound
 from PIL import ImageTk
 from tabulate import tabulate
+from PyInstaller.utils.hooks import collect_data_files
+
+
+datas = collect_data_files('tkthread')
 
 
 #############################################################################
@@ -293,7 +297,7 @@ class VelAccWindows(customtkinter.CTkToplevel):
 class MovePistWindow(customtkinter.CTkToplevel):
     def __init__(self, *args, fg_color: str | Tuple[str, str] | None = None, **kwargs):
         super().__init__(*args, fg_color=fg_color, **kwargs)
-        self.title("Move Piston")
+        self.title("Reset Piston")
 
         self.reset_button = customtkinter.CTkButton(self, text="Reset Piston", height=50, font=('Helvetica', 18, 'bold'), command=self.resetPiston)
         self.reset_button.grid(row=0, column=0, columnspan=2, padx=50, pady=20, sticky="ew")
@@ -1739,7 +1743,7 @@ menubar.add_cascade(label="File", menu=filemenu)
 velacc_window = None
 settingmenu = Menu(menubar, tearoff=0)
 
-settingmenu.add_command(label="Move Piston", command=move_piston_func)
+settingmenu.add_command(label="Reset Piston", command=move_piston_func)
 settingmenu.add_command(label="Vel & Acc", command=vel_and_acc_setting_func)
 settingmenu.add_command(label="Support Weights", command=support_weights_func)
 # settingmenu.add_command(label="Avg & Thresholds", command=thr_and_avg_setting_func)

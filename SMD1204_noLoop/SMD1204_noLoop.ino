@@ -167,9 +167,9 @@ void setup()
     dw_disk_weight = Serial.parseFloat(SKIP_WHITESPACE);
     vc_coil_weight = Serial.parseFloat(SKIP_WHITESPACE);
 
-    Serial.println(up_disk_weight);
-    Serial.println(dw_disk_weight);
-    Serial.println(vc_coil_weight);
+    float FS = float(FULLSCALE);
+
+    sendMessage("LOADCELL: ", &FS, NULL, NULL);
 
     flushSerial();
 
