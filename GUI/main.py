@@ -368,6 +368,180 @@ class WeightsWindows(customtkinter.CTkToplevel):
         globals()["vc_coil_weight"] = float(self.vc_coil_w_tkvar.get())
         saveState()
 
+class TrackEvolutionWindow(customtkinter.CTkToplevel):
+    def __init__(self, *args, fg_color: str | Tuple[str, str] | None = None, **kwargs):
+        super().__init__(*args, fg_color=fg_color, **kwargs)
+        # creazione locale delle variabili, così da non intaccare le originali
+        self.pos = np.transpose(t_track)[0]
+        self.force = np.transpose(t_track)[1]
+        self.time = np.transpose(t_track)[2]
+
+        
+
+        print(self.pos)
+
+
+        self.title("Tracking Stiffness Evolution")
+        self.geometry("900x600")
+
+        self.control_frame = customtkinter.CTkFrame(self)
+        self.plot_frame = customtkinter.CTkFrame(self)
+
+        self.plot_frame.pack(padx=10, pady=10, fill='both', expand=True)
+        self.control_frame.pack(padx=10, pady=10, fill='x', expand=False)
+
+        figure_st = plt.Figure(dpi=100, figsize=(1,1))
+        self.ax_st = figure_st.add_subplot(111)
+        self.ax_st.set_xlabel("displacement [mm]")
+        self.ax_st.set_ylabel("force [N]")
+        self.ax_st.set_title("Force vs Displacement")
+        self.ax_st.grid(visible=True, which="both")
+        self.chart_type_st = FigureCanvasTkAgg(figure_st, self.plot_frame)
+        self.chart_type_st.get_tk_widget().pack(
+            fill="both", expand=True, side=customtkinter.TOP, pady=(20,0), padx=20, anchor="n"
+        )
+        self.toolbar_st = NavigationToolbar2Tk(
+            self.chart_type_st, self.plot_frame, pack_toolbar=False
+        )
+        self.toolbar_st.pack(fill="x", expand=False, padx=20, pady=(5,20), anchor="n")
+
+        self.slider_frame = customtkinter.CTkFrame(self.control_frame)
+        self.ar_checkbox = customtkinter.CTkSwitch(self.control_frame, text="Show Back", command=self.slider_changed)
+        self.save_btn = customtkinter.CTkButton(self.control_frame, text="Save Curve")
+        self.save_all_btn = customtkinter.CTkButton(self.control_frame, text="Save All Curves")
+
+        self.ar_checkbox.pack(padx=(50,10), pady=10, side="left")
+        self.slider_frame.pack(padx=(0,10), pady=10, side="left")
+        self.save_btn.pack(padx=(0,10), pady=10, side="left")
+        self.save_all_btn.pack(padx=(0,10), pady=10, side="left")
+
+        self.slider_val = customtkinter.DoubleVar(self,100)
+        # self.slider_val_str = customtkinter.StringVar(self, str(self.slider_val.get()))
+        self.timestamp_slider = customtkinter.CTkSlider(self.slider_frame, from_=100, to=wait_time, number_of_steps=round(wait_time/100)-1, variable=self.slider_val, command=self.slider_changed)
+
+        self.slider_label = customtkinter.CTkLabel(self.slider_frame, text="Timestamp\nSlider")
+        # self.slider_val_label = customtkinter.CTkLabel(self.slider_frame, textvariable=self.slider_val_str)
+        self.slider_val_label = customtkinter.CTkLabel(self.slider_frame, text=str(self.slider_val.get())+" ms")
+
+        self.slider_label.pack(padx=10,pady=10,side="left")
+        self.timestamp_slider.pack(padx=10,pady=10,side="left")
+        self.slider_val_label.pack(padx=10,pady=10,side="left", expand=False)
+        self.slider_changed()
+
+    def slider_changed(self, *args):
+        self.pos_to_plot = []
+        # self.stiff_to_plot = []
+        self.force_to_plot = []
+        self.pos_to_plot_r = []
+        self.force_to_plot_r = []
+        self.stiff_array=[[],[]]
+        # self.slider_val_str.set(str(self.slider_val.get()))
+        self.slider_val_label.configure(text=str(self.slider_val.get())+" ms")
+        val = self.slider_val.get()
+        
+        if not tracking_flag:
+            return
+        else:
+            idx = int(val/100 - 1) 
+            inc = int(wait_time/100)
+            # print(idx)
+            
+            idx_inc = 0
+            i = 0
+            while True:
+                
+                if not ar_flag:
+                    if idx+idx_inc >= len(self.pos):
+                        break
+                    self.pos_to_plot.append(self.pos[idx + idx_inc])
+                    self.force_to_plot.append(self.force[idx + idx_inc])
+                
+                else:
+                    if idx+idx_inc >= len(self.pos):
+                        break
+                    if idx+idx_inc <= len(self.pos)/2:
+                        self.pos_to_plot.append(self.pos[idx + idx_inc])
+                        self.force_to_plot.append(self.force[idx + idx_inc])
+                    else:
+                        self.pos_to_plot_r.append(self.pos[idx + idx_inc])
+                        self.force_to_plot_r.append(self.force[idx + idx_inc])
+
+
+                # print(idx + idx_inc)
+                idx_inc += 10
+                
+                #non prendere quando passa per lo 0 ma solo spostamenti positivi e negativi
+                i+=1
+                if i==2:
+                    idx_inc+=10
+                    i=0
+            
+            self.pos_to_plot = np.array(self.pos_to_plot)
+            self.force_to_plot = np.array(self.force_to_plot)
+
+            sort = np.argsort(self.pos_to_plot)
+            self.pos_to_plot = self.pos_to_plot[sort]
+            self.force_to_plot = self.force_to_plot[sort]
+
+            if ar_flag and self.ar_checkbox.get():
+                self.pos_to_plot_r = np.array(self.pos_to_plot_r)
+                self.force_to_plot_r = np.array(self.force_to_plot_r)
+                sort = np.argsort(self.pos_to_plot_r)
+                self.pos_to_plot_r = self.pos_to_plot_r[sort]
+                self.force_to_plot_r = self.force_to_plot_r[sort]
+
+
+            if ar_flag and self.ar_checkbox.get():
+                self.pos_array = [self.pos_to_plot, self.pos_to_plot_r]
+                self.force_array = [self.force_to_plot, self.force_to_plot_r]
+            else:
+                self.pos_array = [self.pos_to_plot]
+                self.force_array = [self.force_to_plot]
+
+            for i in np.arange(0,len(self.pos_array)):
+
+                if postprocessing_flag_tkvar.get():
+                    degree = fit_order.get()[0]
+                    if degree != "N":
+                        degree = int(degree)
+                        print(degree)
+
+                        # FORW STIFF FIT
+                        # coeff = np.polyfit(self.pos_to_plot, -self.force_to_plot/self.pos_to_plot, degree, w=np.abs(self.pos_to_plot))
+                        # stiff_forw_fitted = np.polyval(coeff, self.pos_to_plot)
+                        # self.stiff_to_plot = stiff_forw_fitted 
+
+                        coeff = np.polyfit(self.pos_array[i], -self.force_array[i]/self.pos_array[i], degree, w=np.abs(self.pos_array[i]))
+                        stiff_forw_fitted = np.polyval(coeff, self.pos_array[i])
+                        self.stiff_array[i] = stiff_forw_fitted 
+
+                    else:
+                        f_DC = np.interp(0, self.pos_array[i], self.force_array[i])
+                        # print(f_DC)
+                        self.stiff_array[i] = -(self.force_array[i]-f_DC)/self.pos_array[i]
+                else:
+                    self.stiff_array[i] = -self.force_array[i]/self.pos_array[i]
+
+            self.drawTrackingPlot()
+
+
+    def drawTrackingPlot(self, *args):
+        self.ax_st.clear()
+        for i in np.arange(0,len(self.pos_array)):
+            self.ax_st.plot(self.pos_array[i], self.stiff_array[i])
+            if i>=1:
+                BF_legend = ["Forw", "Back"]
+                self.ax_st.legend(BF_legend)
+        self.ax_st.set_xlabel("displacement [mm]")
+        self.ax_st.set_ylabel("stiffness [N/mm]")
+        self.ax_st.set_title("Stiffness vs Displacement")
+        self.ax_st.grid(visible=True, which="both", axis="both")
+        self.chart_type_st.draw()
+
+
+
+
+
 class SaveDialog(simpledialog.Dialog):
     # def __init__(self, parent: Misc | None, title: str | None = None) -> None:
         # super().__init__(parent, title)
@@ -556,6 +730,8 @@ vel_acc_window = None
 move_piston_window = None
 weights_window = None
 gauge_window = None
+
+track_evol_window = None
 
 #############################################################################
 # ----------------------------F U N C T I O N S------------------------------
@@ -1296,6 +1472,16 @@ def move_piston_func():
     # topWindow.grab_set()
     app.update()
 
+
+def tracking_stiffness_evolution():
+    global track_evol_window 
+    if (track_evol_window==None or not track_evol_window.winfo_exists()):
+        track_evol_window = TrackEvolutionWindow(app)
+    
+    track_evol_window.focus()
+    # topWindow.grab_set()
+    app.update()
+
 def setCOMPort():
     global port
     port = COM_option.get()
@@ -1372,17 +1558,26 @@ def save_data(txt_path, json_path, zero_path):
         fl.write("# SPIDER: " + spider_name_tkvar.get() + "\n")
         if np.any(force) or np.any(t_track):
             if(not stat_creep_flag):
-                fl.write("# STATIC MEASUREMENT\n\n")
+                
 
                 if (tracking_flag):
-                    fl.write("# pos [mm]\t\t")
-                    fl.write(" force [N]\t\t")
-                    fl.write(" time [ms]\n")
+                    fl.write("# TRACKING MEASUREMENT\n\n")
+                    # fl.write("# pos [mm]\t\t")
+                    # fl.write(" force [N]\t\t")
+                    # fl.write(" time [ms]\n")
+
+                    table_track = []
+                    headers_track = ["# pos [mm]","force [N]", "time [ms]"]
                     for i in range(0, len(t_track)):
-                        fl.write(f"{t_track[i][0]:.5f}"+"\t\t\t")
-                        fl.write(f"{t_track[i][1]:.5f}"+"\t\t\t")
-                        fl.write(f"{t_track[i][2]:.5f}"+"\n")
+
+                        table_track.append([t_track[i][0], t_track[i][1], t_track[i][2]])
+
+                        # fl.write(f"{t_track[i][0]:.5f}"+"\t\t\t")
+                        # fl.write(f"{t_track[i][1]:.5f}"+"\t\t\t")
+                        # fl.write(f"{t_track[i][2]:.5f}"+"\n")
+                    fl.write(tabulate(table_track, headers_track, tablefmt="plain",floatfmt=".5f"))
                 else:
+                    fl.write("# STATIC MEASUREMENT\n\n")
                     # fl.write("# pos [mm]\t\tdev_pos [mm]\t\tforce_forw [N]\t\tdev_force_forw [N]\t\tforce_back [N]\n")
                     # fl.write("# pos_forw [mm]\t\t")          # 0
                     # # fl.write("dev_pos [mm]\t\t")        # 1    
@@ -1598,6 +1793,26 @@ def load():
                 force_ritorno = np.array(f_r)
 
 
+            elif stat_creep=="TRACKING":
+                global tracking_flag, t_track
+                tracking_flag = True
+                p=[]
+                f=[]
+                t=[]
+                for line in fl:
+                    
+                    line = line.strip()
+                    if not line.split()[0]=="#":
+                        data = line.split()
+
+                        p.append(float(data[0]))
+                        f.append(float(data[1]))
+                        t.append(float(data[2]))
+                    
+                        print(data)
+                t_track=np.transpose(np.array([p,f,t]))
+                print(t_track)
+
             elif stat_creep=="CREEP":
                 t = []
                 f = []
@@ -1788,6 +2003,13 @@ fitting_curve_menu.add_radiobutton(label = "6th" , variable = fit_order, command
 
 save_fit_data_flag_tkvar = tk.BooleanVar(app, False) 
 mathsmenu.add_checkbutton(label="Save Fitted Data", variable=save_fit_data_flag_tkvar)
+
+tools_menu = Menu(menubar, tearoff=0)
+menubar.add_cascade(label="Tools", menu=tools_menu)
+
+tools_menu.add_command(label="Tracking Stiffness Evolution", command=tracking_stiffness_evolution)
+
+
 
 
 #############################################################################
