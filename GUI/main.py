@@ -27,6 +27,7 @@ from playsound import playsound
 from PIL import ImageTk
 from tabulate import tabulate
 from PyInstaller.utils.hooks import collect_data_files
+from saving_presets import *
 
 
 datas = collect_data_files('tkthread')
@@ -371,15 +372,12 @@ class WeightsWindows(customtkinter.CTkToplevel):
 class TrackEvolutionWindow(customtkinter.CTkToplevel):
     def __init__(self, *args, fg_color: str | Tuple[str, str] | None = None, **kwargs):
         super().__init__(*args, fg_color=fg_color, **kwargs)
+        self.snap_path = ""
         # creazione locale delle variabili, così da non intaccare le originali
         self.pos = np.transpose(t_track)[0]
         self.force = np.transpose(t_track)[1]
         self.time = np.transpose(t_track)[2]
-
-        
-
         print(self.pos)
-
 
         self.title("Tracking Stiffness Evolution")
         self.geometry("900x600")
@@ -407,7 +405,7 @@ class TrackEvolutionWindow(customtkinter.CTkToplevel):
 
         self.slider_frame = customtkinter.CTkFrame(self.control_frame)
         self.ar_checkbox = customtkinter.CTkSwitch(self.control_frame, text="Show Back", command=self.slider_changed)
-        self.save_btn = customtkinter.CTkButton(self.control_frame, text="Save Curve")
+        self.save_btn = customtkinter.CTkButton(self.control_frame, text="Save Curve", command=self.save_this_curve)
         self.save_all_btn = customtkinter.CTkButton(self.control_frame, text="Save All Curves")
 
         self.ar_checkbox.pack(padx=(50,10), pady=10, side="left")
@@ -538,7 +536,47 @@ class TrackEvolutionWindow(customtkinter.CTkToplevel):
         self.ax_st.grid(visible=True, which="both", axis="both")
         self.chart_type_st.draw()
 
+    def save_this_curve(self, *args):
+        initialfile = spider_name_tkvar.get()+"_snap_"+str(int(self.slider_val.get()))+" ms"
+        self.save(initialfile)
+        array_to_save = []
+        # array_to_save = np.transpose([self.pos_array, self.force_array, self.stiff_array])
+        for i in range(0, len(self.pos_array)):
+            array_to_save.append(np.transpose([self.pos_array[i], self.force_array[i], self.stiff_array[i]]))
+        write_stiff_file(array_to_save, spider_name_tkvar.get(), "tracking_this_curve", self.snap_path, self.slider_val.get())
 
+    def file_in_dir_exists (self, dir_name, *args):
+        for file_name in os.listdir(dir_name):
+                if file_name.endswith(".stsnap"):
+                    return True
+        return False
+
+    def save(self, initial_name, *args):
+        files = [('Static Stiffness Test Snapshot', '*.stsnap'),
+                ('Text Files', '*.txt'), 
+                ('All Files', '*.*')]
+
+        file_path = asksaveasfilename(initialfile = initial_name+'.stsnap',
+                            filetypes = files, 
+                            defaultextension = ".stsnap") 
+        
+        if file_path:
+            root = os.path.split(file_path)[0]
+            folder = root
+
+            # if not os.path.exists(file_path) and not os.path.exists(folder):
+            #     os.makedirs(folder, exist_ok=True)
+            if not self.file_in_dir_exists(root):
+                folder_name = "Tracking Snapshots"
+                folder = os.path.join(root, folder_name)
+                os.makedirs(folder, exist_ok=True)
+
+            name = os.path.split(file_path)[-1]
+            self.snap_path = os.path.join(folder,name)
+            print(file_path)
+            print(folder)
+            print(name)
+            
 
 
 
@@ -732,6 +770,11 @@ weights_window = None
 gauge_window = None
 
 track_evol_window = None
+
+
+STATIC = 10
+CREEP = 11
+TRACKING = 12  
 
 #############################################################################
 # ----------------------------F U N C T I O N S------------------------------
@@ -1553,87 +1596,30 @@ def closeAll():
 def save_data(txt_path, json_path, zero_path):
     global saved_flag, last_params
     root_name = os.path.splitext(txt_path)[0]
-    with open(txt_path, 'w') as fl:
-        fl.write("# Acquired on "+ datetime.now().strftime("%d/%m/%Y %H:%M:%S") +" \n")
-        fl.write("# SPIDER: " + spider_name_tkvar.get() + "\n")
-        if np.any(force) or np.any(t_track):
-            if(not stat_creep_flag):
-                
-
-                if (tracking_flag):
-                    fl.write("# TRACKING MEASUREMENT\n\n")
-                    # fl.write("# pos [mm]\t\t")
-                    # fl.write(" force [N]\t\t")
-                    # fl.write(" time [ms]\n")
-
-                    table_track = []
-                    headers_track = ["# pos [mm]","force [N]", "time [ms]"]
-                    for i in range(0, len(t_track)):
-
-                        table_track.append([t_track[i][0], t_track[i][1], t_track[i][2]])
-
-                        # fl.write(f"{t_track[i][0]:.5f}"+"\t\t\t")
-                        # fl.write(f"{t_track[i][1]:.5f}"+"\t\t\t")
-                        # fl.write(f"{t_track[i][2]:.5f}"+"\n")
-                    fl.write(tabulate(table_track, headers_track, tablefmt="plain",floatfmt=".5f"))
-                else:
-                    fl.write("# STATIC MEASUREMENT\n\n")
-                    # fl.write("# pos [mm]\t\tdev_pos [mm]\t\tforce_forw [N]\t\tdev_force_forw [N]\t\tforce_back [N]\n")
-                    # fl.write("# pos_forw [mm]\t\t")          # 0
-                    # # fl.write("dev_pos [mm]\t\t")        # 1    
-                    # fl.write("force_forw [N]\t\t")      # 2    
-                    # # fl.write("dev_force_forw [N]\t\t")  # 3        
-                    # fl.write("pos_back [mm]\t\t")       # 4    
-                    # # fl.write("dev_p_back [mm]\t\t")     # 5    
-                    # fl.write("force_back [N]\t\t")     # 6    
-                    # # fl.write("dev_f_forw_back [N]\t\t") # 7  
-                    # fl.write("\n")
-                    headers_forw = ["# x_forw [mm]", "f_forw [N]", "kms_forw [N/mm]"]
-                    headers_back = ["# x_back [mm]", "f_back [N]", "kms_back [N/mm]"]
-
-
-                    if save_fit_data_flag_tkvar.get():
-                        pos_forw_to_save = pos_forw_to_plot
-                        pos_back_to_save = pos_back_to_plot
-                        for_forw_to_save = force_forw_fitted
-                        for_back_to_save = force_back_fitted
-                        kms_forw_to_save = -stiff_forw_fitted
-                        kms_back_to_save = -stiff_back_fitted
-                    else:
-                        pos_forw_to_save = pos_acquired
-                        pos_back_to_save = pos_acquired_ritorno
-                        for_forw_to_save = force
-                        for_back_to_save = force_ritorno
-                        kms_forw_to_save = -stiffness_forw
-                        kms_back_to_save = -stiffness_back
-                    
-                    table_forw = []
-                    table_back = []
-                    for i in range(0,len(pos_forw_to_save)):
-
-                        # with devs
-                        # fl.write(f"{pos_forw_to_save[i]:.5f}"+"\t\t\t"+f"{dev_pos_acquired[i]:.5f}"+"\t\t\t"+f"{for_forw_to_save[i]:.5f}" +"\t\t\t" + f"{dev_force[i]:.5f}" +"\t\t\t"+f"{pos_back_to_save[i]:.5f}"+"\t\t\t"+f"{dev_pos_acquired_ritorno[i]:.5f}"+"\t\t\t"+f"{for_back_to_save[i]:.5f}"+"\t\t\t"+f"{dev_force_ritorno[i]:.5f}"+"\n") 
-
-                        # no devs
-                        # fl.write(f"{pos_forw_to_save[i]:.5f}"+"\t\t\t"+f"{for_forw_to_save[i]:.5f}" +"\t\t\t"+f"{pos_back_to_save[i]:.5f}"+"\t\t\t"+f"{for_back_to_save[i]:.5f}"+"\n")
-                        
-                        table_forw.append([pos_forw_to_save[i], for_forw_to_save[i], kms_forw_to_save[i]])
-                        table_back.append([pos_back_to_save[i], for_back_to_save[i], kms_back_to_save[i]])
-                            # fl.write(f"{pos_acquired[i]:.5f}"+"\t\t\t"+f"{dev_pos_acquired[i]:.5f}"+"\t\t\t"+ f"{force[i]:.5f}"+"\t\t\t" + f"{dev_force[i]:.5f}" +"\t\t\t"+ f"{0:.5f}"+"\n")   
-                    print(tabulate(table_forw, headers_forw, tablefmt="plain",floatfmt=".5f"))
-                    fl.write(tabulate(table_forw, headers_forw, tablefmt="plain",floatfmt=".5f"))
-
-                    fl.write("\n\n")
-
-                    print(tabulate(table_back , headers_back, tablefmt="plain",floatfmt=".5f"))
-                    fl.write(tabulate(table_back, headers_back, tablefmt="plain",floatfmt=".5f"))
+    procedure_id = ""
+    array_to_save = []
+    if stat_creep_flag:
+        # CREEP
+        array_to_save = []
+        procedure_id = "creep"
+    else:
+        if tracking_flag:
+            # TRACKING
+            array_to_save = t_track
+            procedure_id = "tracking"
+        else:
+            # STATICA
+            array_to_save = [[],[]]
+            if save_fit_data_flag_tkvar.get():
+                array_to_save[0] = np.transpose([pos_forw_to_plot,force_forw_fitted,-stiff_forw_fitted])
+                array_to_save[1] = np.transpose([pos_back_to_plot,force_back_fitted,-stiff_back_fitted])
             else:
-                fl.write("# CREEP MEASUREMENT\n\n")
-                fl.write("# time [ms]\t\tforce [N]\t\tstiffness [N/mm]\n")
-                for i in range(0,len(force)):
-                    fl.write(f"{time_axis[i]:.3f}" +"\t\t\t"+ f"{force[i]:.3f}" +"\t\t\t"+ f"{force[i]/creep_displ:.3f}" + "\n")
-        fl.close()
-    
+                array_to_save[0] = np.transpose([pos_acquired,force,-stiffness_forw])
+                array_to_save[1] = np.transpose([pos_acquired_ritorno,force_ritorno,-stiffness_back])
+            print("array_len=", len(array_to_save))
+            procedure_id = "static"
+ 
+    write_stiff_file(array_to_save, spider_name_tkvar.get(), procedure_id, txt_path)    
 
     saveState()
     with open(json_path, 'w') as js:
@@ -1673,14 +1659,135 @@ def save_data(txt_path, json_path, zero_path):
     last_params = params
 
 
+# def save_data(txt_path, json_path, zero_path):
+#     global saved_flag, last_params
+#     root_name = os.path.splitext(txt_path)[0]
+#     with open(txt_path, 'w') as fl:
+#         fl.write("# Acquired on "+ datetime.now().strftime("%d/%m/%Y %H:%M:%S") +" \n")
+#         fl.write("# SPIDER: " + spider_name_tkvar.get() + "\n")
+#         if np.any(force) or np.any(t_track):
+#             if(not stat_creep_flag):
+                
+
+#                 if (tracking_flag):
+#                     fl.write("# TRACKING MEASUREMENT\n\n")
+#                     # fl.write("# pos [mm]\t\t")
+#                     # fl.write(" force [N]\t\t")
+#                     # fl.write(" time [ms]\n")
+
+#                     table_track = []
+#                     headers_track = ["# pos [mm]","force [N]", "time [ms]"]
+#                     for i in range(0, len(t_track)):
+
+#                         table_track.append([t_track[i][0], t_track[i][1], t_track[i][2]])
+
+#                         # fl.write(f"{t_track[i][0]:.5f}"+"\t\t\t")
+#                         # fl.write(f"{t_track[i][1]:.5f}"+"\t\t\t")
+#                         # fl.write(f"{t_track[i][2]:.5f}"+"\n")
+#                     fl.write(tabulate(table_track, headers_track, tablefmt="plain",floatfmt=".5f"))
+#                 else:
+#                     fl.write("# STATIC MEASUREMENT\n\n")
+#                     # fl.write("# pos [mm]\t\tdev_pos [mm]\t\tforce_forw [N]\t\tdev_force_forw [N]\t\tforce_back [N]\n")
+#                     # fl.write("# pos_forw [mm]\t\t")          # 0
+#                     # # fl.write("dev_pos [mm]\t\t")        # 1    
+#                     # fl.write("force_forw [N]\t\t")      # 2    
+#                     # # fl.write("dev_force_forw [N]\t\t")  # 3        
+#                     # fl.write("pos_back [mm]\t\t")       # 4    
+#                     # # fl.write("dev_p_back [mm]\t\t")     # 5    
+#                     # fl.write("force_back [N]\t\t")     # 6    
+#                     # # fl.write("dev_f_forw_back [N]\t\t") # 7  
+#                     # fl.write("\n")
+#                     headers_forw = ["# x_forw [mm]", "f_forw [N]", "kms_forw [N/mm]"]
+#                     headers_back = ["# x_back [mm]", "f_back [N]", "kms_back [N/mm]"]
+
+
+#                     if save_fit_data_flag_tkvar.get():
+#                         pos_forw_to_save = pos_forw_to_plot
+#                         pos_back_to_save = pos_back_to_plot
+#                         for_forw_to_save = force_forw_fitted
+#                         for_back_to_save = force_back_fitted
+#                         kms_forw_to_save = -stiff_forw_fitted
+#                         kms_back_to_save = -stiff_back_fitted
+#                     else:
+#                         pos_forw_to_save = pos_acquired
+#                         pos_back_to_save = pos_acquired_ritorno
+#                         for_forw_to_save = force
+#                         for_back_to_save = force_ritorno
+#                         kms_forw_to_save = -stiffness_forw
+#                         kms_back_to_save = -stiffness_back
+                    
+#                     table_forw = []
+#                     table_back = []
+#                     for i in range(0,len(pos_forw_to_save)):
+
+#                         # with devs
+#                         # fl.write(f"{pos_forw_to_save[i]:.5f}"+"\t\t\t"+f"{dev_pos_acquired[i]:.5f}"+"\t\t\t"+f"{for_forw_to_save[i]:.5f}" +"\t\t\t" + f"{dev_force[i]:.5f}" +"\t\t\t"+f"{pos_back_to_save[i]:.5f}"+"\t\t\t"+f"{dev_pos_acquired_ritorno[i]:.5f}"+"\t\t\t"+f"{for_back_to_save[i]:.5f}"+"\t\t\t"+f"{dev_force_ritorno[i]:.5f}"+"\n") 
+
+#                         # no devs
+#                         # fl.write(f"{pos_forw_to_save[i]:.5f}"+"\t\t\t"+f"{for_forw_to_save[i]:.5f}" +"\t\t\t"+f"{pos_back_to_save[i]:.5f}"+"\t\t\t"+f"{for_back_to_save[i]:.5f}"+"\n")
+                        
+#                         table_forw.append([pos_forw_to_save[i], for_forw_to_save[i], kms_forw_to_save[i]])
+#                         table_back.append([pos_back_to_save[i], for_back_to_save[i], kms_back_to_save[i]])
+#                             # fl.write(f"{pos_acquired[i]:.5f}"+"\t\t\t"+f"{dev_pos_acquired[i]:.5f}"+"\t\t\t"+ f"{force[i]:.5f}"+"\t\t\t" + f"{dev_force[i]:.5f}" +"\t\t\t"+ f"{0:.5f}"+"\n")   
+#                     print(tabulate(table_forw, headers_forw, tablefmt="plain",floatfmt=".5f"))
+#                     fl.write(tabulate(table_forw, headers_forw, tablefmt="plain",floatfmt=".5f"))
+
+#                     fl.write("\n\n")
+
+#                     print(tabulate(table_back , headers_back, tablefmt="plain",floatfmt=".5f"))
+#                     fl.write(tabulate(table_back, headers_back, tablefmt="plain",floatfmt=".5f"))
+#             else:
+#                 fl.write("# CREEP MEASUREMENT\n\n")
+#                 fl.write("# time [ms]\t\tforce [N]\t\tstiffness [N/mm]\n")
+#                 for i in range(0,len(force)):
+#                     fl.write(f"{time_axis[i]:.3f}" +"\t\t\t"+ f"{force[i]:.3f}" +"\t\t\t"+ f"{force[i]/creep_displ:.3f}" + "\n")
+#         fl.close()
+    
+
+#     saveState()
+#     with open(json_path, 'w') as js:
+#         js.write(json.dumps(params, indent=4))
+#         js.close()
+    
+
+#     if (not tracking_flag):
+#         with open(zero_path, 'w') as zfl:
+#             zfl.write("# zero pos")
+#             zfl.write("\t\t\t zero force\n")
+#             for i in range(0, len(zero_f)):
+#                 zfl.write(f"{zero_p[i]:.5f}"+"\t\t\t"+f"{zero_f[i]:.5f}"+"\n")
+#             zfl.close()
+
+#         time_path = os.path.split(json_path)[0]
+#         time_path = os.path.join(time_path, "times.txt")
+
+#         with open(time_path, 'w') as tp:
+#             tp.write("# t_start ")
+#             tp.write("\t\t\t pos ")
+#             tp.write("\t\t\t t_rise ")
+#             tp.write("\t\t\t pos ")
+#             tp.write("\t\t\t t_fall")
+#             tp.write("\t\t\t pos")
+#             tp.write("\t\t\t t_end")
+#             tp.write("\t\t\t pos\n")
+#             for i in range(0, len(t_rise)):
+#                 tp.write(f"{t_start[i][0]:.5f}"+"\t\t\t"+f"{t_start[i][1]:.5f}"+"\t\t\t")
+#                 tp.write(f"{t_rise[i][0]:.5f}"+"\t\t\t"+f"{t_rise[i][1]:.5f}"+"\t\t\t")
+#                 tp.write(f"{t_fall[i][0]:.5f}"+"\t\t\t"+f"{t_fall[i][1]:.5f}"+"\t\t\t")
+#                 tp.write(f"{t_end[i][0]:.5f}"+"\t\t\t"+f"{t_end[i][1]:.5f}"+"\n")
+#             tp.close()
+    
+#     saved_flag = True
+#     app.title(apptitle+" - "+root_name)
+#     last_params = params
+
+
 def save_as(): 
     global txt_path, json_path
     files = [('Static Stiffness Test', '*.stiff'),
              ('Text Files', '*.txt'), 
              ('All Files', '*.*')]
-    # files = [('All Files', '*.*'),  
-    #          ('Python Files', '*.py'), 
-    #          ('Text Document', '*.txt')] 
+
     file_path = asksaveasfilename(initialfile = spider_name_tkvar.get()+'.stiff',
                          filetypes = files, 
                          defaultextension = ".stiff") 
