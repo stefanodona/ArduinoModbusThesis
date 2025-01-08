@@ -26,3 +26,4 @@ b = []
 b.append(a)
 b.append([4,5,6])
 print(b)
+print(np.arange(100,1100,100))

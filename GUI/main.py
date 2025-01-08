@@ -1,9 +1,9 @@
 # import tkthread; tkthread.patch()
 import tkthread; tkthread.tkinstall()
 
+import tkinter as tk
 from tkinter import *
 from tkinter import ttk
-import tkinter as tk
 from tkinter import Misc, font
 from tkinter.filedialog import asksaveasfile, asksaveasfilename, askopenfile, askopenfilename 
 from tkinter import simpledialog
@@ -12,7 +12,7 @@ import customtkinter
 import serial
 import json
 from math import floor, pi, cos, sin
-import struct
+# import struct
 import numpy as np
 import re  # used to compare strings
 # import keyboard
@@ -313,7 +313,8 @@ class MovePistWindow(customtkinter.CTkToplevel):
         # self.stop_button.grid(row=2, column=0, columnspan=2, padx=50, pady=20, sticky="ew")
     
     def resetPiston(self,*args):
-        Thread(target=tkt(self.serialResetPiston)).start()
+        # Thread(target=tkt(self.serialResetPiston)).start()
+        Thread(target=self.serialResetPiston).start()
     
     def serialResetPiston(self, *args):
         with serial.Serial(port, 38400) as ser:
@@ -384,9 +385,48 @@ class TrackEvolutionWindow(customtkinter.CTkToplevel):
 
         self.control_frame = customtkinter.CTkFrame(self)
         self.plot_frame = customtkinter.CTkFrame(self)
+        self.ax_frame = customtkinter.CTkFrame(self.plot_frame)
+        self.figure_frame = customtkinter.CTkFrame(self.plot_frame)
 
         self.plot_frame.pack(padx=10, pady=10, fill='both', expand=True)
+        self.ax_frame.pack(padx=10, pady=10, fill='y', expand=False, side="left")
+        self.figure_frame.pack(padx=10, pady=10, fill='both', expand=True, side="left")
         self.control_frame.pack(padx=10, pady=10, fill='x', expand=False)
+
+        self.x_up_lim_tkvar = customtkinter.StringVar(self,"10")
+        self.x_dw_lim_tkvar = customtkinter.StringVar(self,"-10")
+        self.y_up_lim_tkvar = customtkinter.StringVar(self,"7")
+        self.y_dw_lim_tkvar = customtkinter.StringVar(self,"0")
+
+        self.x_up_lim_label = customtkinter.CTkLabel(self.ax_frame,text="x max")
+        self.x_dw_lim_label = customtkinter.CTkLabel(self.ax_frame,text="x min")
+        self.y_up_lim_label = customtkinter.CTkLabel(self.ax_frame,text="y max")
+        self.y_dw_lim_label = customtkinter.CTkLabel(self.ax_frame,text="y min")
+
+        self.x_up_lim_entry = customtkinter.CTkEntry(self.ax_frame, textvariable=self.x_up_lim_tkvar)
+        self.x_dw_lim_entry = customtkinter.CTkEntry(self.ax_frame, textvariable=self.x_dw_lim_tkvar)
+        self.y_up_lim_entry = customtkinter.CTkEntry(self.ax_frame, textvariable=self.y_up_lim_tkvar)
+        self.y_dw_lim_entry = customtkinter.CTkEntry(self.ax_frame, textvariable=self.y_dw_lim_tkvar)
+
+        self.x_dw_lim_label.pack(padx=10,pady=(0,2))
+        self.x_dw_lim_entry.pack(padx=10,pady=(0,10))
+        self.x_up_lim_label.pack(padx=10,pady=(0,2))
+        self.x_up_lim_entry.pack(padx=10,pady=(0,15))
+        self.y_dw_lim_label.pack(padx=10,pady=(0,2))
+        self.y_dw_lim_entry.pack(padx=10,pady=(0,10))
+        self.y_up_lim_label.pack(padx=10,pady=(0,2))
+        self.y_up_lim_entry.pack(padx=10,pady=(0,10))
+
+        self.x_up_lim_tkvar.trace_add('write', callback=lambda *args: self.drawTrackingPlot())
+        self.x_dw_lim_tkvar.trace_add('write', callback=lambda *args: self.drawTrackingPlot())
+        self.y_up_lim_tkvar.trace_add('write', callback=lambda *args: self.drawTrackingPlot())
+        self.y_dw_lim_tkvar.trace_add('write', callback=lambda *args: self.drawTrackingPlot())
+
+        # self.save_only_stiff_label = customtkinter.CTkLabel(self.ax_frame,text="save only stiffness")
+        self.save_only_stiff_flag = customtkinter.CTkCheckBox(self.ax_frame, text="save only stiffness")
+
+        # self.save_only_stiff_label.pack(padx=10,pady=(20,0))
+        self.save_only_stiff_flag.pack(padx=10,pady=(30,0))
 
         figure_st = plt.Figure(dpi=100, figsize=(1,1))
         self.ax_st = figure_st.add_subplot(111)
@@ -394,19 +434,19 @@ class TrackEvolutionWindow(customtkinter.CTkToplevel):
         self.ax_st.set_ylabel("force [N]")
         self.ax_st.set_title("Force vs Displacement")
         self.ax_st.grid(visible=True, which="both")
-        self.chart_type_st = FigureCanvasTkAgg(figure_st, self.plot_frame)
+        self.chart_type_st = FigureCanvasTkAgg(figure_st, self.figure_frame)
         self.chart_type_st.get_tk_widget().pack(
             fill="both", expand=True, side=customtkinter.TOP, pady=(20,0), padx=20, anchor="n"
         )
         self.toolbar_st = NavigationToolbar2Tk(
-            self.chart_type_st, self.plot_frame, pack_toolbar=False
+            self.chart_type_st, self.figure_frame, pack_toolbar=False
         )
         self.toolbar_st.pack(fill="x", expand=False, padx=20, pady=(5,20), anchor="n")
 
         self.slider_frame = customtkinter.CTkFrame(self.control_frame)
         self.ar_checkbox = customtkinter.CTkSwitch(self.control_frame, text="Show Back", command=self.slider_changed)
         self.save_btn = customtkinter.CTkButton(self.control_frame, text="Save Curve", command=self.save_this_curve)
-        self.save_all_btn = customtkinter.CTkButton(self.control_frame, text="Save All Curves")
+        self.save_all_btn = customtkinter.CTkButton(self.control_frame, text="Save All Curves", command=self.save_all_curves)
 
         self.ar_checkbox.pack(padx=(50,10), pady=10, side="left")
         self.slider_frame.pack(padx=(0,10), pady=10, side="left")
@@ -426,23 +466,19 @@ class TrackEvolutionWindow(customtkinter.CTkToplevel):
         self.slider_val_label.pack(padx=10,pady=10,side="left", expand=False)
         self.slider_changed()
 
-    def slider_changed(self, *args):
+    def calculate_array(self, val, *args):
         self.pos_to_plot = []
         # self.stiff_to_plot = []
         self.force_to_plot = []
         self.pos_to_plot_r = []
         self.force_to_plot_r = []
         self.stiff_array=[[],[]]
-        # self.slider_val_str.set(str(self.slider_val.get()))
-        self.slider_val_label.configure(text=str(self.slider_val.get())+" ms")
-        val = self.slider_val.get()
+        
         
         if not tracking_flag:
             return
         else:
             idx = int(val/100 - 1) 
-            inc = int(wait_time/100)
-            # print(idx)
             
             idx_inc = 0
             i = 0
@@ -502,16 +538,10 @@ class TrackEvolutionWindow(customtkinter.CTkToplevel):
                     degree = fit_order.get()[0]
                     if degree != "N":
                         degree = int(degree)
-                        print(degree)
-
-                        # FORW STIFF FIT
-                        # coeff = np.polyfit(self.pos_to_plot, -self.force_to_plot/self.pos_to_plot, degree, w=np.abs(self.pos_to_plot))
-                        # stiff_forw_fitted = np.polyval(coeff, self.pos_to_plot)
-                        # self.stiff_to_plot = stiff_forw_fitted 
 
                         coeff = np.polyfit(self.pos_array[i], -self.force_array[i]/self.pos_array[i], degree, w=np.abs(self.pos_array[i]))
-                        stiff_forw_fitted = np.polyval(coeff, self.pos_array[i])
-                        self.stiff_array[i] = stiff_forw_fitted 
+                        stiff_fitted = np.polyval(coeff, self.pos_array[i])
+                        self.stiff_array[i] = stiff_fitted 
 
                     else:
                         f_DC = np.interp(0, self.pos_array[i], self.force_array[i])
@@ -520,8 +550,11 @@ class TrackEvolutionWindow(customtkinter.CTkToplevel):
                 else:
                     self.stiff_array[i] = -self.force_array[i]/self.pos_array[i]
 
-            self.drawTrackingPlot()
-
+    def slider_changed(self, *args):
+        self.slider_val_label.configure(text=str(self.slider_val.get())+" ms")
+        val = self.slider_val.get()
+        self.calculate_array(val)
+        self.drawTrackingPlot()
 
     def drawTrackingPlot(self, *args):
         self.ax_st.clear()
@@ -530,6 +563,11 @@ class TrackEvolutionWindow(customtkinter.CTkToplevel):
             if i>=1:
                 BF_legend = ["Forw", "Back"]
                 self.ax_st.legend(BF_legend)
+        
+        self.ax_st.set_xlim(float(self.x_dw_lim_tkvar.get()),float(self.x_up_lim_tkvar.get()))
+        self.ax_st.set_ylim(float(self.y_dw_lim_tkvar.get()),float(self.y_up_lim_tkvar.get()))
+
+        
         self.ax_st.set_xlabel("displacement [mm]")
         self.ax_st.set_ylabel("stiffness [N/mm]")
         self.ax_st.set_title("Stiffness vs Displacement")
@@ -542,8 +580,36 @@ class TrackEvolutionWindow(customtkinter.CTkToplevel):
         array_to_save = []
         # array_to_save = np.transpose([self.pos_array, self.force_array, self.stiff_array])
         for i in range(0, len(self.pos_array)):
-            array_to_save.append(np.transpose([self.pos_array[i], self.force_array[i], self.stiff_array[i]]))
-        write_stiff_file(array_to_save, spider_name_tkvar.get(), "tracking_this_curve", self.snap_path, self.slider_val.get())
+            if self.save_only_stiff_flag.get():
+                array_to_save.append(np.transpose([self.pos_array[i], self.stiff_array[i]]))
+            else:
+                array_to_save.append(np.transpose([self.pos_array[i], self.force_array[i], self.stiff_array[i]]))
+        write_stiff_file(array_to_save, spider_name_tkvar.get(), "tracking_this_curve", self.snap_path, self.slider_val.get(), only_stiff=self.save_only_stiff_flag.get())
+
+    def save_all_curves(self, *args):
+        initialfile = spider_name_tkvar.get()+"_allCurves"
+        self.save(initialfile)
+        array_to_save = []
+        array_snap = []
+        values = np.arange(100, wait_time+100, 100)
+        for val in values:
+            self.calculate_array(val)
+            for i in range(0, len(self.pos_array)):
+                if self.save_only_stiff_flag.get():
+                    array_snap.append(np.transpose([self.pos_array[i], self.stiff_array[i]]))
+                else:
+                    array_snap.append(np.transpose([self.pos_array[i], self.force_array[i], self.stiff_array[i]]))
+            array_to_save.append(array_snap)
+            array_snap=[]
+
+        print(len(array_to_save))
+        for i in range(0,len(array_to_save)):
+            print(len(array_to_save[i]))
+            print(array_to_save[i])
+            
+        write_stiff_file(array_to_save, spider_name_tkvar.get(), "tracking_all_curves", self.snap_path, self.slider_val.get(), only_stiff=self.save_only_stiff_flag.get())
+
+        
 
     def file_in_dir_exists (self, dir_name, *args):
         for file_name in os.listdir(dir_name):
@@ -948,7 +1014,8 @@ def startMeasurement():
 
     # Thread(target=saveState).start()
     saveState()
-    serial_thread = Thread(target=tkt(serialListener))
+    # serial_thread = Thread(target=tkt(serialListener))
+    serial_thread = Thread(target=serialListener)
     serial_thread.start()
     app.update()
     time.sleep(2)
@@ -1521,7 +1588,8 @@ def tracking_stiffness_evolution():
     if (track_evol_window==None or not track_evol_window.winfo_exists()):
         track_evol_window = TrackEvolutionWindow(app)
     
-    track_evol_window.focus()
+    track_evol_window.transient(app)
+    track_evol_window.focus_set()
     # topWindow.grab_set()
     app.update()
 
@@ -2007,7 +2075,7 @@ print(iconpath)
 app.wm_iconbitmap()
 app.iconphoto(False, iconpath)
 
-tkt = tkthread.TkThread(app)
+# tkt = tkthread.TkThread(app)
 
 
 app.update_idletasks()
